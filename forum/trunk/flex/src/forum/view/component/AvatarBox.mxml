@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center">
+	
+	<mx:Image source="assets/imgs/iron.jpg" />
+	
+	<mx:Label text="IronMan" width="100%"/>
+	
+	<mx:Label text="Administrador" width="100%"/>
+	
+	<mx:Label text="Membro desde: hoje" width="100%"/>
+	
+	<mx:Label text="Brasília / DF" width="100%"/>
+	
+	<mx:Label text="2634243 posts" width="100%"/>
+	
+	<mx:LinkButton label="Ver Perfil" />
+	
+</mx:VBox>
