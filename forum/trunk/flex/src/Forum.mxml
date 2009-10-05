@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+				creationComplete="init()" xmlns:component="forum.view.component.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import forum.ForumFacade;
+			
+			public static const NAME:String = 'Forum';
+			
+			protected var facade:ForumFacade = ForumFacade.getInstance( NAME );
+			
+			private function init():void {
+				facade.startup(this);
+			}
+		]]>
+	</mx:Script>
+	
+	<component:AvatarBox />
+	
+</mx:Application>
