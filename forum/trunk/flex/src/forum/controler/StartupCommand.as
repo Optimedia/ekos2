@@ -1,5 +1,6 @@
 package forum.controler
 {
+	import forum.model.UserProxy;
 	import forum.view.ForumMediator;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -12,6 +13,7 @@ package forum.controler
 			var app:Forum = note.getBody() as Forum;
 			// Inicializa a Model primeiro (Proxies)
 			//facade.registerProxy( new TesteProxy() );
+			facade.registerProxy( new UserProxy() );
 			
 			// depois inicializa a View (Mediators)
 			//facade.registerMediator( new GerenciarUsuariosMediator() );
