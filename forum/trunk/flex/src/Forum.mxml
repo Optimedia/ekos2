@@ -16,6 +16,8 @@
 		]]>
 	</mx:Script>
 	
+	<mx:Button id="newCategory" label="Nova Categoria" />
+	
 	<mx:ViewStack id="mainViewStack">
 		
 		
