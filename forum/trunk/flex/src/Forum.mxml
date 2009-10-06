@@ -4,7 +4,6 @@
 	
 	<mx:Script>
 		<![CDATA[
-		
 			import forum.ForumFacade;
 			
 			public static const NAME:String = 'Forum';
@@ -14,7 +13,6 @@
 			private function init():void {
 				facade.startup(this);
 			}
-			
 		]]>
 	</mx:Script>
 	
