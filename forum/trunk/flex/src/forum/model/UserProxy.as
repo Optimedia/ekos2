@@ -1,13 +1,12 @@
 package forum.model
 {
-	import forum.vo.UserVO;
-	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+	import assets.vo.UserVO;
 
 	public class UserProxy extends Proxy
 	{
@@ -15,7 +14,7 @@ package forum.model
 		
 		private var remoteService:RemoteObject;
 		
-		public var userVO:UserVO;
+		private var userVO:UserVO;
 		
 		public function UserProxy(data:Object=null)
 		{

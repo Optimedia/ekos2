@@ -1,4 +1,4 @@
-package forum.vo
+package assets.vo
 {
 	//import flash.net.registerClassAlias;
 	
