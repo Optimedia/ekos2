@@ -1,8 +1,8 @@
-package assets.vo
+package forum.vo
 {
 	//import flash.net.registerClassAlias;
 	
-	[Bindable] [RemoteClass(alias="forum.UserVO")]
+	[Bindable] [RemoteClass(alias="forum.vo.UserVO")]
 	
 	public class UserVO
 	{
