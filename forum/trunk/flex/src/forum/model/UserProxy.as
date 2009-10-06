@@ -1,6 +1,6 @@
 package forum.model
 {
-	//import forum.UserVO;
+	import forum.vo.UserVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
@@ -13,9 +13,9 @@ package forum.model
 	{
 		public static const NAME:String = "UserProxy";
 		
-		//public var userVO:UserVO = new UserVO();
-		
 		private var remoteService:RemoteObject;
+		
+		public var userVO:UserVO;
 		
 		public function UserProxy(data:Object=null)
 		{
