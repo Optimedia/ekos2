@@ -1,5 +1,7 @@
 package forum.model
 {
+	//import forum.UserVO;
+	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
@@ -10,6 +12,8 @@ package forum.model
 	public class UserProxy extends Proxy
 	{
 		public static const NAME:String = "UserProxy";
+		
+		//public var userVO:UserVO = new UserVO();
 		
 		private var remoteService:RemoteObject;
 		
@@ -29,9 +33,10 @@ package forum.model
 			Alert.show(event.fault.faultCode as String);
 		}
 		
-		private function getUserData():void {
+		public function getUserData():void {
 			remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);
 			remoteService.getUserData();
+			
 		}
 		private function getUserDataResult(event:ResultEvent):void {
 			remoteService.removeEventListener(ResultEvent.RESULT, getUserDataResult);

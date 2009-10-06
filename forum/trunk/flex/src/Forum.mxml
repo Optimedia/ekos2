@@ -16,6 +16,6 @@
 		]]>
 	</mx:Script>
 	
-	<component:AvatarBox />
+	<component:AvatarBox id="avatarBox"/>
 	
 </mx:Application>
