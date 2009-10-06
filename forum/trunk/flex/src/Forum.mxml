@@ -13,7 +13,6 @@
 			private function init():void {
 				facade.startup(this);
 			}
-			
 		]]>
 	</mx:Script>
 	
