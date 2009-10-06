@@ -5,7 +5,7 @@ package assets.vo
 	
 	public class RoomVO
 	{
-		public var id:int;
+		public var roomID:int;
 		
 		public var title:String;
 		

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="200"
+			creationComplete="init()">
+
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			
+			private function init():void {
+				categoryNameTextInput.text = "";
+			}
+		
+			private function close():void {
+				PopUpManager.removePopUp(this);
+			}
+		
+			private function save():void {
+				close();
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Form>
+		<mx:FormItem label="Nome da categoria:">
+			<mx:TextInput id="categoryNameTextInput" />
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:HBox>
+		<mx:Button id="cancelBtn" label="Cancelar" click="close()"/>
+		<mx:Spacer width="100%" />
+		<mx:Button id="saveBtn" label="Salvar" click="save()"/>
+	</mx:HBox>
+	
+</mx:TitleWindow>
