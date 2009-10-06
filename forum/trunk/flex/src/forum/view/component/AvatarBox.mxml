@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center">
+
+	<mx:Script>
+		<![CDATA[
+			import assets.vo.UserVO;
+			
+			[Bindable]
+			public var userVO:UserVO = new UserVO();
+			
+			private function getPerfil():String {
+				switch(userVO.roleID) {
+					case 0:
+						return "Administrador";
+					default:
+						return "Visitante";
+				}
+			}
+			
+		]]>
+	</mx:Script>
 	
-	<mx:Image source="assets/imgs/iron.jpg" />
+	<mx:Image source="{userVO.avatarLink==null?'assets/imgs/iron.jpg':userVO.avatarLink}" />
 	
-	<mx:Label text="IronMan" width="100%"/>
+	<mx:Label text="{userVO.userName}" width="100%"/>
 	
-	<mx:Label text="Administrador" width="100%"/>
+	<mx:Label text="{getPerfil()}" width="100%"/>
 	
-	<mx:Label text="Membro desde: hoje" width="100%"/>
+	<mx:Label text="Membro desde: {userVO.dateCreation}" width="100%"/>
 	
-	<mx:Label text="Brasília / DF" width="100%"/>
+	<mx:Label text="{userVO.city} / {userVO.state}" width="100%"/>
 	
-	<mx:Label text="2634243 posts" width="100%"/>
+	<mx:Label text="{userVO.numPosts} posts" width="100%"/>
 	
 	<mx:LinkButton label="Ver Perfil" />
 	

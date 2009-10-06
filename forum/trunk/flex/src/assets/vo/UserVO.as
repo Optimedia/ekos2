@@ -1,29 +1,30 @@
 package assets.vo
 {
-	//import flash.net.registerClassAlias;
 	
 	[Bindable] [RemoteClass(alias="forum.vo.UserVO")]
 	
 	public class UserVO
 	{
-		public var id:int;
+		public var userID:int;
 		
-		public var avatarLink:String = "../assets/imgs/iron.jpg";
+		public var password:String;
 		
-		public var numPosts:int;
+		public var roleID:int;
 		
-		public var nome:String;
+		public var userName:String;
 		
-		public var sobrenome:String;
+		public var userSurname:String;
 		
-		public var perfil:String;
+		public var country:String;
 		
-		public var pais:String;
+		public var state:String;
 		
-		public var estado:String;
+		public var city:String;
 		
-		public var cidade:String;
+		public var dateCreation:String;
 		
-		public var dataCadastro:String;
+		public var numPosts:String;
+		
+		public var avatarLink:String;
 	}
 }

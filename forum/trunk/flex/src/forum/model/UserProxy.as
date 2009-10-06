@@ -1,16 +1,19 @@
 package forum.model
 {
+	import assets.vo.UserVO;
+	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
-	import assets.vo.UserVO;
 
 	public class UserProxy extends Proxy
 	{
 		public static const NAME:String = "UserProxy";
+		
+		public static const USER_DATA_RESULT_NOTIFICATION:String = "USER_DATA_RESULT_NOTIFICATION";
 		
 		private var remoteService:RemoteObject;
 		
@@ -34,11 +37,14 @@ package forum.model
 		
 		public function getUserData():void {
 			remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);
-			remoteService.getUserData();
+			// ALTERAR COM USER_ID APÓS LOGIN
+			remoteService.getUserData('0');
 			
 		}
 		private function getUserDataResult(event:ResultEvent):void {
 			remoteService.removeEventListener(ResultEvent.RESULT, getUserDataResult);
+			//userVO = event.result as UserVO;
+			sendNotification(USER_DATA_RESULT_NOTIFICATION, event.result as UserVO);
 		}
 	}
 }

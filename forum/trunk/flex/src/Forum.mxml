@@ -16,6 +16,12 @@
 		]]>
 	</mx:Script>
 	
+	<mx:ViewStack id="mainViewStack">
+		
+		
+		
+	</mx:ViewStack>
+	
 	<component:AvatarBox id="avatarBox"/>
 	
 </mx:Application>

@@ -1,5 +1,7 @@
 package forum.view
 {
+	import assets.vo.UserVO;
+	
 	import forum.model.UserProxy;
 	import forum.view.component.AvatarBox;
 	
@@ -9,6 +11,8 @@ package forum.view
 	public class AvatarBoxMediator extends Mediator
 	{
 		public static const NAME:String = 'AvatarBoxMediator';
+		
+		private var userVO:UserVO;
 		
 		private var proxy:UserProxy = new UserProxy();
 		
@@ -33,13 +37,16 @@ package forum.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [UserProxy.USER_DATA_RESULT_NOTIFICATION];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case UserProxy.USER_DATA_RESULT_NOTIFICATION:
+					view.userVO = note.getBody() as UserVO;
+					break;
 				default:
 					break;
 			}
