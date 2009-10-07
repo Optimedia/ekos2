@@ -5,7 +5,7 @@ package forum.model
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
-	import mx.rpc.remoting.RemoteObject;
+	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
@@ -25,9 +25,11 @@ package forum.model
 		}
 		
 		override public function onRegister():void {
+			trace(NAME+".onRegister()");
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
 			remoteService.source = "forum.UserService";
+			remoteService.showBusyCursor = true;
 			remoteService.addEventListener(FaultEvent.FAULT, generalFault);
 		}
 		

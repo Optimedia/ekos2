@@ -21,6 +21,7 @@
 			private function onNewCategoryBtnClick():void {
 				categoryPopUp = new CategoryPopUp();
 				PopUpManager.addPopUp(categoryPopUp, this, true);
+				PopUpManager.centerPopUp(categoryPopUp);
 			}
 		]]>
 	</mx:Script>
@@ -29,7 +30,9 @@
 	
 	<mx:ViewStack id="mainViewStack">
 		
-		
+		<mx:List>
+			
+		</mx:List>
 		
 	</mx:ViewStack>
 	

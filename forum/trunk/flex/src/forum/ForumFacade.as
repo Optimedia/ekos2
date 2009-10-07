@@ -1,5 +1,6 @@
 package forum
 {
+	import forum.controler.DisposeCategoryPopUpCommand;
 	import forum.controler.StartupCategoryPopUpCommand;
 	import forum.controler.StartupCommand;
 	import forum.view.CategoryPopUpMediator;
@@ -11,7 +12,12 @@ package forum
 	public class ForumFacade extends Facade
 	{
 		public static const STARTUP:String = 'STARTUP';
+		
+		// STARTUP COMMANDS CONSTANTS
 		public static const STARTUP_CATEGORYPOPUP:String = 'STARTUP_CATEGORYPOPUP';
+		
+		// DISPOSE COMMANDS CONSTANTS
+		public static const DISPOSE_CATEGORYPOPUP:String = "DISPOSE_CATEGORYPOPUP";
 		
 		// EVENTS
 		public static const NEW_CATEGORYPOPUP_EVENT:String = "NEW_CATEGORYPOPUP_EVENT";
@@ -37,7 +43,12 @@ package forum
         {
             super.initializeController();
             registerCommand( STARTUP, StartupCommand );
+            
+            // STARTUP COMMANDS
             registerCommand( STARTUP_CATEGORYPOPUP, StartupCategoryPopUpCommand );
+            
+            // DISPOSE COMMANDS
+            registerCommand( DISPOSE_CATEGORYPOPUP, DisposeCategoryPopUpCommand );
         }
         
         /**
@@ -53,6 +64,11 @@ package forum
         public function startupCategoryPopUp( view:CategoryPopUp ):void {
         	if( !this.hasMediator( CategoryPopUpMediator.NAME ) ) {
 	        	sendNotification( STARTUP_CATEGORYPOPUP, view );
+        	}
+        }
+        public function disposeCategoryPopUp():void {
+        	if( this.hasMediator( CategoryPopUpMediator.NAME ) ) {
+	        	sendNotification( DISPOSE_CATEGORYPOPUP );
         	}
         }
 	}

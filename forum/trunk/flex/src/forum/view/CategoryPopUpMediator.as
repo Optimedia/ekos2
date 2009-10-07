@@ -1,9 +1,13 @@
 package forum.view
 {
+	import assets.vo.CategoryVO;
+	
 	import flash.events.MouseEvent;
 	
 	import forum.model.ForumProxy;
 	import forum.view.component.CategoryPopUp;
+	
+	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -13,6 +17,8 @@ package forum.view
 		public static const NAME:String = 'CategoryPopUpMediator';
 		
 		private var proxy:ForumProxy = new ForumProxy();
+		
+		public var categoryVO:CategoryVO = new CategoryVO();
 		
 		public function CategoryPopUpMediator(viewComponent:Object=null)
 		{
@@ -24,6 +30,10 @@ package forum.view
 			trace(NAME+".onRegister()");
 			proxy = facade.retrieveProxy( ForumProxy.NAME ) as ForumProxy;
 			view.saveBtn.addEventListener(MouseEvent.CLICK, onSaveBtnClick);
+		}
+		
+		override public function onRemove():void {
+			trace(NAME+".onRemove()");
 		}
 		
 		public function get view():CategoryPopUp
@@ -49,7 +59,8 @@ package forum.view
 		}
 		
 		private function onSaveBtnClick(event:MouseEvent):void {
-			proxy.createNewCategory(view.categoryNameTextInput.text);
+			view.updateCategoryVO();
+			proxy.saveCategory(view.categoryVO);
 		}
 	}
 }

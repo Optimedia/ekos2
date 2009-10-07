@@ -1,11 +1,14 @@
 package forum.model
 {
+	import assets.vo.CategoryVO;
+	
 	import mx.controls.Alert;
+	import mx.managers.CursorManager;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
-	import mx.rpc.remoting.RemoteObject;
+	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
@@ -25,9 +28,11 @@ package forum.model
 		}
 		
 		override public function onRegister():void {
+			trace(NAME+".onRegister()");
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
 			remoteService.source = "forum.ForumService";
+			remoteService.showBusyCursor = true;
 			remoteService.addEventListener(FaultEvent.FAULT, generalFault);
 		}
 		
@@ -35,25 +40,13 @@ package forum.model
 			Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function createNewCategory(categoryName:String):void {
-			var asynkToken:AsyncToken = remoteService.createNewCategory(categoryName);
-			asynkToken.addResponder( new Responder(createNewCategoryResult, generalFault) );
+		public function saveCategory(categoryVO:CategoryVO):void {
+			var asynkToken:AsyncToken = remoteService.saveCategory(categoryVO);
+			asynkToken.addResponder( new Responder(saveCategoryResult, generalFault) );
 		}
 		
-		private function createNewCategoryResult(event:ResultEvent):void {
-			
+		private function saveCategoryResult(event:ResultEvent):void {
+			trace(NAME+".saveCategoryResult() = "+event.result);
 		}
-		
-		/* public function getUserData():void {
-			remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);
-			// ALTERAR COM USER_ID APÓS LOGIN
-			remoteService.getUserData('0');
-			
-		}
-		private function getUserDataResult(event:ResultEvent):void {
-			remoteService.removeEventListener(ResultEvent.RESULT, getUserDataResult);
-			//userVO = event.result as UserVO;
-			sendNotification(USER_DATA_RESULT_NOTIFICATION, event.result as UserVO);
-		} */
 	}
 }
