@@ -23,9 +23,9 @@ package forum.view
 		
 		override public function onRegister():void
 		{
+			trace(NAME+".onRegister()");
 			proxy = facade.retrieveProxy( UserProxy.NAME ) as UserProxy;
 			proxy.getUserData();
-			trace("TEste");
 			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
 			proxy.getDados("ida_modulos"); */
 		}

@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
 				creationComplete="init()" xmlns:component="forum.view.component.*">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.PopUpManager;
+			import forum.view.component.CategoryPopUp;
 			import forum.ForumFacade;
 			
 			public static const NAME:String = 'Forum';
 			
 			protected var facade:ForumFacade = ForumFacade.getInstance( NAME );
 			
+			public var categoryPopUp:CategoryPopUp;
+			
 			private function init():void {
 				facade.startup(this);
+			}
+			
+			private function onNewCategoryBtnClick():void {
+				categoryPopUp = new CategoryPopUp();
+				PopUpManager.addPopUp(categoryPopUp, this, true);
 			}
 		]]>
 	</mx:Script>
 	
-	<mx:Button id="newCategory" label="Nova Categoria" />
+	<mx:Button id="newCategoryBtn" label="Nova Categoria" click="onNewCategoryBtnClick()" />
 	
 	<mx:ViewStack id="mainViewStack">
 		

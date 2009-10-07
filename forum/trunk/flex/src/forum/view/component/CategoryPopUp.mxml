@@ -4,11 +4,16 @@
 
 	<mx:Script>
 		<![CDATA[
+			import forum.ForumFacade;
+			import mx.containers.FormItem;
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
 			
+			private var facade:ForumFacade = ForumFacade.getInstance( Forum.NAME );
+			
 			private function init():void {
 				categoryNameTextInput.text = "";
+				facade.startupCategoryPopUp( this );
 			}
 		
 			private function close():void {
@@ -18,19 +23,24 @@
 			private function save():void {
 				close();
 			}
+			
+			private function onCategoryNameTextInputChange():void {
+				if (categoryNameTextInput.text == "") saveBtn.enabled = false;
+				else saveBtn.enabled = true;
+			}
 		]]>
 	</mx:Script>
 	
 	<mx:Form>
 		<mx:FormItem label="Nome da categoria:">
-			<mx:TextInput id="categoryNameTextInput" />
+			<mx:TextInput id="categoryNameTextInput" change="onCategoryNameTextInputChange()"/>
 		</mx:FormItem>
 	</mx:Form>
 	
 	<mx:HBox>
 		<mx:Button id="cancelBtn" label="Cancelar" click="close()"/>
 		<mx:Spacer width="100%" />
-		<mx:Button id="saveBtn" label="Salvar" click="save()"/>
+		<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
 	</mx:HBox>
 	
 </mx:TitleWindow>

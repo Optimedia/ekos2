@@ -1,6 +1,9 @@
 package forum
 {
+	import forum.controler.StartupCategoryPopUpCommand;
 	import forum.controler.StartupCommand;
+	import forum.view.CategoryPopUpMediator;
+	import forum.view.component.CategoryPopUp;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -8,6 +11,10 @@ package forum
 	public class ForumFacade extends Facade
 	{
 		public static const STARTUP:String = 'STARTUP';
+		public static const STARTUP_CATEGORYPOPUP:String = 'STARTUP_CATEGORYPOPUP';
+		
+		// EVENTS
+		public static const NEW_CATEGORYPOPUP_EVENT:String = "NEW_CATEGORYPOPUP_EVENT";
 		
 		public function ForumFacade(key:String)
 		{
@@ -30,6 +37,7 @@ package forum
         {
             super.initializeController();
             registerCommand( STARTUP, StartupCommand );
+            registerCommand( STARTUP_CATEGORYPOPUP, StartupCategoryPopUpCommand );
         }
         
         /**
@@ -40,6 +48,12 @@ package forum
         public function startup( app:Forum ):void
         {
         	sendNotification( STARTUP, app );
+        }
+        
+        public function startupCategoryPopUp( view:CategoryPopUp ):void {
+        	if( !this.hasMediator( CategoryPopUpMediator.NAME ) ) {
+	        	sendNotification( STARTUP_CATEGORYPOPUP, view );
+        	}
         }
 	}
 }
