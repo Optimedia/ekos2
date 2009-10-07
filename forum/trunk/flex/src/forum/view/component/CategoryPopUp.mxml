@@ -4,6 +4,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import assets.vo.CategoryVO;
 			import forum.ForumFacade;
 			import mx.containers.FormItem;
 			import mx.events.CloseEvent;
@@ -11,36 +12,43 @@
 			
 			private var facade:ForumFacade = ForumFacade.getInstance( Forum.NAME );
 			
+			[Bindable]
+			public var categoryVO:CategoryVO;
+			
 			private function init():void {
-				categoryNameTextInput.text = "";
+				categoryVO = new CategoryVO();
 				facade.startupCategoryPopUp( this );
 			}
 		
 			private function close():void {
 				PopUpManager.removePopUp(this);
-			}
-		
-			private function save():void {
-				close();
+				facade.disposeCategoryPopUp();
 			}
 			
-			private function onCategoryNameTextInputChange():void {
+			private function onTextChange():void {
 				if (categoryNameTextInput.text == "") saveBtn.enabled = false;
 				else saveBtn.enabled = true;
 			}
+			
+			public function updateCategoryVO():void {
+				categoryVO.name = categoryNameTextInput.text;
+				categoryVO.description = categoryDescriptionTextArea.text;
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:Form>
 		<mx:FormItem label="Nome da categoria:">
-			<mx:TextInput id="categoryNameTextInput" change="onCategoryNameTextInputChange()"/>
+			<mx:TextInput id="categoryNameTextInput" change="onTextChange()" maxChars="100" text="{categoryVO.name}" />
+			<mx:TextArea id="categoryDescriptionTextArea" change="onTextChange()" maxChars="200" text="{categoryVO.description}" />
 		</mx:FormItem>
 	</mx:Form>
 	
 	<mx:HBox>
 		<mx:Button id="cancelBtn" label="Cancelar" click="close()"/>
 		<mx:Spacer width="100%" />
-		<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
+		<mx:Button id="saveBtn" label="Salvar" enabled="false"/>
 	</mx:HBox>
 	
 </mx:TitleWindow>
