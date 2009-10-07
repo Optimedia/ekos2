@@ -28,11 +28,17 @@
 	
 	<mx:Button id="newCategoryBtn" label="Nova Categoria" click="onNewCategoryBtnClick()" />
 	
-	<mx:ViewStack id="mainViewStack">
+	<mx:ViewStack id="mainViewStack" width="600" height="500">
 		
-		<mx:List>
-			
-		</mx:List>
+		<mx:Canvas>
+			<mx:List id="categoryList">
+				<mx:itemRenderer>
+					<mx:Component>
+						<component:CategoryPanel title="{data.name}" />
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:List>
+		</mx:Canvas>
 		
 	</mx:ViewStack>
 	
