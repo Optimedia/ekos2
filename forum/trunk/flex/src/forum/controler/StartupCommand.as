@@ -1,5 +1,6 @@
 package forum.controler
 {
+	import forum.model.ForumProxy;
 	import forum.model.UserProxy;
 	import forum.view.AvatarBoxMediator;
 	import forum.view.ForumMediator;

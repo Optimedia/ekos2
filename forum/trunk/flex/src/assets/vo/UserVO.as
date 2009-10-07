@@ -1,6 +1,5 @@
 package assets.vo
 {
-	
 	[Bindable] [RemoteClass(alias="forum.vo.UserVO")]
 	
 	public class UserVO

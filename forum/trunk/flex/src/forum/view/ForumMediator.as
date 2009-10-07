@@ -1,5 +1,7 @@
 package forum.view
 {
+	import flash.events.MouseEvent;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
@@ -14,7 +16,7 @@ package forum.view
 		
 		override public function onRegister():void
 		{
-			trace("TEste");
+			trace(NAME+".onRegister()");
 			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
 			proxy.getDados("ida_modulos"); */
 		}
