@@ -16,6 +16,7 @@ package forum.controler
 			// Inicializa a Model primeiro (Proxies)
 			//facade.registerProxy( new TesteProxy() );
 			facade.registerProxy( new UserProxy() );
+			facade.registerProxy( new ForumProxy() );
 			
 			// depois inicializa a View (Mediators)
 			//facade.registerMediator( new GerenciarUsuariosMediator() );

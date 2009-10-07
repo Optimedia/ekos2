@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical">
+
+	<mx:Script>
+		<![CDATA[
+		
+			[Bindable]
+			public var dataGridDataProvider:Object;
+			
+		]]>
+	</mx:Script>
 	
-	<mx:DataGrid id="dataGrid"
+	<mx:DataGrid id="dataGrid" dataProvider="{dataGridDataProvider}" width="100%" height="100%" />
 	
 </mx:Panel>

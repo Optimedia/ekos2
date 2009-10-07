@@ -1,6 +1,6 @@
 package forum.view
 {
-	import flash.events.MouseEvent;
+	import forum.model.ForumProxy;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -8,6 +8,8 @@ package forum.view
 	public class ForumMediator extends Mediator
 	{
 		public static const NAME:String = 'ForumMediator';
+		
+		private var forumProxy:ForumProxy = new ForumProxy();
 		
 		public function ForumMediator(viewComponent:Forum=null)
 		{
@@ -17,8 +19,8 @@ package forum.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
-			proxy.getDados("ida_modulos"); */
+			forumProxy = facade.retrieveProxy(ForumProxy.NAME) as ForumProxy;
+			forumProxy.retrieveCategories();
 		}
 		
 		public function get view():Forum
@@ -28,13 +30,16 @@ package forum.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [ForumProxy.CATEGORIES_LIST_NOTIFICATION];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case ForumProxy.CATEGORIES_LIST_NOTIFICATION:
+					view.categoryList.dataProvider = note.getBody();
+					break;
 				default:
 					break;
 			}
