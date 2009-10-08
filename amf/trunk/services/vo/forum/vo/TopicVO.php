@@ -8,6 +8,8 @@
 		
 		public $description;
 		
+		public $roomID;
+		
 		public $_explicitType="forum.vo.TopicVO";
 	}
 ?>
