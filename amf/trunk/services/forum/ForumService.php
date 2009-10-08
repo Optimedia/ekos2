@@ -1,6 +1,6 @@
 <?
 
-require_once ('./includes/SqlManager.php');
+require_once ('../includes/SqlManager.php');
 
 require_once ('../vo/forum/vo/UserVO.php');
 require_once ('../vo/forum/vo/CategoryVO.php');
@@ -9,7 +9,7 @@ require_once ('../vo/forum/vo/CategoryVO.php');
 class ForumService extends SqlManager{
 		
 	public function ForumService() {
-		parent::SqlManager();
+		parent::SqlManager("localhost", "root", "optimedia", "forum");
 	}
 	
 	public function saveCategory(CategoryVO $categoryVO) {
