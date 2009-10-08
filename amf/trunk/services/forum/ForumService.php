@@ -3,8 +3,12 @@
 require_once ('../includes/SqlManager.php');
 
 require_once ('../vo/forum/vo/UserVO.php');
+
 require_once ('../vo/forum/vo/CategoryVO.php');
-//require_once ('../vo/forum/vo/RoomVO.php');
+require_once ('../vo/forum/vo/ForumVO.php');
+require_once ('../vo/forum/vo/RoomVO.php');
+require_once ('../vo/forum/vo/TopicVO.php');
+
 
 class ForumService extends SqlManager{
 		
@@ -28,16 +32,24 @@ class ForumService extends SqlManager{
 	}
 	
 	public function retrieveCategories() {
+		$categoryVO = new CategoryVO();
+		$categoryVOArray = array();
+		
 		$sql = "SELECT * FROM forum_category ORDER BY 'categoryID' ASC";
 		$query = parent::doSelect($sql);
-		$categoryVO = new CategoryVO();
-		$arrayCategory = array();
-		
 		while($categoryVO = mysql_fetch_object($query, "CategoryVO")) {
-			$arrayCategory[] = $categoryVO;
+			$forumVO = new ForumVO();
+			$forumVOArray = array();
+			
+			$sql1 = "SELECT * FROM forum_forum f WHERE f.categoryID = {$categoryVO->categoryID} ORDER BY 'forumID' ASC";
+			$query1 = parent::doSelect($sql1);
+			while($forumVO = mysql_fetch_object($query1, "ForumVO")) {
+				$forumVOArray[] = $forumVO;
+			}
+			$categoryVO -> forumVOArray = $forumVOArray;
+			$categoryVOArray[] = $categoryVO;
 		}
-		
-		return $arrayCategory;
+		return $categoryVOArray;
 	}
 	/*
 	public function getDados($nomeTabela) {

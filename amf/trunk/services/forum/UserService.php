@@ -5,13 +5,7 @@ require_once ('../vo/forum/vo/UserVO.php');
 class UserService {
 		
 	public function UserService() {
-		$host = "localhost";
-		$user = "root";
-		$senha = "optimedia";
-		$db = "forum";
-		
-		mysql_connect($host, $user, $senha);
-		mysql_select_db($db);
+		parent::SqlManager("localhost", "root", "optimedia", "forum");
 	}
 	
 	public function getUserData($userID) {
@@ -22,7 +16,7 @@ class UserService {
 		
 		$userVO = new UserVO();
 		$userVO = mysql_fetch_object($query, "UserVO");
-		
+		//$teste = mysql_fetch_array($query);
 		
 		/*
 		$userVO -> id = $busca['ID_PROFILE'];
@@ -36,7 +30,7 @@ class UserService {
 		$userVO -> cidade = $busca['NA_CITY'];
 		$userVO -> dataCadastro = $busca['DT_CREATION'];
 		*/
-		
+		//return $teste;
 		return $userVO;
 		
 		/*$result = array();
