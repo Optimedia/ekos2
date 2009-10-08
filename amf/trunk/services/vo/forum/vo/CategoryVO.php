@@ -8,7 +8,7 @@
 		
 		public $description;
 		
-		public $forumVO;
+		public $forumVOArray;
 		
 		public $_explicitType="forum.vo.CategoryVO";
 

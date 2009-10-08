@@ -8,7 +8,9 @@
 		
 		public $description;
 		
-		public $roomVO;
+		public $roomVOArray;
+		
+		public $categoryID;
 		
 		public $_explicitType="forum.vo.ForumVO";
 	}
