@@ -2,13 +2,13 @@
 
 	class RoomVO {
 
-		public $id;
+		public $roomID;
 		
-		public $title;
+		public $name;
 		
 		public $description;
 		
-		public $ownerID;
+		public $topicVO;
 		
 		public $_explicitType="forum.vo.RoomVO";
 	}
