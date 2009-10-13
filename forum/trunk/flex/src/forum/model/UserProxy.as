@@ -3,6 +3,8 @@ package forum.model
 	import assets.vo.UserVO;
 	
 	import mx.controls.Alert;
+	import mx.rpc.AsyncToken;
+	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
@@ -30,7 +32,7 @@ package forum.model
 			remoteService.destination = "amfphp";
 			remoteService.source = "forum.UserService";
 			remoteService.showBusyCursor = true;
-			remoteService.addEventListener(FaultEvent.FAULT, generalFault);
+			//remoteService.addEventListener(FaultEvent.FAULT, generalFault);
 		}
 		
 		private function generalFault(event:FaultEvent):void {
@@ -38,13 +40,16 @@ package forum.model
 		}
 		
 		public function getUserData():void {
-			remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);
-			// ALTERAR COM USER_ID APÓS LOGIN
-			remoteService.getUserData('0');
+			//  CORRIGIR ALTERAR COM USER_ID APÓS LOGIN
+			var asyncToken:AsyncToken = remoteService.getUserData('1');
+			asyncToken.addResponder( new Responder(getUserDataResult, generalFault) );
+			
+			/* remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);
+			remoteService.getUserData('1'); */
 			
 		}
 		private function getUserDataResult(event:ResultEvent):void {
-			remoteService.removeEventListener(ResultEvent.RESULT, getUserDataResult);
+			//remoteService.removeEventListener(ResultEvent.RESULT, getUserDataResult);
 			//userVO = event.result as UserVO;
 			sendNotification(USER_DATA_RESULT_NOTIFICATION, event.result as UserVO);
 		}

@@ -12,23 +12,32 @@
 			
 			protected var facade:ForumFacade = ForumFacade.getInstance( NAME );
 			
-			public var categoryPopUp:CategoryPopUp;
+			/* public var categoryPopUp:CategoryPopUp; */
 			
 			private function init():void {
 				facade.startup(this);
 			}
 			
-			private function onNewCategoryBtnClick():void {
+			/* private function onNewCategoryBtnClick():void {
 				categoryPopUp = new CategoryPopUp();
 				PopUpManager.addPopUp(categoryPopUp, this, true);
 				PopUpManager.centerPopUp(categoryPopUp);
-			}
+			} */
 		]]>
 	</mx:Script>
 	
-	<mx:Button id="newCategoryBtn" label="Nova Categoria" click="onNewCategoryBtnClick()" />
+	<mx:HBox width="100%">
+		
+		<component:AvatarBox id="avatarBox"/>
+		
+		<component:MainView id="mainView" />
+		
+	</mx:HBox>
 	
-	<mx:ViewStack id="mainViewStack" width="600" height="500">
+	
+	<!--<mx:Button id="newCategoryBtn" label="Nova Categoria" click="onNewCategoryBtnClick()" />-->
+	
+	<!--<mx:ViewStack id="mainViewStack" width="600" height="500">
 		
 		<mx:Canvas>
 			<mx:List id="categoryList">
@@ -40,8 +49,7 @@
 			</mx:List>
 		</mx:Canvas>
 		
-	</mx:ViewStack>
+	</mx:ViewStack>-->
 	
-	<component:AvatarBox id="avatarBox"/>
 	
 </mx:Application>
