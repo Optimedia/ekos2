@@ -20,7 +20,7 @@
 				facade.startupCategoryPopUp( this );
 			}
 		
-			private function close():void {
+			public function close():void {
 				PopUpManager.removePopUp(this);
 				facade.disposeCategoryPopUp();
 			}

@@ -1,6 +1,8 @@
 package forum.model
 {
 	import assets.vo.CategoryVO;
+	import assets.vo.ForumVO;
+	import assets.vo.TopicVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
@@ -16,10 +18,17 @@ package forum.model
 		public static const NAME:String = "ForumProxy";
 		
 		public static const CATEGORIES_LIST_NOTIFICATION:String = "CATEGORIES_LIST_NOTIFICATION";
+		public static const SAVE_CATEGORY_OK_NOTIFICATION:String = "SAVE_CATEGORY_OK_NOTIFICATION";
+		public static const ROOMS_LIST_NOTIFICATION:String = "ROOMS_LIST_NOTIFICATION";
+		public static const TOPICS_LIST_NOTIFICATION:String = "TOPICS_LIST_NOTIFICATION";
 		
 		private var remoteService:RemoteObject;
 		
-		//private var userVO:UserVO;
+		// NECESSÁRIO DECLARAR ESTAS VARIÁVEIS APENAS PARA Q O FLEX COMPILE OS VOs
+		// REMOVER QUANDO O CÓDIGO ESTIVER COMPLETO 
+		private var categoryVO:CategoryVO;
+		private var roomVO:ForumVO;
+		private var topicVO:TopicVO;
 		
 		public function ForumProxy(data:Object=null)
 		{
@@ -54,6 +63,16 @@ package forum.model
 		}
 		private function saveCategoryResult(event:ResultEvent):void {
 			trace(NAME+".saveCategoryResult() = "+event.result);
+			sendNotification(SAVE_CATEGORY_OK_NOTIFICATION);
+		}
+		
+		public function retrieveRooms(forumVO:ForumVO):void {
+			var asynkToken:AsyncToken = remoteService.retrieveRooms(forumVO);
+			asynkToken.addResponder( new Responder(retrieveRoomsResult, generalFault) );
+		}
+		private function retrieveRoomsResult(event:ResultEvent):void {
+			trace(NAME+".retrieveRoomsResult() = "+event.result);
+			sendNotification(ROOMS_LIST_NOTIFICATION, event.result);
 		}
 	}
 }

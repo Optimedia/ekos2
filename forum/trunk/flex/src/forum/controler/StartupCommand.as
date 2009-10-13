@@ -4,6 +4,7 @@ package forum.controler
 	import forum.model.UserProxy;
 	import forum.view.AvatarBoxMediator;
 	import forum.view.ForumMediator;
+	import forum.view.MainViewMediator;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
@@ -21,6 +22,8 @@ package forum.controler
 			// depois inicializa a View (Mediators)
 			//facade.registerMediator( new GerenciarUsuariosMediator() );
 			facade.registerMediator( new ForumMediator( app ) );
+			
+			facade.registerMediator( new MainViewMediator( app.mainView ) );
 			
 			facade.registerMediator( new AvatarBoxMediator( app.avatarBox ) );
 			

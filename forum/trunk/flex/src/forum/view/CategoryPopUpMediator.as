@@ -7,8 +7,6 @@ package forum.view
 	import forum.model.ForumProxy;
 	import forum.view.component.CategoryPopUp;
 	
-	import mx.core.Application;
-	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
@@ -43,16 +41,16 @@ package forum.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [ForumProxy.SAVE_CATEGORY_OK_NOTIFICATION];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				/* case UserProxy.USER_DATA_RESULT_NOTIFICATION:
-					view.userVO = note.getBody() as UserVO;
-					break; */
+				case ForumProxy.SAVE_CATEGORY_OK_NOTIFICATION:
+					view.close();
+					break;
 				default:
 					break;
 			}

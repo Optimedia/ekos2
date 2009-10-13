@@ -9,5 +9,7 @@ package assets.vo
 		public var name:String;
 		
 		public var description:String;
+		
+		public var forumVOArray:Array;
 	}
 }
