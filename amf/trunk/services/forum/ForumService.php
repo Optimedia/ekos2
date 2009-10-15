@@ -2,8 +2,6 @@
 
 require_once ('../includes/SqlManager.php');
 
-require_once ('../vo/forum/vo/UserVO.php');
-
 require_once ('../vo/forum/vo/CategoryVO.php');
 require_once ('../vo/forum/vo/ForumVO.php');
 require_once ('../vo/forum/vo/RoomVO.php');
@@ -51,58 +49,39 @@ class ForumService extends SqlManager{
 		}
 		return $categoryVOArray;
 	}
-	/*
-	public function getDados($nomeTabela) {
-		
-		$sql = "SELECT * FROM $nomeTabela ORDER BY `ID_MODULO` ASC";
-		$query = mysql_query($sql);
-		
-		array($arrayDados);
-		
-		while($busca = mysql_fetch_array($query)) {
-			$arrayDados[] = $busca;
+	
+	public function retrieveRooms(forumVO $forumVO) {
+		$roomVO = new RoomVO();
+		$roomVOArray = array();
+	
+		$sql = "SELECT * FROM forum_room f WHERE f.forumID = {$forumVO->forumID}";
+		$query = parent::doSelect($sql);
+		while($roomVO = mysql_fetch_object($query, "RoomVO")) {
+			$roomVOArray[] = $roomVO;
 		}
-		
-		return $arrayDados;
+		return $roomVOArray;
 	}
 	
-	public function setItem($item, $tableName) {
-		
-		// insert = insert into tabela (nome, endereco) VALUES('tagua', 'felipe')
-		// update = update tabela set nome='felipe', endereco='tagua' WHERE id=5
-		// delete = delete FROM tabela WHERE id=5
-		
-		switch($tableName) {
-			
-			case "ida_modulo":
-				if ($item['id'] == "" or $item['id'] == null or $item['id'] == 0) {
-					$sql = "insert INTO $tableName (NO_MODULO, NO_TABELA) VALUES('".$item['nomeModulo']."', '".$item['nomeTabela']."')";
-				}
-				else {
-					$sql = "UPDATE $tableName SET NO_MODULO='".$item['nomeModulo']."', NO_TABELA='".$item['nomeTabela']."' WHERE ID_MODULO=".$item['id'];
-				}
-				break;
-			default:
-				return "Falhou";
-				break;
-		}
-		$query = mysql_query($sql);
-		return "OK";
-	}
+	public function retrieveTopics(RoomVO $roomVO) {
+		$topicVO = new TopicVO();
+		$topicVOArray = array();
 	
-	public function deleteItem($tableName, $itemID) {
-		switch($tableName) {
-			
-			case "ida_modulo":
-				$sql = "delete FROM $tableName WHERE ID_MODULO=$itemID";
-				$query = mysql_query($sql);
-				return "OK";
-				break;
-			default:
-				return "Falhou";
-				break;
+		$sql = "SELECT * FROM forum_topic f WHERE f.roomID = {$roomVO->roomID}";
+		$query = parent::doSelect($sql);
+		while($roomVO = mysql_fetch_object($query, "TopicVO")) {
+			$topicVOArray[] = $topicVO;
 		}
-		
+		return $topicVOArray;
 	}
-	*/
+	public function retrievePosts(TopicVO $topicVO) {
+		$postVO = new PostVO();
+		$postVOArray = array();
+	
+		$sql = "SELECT * FROM forum_post f WHERE f.topicID = {$topicVO->topicID}";
+		$query = parent::doSelect($sql);
+		while($roomVO = mysql_fetch_object($query, "PostVO")) {
+			$postVOArray[] = $PostVO;
+		}
+		return $postVOArray;
+	}
 }

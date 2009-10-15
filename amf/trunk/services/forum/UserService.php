@@ -1,58 +1,57 @@
 <?
 
+require_once ('../includes/SqlManager.php');
+
 require_once ('../vo/forum/vo/UserVO.php');
 
-class UserService {
-		
+class UserService extends SqlManager {
+
 	public function UserService() {
 		parent::SqlManager("localhost", "root", "optimedia", "forum");
 	}
-	
+
 	public function getUserData($userID) {
-		
-		//$sql = "SELECT * FROM idm_user ORDER BY `ID_PROFILE` ASC";
 		$sql = "SELECT * FROM idm_user WHERE userID=$userID";
-		$query = mysql_query($sql);
+		$query = parent::doSelect($sql);
+		//$query = mysql_query($sql);
 		
 		$userVO = new UserVO();
 		$userVO = mysql_fetch_object($query, "UserVO");
+		
 		//$teste = mysql_fetch_array($query);
 		
-		/*
-		$userVO -> id = $busca['ID_PROFILE'];
-		$userVO -> avatarLink = $busca['URL_AVATAR'];
-		$userVO -> numPosts = $busca['NU_POSTS'];
-		$userVO -> nome = $busca['NA_USER'];
-		$userVO -> sobrenome = $busca['NA_SURNAME'];
-		$userVO -> perfil = $busca['ID_ROLE'];
-		$userVO -> pais = $busca['NA_COUNTRY'];
-		$userVO -> estado = $busca['NA_STATE'];
-		$userVO -> cidade = $busca['NA_CITY'];
-		$userVO -> dataCadastro = $busca['DT_CREATION'];
-		*/
-		//return $teste;
+		// $userVO -> id = $busca['ID_PROFILE'];
+		// $userVO -> avatarLink = $busca['URL_AVATAR'];
+		// $userVO -> numPosts = $busca['NU_POSTS'];
+		// $userVO -> nome = $busca['NA_USER'];
+		// $userVO -> sobrenome = $busca['NA_SURNAME'];
+		// $userVO -> perfil = $busca['ID_ROLE'];
+		// $userVO -> pais = $busca['NA_COUNTRY'];
+		// $userVO -> estado = $busca['NA_STATE'];
+		// $userVO -> cidade = $busca['NA_CITY'];
+		// $userVO -> dataCadastro = $busca['DT_CREATION'];
+
 		return $userVO;
+		// $result = array();
 		
-		/*$result = array();
-		
-		while($busca = mysql_fetch_object array($query)) {
-			$userVO = new UserVO();
+		// while($busca = mysql_fetch_object array($query)) {
+			// $userVO = new UserVO();
 			
-			$userVO -> id = $busca['ID_PROFILE'];
-			$userVO -> avatarLink = $busca['URL_AVATAR'];
-			$userVO -> numPosts = $busca['NU_POSTS'];
-			$userVO -> nome = $busca['NA_USER'];
-			$userVO -> sobrenome = $busca['NA_SURNAME'];
-			$userVO -> perfil = $busca['ID_ROLE'];
-			$userVO -> pais = $busca['NA_COUNTRY'];
-			$userVO -> estado = $busca['NA_STATE'];
-			$userVO -> cidade = $busca['NA_CITY'];
-			$userVO -> dataCadastro = $busca['DT_CREATION'];
+			// $userVO -> id = $busca['ID_PROFILE'];
+			// $userVO -> avatarLink = $busca['URL_AVATAR'];
+			// $userVO -> numPosts = $busca['NU_POSTS'];
+			// $userVO -> nome = $busca['NA_USER'];
+			// $userVO -> sobrenome = $busca['NA_SURNAME'];
+			// $userVO -> perfil = $busca['ID_ROLE'];
+			// $userVO -> pais = $busca['NA_COUNTRY'];
+			// $userVO -> estado = $busca['NA_STATE'];
+			// $userVO -> cidade = $busca['NA_CITY'];
+			// $userVO -> dataCadastro = $busca['DT_CREATION'];
 			
-			$result[] = $userVO;
-		}
+			// $result[] = $userVO;
+		// }
 		
-		return $result;*/
+		// return $result;
 	}
 	
 	/*public function setItem($item, $tableName) {
