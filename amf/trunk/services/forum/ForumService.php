@@ -6,6 +6,7 @@ require_once ('../vo/forum/vo/CategoryVO.php');
 require_once ('../vo/forum/vo/ForumVO.php');
 require_once ('../vo/forum/vo/RoomVO.php');
 require_once ('../vo/forum/vo/TopicVO.php');
+require_once ('../vo/forum/vo/PostVO.php');
 
 
 class ForumService extends SqlManager{
@@ -68,7 +69,7 @@ class ForumService extends SqlManager{
 	
 		$sql = "SELECT * FROM forum_topic f WHERE f.roomID = {$roomVO->roomID}";
 		$query = parent::doSelect($sql);
-		while($roomVO = mysql_fetch_object($query, "TopicVO")) {
+		while($topicVO = mysql_fetch_object($query, "TopicVO")) {
 			$topicVOArray[] = $topicVO;
 		}
 		return $topicVOArray;
@@ -79,8 +80,8 @@ class ForumService extends SqlManager{
 	
 		$sql = "SELECT * FROM forum_post f WHERE f.topicID = {$topicVO->topicID}";
 		$query = parent::doSelect($sql);
-		while($roomVO = mysql_fetch_object($query, "PostVO")) {
-			$postVOArray[] = $PostVO;
+		while($postVO = mysql_fetch_object($query, "PostVO")) {
+			$postVOArray[] = $postVO;
 		}
 		return $postVOArray;
 	}
