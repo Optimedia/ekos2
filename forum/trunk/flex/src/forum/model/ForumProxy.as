@@ -2,6 +2,8 @@ package forum.model
 {
 	import assets.vo.CategoryVO;
 	import assets.vo.ForumVO;
+	import assets.vo.PostVO;
+	import assets.vo.RoomVO;
 	import assets.vo.TopicVO;
 	
 	import mx.controls.Alert;
@@ -21,14 +23,13 @@ package forum.model
 		public static const SAVE_CATEGORY_OK_NOTIFICATION:String = "SAVE_CATEGORY_OK_NOTIFICATION";
 		public static const ROOMS_LIST_NOTIFICATION:String = "ROOMS_LIST_NOTIFICATION";
 		public static const TOPICS_LIST_NOTIFICATION:String = "TOPICS_LIST_NOTIFICATION";
+		public static const POST_LIST_NOTIFICATION:String = "POST_LIST_NOTIFICATION";
 		
 		private var remoteService:RemoteObject;
 		
 		// NECESSÁRIO DECLARAR ESTAS VARIÁVEIS APENAS PARA Q O FLEX COMPILE OS VOs
 		// REMOVER QUANDO O CÓDIGO ESTIVER COMPLETO 
-		private var categoryVO:CategoryVO;
-		private var roomVO:ForumVO;
-		private var topicVO:TopicVO;
+		private var postVO:PostVO;
 		
 		public function ForumProxy(data:Object=null)
 		{
@@ -73,6 +74,24 @@ package forum.model
 		private function retrieveRoomsResult(event:ResultEvent):void {
 			trace(NAME+".retrieveRoomsResult() = "+event.result);
 			sendNotification(ROOMS_LIST_NOTIFICATION, event.result);
+		}
+		
+		public function retrieveTopics(roomVO:RoomVO):void {
+			var asynkToken:AsyncToken = remoteService.retrieveTopics(roomVO);
+			asynkToken.addResponder( new Responder(retrieveTopicsResult, generalFault) );
+		}
+		private function retrieveTopicsResult(event:ResultEvent):void {
+			trace(NAME+".retrieveTopicsResult() = "+event.result);
+			sendNotification(TOPICS_LIST_NOTIFICATION, event.result);
+		}
+		
+		public function retrievePosts(topicVO:TopicVO):void {
+			var asynkToken:AsyncToken = remoteService.retrievePosts(topicVO);
+			asynkToken.addResponder( new Responder(retrievePostsResult, generalFault) );
+		}
+		private function retrievePostsResult(event:ResultEvent):void {
+			trace(NAME+".retrievePostsResult() = "+event.result);
+			sendNotification(POST_LIST_NOTIFICATION, event.result);
 		}
 	}
 }

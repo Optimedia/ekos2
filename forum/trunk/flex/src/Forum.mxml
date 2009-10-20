@@ -26,14 +26,15 @@
 		]]>
 	</mx:Script>
 	
-	<mx:HBox width="100%">
+	<!--<mx:HBox width="100%">
 		
 		<component:AvatarBox id="avatarBox"/>
 		
 		<component:MainView id="mainView" />
 		
-	</mx:HBox>
+	</mx:HBox>-->
 	
+	<component:MainView id="mainView" />
 	
 	<!--<mx:Button id="newCategoryBtn" label="Nova Categoria" click="onNewCategoryBtnClick()" />-->
 	

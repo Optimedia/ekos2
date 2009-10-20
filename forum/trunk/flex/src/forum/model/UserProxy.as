@@ -39,9 +39,9 @@ package forum.model
 			Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function getUserData():void {
+		public function getUserData(userID:int):void {
 			//  CORRIGIR ALTERAR COM USER_ID APÓS LOGIN
-			var asyncToken:AsyncToken = remoteService.getUserData('1');
+			var asyncToken:AsyncToken = remoteService.getUserData(userID);
 			asyncToken.addResponder( new Responder(getUserDataResult, generalFault) );
 			
 			/* remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);

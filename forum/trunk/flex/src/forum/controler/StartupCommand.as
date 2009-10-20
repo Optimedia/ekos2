@@ -25,7 +25,7 @@ package forum.controler
 			
 			facade.registerMediator( new MainViewMediator( app.mainView ) );
 			
-			facade.registerMediator( new AvatarBoxMediator( app.avatarBox ) );
+			//facade.registerMediator( new AvatarBoxMediator( app.avatarBox ) );
 			
 		}
 	}

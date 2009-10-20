@@ -11,6 +11,7 @@ package forum.view
 	public class AvatarBoxMediator extends Mediator
 	{
 		public static const NAME:String = 'AvatarBoxMediator';
+		private var contador:int = 0;
 		
 		private var userVO:UserVO;
 		
@@ -18,14 +19,15 @@ package forum.view
 		
 		public function AvatarBoxMediator(viewComponent:Object=null)
 		{
-			super(NAME, viewComponent);
+			contador++;
+			super(NAME+contador.toString(), viewComponent);
 		}
 		
 		override public function onRegister():void
 		{
-			trace(NAME+".onRegister()");
+			trace(NAME+contador.toString()+".onRegister()");
 			proxy = facade.retrieveProxy( UserProxy.NAME ) as UserProxy;
-			proxy.getUserData();
+			proxy.getUserData(view.userID);
 			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
 			proxy.getDados("ida_modulos"); */
 		}

@@ -1,6 +1,8 @@
 package forum.view
 {
 	import assets.vo.ForumVO;
+	import assets.vo.RoomVO;
+	import assets.vo.TopicVO;
 	
 	import flash.events.Event;
 	
@@ -28,6 +30,8 @@ package forum.view
 			forumProxy.retrieveCategories();
 			
 			view.addEventListener(MainView.FORUM_SELECTED_EVENT, onForumSelectedEvent);
+			view.addEventListener(MainView.ROOM_SELECTED_EVENT, onRoomSelectedEvent);
+			view.addEventListener(MainView.TOPIC_SELECTED_EVENT, onTopicSelectedEvent);
 		}
 		
 		public function get view():MainView
@@ -39,7 +43,8 @@ package forum.view
 		{
 			return [ForumProxy.CATEGORIES_LIST_NOTIFICATION,
 					ForumProxy.ROOMS_LIST_NOTIFICATION,
-					ForumProxy.TOPICS_LIST_NOTIFICATION];
+					ForumProxy.TOPICS_LIST_NOTIFICATION,
+					ForumProxy.POST_LIST_NOTIFICATION];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -55,13 +60,24 @@ package forum.view
 				case ForumProxy.TOPICS_LIST_NOTIFICATION:
 					view.topicListDataProvider = note.getBody();
 					break;
+				case ForumProxy.POST_LIST_NOTIFICATION:
+					view.postListDataProvider = note.getBody();
+					break;
 				default:
 					break;
 			}
 		}
 		
 		private function onForumSelectedEvent(event:Event):void {
-			forumProxy.retrieveRooms(view.selectedItem as ForumVO);
+			forumProxy.retrieveRooms(view.selectedForum as ForumVO);
+		}
+		
+		private function onRoomSelectedEvent(event:Event):void {
+			forumProxy.retrieveTopics(view.selectedRoom as RoomVO);
+		}
+		
+		private function onTopicSelectedEvent(event:Event):void {
+			forumProxy.retrievePosts(view.selectedTopic as TopicVO);
 		}
 	}
 }
