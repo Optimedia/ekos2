@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center" creationComplete="init()">
 
 	<mx:Script>
 		<![CDATA[
+			import forum.ForumFacade;
 			import assets.vo.UserVO;
+			
+			public static const NAME:String = "AvatarBox";
+			
+			public var userID:int;
+			
+			private var facade:ForumFacade = ForumFacade.getInstance( Forum.NAME );
 			
 			[Bindable]
 			public var userVO:UserVO = new UserVO();
+			
+			private function init():void {
+				facade.startupAvatarBox( this );
+			}
 			
 			private function getPerfil():String {
 				switch(userVO.roleID) {

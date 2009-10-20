@@ -1,9 +1,12 @@
 package forum
 {
 	import forum.controler.DisposeCategoryPopUpCommand;
+	import forum.controler.StartupAvatarBoxCommand;
 	import forum.controler.StartupCategoryPopUpCommand;
 	import forum.controler.StartupCommand;
+	import forum.view.AvatarBoxMediator;
 	import forum.view.CategoryPopUpMediator;
+	import forum.view.component.AvatarBox;
 	import forum.view.component.CategoryPopUp;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
@@ -15,6 +18,7 @@ package forum
 		
 		// STARTUP COMMANDS CONSTANTS
 		public static const STARTUP_CATEGORYPOPUP:String = 'STARTUP_CATEGORYPOPUP';
+		public static const STARTUP_AVATARBOX:String = 'STARTUP_AVATARBOX';
 		
 		// DISPOSE COMMANDS CONSTANTS
 		public static const DISPOSE_CATEGORYPOPUP:String = "DISPOSE_CATEGORYPOPUP";
@@ -46,6 +50,7 @@ package forum
             
             // STARTUP COMMANDS
             registerCommand( STARTUP_CATEGORYPOPUP, StartupCategoryPopUpCommand );
+            registerCommand( STARTUP_AVATARBOX, StartupAvatarBoxCommand );
             
             // DISPOSE COMMANDS
             registerCommand( DISPOSE_CATEGORYPOPUP, DisposeCategoryPopUpCommand );
@@ -69,6 +74,12 @@ package forum
         public function disposeCategoryPopUp():void {
         	if( this.hasMediator( CategoryPopUpMediator.NAME ) ) {
 	        	sendNotification( DISPOSE_CATEGORYPOPUP );
+        	}
+        }
+        
+        public function startupAvatarBox( view:AvatarBox ):void {
+	        	sendNotification( STARTUP_AVATARBOX, view );
+        	if( !this.hasMediator( AvatarBoxMediator.NAME ) ) {
         	}
         }
 	}
