@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="br.com.interludio.flexLib.controls.*" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import flash.net.sendToURL;
+			import mx.events.CloseEvent;
+			import mx.events.CollectionEvent;
+			import mx.collections.ArrayCollection;
+			import assets.vo.BookmarkVO;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			
+			[Bindable]
+			public var dataProvider:Array = [];	
+			
+			public static const ON_DELETE_EVENT:String = "ON_DELETE_EVENT";
+			
+			private function init():void {
+				dataProvider.filter(dataProviderFilterFunction);
+			}
+						
+			public function excluir(event:MouseEvent):void
+			{
+				event.stopPropagation();
+				Alert.noLabel = "Não";
+				Alert.yesLabel = "Sim";
+				Alert.show(BookmarkVO(dpBook.selectedItem).title+"?", "Excluir registro", Alert.YES | Alert.NO, this, alertCloseHandler);	
+			}
+			
+			public function alertCloseHandler(event:CloseEvent):void {
+				if(event.detail == 1) {
+					dispatchEvent(new Event(ON_DELETE_EVENT));
+				}
+				else {
+					Alert.show("Não foi possível excluir a entrada.", "Atenção!");
+				}
+			}
+			
+			public function adicionar():void
+			{
+				var winAdd:PopBook = new PopBook();
+				
+				winAdd.x = (Application.application.width / 2) - (winAdd.width / 2);
+				winAdd.y = (Application.application.height / 2) - (winAdd.height / 2);
+				winAdd.title = "Adicionar";				
+
+				PopUpManager.addPopUp(winAdd, this);
+			}
+			
+			private var popBook:PopBook;
+			
+			public function editar(event:MouseEvent):void
+			{
+				event.stopPropagation();
+			    Application.application.enabled = false;
+				popBook = new PopBook();
+				popBook.title = "Editar";
+			    createPopBookPopup( dpBook.selectedItem as BookmarkVO );
+				PopUpManager.addPopUp(popBook, this, true);
+			}
+			
+			private function createPopBookPopup(bookmarkVO:BookmarkVO=null):void {				
+				popBook.x = (Application.application.width / 2) - (popBook.width / 2);
+				popBook.y = (Application.application.height / 2) - (popBook.height / 2);
+				if (bookmarkVO) popBook.bookmarkVO = bookmarkVO;
+				//else popBook.bookmarkVO = new BookmarkVO();
+			}
+				
+			public function goURL():void 
+			{
+				var url:String = dpBook.selectedItem.url;
+				var request:URLRequest = new URLRequest(url);
+				navigateToURL(request, "_blank");
+			} 
+			
+			private function onSearchInputChange():void
+			{
+				var busca:Array = new Array();
+				if(dataProvider) {
+					busca = dataProvider.filter(dataProviderFilterFunction);
+				}
+				dpBook.dataProvider = busca;
+				//dataProvider.filter(dataProviderFilterFunction); 
+			
+			}
+			private function dataProviderFilterFunction(item:BookmarkVO, index:int, arra:Array):Boolean
+			{
+				var encontrado:Boolean = false;
+				
+				if(searchInput.text.length == 0) encontrado = true;
+				if(item.description.toLowerCase().search(searchInput.text.toLowerCase()) != -1) encontrado = true;
+				if(item.title.toLowerCase().search(searchInput.text.toLowerCase()) != -1) encontrado = true;
+				if(item.url.toLowerCase().search(searchInput.text.toLowerCase()) != -1) encontrado = true;
+				
+				return encontrado;
+			}
+			
+			public function onTagClick(event:MouseEvent):void {
+				trace("ASD");
+			}
+			
+			private function onNovoBtnClick(event:MouseEvent):void {
+				event.stopPropagation();
+			    Application.application.enabled = false;
+			    popBook = new PopBook();
+				popBook.title = lng.bkm.add;
+				popBook.bookmarkVO.url = "http://";			
+				createPopBookPopup();
+				PopUpManager.addPopUp(popBook, this, true);
+			}
+				
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%">
+		<mx:Button label="{lng.bkm.add}" click="onNovoBtnClick(event)"/>
+		<mx:Spacer width="100%"/>
+		<controls:SeachInput id="searchInput" change="onSearchInputChange()"/>
+	</mx:HBox>
+	<mx:List id="dpBook" dataProvider="{dataProvider}" width="600" itemClick="goURL()" borderStyle="none">
+		<mx:itemRenderer>
+		<mx:Component>
+			<mx:VBox>
+				<mx:HBox width="100%">
+					<mx:Label text="{data.title}" width="100%" />
+					<mx:Label text="{data.lastchange}" />
+				</mx:HBox>
+				<mx:TextArea text="{data.description}" width="100%" editable="false" backgroundAlpha="0" borderStyle="none"/>
+				<mx:HBox width="100%">
+					<mx:Label text="{data.tags}" width="100%" />
+					<mx:Button width="20" icon="@Embed(source='assets/img/pencil.png')" click="parentDocument.editar(event)"/>
+					<mx:Button width="20" icon="@Embed(source='assets/img/delete.png')" click="parentDocument.excluir(event)"/>
+				</mx:HBox>
+			</mx:VBox>
+		</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
+</mx:VBox>

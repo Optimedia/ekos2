@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()" xmlns:component="shell.view.component.*" xmlns:controls="br.com.interludio.flexLib.controls.*" horizontalAlign="center">
+	<mx:Script>
+		<![CDATA[
+			import shell.BookmarkFacade;
+			
+			public static const NAME:String = 'Teste';
+			
+			protected var facade:BookmarkFacade = BookmarkFacade.getInstance( NAME );
+			
+			private function init():void {
+				facade.startup(this);
+			}
+				
+		]]>
+	</mx:Script>
 	
+	<mx:Panel horizontalCenter="0">	
+		<component:CompBookData id="compBookData" width="600"/>
+	</mx:Panel>
 </mx:Application>
