@@ -4,7 +4,7 @@
 		<![CDATA[
 			import shell.BookmarkFacade;
 			
-			public static const NAME:String = 'Teste';
+			public static const NAME:String = 'Bookmark';
 			
 			protected var facade:BookmarkFacade = BookmarkFacade.getInstance( NAME );
 			

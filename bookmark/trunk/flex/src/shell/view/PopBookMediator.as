@@ -27,8 +27,6 @@ package shell.view
 		{
 			view.addEventListener(PopBook.BOOKMARK_SAVE_EVENT, onBookmarkSaveEvent);
 			proxy = facade.retrieveProxy(BookmarkProxy.NAME) as BookmarkProxy;			
-			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
-			proxy.getDados("ida_modulos"); */
 		}
 		
 		public function get view():PopBook

@@ -18,7 +18,7 @@ package shell.view
 		
 		override public function onRegister():void
 		{
-			trace("Teste");
+			trace("Bookmark");
 			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
 			proxy.getDados("ida_modulos"); */
 		}

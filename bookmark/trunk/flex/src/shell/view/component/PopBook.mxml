@@ -8,6 +8,7 @@
 			import mx.managers.PopUpManager;
 			
 			private var facade:BookmarkFacade = BookmarkFacade.getInstance( Bookmark.NAME );
+			
 			public static const BOOKMARK_SAVE_EVENT:String = "BOOKMARK_SAVE_EVENT";
 			
 			[Bindable]
@@ -36,21 +37,21 @@
 		]]>
 	</mx:Script>
 	<mx:Form width="100%">
-		<mx:FormItem label="{lng.bkm.title}">
+		<mx:FormItem label="{facade.getString('title')}">
 			<mx:TextInput id="titleTextInput" text="{bookmarkVO.title}" />
 		</mx:FormItem>
-		<mx:FormItem label="{lng.bkm.url}">
+		<mx:FormItem label="{facade.getString('url')}">
 			<mx:TextInput id="urlTextInput" text="{bookmarkVO.url}" />
 		</mx:FormItem>
-		<mx:FormItem label="{lng.bkm.desc}">
+		<mx:FormItem label="{facade.getString('desc')}">
 			<mx:TextArea id="descriptionTextInput" text="{bookmarkVO.description}"/>
 		</mx:FormItem>
-		<mx:FormItem label="{lng.bkm.tag}">
+		<mx:FormItem label="{facade.getString('tag')}">
 			<mx:TextInput id="tagsTextInput" text="{bookmarkVO.tags}" />
 		</mx:FormItem>
 	</mx:Form>
 	<mx:ControlBar>
-		<mx:Button label="{lng.bkm.save}" click="salvar()"/>
-		<mx:Button label="{lng.bkm.close}" click="fechar()"/>		
+		<mx:Button label="{facade.getString('save')}" click="salvar()"/>
+		<mx:Button label="{facade.getString('close')}" click="fechar()"/>		
 	</mx:ControlBar>
 </mx:TitleWindow>
