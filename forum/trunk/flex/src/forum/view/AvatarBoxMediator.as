@@ -18,6 +18,8 @@ package forum.view
 		
 		public function AvatarBoxMediator( viewComponent:Object=null )
 		{
+			// Este mediator usa o UID (UniqueID) do componente.mxml junto com o NAME pois será instanciado n vezes por um itemRenderer
+			// o UID garante q 2 componentes nunca instanciarão o mediator com o mesmo nome
 			super(NAME+AvatarBox(viewComponent).uid, viewComponent);
 		}
 		

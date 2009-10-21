@@ -11,9 +11,7 @@ package forum.controler
 		override public function execute(note:INotification):void
 		{
 			var view:CategoryPopUp = note.getBody() as CategoryPopUp;
-			// Inicializa a Model primeiro (Proxies)
 			
-			// depois inicializa a View (Mediators)
 			facade.registerMediator( new CategoryPopUpMediator( view ) );
 		}
 	}
