@@ -16,8 +16,6 @@ package shell.view
 		
 		private var proxy:BookmarkProxy = new BookmarkProxy();
 		
-		//public static const GET_DADOS_OK:String = "GET_DADOS_OK";
-		
 		public function CompBookDataMediator(viewComponent:CompBookData=null)
 		{
 			super(NAME, viewComponent);
@@ -26,12 +24,10 @@ package shell.view
 		override public function onRegister():void
 		{
 			proxy = facade.retrieveProxy(BookmarkProxy.NAME) as BookmarkProxy;
-			
 			proxy.retrieveBookmark();
 			
 			view.addEventListener(CompBookData.ON_DELETE_EVENT, onDeleteEvent);
-			/* proxy = facade.retrieveProxy(IdaProxy.NAME) as IdaProxy;
-			proxy.getDados("ida_modulos"); */
+
 		}
 		
 		public function get view():CompBookData

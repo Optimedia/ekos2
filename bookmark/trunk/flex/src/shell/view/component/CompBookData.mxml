@@ -2,6 +2,7 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="br.com.interludio.flexLib.controls.*" creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
+			import shell.BookmarkFacade;
 			import flash.net.sendToURL;
 			import mx.events.CloseEvent;
 			import mx.events.CollectionEvent;
@@ -13,6 +14,9 @@
 			
 			[Bindable]
 			public var dataProvider:Array = [];	
+			
+			[Bindable]
+			private var facade:BookmarkFacade = BookmarkFacade.getInstance( Bookmark.NAME );
 			
 			public static const ON_DELETE_EVENT:String = "ON_DELETE_EVENT";
 			
@@ -104,7 +108,7 @@
 				event.stopPropagation();
 			    Application.application.enabled = false;
 			    popBook = new PopBook();
-				popBook.title = lng.bkm.add;
+				popBook.title = facade.getString('add');
 				popBook.bookmarkVO.url = "http://";			
 				createPopBookPopup();
 				PopUpManager.addPopUp(popBook, this, true);
@@ -113,7 +117,7 @@
 		]]>
 	</mx:Script>
 	<mx:HBox width="100%">
-		<mx:Button label="{lng.bkm.add}" click="onNovoBtnClick(event)"/>
+		<mx:Button label="{facade.getString('add')}" click="onNovoBtnClick(event)"/>
 		<mx:Spacer width="100%"/>
 		<controls:SeachInput id="searchInput" change="onSearchInputChange()"/>
 	</mx:HBox>
