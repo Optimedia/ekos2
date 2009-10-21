@@ -11,9 +11,7 @@ package forum.controler
 		override public function execute(note:INotification):void
 		{
 			var view:AvatarBox = note.getBody() as AvatarBox;
-			// Inicializa a Model primeiro (Proxies)
 			
-			// depois inicializa a View (Mediators)
 			facade.registerMediator( new AvatarBoxMediator( view ) );
 		}
 	}

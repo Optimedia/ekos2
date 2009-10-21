@@ -9,8 +9,6 @@ package forum.view
 	{
 		public static const NAME:String = 'ForumMediator';
 		
-		//private var forumProxy:ForumProxy = new ForumProxy();
-		
 		public function ForumMediator(viewComponent:Forum=null)
 		{
 			super(NAME, viewComponent);
@@ -19,8 +17,6 @@ package forum.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			//forumProxy = facade.retrieveProxy(ForumProxy.NAME) as ForumProxy;
-			//forumProxy.retrieveCategories();
 		}
 		
 		public function get view():Forum
@@ -37,9 +33,6 @@ package forum.view
 		{
 			switch (note.getName())
 			{
-				/* case ForumProxy.CATEGORIES_LIST_NOTIFICATION:
-					view.categoryList.dataProvider = note.getBody();
-					break; */
 				default:
 					break;
 			}

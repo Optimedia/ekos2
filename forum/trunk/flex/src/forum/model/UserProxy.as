@@ -32,7 +32,6 @@ package forum.model
 			remoteService.destination = "amfphp";
 			remoteService.source = "forum.UserService";
 			remoteService.showBusyCursor = true;
-			//remoteService.addEventListener(FaultEvent.FAULT, generalFault);
 		}
 		
 		private function generalFault(event:FaultEvent):void {
@@ -40,17 +39,10 @@ package forum.model
 		}
 		
 		public function getUserData(userID:int):void {
-			//  CORRIGIR ALTERAR COM USER_ID APÓS LOGIN
 			var asyncToken:AsyncToken = remoteService.getUserData(userID);
 			asyncToken.addResponder( new Responder(getUserDataResult, generalFault) );
-			
-			/* remoteService.addEventListener(ResultEvent.RESULT, getUserDataResult);
-			remoteService.getUserData('1'); */
-			
 		}
 		private function getUserDataResult(event:ResultEvent):void {
-			//remoteService.removeEventListener(ResultEvent.RESULT, getUserDataResult);
-			//userVO = event.result as UserVO;
 			sendNotification(USER_DATA_RESULT_NOTIFICATION, event.result as UserVO);
 		}
 	}

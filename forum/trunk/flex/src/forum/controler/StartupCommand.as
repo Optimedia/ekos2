@@ -14,19 +14,15 @@ package forum.controler
 		override public function execute(note:INotification):void
 		{
 			var app:Forum = note.getBody() as Forum;
+			
 			// Inicializa a Model primeiro (Proxies)
-			//facade.registerProxy( new TesteProxy() );
 			facade.registerProxy( new UserProxy() );
 			facade.registerProxy( new ForumProxy() );
 			
 			// depois inicializa a View (Mediators)
-			//facade.registerMediator( new GerenciarUsuariosMediator() );
 			facade.registerMediator( new ForumMediator( app ) );
 			
 			facade.registerMediator( new MainViewMediator( app.mainView ) );
-			
-			//facade.registerMediator( new AvatarBoxMediator( app.avatarBox ) );
-			
 		}
 	}
 }

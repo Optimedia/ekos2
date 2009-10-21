@@ -31,9 +31,6 @@
 			[Bindable]
 			public var selectedTopic:Object;
 			
-			/* [Bindable]
-			public var selectedItem:Object = new Object(); */
-			
 			public var categoryPopUp:CategoryPopUp;
 			
 			private function onNewBtnClick():void {
@@ -51,7 +48,6 @@
 			}
 			
 			public function onDataGridItemClick(event:ListEvent):void {
-				//selectedItem = event.itemRenderer.data;
 				if(event.itemRenderer.data is ForumVO) {
 					selectedForum = event.itemRenderer.data;
 					dispatchEvent( new Event(FORUM_SELECTED_EVENT) );

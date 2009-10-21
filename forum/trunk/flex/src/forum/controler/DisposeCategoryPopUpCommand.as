@@ -11,9 +11,6 @@ package forum.controler
 	{
 		override public function execute(note:INotification):void
 		{
-			// Inicializa a Model primeiro (Proxies)
-			
-			// depois inicializa a View (Mediators)
 			facade.removeMediator( CategoryPopUpMediator.NAME );
 			
 			System.gc();
