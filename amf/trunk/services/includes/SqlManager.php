@@ -102,7 +102,7 @@
 		//-----------------------------------------------
 		protected function doDelete($where, $table) {
 			
-			$sql = "DELETE FROM $table $where";
+			$sql = "DELETE FROM $table WHERE $where";
 			
 			if(mysql_query($sql)) {
 				return true;
