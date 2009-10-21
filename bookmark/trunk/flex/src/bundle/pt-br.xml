@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lng>
+	<bkm>
+		<title>Título</title>
+		<url>URL</url>
+		<desc>Descrição</desc>
+		<tag>Tags</tag>
+		<save>Salvar</save>
+		<close>Fechar</close>
+		<add>Adicionar</add>	
+	</bkm>
+</lng>
