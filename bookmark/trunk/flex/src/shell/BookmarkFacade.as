@@ -1,10 +1,6 @@
 package shell
 {
-	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	
-	import mx.utils.StringUtil;
+	import mx.resources.ResourceBundle;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -21,7 +17,9 @@ package shell
 		
 		public static const DEFAULT_RESOURCE_BUNDLE_XML:String = "bundle/pt-br.xml";
 		
-		public var bundleXML:XML;
+		[Bindable]
+		[ResourceBundle('locale')]
+		public static var bundle:ResourceBundle;
 		
 		public function BookmarkFacade(key:String)
 		{
@@ -59,7 +57,6 @@ package shell
          */
         public function startup( app:Bookmark ):void
         {
-        	loadBundle(DEFAULT_RESOURCE_BUNDLE_XML);
         	sendNotification( STARTUP, app );
         }
 		
@@ -69,21 +66,5 @@ package shell
 		public function disposePopBook( app:PopBook ):void {
 			sendNotification( DISPOSE_POPBOOK, app );
 		}
-		
-		private function loadBundle(url:String):void
-        {
-            var request:URLLoader = new URLLoader;
-            request.addEventListener(Event.COMPLETE, RecebeXML);
-            request.load(new URLRequest( url ));
-                
-            function RecebeXML(e:Event):void
-	        {
-	            bundleXML = new XML(e.target.data);
-	        }
-        }
-        
-        public function getString(name:String):String {
-        	return bundleXML.bkm[name];
-        }
 	}
 }

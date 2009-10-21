@@ -108,7 +108,7 @@
 				event.stopPropagation();
 			    Application.application.enabled = false;
 			    popBook = new PopBook();
-				popBook.title = facade.getString('add');
+				popBook.title = "titulo";
 				popBook.bookmarkVO.url = "http://";			
 				createPopBookPopup();
 				PopUpManager.addPopUp(popBook, this, true);
@@ -117,7 +117,7 @@
 		]]>
 	</mx:Script>
 	<mx:HBox width="100%">
-		<mx:Button label="{facade.getString('add')}" click="onNovoBtnClick(event)"/>
+		<mx:Button label="Novo" click="onNovoBtnClick(event)"/>
 		<mx:Spacer width="100%"/>
 		<controls:SeachInput id="searchInput" change="onSearchInputChange()"/>
 	</mx:HBox>

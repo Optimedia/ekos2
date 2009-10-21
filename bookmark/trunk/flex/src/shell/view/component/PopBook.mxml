@@ -37,21 +37,21 @@
 		]]>
 	</mx:Script>
 	<mx:Form width="100%">
-		<mx:FormItem label="{facade.getString('title')}">
+		<mx:FormItem label="">
 			<mx:TextInput id="titleTextInput" text="{bookmarkVO.title}" />
 		</mx:FormItem>
-		<mx:FormItem label="{facade.getString('url')}">
+		<mx:FormItem label="}">
 			<mx:TextInput id="urlTextInput" text="{bookmarkVO.url}" />
 		</mx:FormItem>
-		<mx:FormItem label="{facade.getString('desc')}">
+		<mx:FormItem label="">
 			<mx:TextArea id="descriptionTextInput" text="{bookmarkVO.description}"/>
 		</mx:FormItem>
-		<mx:FormItem label="{facade.getString('tag')}">
+		<mx:FormItem label="">
 			<mx:TextInput id="tagsTextInput" text="{bookmarkVO.tags}" />
 		</mx:FormItem>
 	</mx:Form>
 	<mx:ControlBar>
-		<mx:Button label="{facade.getString('save')}" click="salvar()"/>
-		<mx:Button label="{facade.getString('close')}" click="fechar()"/>		
+		<mx:Button label="" click="salvar()"/>
+		<mx:Button label="" click="fechar()"/>		
 	</mx:ControlBar>
 </mx:TitleWindow>
