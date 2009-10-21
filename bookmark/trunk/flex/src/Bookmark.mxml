@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()" xmlns:component="shell.view.component.*" xmlns:controls="br.com.interludio.flexLib.controls.*" horizontalAlign="center">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="init()" xmlns:component="shell.view.component.*" xmlns:controls="br.com.interludio.flexLib.controls.*" horizontalAlign="center">
 	<mx:Metadata>
 		[ResourceBundle('locale')]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
-			import mx.resources.IResourceManager;
 			import mx.resources.ResourceManager;
-			import mx.resources.ResourceBundle;
 			import shell.BookmarkFacade;
 			
 			public static const NAME:String = 'Bookmark';
 			
-			public static const DEFAULT_RESOURCE_BUNDLE_URL:String = "bundle/pt-br.xml";
-			
+			[Bindable]
 			protected var facade:BookmarkFacade = BookmarkFacade.getInstance( NAME );
 			
 			private function init():void {
 				facade.startup(this);
 			}
 			
-			[Bindable]
-			public static var bundle:IResourceManager = ResourceManager.getInstance();
-			
 			private function clic():void {
-				bundle.localeChain=['pt_BR','en_US']
+				facade.locale = "pt_BR";
 			}
 			private function clic2():void {
-				bundle.localeChain=['en_US','pt_BR']
+				facade.locale = "en_US";
 			}
-
 		]]>
 	</mx:Script>
-	
-	<mx:Panel horizontalCenter="0" title="{bundle.getString('locale','greeting')}">	
-		<mx:Button click="clic()"/>
-		<mx:Button click="clic2()"/>
+	<mx:HBox horizontalCenter="0">
+		<mx:Button label="pt_BR" click="clic()"/>
+		<mx:Button label="en_US" click="clic2()"/>
+	</mx:HBox>
+	<mx:Panel horizontalCenter="0" title="{facade.language.getString('locale','greeting')}">
 		<component:CompBookData id="compBookData" width="600"/>
 	</mx:Panel>
 </mx:Application>
