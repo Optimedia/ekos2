@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="br.com.interludio.flexLib.controls.*" creationComplete="init()">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="br.com.interludio.flexLib.controls.*"
+			creationComplete="init()">
+			
 	<mx:Script>
 		<![CDATA[
 			import shell.BookmarkFacade;
@@ -66,6 +68,10 @@
 			private function createPopBookPopup(bookmarkVO:BookmarkVO=null):void {				
 				popBook.x = (Application.application.width / 2) - (popBook.width / 2);
 				popBook.y = (Application.application.height / 2) - (popBook.height / 2);
+				
+				// IMPORTANTÍSSIMO!!
+				popBook.lng = lng;
+				
 				if (bookmarkVO) popBook.bookmarkVO = bookmarkVO;
 				else popBook.bookmarkVO = new BookmarkVO();
 			}
