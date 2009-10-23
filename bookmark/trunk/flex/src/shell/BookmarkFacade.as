@@ -1,9 +1,7 @@
 package shell
 {
 	
-	import mx.resources.IResourceManager;
 	import mx.resources.ResourceBundle;
-	import mx.resources.ResourceManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -13,7 +11,7 @@ package shell
 	import shell.view.component.PopBook;
 	
 	//Metatags de todos os ResourceBundle's. Podem ser concatenadas. Devem estar sempre imediatamente antes da class
-	[ResourceBundle("locale")]
+	//[ResourceBundle("locale")]
 	
 	public class BookmarkFacade extends Facade
 	{
@@ -23,8 +21,8 @@ package shell
 		public static const DISPOSE_POPBOOK:String = 'DISPOSE_POPBOOK';
 		
 		//ResourceManager instance
-		[Bindable]
-		public var language:IResourceManager = ResourceManager.getInstance();
+
+		//public var language:IResourceManager = ResourceManager.getInstance();
 		
 		public function BookmarkFacade(key:String)
 		{
@@ -55,7 +53,7 @@ package shell
             registerCommand( DISPOSE_POPBOOK, DisposePopBookCommand );
             
             //Define a órdem de prioridades das línguas
-            language.localeChain = ['pt_BR','en_US'];
+            //language.localeChain = ['pt_BR','en_US'];
         }
         
         /**
@@ -73,11 +71,6 @@ package shell
 		}
 		public function disposePopBook( app:PopBook ):void {
 			sendNotification( DISPOSE_POPBOOK, app );
-		}
-		
-		//Seta uma língua
-		public function set locale(string:String):void {
-			language.localeChain = [string];
 		}
 	}
 }

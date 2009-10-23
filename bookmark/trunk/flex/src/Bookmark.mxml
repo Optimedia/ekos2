@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="init()" xmlns:component="shell.view.component.*" xmlns:controls="br.com.interludio.flexLib.controls.*" horizontalAlign="center">
-	<mx:Metadata>
-		[ResourceBundle('locale')]
-	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
 			import mx.resources.ResourceManager;
@@ -16,20 +13,9 @@
 			private function init():void {
 				facade.startup(this);
 			}
-			
-			private function clic():void {
-				facade.locale = "pt_BR";
-			}
-			private function clic2():void {
-				facade.locale = "en_US";
-			}
 		]]>
 	</mx:Script>
-	<mx:HBox horizontalCenter="0">
-		<mx:Button label="pt_BR" click="clic()"/>
-		<mx:Button label="en_US" click="clic2()"/>
-	</mx:HBox>
-	<mx:Panel horizontalCenter="0" title="{facade.language.getString('locale','greeting')}">
+	<mx:Panel horizontalCenter="0">
 		<component:CompBookData id="compBookData" width="600"/>
 	</mx:Panel>
 </mx:Application>

@@ -37,7 +37,8 @@ package shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [BookmarkProxy.RETRIEVEBOOKMARK_RESULT,
+			return [BookmarkProxy.GET_LOCALE_RESULT,
+					BookmarkProxy.RETRIEVEBOOKMARK_RESULT,
 					BookmarkProxy.DELETE_BOOKMARK_RESULT];
 		}
 		
@@ -45,6 +46,9 @@ package shell.view
 		{
 			switch (note.getName())
 			{	
+				case BookmarkProxy.GET_LOCALE_RESULT:
+					view.lng = new XML(note.getBody());
+					break
 				case BookmarkProxy.RETRIEVEBOOKMARK_RESULT:
 					view.dataProvider = note.getBody() as Array; 
 					break;

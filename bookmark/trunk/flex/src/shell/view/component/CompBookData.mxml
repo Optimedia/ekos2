@@ -13,7 +13,10 @@
 			import mx.controls.Alert;
 			
 			[Bindable]
-			public var dataProvider:Array = [];	
+			public var dataProvider:Array = [];
+			
+			[Bindable]
+			public var lng:XML = new XML();
 			
 			[Bindable]
 			private var facade:BookmarkFacade = BookmarkFacade.getInstance( Bookmark.NAME );
