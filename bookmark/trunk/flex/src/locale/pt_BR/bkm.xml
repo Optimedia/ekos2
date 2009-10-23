@@ -2,13 +2,14 @@
 <lng>
 	<bkm>
 		<add>Adicionar</add>
+		<cancel>Cancelar</cancel>
 		<close>Fechar</close>
-		<desc>Descrição</desc>
+		<description>Descrição</description>
 		<edit>Editar</edit>
 		<new_label>Novo</new_label>
 		<no>Não</no>
 		<save>Salvar</save>
-		<tag>Tags</tag>
+		<tags>Tags</tags>
 		<title>Título</title>
 		<url>URL</url>
 		<yes>Sim</yes>

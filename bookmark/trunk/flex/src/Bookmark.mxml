@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="init()" xmlns:component="shell.view.component.*" xmlns:controls="br.com.interludio.flexLib.controls.*" horizontalAlign="center">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+	xmlns:component="shell.view.component.*" xmlns:controls="br.com.interludio.flexLib.controls.*"
+	horizontalAlign="center" width="100%" height="100%"
+	creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
 			import mx.resources.ResourceManager;

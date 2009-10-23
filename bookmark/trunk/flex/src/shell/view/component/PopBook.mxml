@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" creationComplete="init()">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="400" creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
 			import assets.vo.BookmarkVO;
@@ -40,21 +40,22 @@
 		]]>
 	</mx:Script>
 	<mx:Form width="100%">
-		<mx:FormItem label="">
-			<mx:TextInput id="titleTextInput" text="{bookmarkVO.title}" />
+		<mx:FormItem label="{lng.bkm.title}" width="100%">
+			<mx:TextInput id="titleTextInput" text="{bookmarkVO.title}" width="100%"/>
 		</mx:FormItem>
-		<mx:FormItem label="}">
-			<mx:TextInput id="urlTextInput" text="{bookmarkVO.url}" />
+		<mx:FormItem label="{lng.bkm.url}" width="100%">
+			<mx:TextInput id="urlTextInput" text="{bookmarkVO.url}" width="100%" />
 		</mx:FormItem>
-		<mx:FormItem label="">
-			<mx:TextArea id="descriptionTextInput" text="{bookmarkVO.description}"/>
+		<mx:FormItem label="{lng.bkm.description}" width="100%">
+			<mx:TextArea id="descriptionTextInput" text="{bookmarkVO.description}" width="100%" />
 		</mx:FormItem>
-		<mx:FormItem label="">
-			<mx:TextInput id="tagsTextInput" text="{bookmarkVO.tags}" />
+		<mx:FormItem label="{lng.bkm.tags}" width="100%">
+			<mx:TextInput id="tagsTextInput" text="{bookmarkVO.tags}" width="100%" />
 		</mx:FormItem>
 	</mx:Form>
 	<mx:ControlBar>
-		<mx:Button label="" click="salvar()"/>
-		<mx:Button label="" click="fechar()"/>		
+		<mx:Button label="{lng.bkm.save}" click="salvar()"/>
+		<mx:Spacer width="100%" />
+		<mx:Button label="{lng.bkm.cancel}" click="fechar()"/>		
 	</mx:ControlBar>
 </mx:TitleWindow>
