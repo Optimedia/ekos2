@@ -50,7 +50,7 @@ package shell.view
 					break;
 				case BookmarkProxy.SAVE_BOOKMARK_FAULT:
 					proxy.retrieveBookmark();
-					Alert.show("Atenção!", note.getBody() as String);
+					Alert.show(note.getBody() as String, "Atenção!");
 					break;
 				default:
 					break;
