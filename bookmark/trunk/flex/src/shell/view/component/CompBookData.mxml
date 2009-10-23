@@ -34,7 +34,7 @@
 				event.stopPropagation();
 				Alert.noLabel = lng.bkm.no;
 				Alert.yesLabel = lng.bkm.yes;
-				Alert.show(BookmarkVO(dpBook.selectedItem).title+"?", "Excluir registro", Alert.YES | Alert.NO, this, alertCloseHandler);	
+				Alert.show(BookmarkVO(dpBook.selectedItem).title+"?", lng.bkm.delete_entry, Alert.YES | Alert.NO, this, alertCloseHandler);	
 			}
 			
 			public function alertCloseHandler(event:CloseEvent):void {
@@ -42,7 +42,7 @@
 					dispatchEvent(new Event(ON_DELETE_EVENT));
 				}
 				else {
-					Alert.show("Não foi possível excluir a entrada.", "Atenção!");
+					Alert.show(lng.bkm.not_possible_to_delete_entry, lng.bkm.atention+'!');
 				}
 			}
 			

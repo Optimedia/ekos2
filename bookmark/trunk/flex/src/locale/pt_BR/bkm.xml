@@ -2,12 +2,15 @@
 <lng>
 	<bkm>
 		<add>Adicionar</add>
+		<atention>Atenção</atention>
 		<cancel>Cancelar</cancel>
 		<close>Fechar</close>
+		<delete_entry>Excluir registro</delete_entry>
 		<description>Descrição</description>
 		<edit>Editar</edit>
 		<new_label>Novo</new_label>
 		<no>Não</no>
+		<not_possible_to_delete_entry>Não foi possível excluir a entrada.</not_possible_to_delete_entry>
 		<save>Salvar</save>
 		<tags>Tags</tags>
 		<title>Título</title>
