@@ -1,7 +1,7 @@
 <?
 
 require_once ('../includes/SqlManager.php');
-
+require_once ('../includes/TagApplicationService.php');
 require_once ('../vo/bookmark/vo/BookmarkVO.php');
 
 
@@ -29,6 +29,9 @@ class BookmarkService extends SqlManager{
     
 		//INSERE OU ATUALIZA BOOKMARK
 		public function saveBookmark(BookmarkVO $bookmarkVO) {
+			
+				$tagfier = new TagApplicationService();
+				
 				if($bookmarkVO -> bookmark_id == 0) {
 					$data = array(
 									"user_id" => 11,
@@ -39,7 +42,12 @@ class BookmarkService extends SqlManager{
 								  "creation_date" => date("Y/m/d H:i:s")								  
 								  );
 
-					return parent::doInsert($data, "bkm_bookmark");
+					if($tagfier-> doTagfier($tags, "eko_tag")){
+						return parent::doInsert($data, "bkm_bookmark");	
+					} else {
+						return "erroo";
+					}
+					
 				} else {
 					$bookmarkVO -> creation_date = date("Y/m/d H:i:s");
 					$data = array(
@@ -57,7 +65,7 @@ class BookmarkService extends SqlManager{
     //DELETA BOOKMARK
     public function deleteBookmark(BookmarkVO $bookmarkVO){
     						
-			return parent::doDelete("bookmark_id=".$bookmarkVO->bookmarkID,"bkm_bookmark");
+			return parent::doDelete("bookmark_id=".$bookmarkVO->bookmark_id,"bkm_bookmark");
     	
     }
 
