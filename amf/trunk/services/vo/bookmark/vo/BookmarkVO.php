@@ -2,10 +2,10 @@
 
 	class BookmarkVO {
 		
-		public $bookmarkID;
+		public $bookmark_id;
 		public $title;
 		public $url;
-		public $lastchange;
+		public $creation_date;
 		public $tags;
 		public $description;
 		
