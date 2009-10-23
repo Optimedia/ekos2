@@ -87,10 +87,11 @@ package shell.model
 			var urlLoader:URLLoader = new URLLoader();
 			urlLoader.addEventListener(Event.COMPLETE, onURLLoaderComplete);
 			urlLoader.load( new URLRequest('locale/'+localePath) );
-		}
-		private function onURLLoaderComplete(event:Event):void {
-			trace(NAME+".onURLLoaderComplete() = "+event.target.data);
-			sendNotification(GET_LOCALE_RESULT, event.target.data);
+			
+			function onURLLoaderComplete(event:Event):void {
+				trace(NAME+".onURLLoaderComplete() = "+event.target.data);
+				sendNotification(GET_LOCALE_RESULT, event.target.data);
+			}
 		}
 	}
 }
