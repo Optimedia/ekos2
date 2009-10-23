@@ -2,6 +2,10 @@ package shell.model
 {
 	import assets.vo.BookmarkVO;
 	
+	import flash.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
@@ -18,6 +22,7 @@ package shell.model
 		public static const SAVE_BOOKMARK_FAULT:String = "SAVE_BOOKMARK_FAULT";
 		public static const DELETE_BOOKMARK_RESULT:String = "DELETE_BOOKMARK_RESULT"; 
 		public static const DELETE_BOOKMARK_FAULT:String = "DELETE_BOOKMARK_FAULT";
+		public static const GET_LOCALE_RESULT:String = "GET_LOCALE_RESULT";
 		
 		
 		private var bookmarkVO:BookmarkVO;
@@ -76,6 +81,16 @@ package shell.model
 		{
 			trace(NAME+".deleteBookmarkFault()");
 			sendNotification(DELETE_BOOKMARK_FAULT, event.fault);
+		}
+		
+		public function getLocale(localePath:String='pt_BR/bkm.xml'):void {
+			var urlLoader:URLLoader = new URLLoader();
+			urlLoader.addEventListener(Event.COMPLETE, onURLLoaderComplete);
+			urlLoader.load( new URLRequest('locale/'+localePath) );
+		}
+		private function onURLLoaderComplete(event:Event):void {
+			trace(NAME+".onURLLoaderComplete() = "+event.target.data);
+			sendNotification(GET_LOCALE_RESULT, event.target.data);
 		}
 	}
 }

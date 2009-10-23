@@ -36,7 +36,8 @@ package shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [BookmarkProxy.SAVE_BOOKMARK_RESULT,
+			return [BookmarkProxy.GET_LOCALE_RESULT,
+					BookmarkProxy.SAVE_BOOKMARK_RESULT,
 					BookmarkProxy.SAVE_BOOKMARK_FAULT];
 		}
 		
@@ -44,6 +45,9 @@ package shell.view
 		{
 			switch (note.getName())
 			{	
+				case BookmarkProxy.GET_LOCALE_RESULT:
+					view.lng = new XML(note.getBody());
+					break;
 				case BookmarkProxy.SAVE_BOOKMARK_RESULT:
 					proxy.retrieveBookmark();
 					view.fechar(); 

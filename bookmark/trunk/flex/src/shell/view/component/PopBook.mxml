@@ -7,9 +7,12 @@
 			import mx.core.Application;
 			import mx.managers.PopUpManager;
 			
+			public static const BOOKMARK_SAVE_EVENT:String = "BOOKMARK_SAVE_EVENT";
+			
 			private var facade:BookmarkFacade = BookmarkFacade.getInstance( Bookmark.NAME );
 			
-			public static const BOOKMARK_SAVE_EVENT:String = "BOOKMARK_SAVE_EVENT";
+			[Bindable]
+			public var lng:XML = new XML();
 			
 			[Bindable]
 			public var bookmarkVO:BookmarkVO = new BookmarkVO();
