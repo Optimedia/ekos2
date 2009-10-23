@@ -127,7 +127,7 @@
 			<mx:VBox>
 				<mx:HBox width="100%">
 					<mx:Label text="{data.title}" width="100%" />
-					<mx:Label text="{data.lastchange}" />
+					<mx:Label text="{data.creation_date}" />
 				</mx:HBox>
 				<mx:TextArea text="{data.description}" width="100%" editable="false" backgroundAlpha="0" borderStyle="none"/>
 				<mx:HBox width="100%">
