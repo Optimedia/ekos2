@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lng>
+	<forum>
+		<add>Adicionar</add>
+		<administrator>Administrador</administrator>
+		<atention>Atenção</atention>
+		<cancel>Cancelar</cancel>
+		<category_name>Nome da categoria:</category_name>
+		<close>Fechar</close>
+		<description>Descrição</description>
+		<edit>Editar</edit>
+		<member_since>Membro desde:</member_since>
+		<new_category>Nova Categoria</new_category>
+		<new_label>Novo</new_label>
+		<no>Não</no>
+		<save>Salvar</save>
+		<tags>Tags</tags>
+		<title>Título</title>
+		<url>URL</url>
+		<view_profile>Ver Perfil</view_profile>
+		<visitor>Visitante</visitor>
+		<yes>Sim</yes>
+	</forum>
+</lng>

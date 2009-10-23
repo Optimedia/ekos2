@@ -6,6 +6,10 @@ package forum.model
 	import assets.vo.RoomVO;
 	import assets.vo.TopicVO;
 	
+	import flash.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -24,12 +28,14 @@ package forum.model
 		public static const ROOMS_LIST_NOTIFICATION:String = "ROOMS_LIST_NOTIFICATION";
 		public static const TOPICS_LIST_NOTIFICATION:String = "TOPICS_LIST_NOTIFICATION";
 		public static const POST_LIST_NOTIFICATION:String = "POST_LIST_NOTIFICATION";
+		public static const GET_LOCALE_RESULT:String = "GET_LOCALE_RESULT";
 		
 		private var remoteService:RemoteObject;
 		
 		// NECESSÁRIO DECLARAR ESTAS VARIÁVEIS APENAS PARA Q O FLEX COMPILE OS VOs
 		// REMOVER QUANDO O CÓDIGO ESTIVER COMPLETO 
 		private var postVO:PostVO;
+		
 		
 		public function ForumProxy(data:Object=null)
 		{
@@ -92,6 +98,24 @@ package forum.model
 		private function retrievePostsResult(event:ResultEvent):void {
 			trace(NAME+".retrievePostsResult() = "+event.result);
 			sendNotification(POST_LIST_NOTIFICATION, event.result);
+		}
+		
+		private var lng:XML;
+		
+		public function getLng():XML {
+			return lng;
+		}
+		
+		public function getLocale(localePath:String='pt_BR/forum.xml'):void {
+			var urlLoader:URLLoader = new URLLoader();
+			urlLoader.addEventListener(Event.COMPLETE, onURLLoaderComplete);
+			urlLoader.load( new URLRequest('locale/'+localePath) );
+			
+			function onURLLoaderComplete(event:Event):void {
+				trace(NAME+".onURLLoaderComplete() = "+event.target.data);
+				lng = new XML(event.target.data);
+				sendNotification(GET_LOCALE_RESULT, event.target.data);
+			}
 		}
 	}
 }

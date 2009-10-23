@@ -1,5 +1,7 @@
 package forum
 {
+	import flash.events.Event;
+	
 	import forum.controler.DisposeCategoryPopUpCommand;
 	import forum.controler.StartupAvatarBoxCommand;
 	import forum.controler.StartupCategoryPopUpCommand;
@@ -15,6 +17,9 @@ package forum
 	public class ForumFacade extends Facade
 	{
 		public static const STARTUP:String = 'STARTUP';
+		
+		[Bindable]
+		public var lng:XML = new XML();
 		
 		// STARTUP COMMANDS CONSTANTS
 		public static const STARTUP_CATEGORYPOPUP:String = 'STARTUP_CATEGORYPOPUP';
