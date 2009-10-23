@@ -1507,8 +1507,8 @@ Shadow=0</a:DisplayPreferences>
 <o:ReferenceSymbol Id="o5">
 <a:CreationDate>1256152107</a:CreationDate>
 <a:ModificationDate>1256154076</a:ModificationDate>
-<a:Rect>((12494,3609), (14094,27384))</a:Rect>
-<a:ListOfPoints>((13393,3609),(13393,14473),(13195,14473),(13195,27384))</a:ListOfPoints>
+<a:Rect>((12534,3609), (14134,27384))</a:Rect>
+<a:ListOfPoints>((13393,3609),(13393,14473),(13274,14473),(13274,27384))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4882</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1549,8 +1549,8 @@ CARD 0 Arial,8,N</a:FontList>
 <o:ReferenceSymbol Id="o12">
 <a:CreationDate>1256152392</a:CreationDate>
 <a:ModificationDate>1256154069</a:ModificationDate>
-<a:Rect>((-13112,27315), (12326,28915))</a:Rect>
-<a:ListOfPoints>((12326,28114),(-3220,28114),(-3220,28115),(-13112,28115))</a:ListOfPoints>
+<a:Rect>((-13161,27314), (12299,28914))</a:Rect>
+<a:ListOfPoints>((12299,28114),(-13161,28114))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4882</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1570,8 +1570,8 @@ CARD 0 Arial,8,N</a:FontList>
 <o:ReferenceSymbol Id="o15">
 <a:CreationDate>1256153837</a:CreationDate>
 <a:ModificationDate>1256154086</a:ModificationDate>
-<a:Rect>((-14551,6036), (-12951,27735))</a:Rect>
-<a:ListOfPoints>((-13822,6036),(-13822,14101),(-13680,14101),(-13680,27735))</a:ListOfPoints>
+<a:Rect>((-14592,6036), (-12992,27735))</a:Rect>
+<a:ListOfPoints>((-13822,6036),(-13822,14101),(-13762,14101),(-13762,27735))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4882</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1612,7 +1612,7 @@ CARD 0 Arial,8,N</a:FontList>
 <o:TableSymbol Id="o7">
 <a:CreationDate>1256151237</a:CreationDate>
 <a:ModificationDate>1256154069</a:ModificationDate>
-<a:Rect>((3420,20663), (21676,31949))</a:Rect>
+<a:Rect>((2300,20663), (22796,31949))</a:Rect>
 <a:LineColor>16512</a:LineColor>
 <a:FillColor>166354</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1658,7 +1658,7 @@ LABL 0 Arial,8,N</a:FontList>
 <o:TableSymbol Id="o22">
 <a:CreationDate>1256153426</a:CreationDate>
 <a:ModificationDate>1256154018</a:ModificationDate>
-<a:Rect>((-10123,-27421), (7669,-20031))</a:Rect>
+<a:Rect>((-10934,-27421), (8480,-20031))</a:Rect>
 <a:LineColor>16512</a:LineColor>
 <a:FillColor>166354</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1681,7 +1681,7 @@ LABL 0 Arial,8,N</a:FontList>
 <o:TableSymbol Id="o13">
 <a:CreationDate>1256153837</a:CreationDate>
 <a:ModificationDate>1256154065</a:ModificationDate>
-<a:Rect>((-21000,17828), (-3520,32636))</a:Rect>
+<a:Rect>((-21503,17828), (-3017,32636))</a:Rect>
 <a:LineColor>16512</a:LineColor>
 <a:FillColor>166354</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2133,8 +2133,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o56">
 <a:ObjectID>CE336689-664F-4DC4-ADC2-28D0A5DD55D7</a:ObjectID>
-<a:Name>Text</a:Name>
-<a:Code>Text</a:Code>
+<a:Name>String</a:Name>
+<a:Code>String</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2146,8 +2146,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o57">
 <a:ObjectID>BB49FA4D-7E5B-476A-9863-EDF8C281A44E</a:ObjectID>
-<a:Name>TextArea</a:Name>
-<a:Code>TextArea</a:Code>
+<a:Name>Text</a:Name>
+<a:Code>Text</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2159,8 +2159,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o58">
 <a:ObjectID>769C9304-1E77-49B1-A2B6-00E1446EC09F</a:ObjectID>
-<a:Name>TextAreaLimited</a:Name>
-<a:Code>TextAreaLimited</a:Code>
+<a:Name>TextLimited</a:Name>
+<a:Code>TextLimited</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2172,8 +2172,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o59">
 <a:ObjectID>F699DD99-899A-40B0-B6CB-82B3FBD9AB31</a:ObjectID>
-<a:Name>TextAreaNormalized</a:Name>
-<a:Code>TextAreaNormalized</a:Code>
+<a:Name>TextNormalized</a:Name>
+<a:Code>TextNormalized</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2185,8 +2185,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o60">
 <a:ObjectID>941FFC67-7EE5-4F39-8318-49B8D09836C8</a:ObjectID>
-<a:Name>TextAreaRich</a:Name>
-<a:Code>TextAreaRich</a:Code>
+<a:Name>TextRich</a:Name>
+<a:Code>TextRich</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2198,8 +2198,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o61">
 <a:ObjectID>33438C4F-8447-4771-A11F-CCC57F457F67</a:ObjectID>
-<a:Name>TextAreaUpper</a:Name>
-<a:Code>TextAreaUpper</a:Code>
+<a:Name>TextUpper</a:Name>
+<a:Code>TextUpper</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2211,8 +2211,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o62">
 <a:ObjectID>8E135E87-0D13-4B77-B00F-BD472F922EFC</a:ObjectID>
-<a:Name>TextCamerCase</a:Name>
-<a:Code>TextCamerCase</a:Code>
+<a:Name>StringCamerCase</a:Name>
+<a:Code>StringCamerCase</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2237,8 +2237,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o64">
 <a:ObjectID>7E742A49-8B93-4035-87EF-19909690C2E9</a:ObjectID>
-<a:Name>TextLabel</a:Name>
-<a:Code>TextLabel</a:Code>
+<a:Name>StringLabel</a:Name>
+<a:Code>StringLabel</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2250,8 +2250,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o65">
 <a:ObjectID>0975A4CC-2A61-4A1E-B1DE-F2F9422A9B53</a:ObjectID>
-<a:Name>TextLower</a:Name>
-<a:Code>TextLower</a:Code>
+<a:Name>StringLower</a:Name>
+<a:Code>StringLower</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2263,8 +2263,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o66">
 <a:ObjectID>B1D8100B-C3A3-4E49-ADDF-9C0682A06BAC</a:ObjectID>
-<a:Name>TextName</a:Name>
-<a:Code>TextName</a:Code>
+<a:Name>StringName</a:Name>
+<a:Code>StringName</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2276,8 +2276,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o67">
 <a:ObjectID>CD7A48F2-9AA7-45EC-B75F-FB743D001EDA</a:ObjectID>
-<a:Name>TextNameShort</a:Name>
-<a:Code>TextNameShort</a:Code>
+<a:Name>StringNameShort</a:Name>
+<a:Code>StringNameShort</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256153257</a:ModificationDate>
@@ -2289,8 +2289,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o68">
 <a:ObjectID>3A49BCB9-3BAB-4781-A74E-0640A1453B47</a:ObjectID>
-<a:Name>TextNormalized</a:Name>
-<a:Code>TextNormalized</a:Code>
+<a:Name>StringNormalized</a:Name>
+<a:Code>StringNormalized</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2302,8 +2302,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o69">
 <a:ObjectID>C844BA39-BB94-4203-B662-6AB6FC8AEA0C</a:ObjectID>
-<a:Name>TextTitle</a:Name>
-<a:Code>TextTitle</a:Code>
+<a:Name>StringTitle</a:Name>
+<a:Code>StringTitle</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256152705</a:ModificationDate>
@@ -2315,8 +2315,8 @@ LABL 0 Arial,8,N</a:FontList>
 </o:Shortcut>
 <o:Shortcut Id="o70">
 <a:ObjectID>15585111-821E-485C-A9BE-416BC5EAAE28</a:ObjectID>
-<a:Name>TextUpper</a:Name>
-<a:Code>TextUpper</a:Code>
+<a:Name>StringUpper</a:Name>
+<a:Code>StringUpper</a:Code>
 <a:CreationDate>1256151543</a:CreationDate>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256151543</a:ModificationDate>
@@ -2452,6 +2452,8 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256152874</a:ModificationDate>
 <a:Modifier>kelson</a:Modifier>
+<a:DataType>varchar(200)</a:DataType>
+<a:Length>200</a:Length>
 <a:Mandatory>1</a:Mandatory>
 <c:Domain>
 <o:Shortcut Ref="o72"/>
@@ -2774,6 +2776,8 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Creator>kelson</a:Creator>
 <a:ModificationDate>1256153530</a:ModificationDate>
 <a:Modifier>kelson</a:Modifier>
+<a:DataType>varchar(200)</a:DataType>
+<a:Length>200</a:Length>
 <a:Mandatory>1</a:Mandatory>
 <c:Domain>
 <o:Shortcut Ref="o72"/>
