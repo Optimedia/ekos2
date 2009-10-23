@@ -2,6 +2,7 @@ package forum.view
 {
 	import assets.vo.UserVO;
 	
+	import forum.model.ForumProxy;
 	import forum.model.UserProxy;
 	import forum.view.component.AvatarBox;
 	
@@ -15,6 +16,7 @@ package forum.view
 		private var userVO:UserVO;
 		
 		private var proxy:UserProxy = new UserProxy();
+		private var forumProxy:ForumProxy;
 		
 		public function AvatarBoxMediator( viewComponent:Object=null )
 		{
@@ -28,6 +30,9 @@ package forum.view
 			trace(NAME+view.uid+".onRegister()");
 			proxy = facade.retrieveProxy( UserProxy.NAME ) as UserProxy;
 			proxy.getUserData(view.userID);
+			
+			forumProxy = facade.retrieveProxy( ForumProxy.NAME ) as ForumProxy;
+			view.lng = new XML( forumProxy.getLng() );
 		}
 		
 		public function get view():AvatarBox

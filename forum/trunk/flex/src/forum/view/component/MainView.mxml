@@ -16,6 +16,9 @@
 			public static const TOPIC_SELECTED_EVENT:String = "TOPIC_SELECTED_EVENT";
 			
 			[Bindable]
+			public var lng:XML = new XML();
+			
+			[Bindable]
 			public var forumListDataProvider:Object = new Object();
 			[Bindable]
 			public var roomListDataProvider:Object = new Object();
@@ -37,6 +40,7 @@
 				switch(viewStack.selectedIndex) {
 					case 0:
 						categoryPopUp = new CategoryPopUp();
+						categoryPopUp.lng = new XML(lng);
 						PopUpManager.addPopUp(categoryPopUp, Application.application as DisplayObject, true);
 						PopUpManager.centerPopUp(categoryPopUp);
 						break;
@@ -66,7 +70,7 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Button id="newBtn" label="Nova Categoria" click="onNewBtnClick()" />
+	<mx:Button id="newBtn" label="{lng.forum.new_category}" click="onNewBtnClick()" />
 	
 	<mx:ViewStack id="viewStack" width="700">
 		<mx:Canvas width="100%" height="100%">
@@ -77,8 +81,8 @@
 						<mx:DataGrid id="dataGrid" width="100%" height="100%" dataProvider="{data.forumVOArray}"
 										itemClick="parentDocument.onDataGridItemClick(event)">
 							<mx:columns>
-								<mx:DataGridColumn headerText="Título" dataField="name" />
-								<mx:DataGridColumn headerText="Descrição" dataField="description" />
+								<mx:DataGridColumn headerText="{parentDocument.lng.forum.title}" dataField="name" />
+								<mx:DataGridColumn headerText="{parentDocument.lng.forum.description}" dataField="description" />
 							</mx:columns>
 						</mx:DataGrid>
 					</mx:Panel>
@@ -92,8 +96,8 @@
 				<mx:DataGrid id="roomPanelDataGrid" width="100%" height="100%" dataProvider="{roomListDataProvider}"
 								itemClick="onDataGridItemClick(event)">
 					<mx:columns>
-						<mx:DataGridColumn headerText="Título" dataField="name" />
-						<mx:DataGridColumn headerText="Descrição" dataField="description" />
+						<mx:DataGridColumn headerText="{parentDocument.lng.forum.title}" dataField="name" />
+						<mx:DataGridColumn headerText="{parentDocument.lng.forum.description}" dataField="description" />
 					</mx:columns>
 				</mx:DataGrid>
 			</mx:Panel>
@@ -104,8 +108,8 @@
 				<mx:DataGrid id="topicPanelDataGrid" width="100%" height="100%" dataProvider="{topicListDataProvider}"
 								itemClick="onDataGridItemClick(event)">
 					<mx:columns>
-						<mx:DataGridColumn headerText="Título" dataField="name" />
-						<mx:DataGridColumn headerText="Descrição" dataField="description" />
+						<mx:DataGridColumn headerText="{parentDocument.lng.forum.title}" dataField="name" />
+						<mx:DataGridColumn headerText="{parentDocument.lng.forum.description}" dataField="description" />
 					</mx:columns>
 				</mx:DataGrid>
 			</mx:Panel>

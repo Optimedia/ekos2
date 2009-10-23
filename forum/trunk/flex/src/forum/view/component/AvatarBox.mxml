@@ -13,6 +13,9 @@
 			private var facade:ForumFacade = ForumFacade.getInstance( Forum.NAME );
 			
 			[Bindable]
+			public var lng:XML = new XML();
+			
+			[Bindable]
 			public var userVO:UserVO = new UserVO();
 			
 			private function init():void {
@@ -22,9 +25,9 @@
 			private function getPerfil():String {
 				switch(userVO.roleID) {
 					case 0:
-						return "Administrador";
+						return lng.forum.administrator;
 					default:
-						return "Visitante";
+						return lng.forum.visitor;
 				}
 			}
 			
@@ -37,12 +40,12 @@
 	
 	<mx:Label text="{getPerfil()}" width="100%"/>
 	
-	<mx:Label text="Membro desde: {userVO.dateCreation}" width="100%"/>
+	<mx:Label text="{lng.forum.member_since}+' '+{userVO.dateCreation}" width="100%"/>
 	
 	<mx:Label text="{userVO.city} / {userVO.state}" width="100%"/>
 	
 	<mx:Label text="{userVO.numPosts} posts" width="100%"/>
 	
-	<mx:LinkButton label="Ver Perfil" />
+	<mx:LinkButton label="{lng.forum.view_profile}" />
 	
 </mx:VBox>

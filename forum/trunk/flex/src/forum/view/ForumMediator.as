@@ -9,6 +9,8 @@ package forum.view
 	{
 		public static const NAME:String = 'ForumMediator';
 		
+		private var proxy:ForumProxy;
+		
 		public function ForumMediator(viewComponent:Forum=null)
 		{
 			super(NAME, viewComponent);
@@ -17,6 +19,8 @@ package forum.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
+			proxy = facade.retrieveProxy( ForumProxy.NAME ) as ForumProxy;
+			proxy.getLocale();
 		}
 		
 		public function get view():Forum

@@ -41,7 +41,8 @@ package forum.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ForumProxy.CATEGORIES_LIST_NOTIFICATION,
+			return [ForumProxy.GET_LOCALE_RESULT,
+					ForumProxy.CATEGORIES_LIST_NOTIFICATION,
 					ForumProxy.ROOMS_LIST_NOTIFICATION,
 					ForumProxy.TOPICS_LIST_NOTIFICATION,
 					ForumProxy.POST_LIST_NOTIFICATION];
@@ -51,6 +52,9 @@ package forum.view
 		{
 			switch (note.getName())
 			{
+				case ForumProxy.GET_LOCALE_RESULT:
+					view.lng = new XML(note.getBody());
+					break;
 				case ForumProxy.CATEGORIES_LIST_NOTIFICATION:
 					view.forumListDataProvider = note.getBody();
 					break;

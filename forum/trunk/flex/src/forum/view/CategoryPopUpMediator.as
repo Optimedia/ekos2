@@ -28,6 +28,8 @@ package forum.view
 			trace(NAME+".onRegister()");
 			proxy = facade.retrieveProxy( ForumProxy.NAME ) as ForumProxy;
 			view.saveBtn.addEventListener(MouseEvent.CLICK, onSaveBtnClick);
+			
+			view.lng = new XML( proxy.getLng() );
 		}
 		
 		override public function onRemove():void {

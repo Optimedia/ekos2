@@ -15,6 +15,9 @@
 			[Bindable]
 			public var categoryVO:CategoryVO;
 			
+			[Bindable]
+			public var lng:XML = new XML();
+			
 			private function init():void {
 				categoryVO = new CategoryVO();
 				facade.startupCategoryPopUp( this );
@@ -39,16 +42,16 @@
 	</mx:Script>
 	
 	<mx:Form>
-		<mx:FormItem label="Nome da categoria:">
+		<mx:FormItem label="{lng.forum.category_name}">
 			<mx:TextInput id="categoryNameTextInput" change="onTextChange()" maxChars="100" text="{categoryVO.name}" />
 			<mx:TextArea id="categoryDescriptionTextArea" change="onTextChange()" maxChars="200" text="{categoryVO.description}" />
 		</mx:FormItem>
 	</mx:Form>
 	
 	<mx:HBox>
-		<mx:Button id="cancelBtn" label="Cancelar" click="close()"/>
+		<mx:Button id="cancelBtn" label="{lng.forum.cancel}" click="close()"/>
 		<mx:Spacer width="100%" />
-		<mx:Button id="saveBtn" label="Salvar" enabled="false"/>
+		<mx:Button id="saveBtn" label="{lng.forum.save}" enabled="false"/>
 	</mx:HBox>
 	
 </mx:TitleWindow>
