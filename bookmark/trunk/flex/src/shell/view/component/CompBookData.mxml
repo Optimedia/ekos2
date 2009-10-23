@@ -126,7 +126,7 @@
 		<mx:Spacer width="100%"/>
 		<controls:SeachInput id="searchInput" change="onSearchInputChange()"/>
 	</mx:HBox>
-	<mx:List id="dpBook" dataProvider="{dataProvider}" width="600" itemClick="goURL()" borderStyle="none">
+	<mx:List id="dpBook" dataProvider="{dataProvider}" width="600" height="500" itemClick="goURL()" borderStyle="none" >
 		<mx:itemRenderer>
 		<mx:Component>
 			<mx:VBox>
