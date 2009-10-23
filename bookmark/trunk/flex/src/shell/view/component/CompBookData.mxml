@@ -44,23 +44,19 @@
 				}
 			}
 			
+			private var popBook:PopBook;
+			
 			public function adicionar():void
 			{
-				var winAdd:PopBook = new PopBook();
-				
-				winAdd.x = (Application.application.width / 2) - (winAdd.width / 2);
-				winAdd.y = (Application.application.height / 2) - (winAdd.height / 2);
-				winAdd.title = "Adicionar";				
-
-				PopUpManager.addPopUp(winAdd, this);
+				popBook = new PopBook();
+				createPopBookPopup();
+				popBook.title = lng.bkm.add;
+				PopUpManager.addPopUp(popBook, this);
 			}
-			
-			private var popBook:PopBook;
 			
 			public function editar(event:MouseEvent):void
 			{
 				event.stopPropagation();
-			    Application.application.enabled = false;
 				popBook = new PopBook();
 				popBook.title = lng.bkm.edit;
 			    createPopBookPopup( dpBook.selectedItem as BookmarkVO );
@@ -71,7 +67,7 @@
 				popBook.x = (Application.application.width / 2) - (popBook.width / 2);
 				popBook.y = (Application.application.height / 2) - (popBook.height / 2);
 				if (bookmarkVO) popBook.bookmarkVO = bookmarkVO;
-				//else popBook.bookmarkVO = new BookmarkVO();
+				else popBook.bookmarkVO = new BookmarkVO();
 			}
 				
 			public function goURL():void 
