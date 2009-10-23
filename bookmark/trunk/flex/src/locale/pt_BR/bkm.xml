@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lng>
-	<add>Adicionar</add>
-	<close>Fechar</close>
-	<desc>Descrição</desc>
-	<edit>Editar</edit>
-	<new_label>Novo</new_label>
-	<no>Não</no>
-	<save>Salvar</save>
-	<tag>Tags</tag>
-	<title>Título</title>
-	<url>URL</url>
-	<yes>Sim</yes>
+	<bkm>
+		<add>Adicionar</add>
+		<close>Fechar</close>
+		<desc>Descrição</desc>
+		<edit>Editar</edit>
+		<new_label>Novo</new_label>
+		<no>Não</no>
+		<save>Salvar</save>
+		<tag>Tags</tag>
+		<title>Título</title>
+		<url>URL</url>
+		<yes>Sim</yes>
+	</bkm>
 </lng>
