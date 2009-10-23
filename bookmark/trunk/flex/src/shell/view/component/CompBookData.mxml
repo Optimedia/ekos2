@@ -30,8 +30,8 @@
 			public function excluir(event:MouseEvent):void
 			{
 				event.stopPropagation();
-				Alert.noLabel = "Não";
-				Alert.yesLabel = "Sim";
+				Alert.noLabel = lng.bkm.no;
+				Alert.yesLabel = lng.bkm.yes;
 				Alert.show(BookmarkVO(dpBook.selectedItem).title+"?", "Excluir registro", Alert.YES | Alert.NO, this, alertCloseHandler);	
 			}
 			
@@ -62,7 +62,7 @@
 				event.stopPropagation();
 			    Application.application.enabled = false;
 				popBook = new PopBook();
-				popBook.title = "Editar";
+				popBook.title = lng.bkm.edit;
 			    createPopBookPopup( dpBook.selectedItem as BookmarkVO );
 				PopUpManager.addPopUp(popBook, this, true);
 			}
@@ -104,14 +104,14 @@
 			}
 			
 			public function onTagClick(event:MouseEvent):void {
-				trace("ASD");
+				trace("onTagClick()");
 			}
 			
 			private function onNovoBtnClick(event:MouseEvent):void {
 				event.stopPropagation();
 			    Application.application.enabled = false;
 			    popBook = new PopBook();
-				popBook.title = "titulo";
+				popBook.title = lng.bkm.title;
 				popBook.bookmarkVO.url = "http://";			
 				createPopBookPopup();
 				PopUpManager.addPopUp(popBook, this, true);
@@ -120,7 +120,7 @@
 		]]>
 	</mx:Script>
 	<mx:HBox width="100%">
-		<mx:Button label="Novo" click="onNovoBtnClick(event)"/>
+		<mx:Button label="{lng.bkm.new_label}" click="onNovoBtnClick(event)"/>
 		<mx:Spacer width="100%"/>
 		<controls:SeachInput id="searchInput" change="onSearchInputChange()"/>
 	</mx:HBox>
