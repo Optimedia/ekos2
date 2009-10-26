@@ -4,7 +4,7 @@
 
 <Workspace>
 	<Local Expanded="Yes" Name="Ekos2">
-		<Model Expanded="Yes" ID="{5E5C1CD0-EB71-47BD-A062-DFF8DBB1678E}" Name="Ekos2" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Ekos2.prj"/>
+		<Model Expanded="Yes" ID="{C376904C-4900-4964-B422-32CFC6FC0587}" Name="Ekos2" Selected="Yes" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Ekos2.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
