@@ -1,18 +1,18 @@
 package shell
 {
+	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
 	import shell.controler.StartupCommand;
 
 	public class MainAppFacade extends Facade
 	{
-		public static const STARTUP:String = 'STARTUP';
 		
 		[Bindable]
 		public var lng:XML = new XML();
 		
 		// STARTUP COMMANDS CONSTANTS
-		//public static const STARTUP_CATEGORYPOPUP:String = 'STARTUP_CATEGORYPOPUP';
+		public static const STARTUP_MAIN_APP:String = 'STARTUP_MAIN_APP';
 		
 		// DISPOSE COMMANDS CONSTANTS
 		//public static const DISPOSE_CATEGORYPOPUP:String = "DISPOSE_CATEGORYPOPUP";
@@ -28,7 +28,7 @@ package shell
 		/**
          * Singleton ApplicationFacade Factory Method
          */
-        public static function getInstance( key:String ) : MainAppFacade 
+        public static function getInstance( key:String = "default" ) : MainAppFacade 
         {
             if ( instanceMap[ key ] == null ) instanceMap[ key ] = new MainAppFacade( key );
             return instanceMap[ key ] as MainAppFacade;
@@ -40,7 +40,7 @@ package shell
         override protected function initializeController( ) : void 
         {
             super.initializeController();
-            registerCommand( STARTUP, StartupCommand );
+            registerCommand( STARTUP_MAIN_APP, StartupCommand );
             
             // STARTUP COMMANDS
             //registerCommand( STARTUP_CATEGORYPOPUP, StartupCategoryPopUpCommand );
@@ -54,9 +54,9 @@ package shell
          * 
          * @param app a reference to the application component 
          */
-        public function startup( app:MainApp ):void
+        public function startup( app:Object ):void
         {
-        	sendNotification( STARTUP, app );
+        	if (app is MainApp) sendNotification( STARTUP_MAIN_APP, app );
         }
 	}
 }
