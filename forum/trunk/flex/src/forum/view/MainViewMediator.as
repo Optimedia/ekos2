@@ -32,8 +32,9 @@ package forum.view
 			view.addEventListener(MainView.FORUM_SELECTED_EVENT, onForumSelectedEvent);
 			view.addEventListener(MainView.ROOM_SELECTED_EVENT, onRoomSelectedEvent);
 			view.addEventListener(MainView.TOPIC_SELECTED_EVENT, onTopicSelectedEvent);
+			
 		}
-		
+
 		public function get view():MainView
 		{
 			return viewComponent as MainView;
