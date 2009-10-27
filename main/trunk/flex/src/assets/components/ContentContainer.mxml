@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Script>
+	<![CDATA[
+		import assets.vo.ContentContainerVO;
+		
+		[Bindable]
+		public var dataProvider:ContentContainerVO = new ContentContainerVO();
+		
+		[Bindable]
+		private var aux1:Array = ['autor 1', 'autor 2'];
+		[Bindable]
+		private var aux2:Array = ['tag1', 'tag2'];
+	]]>
+	</mx:Script>
+	
+	<mx:HBox width="100%" verticalAlign="middle">
+		<mx:Text text="{dataProvider.title}" width="100%" fontWeight="bold" fontSize="12"/>
+		<mx:Label text="{dataProvider.counter}" />
+		<mx:Button label="i" />
+	</mx:HBox>
+	
+	<mx:Text text="Date Creation: {dataProvider.dateCreation}   Last Update: {dataProvider.lastUpdate}" fontSize="8"/>
+	
+	<mx:TextArea width="100%" editable="false" text="{dataProvider.description}"/>
+	
+	<mx:LinkBar width="100%" horizontalAlign="right" dataProvider="{dataProvider.authorArray}" />
+	
+	<mx:HBox width="100%">
+		<mx:Text text="User Voting: {dataProvider.rating}" width="100%"/>
+		<mx:LinkBar width="100%" horizontalAlign="right" dataProvider="{dataProvider.tagArray}" />
+	</mx:HBox>
+	
+</mx:VBox>

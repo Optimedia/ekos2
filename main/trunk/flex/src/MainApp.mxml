@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="absolute"
-				creationComplete="init()">
+				creationComplete="init()" xmlns:components="assets.components.*">
 	
 	<mx:Script>
 		<![CDATA[
 			import shell.MainAppFacade;
 			
-			public static const NAME:String = "MainApp";
+			//public static const NAME:String = "MainApp";
 			
-			protected var facade:MainAppFacade = MainAppFacade.getInstance( NAME );
+			protected var facade:MainAppFacade = MainAppFacade.getInstance();
 			
 			private function init():void {
-				facade.startup(this);
+				facade.startup( this );
 			}
 			
 		]]>
 	</mx:Script>
+	
+	<mx:List id="contentList" selectable="false">
+		<mx:itemRenderer>
+		<mx:Component>
+			<components:ContentContainer dataProvider="{data}" width="300"/>
+		</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
 	
 </mx:Application>

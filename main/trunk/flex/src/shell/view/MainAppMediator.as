@@ -2,12 +2,14 @@ package shell.view
 {
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	
+	import shell.model.MainAppProxy;
 
 	public class MainAppMediator extends Mediator
 	{
 		public static const NAME:String = 'MainAppMediator';
 		
-		//private var proxy:ForumProxy;
+		private var proxy:MainAppProxy;
 		
 		public function MainAppMediator(viewComponent:MainApp=null)
 		{
@@ -17,8 +19,8 @@ package shell.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			//proxy = facade.retrieveProxy( ForumProxy.NAME ) as ForumProxy;
-			//proxy.getLocale();
+			proxy = facade.retrieveProxy( MainAppProxy.NAME ) as MainAppProxy;
+			proxy.retrieveContentArray();
 		}
 		
 		public function get view():MainApp
@@ -28,13 +30,16 @@ package shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [MainAppProxy.CONTENT_ARRAY_NOTIFICATION];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case MainAppProxy.CONTENT_ARRAY_NOTIFICATION:
+					view.contentList.dataProvider = note.getBody();
+					break;
 				default:
 					break;
 			}
