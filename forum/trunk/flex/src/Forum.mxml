@@ -19,6 +19,12 @@
 		]]>
 	</mx:Script>
 	
-	<component:MainView id="mainView" />
+	<mx:TabNavigator id="tabNavigator" width="100%" height="100%" >
+		
+		<component:AdminView id="adminView" />
+		
+		<component:MainView id="mainView" />
+		
+	</mx:TabNavigator>
 	
 </mx:Application>

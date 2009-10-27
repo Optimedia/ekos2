@@ -1,8 +1,8 @@
 package forum
 {
-	import flash.events.Event;
-	
+	import forum.controler.DisposeAdminViewCommand;
 	import forum.controler.DisposeCategoryPopUpCommand;
+	import forum.controler.StartupAdminViewCommand;
 	import forum.controler.StartupAvatarBoxCommand;
 	import forum.controler.StartupCategoryPopUpCommand;
 	import forum.controler.StartupCommand;
@@ -12,6 +12,8 @@ package forum
 	import forum.view.component.CategoryPopUp;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
+	import forum.view.component.AdminView;
+	import forum.view.AdminViewMediator;
 	
 
 	public class ForumFacade extends Facade
@@ -24,9 +26,11 @@ package forum
 		// STARTUP COMMANDS CONSTANTS
 		public static const STARTUP_CATEGORYPOPUP:String = 'STARTUP_CATEGORYPOPUP';
 		public static const STARTUP_AVATARBOX:String = 'STARTUP_AVATARBOX';
+		public static const STARTUP_ADMINVIEW:String = 'STARTUP_ADMINVIEW';
 		
 		// DISPOSE COMMANDS CONSTANTS
 		public static const DISPOSE_CATEGORYPOPUP:String = "DISPOSE_CATEGORYPOPUP";
+		public static const DISPOSE_ADMINVIEW:String = 'DISPOSE_ADMINVIEW';
 		
 		// EVENTS
 		public static const NEW_CATEGORYPOPUP_EVENT:String = "NEW_CATEGORYPOPUP_EVENT";
@@ -56,9 +60,11 @@ package forum
             // STARTUP COMMANDS
             registerCommand( STARTUP_CATEGORYPOPUP, StartupCategoryPopUpCommand );
             registerCommand( STARTUP_AVATARBOX, StartupAvatarBoxCommand );
+            registerCommand( STARTUP_ADMINVIEW, StartupAdminViewCommand );
             
             // DISPOSE COMMANDS
             registerCommand( DISPOSE_CATEGORYPOPUP, DisposeCategoryPopUpCommand );
+            registerCommand( DISPOSE_ADMINVIEW, DisposeAdminViewCommand );
         }
         
         /**
@@ -83,8 +89,17 @@ package forum
         }
         
         public function startupAvatarBox( view:AvatarBox ):void {
-	        	sendNotification( STARTUP_AVATARBOX, view );
-        	if( !this.hasMediator( AvatarBoxMediator.NAME ) ) {
+	        sendNotification( STARTUP_AVATARBOX, view );
+        }
+        
+        public function startupAdminView( view:AdminView ):void {
+        	if( !this.hasMediator( AdminViewMediator.NAME ) ) {
+	        	sendNotification( STARTUP_ADMINVIEW, view );
+        	}
+        }
+        public function disposeAdminView():void {
+        	if( this.hasMediator( AdminViewMediator.NAME ) ) {
+	        	sendNotification( DISPOSE_ADMINVIEW );
         	}
         }
 	}

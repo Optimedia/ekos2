@@ -100,7 +100,7 @@ package forum.model
 			sendNotification(POST_LIST_NOTIFICATION, event.result);
 		}
 		
-		private var lng:XML;
+		private var lng:XML = new XML();
 		
 		public function getLng():XML {
 			return lng;

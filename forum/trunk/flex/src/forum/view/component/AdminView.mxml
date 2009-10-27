@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" hide="onHide()">
+	
+	<mx:Script>
+		<![CDATA[
+			import forum.ForumFacade;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]
+			public var lng:XML = new XML();
+			
+			protected var facade:ForumFacade = ForumFacade.getInstance( Forum.NAME );
+			
+			private function init():void {
+				facade.startupAdminView( this );
+			}
+			private function onHide():void {
+				facade.disposeAdminView();
+			}
+			
+			public function deleteBtnClick():void {
+				
+			}
+			
+			public function editBtnClick():void {
+				
+			}
+			
+			public var categoryPopUp:CategoryPopUp;
+			
+			private function onNewCategoryBtnClick():void {
+				categoryPopUp = new CategoryPopUp();
+				categoryPopUp.lng = new XML(lng);
+				PopUpManager.addPopUp(categoryPopUp, Application.application as DisplayObject, true);
+				PopUpManager.centerPopUp(categoryPopUp);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox width="100%" height="100%">
+	
+		<mx:Panel width="100%" height="100%">
+		
+			<mx:Button label="{lng.forum.new_category}" click="onNewCategoryBtnClick()"/>
+			
+			<mx:List id="categoryList" selectable="false" width="100%" height="100%" borderStyle="none">
+				<mx:itemRenderer>
+				<mx:Component>
+					<mx:HBox paddingLeft="10">
+						<mx:Script>
+							<![CDATA[
+								import assets.imgs.Assets;
+							]]>
+						</mx:Script>
+						<mx:Button icon="{Assets.EraserIcon}" click="parentDocument.deleteBtnClick()"
+									width="20"/>
+						<mx:Button icon="{Assets.PencilIcon}" click="parentDocument.editBtnClick()"
+									width="20"/>
+						<mx:Label text="{data.name}"/>
+					</mx:HBox>
+				</mx:Component>
+				</mx:itemRenderer>
+			</mx:List>
+		</mx:Panel>
+		
+		<mx:Panel width="100%" height="100%" visible="{categoryList.selectedIndex != -1}">
+		
+			<mx:Button label="{lng.forum.new_forum}"/>
+			
+			<mx:List id="forumList" selectable="false" width="100%" height="100%" borderStyle="none">
+				<mx:itemRenderer>
+				<mx:Component>
+					<mx:HBox paddingLeft="10">
+						<mx:Script>
+							<![CDATA[
+								import assets.imgs.Assets;
+							]]>
+						</mx:Script>
+						<mx:Button icon="{Assets.EraserIcon}" click="parentDocument.deleteBtnClick()"
+									width="20"/>
+						<mx:Button icon="{Assets.PencilIcon}" click="parentDocument.editBtnClick()"
+									width="20"/>
+						<mx:Label text="{data.name}"/>
+					</mx:HBox>
+				</mx:Component>
+				</mx:itemRenderer>
+			</mx:List>
+		</mx:Panel>
+		
+		<mx:Panel width="100%" height="100%" visible="{forumList.selectedIndex != -1}">
+			<mx:Button label="{lng.forum.new_room}"/>
+			
+			<mx:List id="roomList" selectable="false" width="100%" height="100%" borderStyle="none">
+				<mx:itemRenderer>
+				<mx:Component>
+					<mx:HBox paddingLeft="10">
+						<mx:Script>
+							<![CDATA[
+								import assets.imgs.Assets;
+							]]>
+						</mx:Script>
+						<mx:Button icon="{Assets.EraserIcon}" click="parentDocument.deleteBtnClick()"
+									width="20"/>
+						<mx:Button icon="{Assets.PencilIcon}" click="parentDocument.editBtnClick()"
+									width="20"/>
+						<mx:Label text="{data.name}"/>
+					</mx:HBox>
+				</mx:Component>
+				</mx:itemRenderer>
+			</mx:List>
+		</mx:Panel>
+		
+	</mx:HBox>
+	
+</mx:VBox>
