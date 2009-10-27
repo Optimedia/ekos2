@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="absolute"
+				creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import shell.MainAppFacade;
+			
+			public static const NAME:String = "MainApp";
+			
+			protected var facade:MainAppFacade = MainAppFacade.getInstance( NAME );
+			
+			private function init():void {
+				facade.startup(this);
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>
