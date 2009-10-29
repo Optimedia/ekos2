@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-				layout="absolute"
+				layout="absolute" height="100%" width="100%"
 				creationComplete="init()" xmlns:components="assets.components.*">
 	
 	<mx:Script>
@@ -18,10 +18,11 @@
 		]]>
 	</mx:Script>
 	
-	<mx:List id="contentList" selectable="false">
+	<mx:List id="contentList" selectable="false" height="100%" backgroundAlpha="0.2" borderStyle="none"
+				width="350">
 		<mx:itemRenderer>
 		<mx:Component>
-			<components:ContentContainer dataProvider="{data}" width="300"/>
+			<components:ContentContainer dataProvider="{data}" width="100%"/>
 		</mx:Component>
 		</mx:itemRenderer>
 	</mx:List>

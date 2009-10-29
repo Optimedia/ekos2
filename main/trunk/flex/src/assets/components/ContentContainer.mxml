@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" backgroundAlpha="0.2" borderStyle="solid" backgroundColor="#666666" currentState="max">
+	<mx:states>
+		<mx:State name="max"/>
+		<mx:State name="half">
+			<mx:SetProperty target="{authorBar}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{authorBar}" name="visible" value="false"/>
+			<mx:SetProperty target="{bottomBox}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{bottomBox}" name="visible" value="false"/>
+		</mx:State>
+		<mx:State name="min">
+			<mx:SetProperty target="{dateText}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{dateText}" name="visible" value="false"/>
+			<mx:SetProperty target="{descriptionText}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{descriptionText}" name="visible" value="false"/>
+			<mx:SetProperty target="{authorBar}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{authorBar}" name="visible" value="false"/>
+			<mx:SetProperty target="{bottomBox}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{bottomBox}" name="visible" value="false"/>
+		</mx:State>
+	</mx:states>
 
 	<mx:Script>
 	<![CDATA[
 		import assets.vo.ContentContainerVO;
 		
 		[Bindable]
-		public var dataProvider:ContentContainerVO = new ContentContainerVO();
+		private var _dataProvider:ContentContainerVO = new ContentContainerVO();
+		
+		public function set dataProvider(object:Object):void {
+			if (object is ContentContainerVO) _dataProvider = object as ContentContainerVO;
+		}
+		public function get dataProvider():Object {
+			return _dataProvider;
+		}
 		
 		[Bindable]
 		private var aux1:Array = ['autor 1', 'autor 2'];
@@ -15,21 +41,27 @@
 	]]>
 	</mx:Script>
 	
+	<mx:HBox>
+		<mx:Button label="min" click="this.currentState='min'"/>
+		<mx:Button label="half" click="this.currentState='half'"/>
+		<mx:Button label="max" click="this.currentState='max'"/>
+	</mx:HBox>
+	
 	<mx:HBox width="100%" verticalAlign="middle">
-		<mx:Text text="{dataProvider.title}" width="100%" fontWeight="bold" fontSize="12"/>
-		<mx:Label text="{dataProvider.counter}" />
+		<mx:Text text="{_dataProvider.title}" width="100%" fontWeight="bold" fontSize="12"/>
+		<mx:Label text="{_dataProvider.counter}" />
 		<mx:Button label="i" />
 	</mx:HBox>
 	
-	<mx:Text text="Date Creation: {dataProvider.dateCreation}   Last Update: {dataProvider.lastUpdate}" fontSize="8"/>
+	<mx:Text id="dateText" text="Date Creation: {_dataProvider.dateCreation}   Last Update: {_dataProvider.lastUpdate}" fontSize="8"/>
 	
-	<mx:TextArea width="100%" editable="false" text="{dataProvider.description}"/>
+	<mx:Text id="descriptionText" width="100%" text="{_dataProvider.description}"/>
 	
-	<mx:LinkBar width="100%" horizontalAlign="right" dataProvider="{dataProvider.authorArray}" />
+	<mx:LinkBar id="authorBar" width="100%" horizontalAlign="right" dataProvider="{_dataProvider.authorArray}" />
 	
-	<mx:HBox width="100%">
-		<mx:Text text="User Voting: {dataProvider.rating}" width="100%"/>
-		<mx:LinkBar width="100%" horizontalAlign="right" dataProvider="{dataProvider.tagArray}" />
+	<mx:HBox id="bottomBox" width="100%">
+		<mx:Text text="User Voting: {_dataProvider.rating}" width="100%"/>
+		<mx:LinkBar width="100%" horizontalAlign="right" dataProvider="{_dataProvider.tagArray}" />
 	</mx:HBox>
 	
 </mx:VBox>
