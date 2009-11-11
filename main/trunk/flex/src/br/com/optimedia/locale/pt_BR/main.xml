@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lng>
+	<common>
+	
+	</common>
+
+	<mainApp>
+	
+	</mainApp>
+	
+	<idm>
+	
+	</idm>
+	
 	<forum>
 		<add>Adicionar</add>
 		<administrator>Administrador</administrator>

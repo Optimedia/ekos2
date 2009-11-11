@@ -8,8 +8,6 @@
 		<![CDATA[
 			import br.com.optimedia.ekos.MainAppFacade;
 			
-			//public static const NAME:String = "MainApp";
-			
 			protected var facade:MainAppFacade = MainAppFacade.getInstance();
 			
 			private function init():void {

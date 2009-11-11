@@ -1,6 +1,7 @@
 package br.com.optimedia.ekos
 {
 	
+	import br.com.optimedia.assets.constants.CommandConstants;
 	import br.com.optimedia.ekos.shell.controler.StartupCommand;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
@@ -11,15 +12,6 @@ package br.com.optimedia.ekos
 		
 		[Bindable]
 		public var lng:XML = new XML();
-		
-		// STARTUP COMMANDS CONSTANTS
-		public static const STARTUP_MAIN_APP:String = 'STARTUP_MAIN_APP';
-		
-		// DISPOSE COMMANDS CONSTANTS
-		//public static const DISPOSE_CATEGORYPOPUP:String = "DISPOSE_CATEGORYPOPUP";
-		
-		// EVENTS
-		//public static const NEW_CATEGORYPOPUP_EVENT:String = "NEW_CATEGORYPOPUP_EVENT";
 		
 		public function MainAppFacade(key:String)
 		{
@@ -41,13 +33,7 @@ package br.com.optimedia.ekos
         override protected function initializeController( ) : void 
         {
             super.initializeController();
-            registerCommand( STARTUP_MAIN_APP, StartupCommand );
-            
-            // STARTUP COMMANDS
-            //registerCommand( STARTUP_CATEGORYPOPUP, StartupCategoryPopUpCommand );
-            
-            // DISPOSE COMMANDS
-            //registerCommand( DISPOSE_CATEGORYPOPUP, DisposeCategoryPopUpCommand );
+            registerCommand( CommandConstants.STARTUP_MAIN_APP, StartupCommand );
         }
         
         /**
@@ -57,7 +43,7 @@ package br.com.optimedia.ekos
          */
         public function startup( app:Object ):void
         {
-        	if (app is MainApp) sendNotification( STARTUP_MAIN_APP, app );
+        	if (app is MainApp) sendNotification( CommandConstants.STARTUP_MAIN_APP, app );
         }
 	}
 }
