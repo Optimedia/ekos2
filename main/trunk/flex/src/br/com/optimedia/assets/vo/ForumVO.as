@@ -1,6 +1,6 @@
 package br.com.optimedia.assets.vo
 {
-	[Bindable] [RemoteClass(alias="forum.vo.ForumVO")]
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.ForumVO")]
 	
 	public class ForumVO
 	{

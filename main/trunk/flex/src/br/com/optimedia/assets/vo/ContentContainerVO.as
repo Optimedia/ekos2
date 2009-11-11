@@ -1,6 +1,6 @@
 package br.com.optimedia.assets.vo
 {
-	[Bindable] [RemoteClass(alias="mainapp.vo.ContentContainerVO")]
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.ContentContainerVO")]
 	
 	public class ContentContainerVO
 	{
