@@ -1,10 +1,10 @@
-package shell.controler
+package br.com.optimedia.shell.controler
 {
+	import br.com.optimedia.shell.model.MainAppProxy;
+	import br.com.optimedia.shell.view.MainAppMediator;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	
-	import shell.model.MainAppProxy;
-	import shell.view.MainAppMediator;
 
 	public class StartupCommand extends SimpleCommand
 	{

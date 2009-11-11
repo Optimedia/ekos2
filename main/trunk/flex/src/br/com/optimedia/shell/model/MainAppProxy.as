@@ -1,8 +1,7 @@
-package shell.model
+package br.com.optimedia.shell.model
 {
-	import assets.vo.ContentContainerVO;
 	
-	import flash.events.Event;
+	import br.com.optimedia.assets.vo.ContentContainerVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;

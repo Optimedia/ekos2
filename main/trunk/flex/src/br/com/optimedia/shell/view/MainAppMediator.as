@@ -1,9 +1,10 @@
-package shell.view
+package br.com.optimedia.shell.view
 {
+	import br.com.optimedia.shell.model.MainAppProxy;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
-	import shell.model.MainAppProxy;
 
 	public class MainAppMediator extends Mediator
 	{

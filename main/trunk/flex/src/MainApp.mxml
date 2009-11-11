@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="vertical" height="100%" width="100%"
-				creationComplete="init()" xmlns:components="assets.components.*">
+				creationComplete="init()"
+				xmlns:components="br.com.optimedia.assets.components.*">
 	
 	<mx:Script>
 		<![CDATA[
-			import shell.MainAppFacade;
+			import br.com.optimedia.shell.MainAppFacade;
 			
 			//public static const NAME:String = "MainApp";
 			
