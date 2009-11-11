@@ -19,7 +19,7 @@ class AdminService {
 		$sql = "SELECT * FROM $nomeTabela ORDER BY `ID_MODULO` ASC";
 		$query = mysql_query($sql);
 		
-		array($arrayDados);
+		$arrayDados = array();
 		
 		while($busca = mysql_fetch_array($query)) {
 			$arrayDados[] = $busca;
