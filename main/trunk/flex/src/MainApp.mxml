@@ -6,7 +6,7 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import br.com.optimedia.shell.MainAppFacade;
+			import br.com.optimedia.ekos.MainAppFacade;
 			
 			//public static const NAME:String = "MainApp";
 			

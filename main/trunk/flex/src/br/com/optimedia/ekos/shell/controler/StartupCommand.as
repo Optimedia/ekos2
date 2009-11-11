@@ -1,7 +1,8 @@
-package br.com.optimedia.shell.controler
+package br.com.optimedia.ekos.shell.controler
 {
-	import br.com.optimedia.shell.model.MainAppProxy;
-	import br.com.optimedia.shell.view.MainAppMediator;
+	
+	import br.com.optimedia.ekos.shell.model.MainAppProxy;
+	import br.com.optimedia.ekos.shell.view.MainAppMediator;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;

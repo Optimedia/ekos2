@@ -1,6 +1,7 @@
-package br.com.optimedia.shell.view
+package br.com.optimedia.ekos.shell.view
 {
-	import br.com.optimedia.shell.model.MainAppProxy;
+	
+	import br.com.optimedia.ekos.shell.model.MainAppProxy;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;

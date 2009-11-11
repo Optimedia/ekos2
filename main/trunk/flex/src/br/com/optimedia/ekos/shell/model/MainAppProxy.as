@@ -1,4 +1,4 @@
-package br.com.optimedia.shell.model
+package br.com.optimedia.ekos.shell.model
 {
 	
 	import br.com.optimedia.assets.vo.ContentContainerVO;
