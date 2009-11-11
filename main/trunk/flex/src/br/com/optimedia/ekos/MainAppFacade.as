@@ -1,7 +1,7 @@
-package br.com.optimedia.shell
+package br.com.optimedia.ekos
 {
 	
-	import br.com.optimedia.shell.controler.StartupCommand;
+	import br.com.optimedia.ekos.shell.controler.StartupCommand;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -29,7 +29,7 @@ package br.com.optimedia.shell
 		/**
          * Singleton ApplicationFacade Factory Method
          */
-        public static function getInstance( key:String = "default" ) : MainAppFacade 
+        public static function getInstance( key:String = "default" ) : MainAppFacade
         {
             if ( instanceMap[ key ] == null ) instanceMap[ key ] = new MainAppFacade( key );
             return instanceMap[ key ] as MainAppFacade;
