@@ -1,4 +1,4 @@
-package assets.imgs
+package br.com.optimedia.assets.imgs
 {
 	import flash.display.Sprite;
 	

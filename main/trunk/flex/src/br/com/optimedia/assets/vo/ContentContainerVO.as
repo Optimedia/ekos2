@@ -1,4 +1,4 @@
-package assets.vo
+package br.com.optimedia.assets.vo
 {
 	[Bindable] [RemoteClass(alias="mainapp.vo.ContentContainerVO")]
 	

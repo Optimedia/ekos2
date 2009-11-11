@@ -24,8 +24,8 @@
 
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.assets.vo.ContentContainerVO;
 		import mx.core.IContainer;
-		import assets.vo.ContentContainerVO;
 		
 		[Bindable]
 		private var _dataProvider:ContentContainerVO = new ContentContainerVO();
