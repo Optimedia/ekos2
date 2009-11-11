@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-				layout="absolute" height="100%" width="100%"
+				layout="vertical" height="100%" width="100%"
 				creationComplete="init()" xmlns:components="assets.components.*">
 	
 	<mx:Script>
@@ -15,14 +15,23 @@
 				facade.startup( this );
 			}
 			
+			[Bindable]
+			public var contentContainerCurrentState:String = 'half';
+			
 		]]>
 	</mx:Script>
 	
+	<mx:HBox>
+		<mx:Button label="min" click="contentContainerCurrentState='min'"/>
+		<mx:Button label="half" click="contentContainerCurrentState='half'"/>
+		<mx:Button label="max" click="contentContainerCurrentState='max'"/>
+	</mx:HBox>
+	
 	<mx:List id="contentList" selectable="false" height="100%" backgroundAlpha="0.2" borderStyle="none"
-				width="350">
+				width="350" variableRowHeight="true">
 		<mx:itemRenderer>
 		<mx:Component>
-			<components:ContentContainer dataProvider="{data}" width="100%"/>
+			<components:ContentContainer dataProvider="{data}" width="100%" currentState="{parentDocument.contentContainerCurrentState}" />
 		</mx:Component>
 		</mx:itemRenderer>
 	</mx:List>
