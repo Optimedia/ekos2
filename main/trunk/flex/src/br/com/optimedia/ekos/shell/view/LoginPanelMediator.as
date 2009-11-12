@@ -1,19 +1,18 @@
 package br.com.optimedia.ekos.shell.view
 {
-	
 	import br.com.optimedia.ekos.shell.model.MainAppProxy;
+	import br.com.optimedia.ekos.shell.view.component.LoginPanel;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	
 
-	public class MainAppMediator extends Mediator
+	public class LoginPanelMediator extends Mediator
 	{
-		public static const NAME:String = 'MainAppMediator';
+		public static const NAME:String = 'LoginPanelMediator';
 		
 		private var proxy:MainAppProxy;
 		
-		public function MainAppMediator(viewComponent:MainApp=null)
+		public function LoginPanelMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
 		}
@@ -22,13 +21,15 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+".onRegister()");
 			proxy = facade.retrieveProxy( MainAppProxy.NAME ) as MainAppProxy;
-			
-			view.showLoginPanel();
 		}
 		
-		public function get view():MainApp
+		override public function onRemove():void {
+			view.removePopUp();
+		}
+		
+		public function get view():LoginPanel
 		{
-			return viewComponent as MainApp;
+			return viewComponent as LoginPanel;
 		}
 		
 		override public function listNotificationInterests():Array

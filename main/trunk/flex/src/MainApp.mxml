@@ -5,6 +5,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.ekos.shell.view.component.LoginPanel;
+			import mx.managers.PopUpManager;
 			import br.com.optimedia.ekos.MainAppFacade;
 			
 			protected var facade:MainAppFacade = MainAppFacade.getInstance();
@@ -13,9 +15,13 @@
 				facade.startup( this );
 			}
 			
+			public function showLoginPanel():void {
+				var loginPanel:LoginPanel = new LoginPanel();
+				PopUpManager.addPopUp(loginPanel, this, true);
+				PopUpManager.centerPopUp(loginPanel);
+			}
+			
 		]]>
 	</mx:Script>
-	
-	<component:LoginPanel />
 	
 </mx:Application>
