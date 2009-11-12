@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="vertical" height="100%" width="100%"
-				creationComplete="init()">
+				creationComplete="init()" xmlns:component="br.com.optimedia.ekos.shell.view.component.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -16,6 +16,6 @@
 		]]>
 	</mx:Script>
 	
-
+	<component:LoginPanel />
 	
 </mx:Application>
