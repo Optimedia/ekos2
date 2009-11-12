@@ -1,29 +1,29 @@
 package br.com.optimedia.assets.vo
 {
-	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.UserVO")]
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.CompleteUserVO")]
 	
 	public class UserVO
 	{
-		public var userID:int;
-		
+		//UserVO
+		public var user_id:int;
+		public var role_id:int;
+		public var first_name:String;
+		public var last_name:String;
 		public var password:String;
+
+		//ProfileVO
+		public var profile_id:int;
+		public var alias:String;
+		public var small_avatar:String;
+		public var large_avatar:String;
+		public var sex:int;
+		public var birthday:String;
 		
-		public var roleID:int;
+		//AccountVO
+		public var account_id:int;
+		public var email:String;
+		public var name:String;
+		public var status:int;
 		
-		public var userName:String;
-		
-		public var userSurname:String;
-		
-		public var country:String;
-		
-		public var state:String;
-		
-		public var city:String;
-		
-		public var dateCreation:String;
-		
-		public var numPosts:String;
-		
-		public var avatarLink:String;
 	}
 }
