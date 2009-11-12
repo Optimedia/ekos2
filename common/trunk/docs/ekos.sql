@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     11/11/2009 13:18:31                          */
+/* Created on:     12/11/2009 11:22:53                          */
 /*==============================================================*/
 
 
@@ -12,7 +12,11 @@ create table eko_account
    account_id           bigint not null auto_increment,
    email                varchar(200) not null,
    name                 varchar(128) not null,
-   status               smallint not null,
+   status               smallint not null comment '1-Temporário
+            2-Ativo
+            3-Desativado
+            4-Bloqueado
+            5-Apagado',
    primary key (account_id)
 );
 
