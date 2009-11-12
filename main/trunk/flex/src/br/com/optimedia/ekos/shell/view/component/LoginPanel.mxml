@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ApplicationControlBar xmlns:mx="http://www.adobe.com/2006/mxml"
+				width="300" height="170">
+				
+	<mx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var title:String = "Acesso Restrito";
+			
+			private function enterBtnEnabled():void {
+				if( loginTextInput.length > 0 && passTextInput.length > 0 ) enterBtn.enabled=true;
+				else enterBtn.enabled=false;
+			}
+			
+			private function doLogin():void {
+				
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Canvas width="100%" height="100%">
+		<mx:Label text="{title}" width="100%" left="0" top="0"/>
+		
+		<mx:LinkButton id="newAccBtn" label="Nova Conta" textDecoration="underline" right="0" top="0"/>
+		
+		<mx:Form width="100%" left="15" top="20">
+			<mx:FormItem label="Login" width="100%">
+				<mx:TextInput id="loginTextInput" width="100%" change="enterBtnEnabled()"/>
+			</mx:FormItem>
+			<mx:FormItem label="Senha" width="100%">
+				<mx:TextInput id="passTextInput" width="100%" change="enterBtnEnabled()"/>
+			</mx:FormItem>
+		</mx:Form>
+		
+		<mx:Button id="enterBtn" label="Entrar" right="17" top="100" click="doLogin()" enabled="false"/>
+		
+		<mx:LinkButton id="rememberPassBtn" label="Lembrar Senha" left="0" bottom="0"/>
+		<mx:LinkButton id="emailConfirmBtn" label="Confirmar E-mail" right="0" bottom="0"/>
+		
+	</mx:Canvas>
+	
+</mx:ApplicationControlBar>
