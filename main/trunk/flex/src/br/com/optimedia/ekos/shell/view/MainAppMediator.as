@@ -22,7 +22,6 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+".onRegister()");
 			proxy = facade.retrieveProxy( MainAppProxy.NAME ) as MainAppProxy;
-			proxy.retrieveContentArray();
 		}
 		
 		public function get view():MainApp
@@ -32,16 +31,13 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [MainAppProxy.CONTENT_ARRAY_NOTIFICATION];
+			return [];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				case MainAppProxy.CONTENT_ARRAY_NOTIFICATION:
-					view.contentList.dataProvider = note.getBody();
-					break;
 				default:
 					break;
 			}
