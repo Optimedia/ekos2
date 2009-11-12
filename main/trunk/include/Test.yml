@@ -1,0 +1,11 @@
+Teste:
+  columns:
+    id:
+      primary: true
+      type: integer
+      notnull: true
+      autoincrement: true
+    name:
+      unique: true
+      type: string
+      notnull: true

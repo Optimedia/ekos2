@@ -1,0 +1,1013 @@
+EkoAccount:
+  tableName: eko_account
+  columns:
+    account_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    email:
+      type: string(200)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    status:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoBookmark:
+  tableName: eko_bookmark
+  columns:
+    bookmark_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    bookmark_url_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    url_typed:
+      type: string(200)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoBookmarkUrl:
+  tableName: eko_bookmark_url
+  columns:
+    bookmark_url_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    url:
+      type: string(200)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    count:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoComment:
+  tableName: eko_comment
+  columns:
+    comment_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoCommentReply:
+  tableName: eko_comment_reply
+  columns:
+    comment_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    reply_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoContent:
+  tableName: eko_content
+  columns:
+    content_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    content_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    title:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    uri:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    tags_typeds:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    text_content:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    creation_date:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    last_change_date:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    ranking:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoContentTag:
+  tableName: eko_content_tag
+  columns:
+    id:
+      type: integer(8)
+      autoincrement: true
+      primary: true
+    content_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    tag_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    tag_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoContentType:
+  tableName: eko_content_type
+  columns:
+    content_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoDetailAddress:
+  tableName: eko_detail_address
+  columns:
+    detail_address_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    detail_address_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    country_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    state_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    city_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    town_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    address_part1:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    address_part2:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    zipcode:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoDetailAddressType:
+  tableName: eko_detail_address_type
+  columns:
+    detail_address_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoDetailEducation:
+  tableName: eko_detail_education
+  columns:
+    detail_education_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    detail_education_level_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    institution:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    year:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    status:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    course:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    title:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoDetailEducationLevel:
+  tableName: eko_detail_education_level
+  columns:
+    detail_education_level_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoDetailLanguage:
+  tableName: eko_detail_language
+  columns:
+    detail_language_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    language_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    speech:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    writing:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    reading:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoDetailProfessional:
+  tableName: eko_detail_professional
+  columns:
+    detail_professional_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    company:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    position:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    description:
+      type: string()
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    country_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    state_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    city_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    begindate:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    enddate:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoForum:
+  tableName: eko_forum
+  columns:
+    forum_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    description:
+      type: string()
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoFriend:
+  tableName: eko_friend
+  columns:
+    id:
+      type: integer(8)
+      autoincrement: true
+      primary: true
+    profile_id_i:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    profile_id_you:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoGroup:
+  tableName: eko_group
+  columns:
+    group_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoIncrement:
+  tableName: eko_increment
+  columns:
+    increment_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    increment_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    author_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    content_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    date:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoIncrementType:
+  tableName: eko_increment_type
+  columns:
+    increment_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    search_path:
+      type: string(200)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoMembership:
+  tableName: eko_membership
+  columns:
+    membership_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    id_node:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    group_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    user_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    status:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoMessage:
+  tableName: eko_message
+  columns:
+    message_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    sender_profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    receiver_profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    sender_status:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    receiver_status:
+      type: integer(2)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    sent_date:
+      type: date(25)
+      primary: false
+      notnull: true
+      autoincrement: false
+    subject:
+      type: string(140)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    text:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoNode:
+  tableName: eko_node
+  columns:
+    id_node:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    private_content:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoNodeContent:
+  tableName: eko_node_content
+  columns:
+    content_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    id_node:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoPoll:
+  tableName: eko_poll
+  columns:
+    poll_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoPollAlternative:
+  tableName: eko_poll_alternative
+  columns:
+    poll_alternative_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    poll_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    label:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoPollChoose:
+  tableName: eko_poll_choose
+  columns:
+    id:
+      type: integer(8)
+      autoincrement: true
+      primary: true
+    user_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    poll_alternative_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoProfile:
+  tableName: eko_profile
+  columns:
+    profile_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    alias:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    small_avatar:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    large_avatar:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    sex:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    birthday:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoRecomendation:
+  tableName: eko_recomendation
+  columns:
+    recomendation_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    emails:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoRole:
+  tableName: eko_role
+  columns:
+    role_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoRoom:
+  tableName: eko_room
+  columns:
+    room_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    forum_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    description:
+      type: string()
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoSurvey:
+  tableName: eko_survey
+  columns:
+    survey_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    title:
+      type: string(140)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    description:
+      type: string()
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoSurveyAlternative:
+  tableName: eko_survey_alternative
+  columns:
+    survey_alternative_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    survey_question_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    order:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    caption:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoSurveyAnswer:
+  tableName: eko_survey_answer
+  columns:
+    survey_alternative_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    user_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    comment:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoSurveyElement:
+  tableName: eko_survey_element
+  columns:
+    survey_element_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    survey_element_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    survey_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    order:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    caption:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+EkoSurveyElementType:
+  tableName: eko_survey_element_type
+  columns:
+    survey_element_type_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    name:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoSurveyLabel:
+  tableName: eko_survey_label
+  columns:
+    survey_label_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoSurveyQuestion:
+  tableName: eko_survey_question
+  columns:
+    survey_question_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoTag:
+  tableName: eko_tag
+  columns:
+    tag_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    tag:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    count:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoTopic:
+  tableName: eko_topic
+  columns:
+    room_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    topic_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+EkoUser:
+  tableName: eko_user
+  columns:
+    user_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    role_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    first_name:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    last_name:
+      type: string(50)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    password:
+      type: string(150)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoUserTag:
+  tableName: eko_user_tag
+  columns:
+    user_tag_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: true
+    user_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    tag_id:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+    preferred_name:
+      type: string(128)
+      fixed: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    count:
+      type: integer(8)
+      unsigned: 0
+      primary: false
+      notnull: true
+      autoincrement: false
+EkoUserVoting:
+  tableName: eko_user_voting
+  columns:
+    user_voting_id:
+      type: integer(8)
+      unsigned: 0
+      primary: true
+      autoincrement: false
+    vote:
+      type: string(10)
+      fixed: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
