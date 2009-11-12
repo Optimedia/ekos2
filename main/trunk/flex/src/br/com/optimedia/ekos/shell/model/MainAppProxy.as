@@ -1,8 +1,6 @@
 package br.com.optimedia.ekos.shell.model
 {
 	
-	import br.com.optimedia.assets.vo.ContentContainerVO;
-	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
@@ -31,6 +29,14 @@ package br.com.optimedia.ekos.shell.model
 		
 		private function generalFault(event:FaultEvent):void {
 			Alert.show(event.fault.faultCode as String);
+		}
+		
+		public function doLogin(login:String, pass:String):void {
+			//var asynkToken:AsyncToken = remoteService.retrieveContentArray();
+			//asynkToken.addResponder( new Responder(retrieveContentArrayResult, generalFault) );
+		}
+		private function doLoginResult(event:ResultEvent):void {
+			
 		}
 		
 		public function retrieveContentArray():void {
