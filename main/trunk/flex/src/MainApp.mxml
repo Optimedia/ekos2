@@ -14,6 +14,7 @@
 				facade.startup( this );
 			}
 			
+			
 			[Bindable]
 			public var contentContainerCurrentState:String = 'half';
 			
