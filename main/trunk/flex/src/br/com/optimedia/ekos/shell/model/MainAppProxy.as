@@ -1,6 +1,8 @@
 package br.com.optimedia.ekos.shell.model
 {
 	
+	import br.com.optimedia.assets.constants.NotificationConstants;
+	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
@@ -34,6 +36,7 @@ package br.com.optimedia.ekos.shell.model
 		public function doLogin(login:String, pass:String):void {
 			//var asynkToken:AsyncToken = remoteService.retrieveContentArray();
 			//asynkToken.addResponder( new Responder(retrieveContentArrayResult, generalFault) );
+			sendNotification( NotificationConstants.LOGIN_OK );
 		}
 		private function doLoginResult(event:ResultEvent):void {
 			
