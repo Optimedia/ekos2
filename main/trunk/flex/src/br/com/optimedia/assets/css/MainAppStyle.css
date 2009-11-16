@@ -3,7 +3,7 @@
 Application {
 	padding-top: 5;
 	padding-left: 5;
-	padding-right: 5;
+	padding-right: 15;
 	padding-bottom: 5;
 }
 
@@ -12,6 +12,7 @@ Application {
    headerHeight: 0;
    rounded-bottom-corners: true;
    corner-radius: 10;
+   borderThicknessTop: 10;
 }
 
 .appPanel {
