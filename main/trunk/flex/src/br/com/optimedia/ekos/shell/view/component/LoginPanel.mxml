@@ -17,6 +17,7 @@
 			
 			private function init():void {
 				facade.startup( this );
+				loginTextInput.setFocus();
 			}
 			
 			private function textInputChange():void {
@@ -33,6 +34,7 @@
 			public function removePopUp():void {
 				this.visible = false;
 			}
+			
 			
 		]]>
 	</mx:Script>
