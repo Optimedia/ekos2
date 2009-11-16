@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
 				width="300" height="170" creationComplete="init()"
-				>
+				hideEffect="{fadeEffect}">
 				
 	<mx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.effects.Fade;
 			import mx.managers.PopUpManager;
 			import br.com.optimedia.ekos.MainAppFacade;
 			
@@ -17,19 +19,26 @@
 				facade.startup( this );
 			}
 			
-			private function enterBtnEnabled():void {
-				if( loginTextInput.length > 0 && passTextInput.length > 0 ) enterBtn.enabled=true;
-				else enterBtn.enabled=false;
+			private function textInputChange():void {
+				if( loginTextInput.length > 0) {
+					passTextInput.enabled = true;
+					if( passTextInput.length > 0 ) {
+						loginBtn.enabled=true;
+					}
+					else loginBtn.enabled=false;
+				}
+				else passTextInput.enabled = false;
 			}
 			
 			public function removePopUp():void {
-				PopUpManager.removePopUp( this );
-				
-				System.gc();
+				this.visible = false;
 			}
 			
 		]]>
 	</mx:Script>
+	
+	<mx:Fade id="fadeEffect" effectEnd="PopUpManager.removePopUp( this )"/> 
+	
 	<mx:ApplicationControlBar width="100%" height="100%"/>
 	<mx:Canvas width="100%" height="100%">
 		<mx:Label text="{title}" width="100%" left="5" top="5"/>
@@ -38,14 +47,14 @@
 		
 		<mx:Form width="100%" left="15" top="20">
 			<mx:FormItem label="Login" width="100%">
-				<mx:TextInput id="loginTextInput" width="100%" change="enterBtnEnabled()"/>
+				<mx:TextInput id="loginTextInput" width="100%" change="textInputChange()" enter="passTextInput.setFocus()"/>
 			</mx:FormItem>
 			<mx:FormItem label="Senha" width="100%">
-				<mx:TextInput id="passTextInput" width="100%" change="enterBtnEnabled()"/>
+				<mx:TextInput id="passTextInput" width="100%" change="textInputChange()"/>
 			</mx:FormItem>
 		</mx:Form>
 		
-		<mx:Button id="enterBtn" label="Entrar" right="17" top="100" enabled="false"/>
+		<mx:Button id="loginBtn" label="Entrar" right="17" top="100" enabled="false"/>
 		
 		<mx:LinkButton id="rememberPassBtn" label="Lembrar Senha" left="5" bottom="5"/>
 		<mx:LinkButton id="emailConfirmBtn" label="Confirmar E-mail" right="5" bottom="5"/>

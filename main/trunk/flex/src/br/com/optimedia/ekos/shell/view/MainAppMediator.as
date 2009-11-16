@@ -1,6 +1,7 @@
 package br.com.optimedia.ekos.shell.view
 {
 	
+	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.ekos.shell.model.MainAppProxy;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -33,13 +34,16 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [NotificationConstants.LOGIN_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case NotificationConstants.LOGIN_OK:
+					view.showCockpit();
+					break;
 				default:
 					break;
 			}

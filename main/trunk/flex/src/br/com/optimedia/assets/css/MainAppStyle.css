@@ -1,0 +1,24 @@
+/* CSS file */
+
+Application {
+	padding-top: 5;
+	padding-left: 5;
+	padding-right: 5;
+	padding-bottom: 5;
+}
+
+.avatarPanel {
+   borderStyle: solid;
+   headerHeight: 0;
+   rounded-bottom-corners: true;
+   corner-radius: 10;
+}
+
+.contactsPanel {
+   borderThicknessLeft: 0;
+   borderThicknessTop: 0;
+   borderThicknessBottom: 0;
+   borderThicknessRight: 0;
+   roundedBottomCorners: true;
+   corner-radius: 10;
+}
