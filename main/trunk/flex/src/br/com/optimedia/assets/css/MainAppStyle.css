@@ -14,6 +14,12 @@ Application {
    corner-radius: 10;
 }
 
+.appPanel {
+   borderStyle: solid;
+   rounded-bottom-corners: true;
+   corner-radius: 10;
+}
+
 .contactsPanel {
    borderThicknessLeft: 0;
    borderThicknessTop: 0;

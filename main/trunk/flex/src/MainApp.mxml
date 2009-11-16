@@ -41,6 +41,9 @@
 			<mx:Image maxWidth="160" maxHeight="160" />
 			<mx:Text maxWidth="160" text="Nome do camarada" />
 		</mx:Panel>
+		<mx:Panel id="appPanel" styleName="appPanel" width="100%">
+			
+		</mx:Panel>
 		<mx:Panel id="contactsPanel" styleName="contactsPanel" width="100%" minHeight="224"
 			title="Contatos do camarada">
 			<mx:ControlBar />
