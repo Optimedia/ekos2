@@ -23,7 +23,6 @@
 		 * @return CompleteUserVO 
 		 */		
 		public function doLogin($login, $pass) {
-			/*
 			// Fazendo o login no LDAP
 			$result = $this->ldap->bindAsUser($login, $pass);
 			$result = gettype($result) == boolean ? $result : false;
@@ -68,9 +67,7 @@
 				
 			} else {
 				return 1; // Erro no login;
-			}*/
-			
-			return 1;
+			}
 		}
 		
 		public function getSession() {
