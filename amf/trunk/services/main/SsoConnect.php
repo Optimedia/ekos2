@@ -114,7 +114,7 @@
 			
 			session_unset();
 			session_destroy();
-			return 1;
+			return true;
 			
 		}
 		
