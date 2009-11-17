@@ -15,6 +15,13 @@
 			//session_id($_REQUEST[session_name()]);
 			session_start();
 		  $this->ldap = new LdapIntegration();
+		  
+		  $host = "10.1.1.10";
+		  $user = "opti";
+		  $pass = "opti";
+		  $db = "ekos2";
+		  
+		  parent::SqlManager($host, $user, $pass, $db);
 		}
 		
 		/**
