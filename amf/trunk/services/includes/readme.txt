@@ -7,7 +7,7 @@ Configure este arquivo com os dados de acesso do banco;
 
 Classe que contem métodos do sql como: SELECT, INSERT, UPDATE e DELETE.
 
-Importe esta classe e dê extends, no método construtor chame o construtor do SqlManager e passe como valor o nome do 'Banco de dados'.
+Importe esta classe e dê extends, no método construtor chame o construtor do SqlManager e passe como valores o dados de acesso ao Banco de dados.
 
 Ex.:
 <?php
