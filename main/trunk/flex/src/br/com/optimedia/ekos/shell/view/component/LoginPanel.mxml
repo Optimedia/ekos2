@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
 				width="300" height="170" creationComplete="init()"
-				hideEffect="{fadeEffect}">
+				hideEffect="{fadeEffect}" showEffect="{fadeEffect}">
 				
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
 			import mx.core.Application;
 			import mx.events.FlexEvent;
 			import mx.effects.Fade;
@@ -33,19 +34,44 @@
 			}
 			
 			public function removePopUp():void {
-				this.visible = false;
+				removeEffect.play([this]);
+				//this.visible = false;
 			}
 			
 			private function createNewAcc():void {
-				var newAccPopUp:NewAccPopUp =  new NewAccPopUp();
-				PopUpManager.addPopUp(newAccPopUp, Application.application as MainApp);
-				PopUpManager.centerPopUp(newAccPopUp);
+				this.visible = false;
+				var popUp:NewAccPopUp =  new NewAccPopUp();
+				PopUpManager.addPopUp(popUp, Application.application as MainApp);
+				PopUpManager.centerPopUp(popUp);
+				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
+			}
+			
+			private function rememberPassword():void {
+				this.visible = false;
+				var popUp:RememberPasswordPopUp =  new RememberPasswordPopUp();
+				PopUpManager.addPopUp(popUp, Application.application as MainApp);
+				PopUpManager.centerPopUp(popUp);
+				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
+			}
+			
+			private function confirmEmail():void {
+				this.visible = false;
+				var popUp:EmailConfirmPopUp =  new EmailConfirmPopUp();
+				PopUpManager.addPopUp(popUp, Application.application as MainApp);
+				PopUpManager.centerPopUp(popUp);
+				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
+			}
+			
+			private function makeVisible(e:CloseEvent):void {
+				this.visible = true;
 			}
 			
 		]]>
 	</mx:Script>
 	
-	<mx:Fade id="fadeEffect" effectEnd="PopUpManager.removePopUp( this )"/> 
+	<mx:Fade id="removeEffect" alphaFrom="1" alphaTo="0" effectEnd="PopUpManager.removePopUp( this )"/>
+	
+	<mx:Fade id="fadeEffect"/> 
 	
 	<mx:ApplicationControlBar width="100%" height="100%"/>
 	<mx:Canvas width="100%" height="100%">
@@ -64,8 +90,8 @@
 		
 		<mx:Button id="loginBtn" label="Entrar" right="17" top="100" enabled="false"/>
 		
-		<mx:LinkButton id="rememberPassBtn" label="Lembrar Senha" left="5" bottom="5"/>
-		<mx:LinkButton id="emailConfirmBtn" label="Confirmar E-mail" right="5" bottom="5"/>
+		<mx:LinkButton id="rememberPassBtn" label="Lembrar Senha" left="5" bottom="5" click="rememberPassword()"/>
+		<mx:LinkButton id="emailConfirmBtn" label="Confirmar E-mail" right="5" bottom="5" click="confirmEmail()"/>
 		
 	</mx:Canvas>
 	

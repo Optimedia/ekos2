@@ -4,6 +4,11 @@
 				
 	<mx:Script>
 		<![CDATA[
+			import mx.core.IToolTip;
+			import mx.managers.ToolTipManager;
+			import mx.controls.ToolTip;
+			import mx.controls.Text;
+			import mx.containers.Canvas;
 			import mx.managers.PopUpManager;
 			
 			public function closePopUp():void {
@@ -13,34 +18,38 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Text text="Dados Pessoais" />
+	<mx:Text text="Dados Pessoais"/>
 	
-	<mx:Form width="100%" height="100%">
-		<mx:HBox width="100%">
+	<mx:HBox horizontalGap="10">
+		<mx:Form width="100%" height="100%"
+				paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 			<mx:FormItem label="Nome:">
 				<mx:TextInput id="nameTextInput"/>
 			</mx:FormItem>
-			<mx:FormItem label="Sobrenome(s):">
-				<mx:TextInput id="surnameTextInput"/>
+			<mx:FormItem id="emailFormItem" label="E-mail:">
+				<mx:TextInput id="emailTextIput" toolTip="O e-mail será verificado"/>
 			</mx:FormItem>
-		</mx:HBox>
-		<mx:HBox width="100%">
-			<mx:FormItem label="E-mail:">
-				<mx:TextInput id="emailTextIput"/>
+			<mx:FormItem label="Usuário:">
+				<mx:TextInput id="usernameTextInput"/>
 			</mx:FormItem>
-			<mx:Text text="Será enviado um e-mail para confirmação!"/>
-		</mx:HBox>
-		<mx:FormItem label="Usuário:">
-			<mx:TextInput id="usernameTextInput"/>
-		</mx:FormItem>
-		<mx:HBox width="100%">
 			<mx:FormItem label="Senha:">
 				<mx:TextInput id="passTextInput"/>
 			</mx:FormItem>
+		</mx:Form>
+		<mx:Form width="100%" height="100%"
+				paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+			<mx:FormItem label="Sobrenome(s):">
+				<mx:TextInput id="surnameTextInput"/>
+			</mx:FormItem>
+			<mx:Spacer height="100%" />
 			<mx:FormItem label="Confirmar senha:">
 				<mx:TextInput id="passConfirmTextInput"/>
 			</mx:FormItem>
-		</mx:HBox>
-	</mx:Form>
+		</mx:Form>
+	</mx:HBox>
+	<mx:HBox width="100%">
+		<mx:Spacer width="100%" />
+		<mx:Button label="Cadastrar" />
+	</mx:HBox>
 	
 </mx:TitleWindow>
