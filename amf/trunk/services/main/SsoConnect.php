@@ -226,4 +226,4 @@
 		
 	}
 	
-require_once 'HandlerSql.php';
+//require_once 'HandlerSql.php';
