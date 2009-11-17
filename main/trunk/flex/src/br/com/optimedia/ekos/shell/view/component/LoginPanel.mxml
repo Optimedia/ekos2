@@ -5,6 +5,7 @@
 				
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Application;
 			import mx.events.FlexEvent;
 			import mx.effects.Fade;
 			import mx.managers.PopUpManager;
@@ -35,6 +36,11 @@
 				this.visible = false;
 			}
 			
+			private function createNewAcc():void {
+				var newAccPopUp:NewAccPopUp =  new NewAccPopUp();
+				PopUpManager.addPopUp(newAccPopUp, Application.application as MainApp);
+				PopUpManager.centerPopUp(newAccPopUp);
+			}
 			
 		]]>
 	</mx:Script>
@@ -45,7 +51,7 @@
 	<mx:Canvas width="100%" height="100%">
 		<mx:Label text="{title}" width="100%" left="5" top="5"/>
 		
-		<mx:LinkButton id="newAccBtn" label="Nova Conta" textDecoration="underline" right="5" top="5"/>
+		<mx:LinkButton id="newAccBtn" label="Nova Conta" click="createNewAcc()" textDecoration="underline" right="5" top="5"/>
 		
 		<mx:Form width="100%" left="15" top="20">
 			<mx:FormItem label="Login" width="100%">
