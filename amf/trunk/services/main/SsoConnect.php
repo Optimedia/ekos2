@@ -22,8 +22,8 @@
 		 * 
 		 * @return CompleteUserVO 
 		 */		
-		public function doLogin($login, $pass) {			
-			
+		public function doLogin($login, $pass) {
+			/*
 			// Fazendo o login no LDAP
 			$result = $this->ldap->bindAsUser($login, $pass);
 			$result = gettype($result) == boolean ? $result : false;
@@ -37,12 +37,6 @@
 				$completeUser = new CompleteUserVO();
 				
 				$completeUser = mysql_fetch_object($query, "CompleteUserVO");
-				
-				/*1-Temporário
-	            2-Ativo
-	            3-Desativado
-	            4-Bloqueado
-	            5-Apagado*/
 				
 				switch ($completeUser -> status) {
 					
@@ -74,7 +68,9 @@
 				
 			} else {
 				return 1; // Erro no login;
-			}
+			}*/
+			
+			return 1;
 		}
 		
 		public function getSession() {
