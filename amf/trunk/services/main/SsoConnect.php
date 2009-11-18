@@ -40,7 +40,7 @@
 			if ($result) {
 								
 				// Verificar status do usuário
-				$sql = "SELECT a.* ,b.*, c.* FROM eko_account a, eko_user b, eko_profile c WHERE a.name='$login' AND b.user_id=a.account_id AND c.profile_id=a.account_id";
+				$sql = "SELECT a.* ,b.*, c.* FROM eko_account a, eko_user b, eko_profile c WHERE b.user_id=a.account_id AND c.profile_id=a.account_id";
 				$query = parent::doSelect($sql);
 				
 				$completeUser = new CompleteUserVO();

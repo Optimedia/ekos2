@@ -72,7 +72,7 @@ class LdapIntegration {
         $arr["sn"] = $last_name;
         $arr["givenName"] = $firstName;
         $arr["mail"] = $email;
-        $arr["homeDirectory"] = "/home/users/$login";
+        $arr["homeDirectory"] = "/home/users2/$login";
         $arr["uid"] = $login;
         $arr["uidNumber"] = $accountId;
         $arr["gidNumber"] = "9";
