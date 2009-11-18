@@ -6,18 +6,18 @@ class LdapIntegration {
 	private $ldap_host = "174.133.101.18";
 	private $ldap_base = "DC=ibrasil,DC=net";
 	private $ldap_admin_cn = "CN=admin, DC=ibrasil,DC=net";
-  	private $ldap_base_users = "ou=users,DC=ibrasil,DC=net";
+  	private $ldap_base_users = "ou=users2,DC=ibrasil,DC=net";
 	private $ldap_admin_pass = "cyd0n14789";
 	private $ldap_conn;
 	private $ldap_bind;
 	
 	function LdapIntegration() {
 		if ($_SERVER["SERVER_ADDR"] == "10.1.1.10") {
-			$this->ldap_host       = "10.1.1.10";
-			$this->ldap_base       = "dc=10,dc=1,dc=1,dc=12";
-			$this->ldap_base_users = "ou=users,dc=10,dc=1,dc=1,dc=12";
-			$this->ldap_admin_cn   = "cn=admin, dc=10,dc=1,dc=1,dc=12";
-			$this->ldap_admin_pass = "cyd0n14789";
+			$this->ldap_host       		= "10.1.1.10";
+			$this->ldap_base       		= "dc=10,dc=1,dc=1,dc=12";
+			$this->ldap_14base_users	= "ou=users2,dc=10,dc=1,dc=1,dc=12";
+			$this->ldap_admin_cn   		= "cn=admin, dc=10,dc=1,dc=1,dc=12";
+			$this->ldap_admin_pass 		= "cyd0n14789";
 		}
 	}
 	
