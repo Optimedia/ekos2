@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
-				title="Cadastrar novo usuário" showCloseButton="true" close="closePopUp()">
+				title="Cadastrar novo usuário" showCloseButton="true"
+				visible="false" creationComplete="init()"
+				close="closePopUp()" hideEffect="{fadeEffect}" showEffect="{fadeEffect}">
 				
 	<mx:Script>
 		<![CDATA[
@@ -11,12 +13,19 @@
 			import mx.containers.Canvas;
 			import mx.managers.PopUpManager;
 			
+			private function init():void {
+				this.visible = true;
+			}
+			
 			public function closePopUp():void {
-				PopUpManager.removePopUp( this );
+				this.visible = false;
 			}
 			
 		]]>
 	</mx:Script>
+	<mx:Fade id="removeEffect" alphaFrom="1" alphaTo="0" effectEnd="PopUpManager.removePopUp( this )"/>
+	
+	<mx:Fade id="fadeEffect"/> 
 	
 	<mx:Text text="Dados Pessoais"/>
 	

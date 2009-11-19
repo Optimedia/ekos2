@@ -2,7 +2,7 @@ package br.com.optimedia.assets.vo
 {
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.CompleteUserVO")]
 	
-	public class UserVO
+	public class CompleteUserVO
 	{
 		//UserVO
 		public var user_id:int;

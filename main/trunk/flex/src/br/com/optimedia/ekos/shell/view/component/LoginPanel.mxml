@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
 				width="300" height="170" creationComplete="init()"
-				hideEffect="{fadeEffect}" showEffect="{fadeEffect}">
+				hideEffect="{fadeEffect}" showEffect="{fadeEffect}" visible="false">
 				
 	<mx:Script>
 		<![CDATA[
@@ -19,6 +19,7 @@
 			
 			private function init():void {
 				facade.startup( this );
+				this.visible = true;
 				loginTextInput.setFocus();
 			}
 			
@@ -41,7 +42,7 @@
 			private function createNewAcc():void {
 				this.visible = false;
 				var popUp:NewAccPopUp =  new NewAccPopUp();
-				PopUpManager.addPopUp(popUp, Application.application as MainApp);
+				PopUpManager.addPopUp(popUp, Application.application as MainApp, true);
 				PopUpManager.centerPopUp(popUp);
 				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}
@@ -49,7 +50,7 @@
 			private function rememberPassword():void {
 				this.visible = false;
 				var popUp:RememberPasswordPopUp =  new RememberPasswordPopUp();
-				PopUpManager.addPopUp(popUp, Application.application as MainApp);
+				PopUpManager.addPopUp(popUp, Application.application as MainApp, true);
 				PopUpManager.centerPopUp(popUp);
 				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}
@@ -57,7 +58,7 @@
 			private function confirmEmail():void {
 				this.visible = false;
 				var popUp:EmailConfirmPopUp =  new EmailConfirmPopUp();
-				PopUpManager.addPopUp(popUp, Application.application as MainApp);
+				PopUpManager.addPopUp(popUp, Application.application as MainApp, true);
 				PopUpManager.centerPopUp(popUp);
 				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}

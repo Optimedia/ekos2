@@ -2,7 +2,7 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="horizontal" height="100%" width="100%"
 				creationComplete="init()" xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
-				horizontalScrollPolicy="off" visible="false" showEffect="fadeEffect">
+				horizontalScrollPolicy="off" visible="false" showEffect="{fadeEffect}"  hideEffect="{fadeEffect}">
 	
 	<mx:Script>
 		<![CDATA[
@@ -32,15 +32,14 @@
 	
 	<mx:Style source="br/com/optimedia/assets/css/MainAppStyle.css"/>
 	
-	<mx:Fade id="fadeEffect" duration="500"/>
+	<mx:Fade id="fadeEffect"/>
 	
 	<!--Cockpit-->
-	<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center">
+	<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
 		<mx:Image maxWidth="180" height="32"/>
-		<mx:Panel id="avatarPanel" styleName="avatarPanel" width="100%" minHeight="224" horizontalAlign="center">
-			<mx:Image maxWidth="160" maxHeight="160" source="br/com/optimedia/assets/imgs/defaultAvatar.png" />
-			<mx:Text maxWidth="160" text="Nome do camarada" />
-		</mx:Panel>
+		
+		<component:AvatarBox width="100%" minHeight="224" maxWidth="180"/>
+
 		<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%">
 
 		</mx:Panel>
