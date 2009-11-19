@@ -4,6 +4,8 @@ package br.com.optimedia.ekos.shell.view
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.ekos.shell.model.MainAppProxy;
 	
+	import flash.events.MouseEvent;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
@@ -25,6 +27,7 @@ package br.com.optimedia.ekos.shell.view
 			proxy = facade.retrieveProxy( MainAppProxy.NAME ) as MainAppProxy;
 			
 			view.showLoginPanel();
+			view.logoutBtn.addEventListener(MouseEvent.CLICK, doLogout);
 		}
 		
 		public function get view():MainApp
@@ -34,7 +37,8 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.LOGIN_OK];
+			return [NotificationConstants.LOGIN_OK,
+					NotificationConstants.LOGOUT_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -44,9 +48,17 @@ package br.com.optimedia.ekos.shell.view
 				case NotificationConstants.LOGIN_OK:
 					view.showCockpit();
 					break;
+				case NotificationConstants.LOGOUT_OK:
+					view.visible = false;
+					view.showLoginPanel();
+					break;
 				default:
 					break;
 			}
+		}
+		
+		private function doLogout(event:MouseEvent):void {
+			proxy.doLogout();
 		}
 	}
 }

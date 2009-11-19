@@ -2,8 +2,11 @@ package br.com.optimedia.ekos.shell.model
 {
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
 	
 	import mx.controls.Alert;
+	import mx.rpc.AsyncToken;
+	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
@@ -25,7 +28,7 @@ package br.com.optimedia.ekos.shell.model
 			trace(NAME+".onRegister()");
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
-			remoteService.source = "mainapp.MainAppService";
+			remoteService.source = "main.SsoConnect";
 			remoteService.showBusyCursor = true;
 		}
 		
@@ -34,12 +37,20 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		public function doLogin(login:String, pass:String):void {
-			//var asynkToken:AsyncToken = remoteService.retrieveContentArray();
-			//asynkToken.addResponder( new Responder(retrieveContentArrayResult, generalFault) );
-			sendNotification( NotificationConstants.LOGIN_OK );
+			var asynkToken:AsyncToken = remoteService.doLogin(login, pass);
+			asynkToken.addResponder( new Responder(doLoginResult, generalFault) );
 		}
 		private function doLoginResult(event:ResultEvent):void {
-			
+			if (event.result is CompleteUserVO) {
+				sendNotification( NotificationConstants.LOGIN_OK );
+			}
+		}
+		public function doLogout():void {
+			var asynkToken:AsyncToken = remoteService.doLogout();
+			asynkToken.addResponder( new Responder(doLogoutResult, generalFault) );
+		}
+		private function doLogoutResult(event:ResultEvent):void {
+			if(event.result == true)	sendNotification( NotificationConstants.LOGOUT_OK );
 		}
 		
 		public function retrieveContentArray():void {

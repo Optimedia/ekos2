@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" backgroundAlpha="0.2" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+
+	<mx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			public var userName:String = "Nome";
+			[Bindable]
+			public var avatar:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
+			
+			public function set state(value:String):void {
+				this.currentState = value;
+			}
+
+		]]>
+	</mx:Script>
+
+	<mx:states>
+		<mx:State name="smaller">
+			<mx:SetProperty target="{this}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{this}" name="width" value="100"/>
+			
+			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="100"/>
+			
+			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="80"/>
+			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="80"/>
+			
+			<mx:SetProperty target="{avatarName}" name="maxWidth" value="100"/>
+			
+			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
+		</mx:State>
+	</mx:states>
+	
+	<mx:Panel id="avatarPanel" styleName="avatarPanel" width="100%" height="100%" horizontalAlign="center">
+		<mx:Image id="avatarImage" maxWidth="160" maxHeight="160" source="{avatar}"/>
+		<mx:Text id="avatarName" maxWidth="160" text="{userName}" />
+		<mx:HBox id="buttonsHBox" maxWidth="180" width="100%" paddingLeft="0" paddingBottom="0" paddingRight="0" paddingTop="0"
+				horizontalAlign="center">
+			<mx:Button label="+" width="15" height="15"/>
+			<mx:Button label="+" width="15" height="15"/>
+			<mx:Button label="+" width="15" height="15"/>
+			<mx:Button label="+" width="15" height="15"/>
+			<mx:Button label="+" width="15" height="15"/>
+			<mx:Button label="+" width="15" height="15"/>
+			<mx:Button label="+" width="15" height="15"/>
+		</mx:HBox>
+	</mx:Panel>
+	
+</mx:Canvas>
