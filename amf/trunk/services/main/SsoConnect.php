@@ -15,16 +15,10 @@
 		private $ldap;
 		
 		public function SsoConnect() {
-			//session_id($_REQUEST[session_name()]);
 			session_start();
-		  $this->ldap = new LdapIntegration();
-		  
-		  $host = "10.1.1.10";
-		  $user = "opti";
-		  $pass = "opti";
-		  $db = "ekos2";
-		  
-		  parent::SqlManager($host, $user, $pass, $db);
+		 	$this->ldap = new LdapIntegration();
+			
+			parent::SqlManager();
 		}
 		
 		/**
@@ -102,21 +96,5 @@
 			} else {
 				return false;
 			}
-		}
-		
-		public function doUpdate(CompleteUserVO $completeUser){
-					
-		}
-		
-		/**
-		 * Função que destroi a sessão.
-		 * 
-		 * @return true
-		 */	
-		public function doLogout() {
-			session_unset();
-			session_destroy();
-			return true;
-		}
-				
+		}				
 	}
