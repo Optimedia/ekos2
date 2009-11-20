@@ -1,6 +1,6 @@
 <?php
 
-	class UserVO {
+	class UserVO_ {
 
 		public $userID;
 		
