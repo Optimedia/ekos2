@@ -2,7 +2,7 @@ package br.com.optimedia.ekos.shell.view
 {
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
-	import br.com.optimedia.ekos.shell.model.MainAppProxy;
+	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
 	
 	import flash.events.MouseEvent;
 	
@@ -14,7 +14,7 @@ package br.com.optimedia.ekos.shell.view
 	{
 		public static const NAME:String = 'MainAppMediator';
 		
-		private var proxy:MainAppProxy;
+		private var proxy:SsoConnectProxy;
 		
 		public function MainAppMediator(viewComponent:MainApp=null)
 		{
@@ -24,7 +24,7 @@ package br.com.optimedia.ekos.shell.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			proxy = facade.retrieveProxy( MainAppProxy.NAME ) as MainAppProxy;
+			proxy = facade.retrieveProxy( SsoConnectProxy.NAME ) as SsoConnectProxy;
 			
 			view.showLoginPanel();
 			view.logoutBtn.addEventListener(MouseEvent.CLICK, doLogout);

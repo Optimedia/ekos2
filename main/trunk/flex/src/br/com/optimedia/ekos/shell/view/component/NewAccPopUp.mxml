@@ -6,12 +6,19 @@
 				
 	<mx:Script>
 		<![CDATA[
+			import mx.validators.Validator;
+			import mx.controls.Alert;
+			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import mx.core.IToolTip;
 			import mx.managers.ToolTipManager;
 			import mx.controls.ToolTip;
 			import mx.controls.Text;
 			import mx.containers.Canvas;
 			import mx.managers.PopUpManager;
+			
+			public static const TRY_SIGN_UP_EVENT:String = "TRY_SIGN_UP_EVENT";
+			
+			public var completeUserVO:CompleteUserVO;
 			
 			private function init():void {
 				this.visible = true;
@@ -21,11 +28,34 @@
 				this.visible = false;
 			}
 			
+			private function trySignUP():void {
+				if( passTextInput.text == passConfirmTextInput.text ) {
+					if(Validator.validateAll([emailValidator]).length == 0) {
+						completeUserVO = new CompleteUserVO();
+						completeUserVO.first_name = nameTextInput.text;
+						completeUserVO.last_name = surnameTextInput.text;
+						completeUserVO.email = emailTextIput.text;
+						completeUserVO.name = usernameTextInput.text;
+						completeUserVO.password = passTextInput.text;
+						dispatchEvent(new Event(TRY_SIGN_UP_EVENT));
+					}
+				}
+				else Alert.show("Senhas não são iguais", "Atenção!");
+			}
+			
 		]]>
 	</mx:Script>
 	<mx:Fade id="removeEffect" alphaFrom="1" alphaTo="0" effectEnd="PopUpManager.removePopUp( this )"/>
 	
-	<mx:Fade id="fadeEffect"/> 
+	<mx:Fade id="fadeEffect"/>
+	
+	<mx:EmailValidator id="emailValidator" property="text" source="{emailTextIput}" triggerEvent="focusOut"
+						trigger="{emailTextIput}" required="true"
+						invalidCharError="E-mail Inválido" invalidDomainError="E-mail Inválido"
+						invalidPeriodsInDomainError="E-mail Inválido" invalidIPDomainError="E-mail Inválido"
+						tooManyAtSignsError="E-mail Inválido" missingAtSignError="E-mail Inválido"
+						missingPeriodInDomainError="E-mail Inválido" missingUsernameError="E-mail Inválido"
+						requiredFieldError="É necessário cadastrar um e-mail"/>
 	
 	<mx:Text text="Dados Pessoais"/>
 	
@@ -58,7 +88,7 @@
 	</mx:HBox>
 	<mx:HBox width="100%">
 		<mx:Spacer width="100%" />
-		<mx:Button label="Cadastrar" />
+		<mx:Button label="Cadastrar" click="trySignUP()"/>
 	</mx:HBox>
 	
 </mx:TitleWindow>
