@@ -1,18 +1,11 @@
 <?php
 	
-	require_once './config.php';
-	
 	class SqlManager {
 		
-		private $_host = HOST;
-		private $_user = USER;
-		private $_pass = PASS;
-		private $_db = DB;
-		
-		function SqlManager() {
+		function SqlManager($host, $user, $pass, $db) {
 			session_start();
-			mysql_connect($this -> _host, $this -> _user, $this -> _pass);
-			mysql_select_db($this -> _db);
+			mysql_connect($host, $user, $pass);
+			mysql_select_db($db);
 		}
 
 		
