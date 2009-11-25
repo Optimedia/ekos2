@@ -15,13 +15,13 @@ class LdapIntegration {
 		if ($_SERVER["SERVER_ADDR"] == "10.1.1.10") {
 			$this->ldap_host       		= "10.1.1.10";
 			$this->ldap_base       		= "dc=10,dc=1,dc=1,dc=12";
-			$this->ldap_base_users	= "ou=users2,dc=10,dc=1,dc=1,dc=12";
+			$this->ldap_base_users		= "ou=users2,dc=10,dc=1,dc=1,dc=12";
 			$this->ldap_admin_cn   		= "cn=admin, dc=10,dc=1,dc=1,dc=12";
 			$this->ldap_admin_pass 		= "cyd0n14789";
 		} else {
 			$this->ldap_host       		= "10.1.1.10";
 			$this->ldap_base       		= "dc=10,dc=1,dc=1,dc=12";
-			$this->ldap_base_users	= "ou=users2,dc=10,dc=1,dc=1,dc=12";
+			$this->ldap_base_users		= "ou=users2,dc=10,dc=1,dc=1,dc=12";
 			$this->ldap_admin_cn   		= "cn=admin, dc=10,dc=1,dc=1,dc=12";
 			$this->ldap_admin_pass 		= "cyd0n14789";
 		}
