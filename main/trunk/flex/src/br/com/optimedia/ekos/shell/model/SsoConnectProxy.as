@@ -13,13 +13,13 @@ package br.com.optimedia.ekos.shell.model
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
-	public class MainAppProxy extends Proxy
+	public class SsoConnectProxy extends Proxy
 	{
 		public static const NAME:String = "MainAppProxy";
 		
 		private var remoteService:RemoteObject;
 		
-		public function MainAppProxy(data:Object=null)
+		public function SsoConnectProxy(data:Object=null)
 		{
 			super(NAME, data);
 		}
@@ -50,16 +50,7 @@ package br.com.optimedia.ekos.shell.model
 			asynkToken.addResponder( new Responder(doLogoutResult, generalFault) );
 		}
 		private function doLogoutResult(event:ResultEvent):void {
-			if(event.result == true)	sendNotification( NotificationConstants.LOGOUT_OK );
-		}
-		
-		public function retrieveContentArray():void {
-			//var asynkToken:AsyncToken = remoteService.retrieveContentArray();
-			//asynkToken.addResponder( new Responder(retrieveContentArrayResult, generalFault) );
-			
-		}
-		private function retrieveContentArrayResult(event:ResultEvent):void {
-			trace(NAME+".retrieveContentArrayResult() = "+event.result);
+			if(event.result == true) sendNotification( NotificationConstants.LOGOUT_OK );
 		}
 	}
 }

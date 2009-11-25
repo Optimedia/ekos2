@@ -17,6 +17,8 @@
 			
 			private var facade:MainAppFacade = MainAppFacade.getInstance();
 			
+			public var newAccPopUp:NewAccPopUp = new NewAccPopUp();
+			
 			private function init():void {
 				facade.startup( this );
 				this.visible = true;
@@ -41,10 +43,10 @@
 			
 			private function createNewAcc():void {
 				this.visible = false;
-				var popUp:NewAccPopUp =  new NewAccPopUp();
-				PopUpManager.addPopUp(popUp, Application.application as MainApp, true);
-				PopUpManager.centerPopUp(popUp);
-				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
+				//newAccPopUp = new NewAccPopUp();
+				PopUpManager.addPopUp(newAccPopUp, Application.application as MainApp, true);
+				PopUpManager.centerPopUp(newAccPopUp);
+				newAccPopUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}
 			
 			private function rememberPassword():void {
