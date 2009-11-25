@@ -18,7 +18,12 @@
 			session_start();
 		 	$this->ldap = new LdapIntegration();
 			
-			parent::SqlManager();
+			$host = "10.1.1.10";
+			$user = "opti";
+			$pass = "opti";
+			$db = "ekos2";
+			
+			parent::SqlManager($host, $user, $pass, $db);
 		}
 		
 		/**
@@ -91,7 +96,7 @@
 		 * @return CompleteUserVO
 		 */
 		public function getSession() {
-			if(isset($_SESSION['user_logged'])) {
+			if($_SESSION['user_logged']) {
 				return $_SESSION['complete_user_vo']; // CompleteUserVo
 			} else {
 				return false;

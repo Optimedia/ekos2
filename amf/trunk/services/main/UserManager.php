@@ -15,7 +15,12 @@
 			session_start();
 		 	$this->ldap = new LdapIntegration();
 			
-			parent::SqlManager();
+			$host = "10.1.1.10";
+			$user = "opti";
+			$pass = "opti";
+			$db = "ekos2";
+			
+			parent::SqlManager($host, $user, $pass, $db);
 		}
 		
 		/**
@@ -38,49 +43,48 @@
 			return $completeUserArray;
 		}
 		
+		/**
+		 * Função para inserir um novo usuário
+		 * 
+		 * @return Boolean ArrayErrors
+		 */
 		public function insertUser(CompleteUserVO $completeUser) {
 			
 			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elé a referência para os IDs das outras tabelas.
 			$handler_names = array ('Account', 'Ldap', 'Profile', 'User');
 			
-			// Montando o Array, chamando o método 'doInsert' de cada Handler para inserir no banco de dados.
-			$account = new AccountVO();
-			$profile = new ProfileVO();
-			$user = new UserVO();			
+			foreach($handler_names as $key => $value) {
 			
-			// AccountVO
-			$account -> email = $completeUser -> email;
-			$account -> name = $completeUser -> name;
-			$account -> status = 1;
-			
-			// HandlerAccount - doInsert
-			require_once "HandlerAccount.php";
-			$handlerAccount = new HandlerAccount();
-			$accountResult = $handlerAccount -> doInsert($account);
-			
-			// ProfileVO
-			$profile -> profile_id = $accountResult;
-			
-			// HandlerProfile - doInsert
-			require_once "HandlerProfile.php";
-			$handlerProfile = new HandlerProfile();
-			$profileResult = 
-			
-			// doInsert
-			foreach ($handler_names as $key => $value) {
-			
-				$handlerName = 'Handler'.$value;
-				require_once "$handlerName.php";
+				$handlerName = 'Handler' . $value;
 				
+				require "$handlerName.php";
 				$handler = new $handlerName();
 				
-	   			$errors = $handler->doInsert($dataIdm);
-	   			
+	      		$result = $handler->doInsert($completeUser);
+				if($result == false) {
+					return array("$handlerName");
+				} else {
+					if($value == "Account") {
+						$completeUser -> account_id = $result;
+					}
+				}
 			}
 			
-			// ProfileVO
-			$profile -> profile_id = ""; // Ultimo ID inserido na table account
-									
+			// Enviando confirmação de cadastro
+			$to      = $completeUser -> email;
+			$subject = "Confirmação de cadastro [".$completeUser -> name."].";
+			$message = "codigo de ativação: ".md5($completeUser -> email.$completeUser -> name);
+			$headers = "From: Suporte I-brasil.net <no-reply@i-brasil.net>" . "\r\n" .
+		    "Reply-To: no-reply@i-brasil.net" . "\r\n" . "X-Mailer: PHP/" . phpversion();		
+			
+			if(!mail($to, $subject, $message, $headers)) {
+				$result[] = "error";
+				
+				return $result;
+			} else {
+				return true;
+			}
+						
 		}	
 	}
 	

@@ -2,15 +2,17 @@
 	
 	require_once './LdapIntegration.php';
 	require_once '../includes/SqlManager.php';
-	require_once '../vo/br/com/optimedia/assets/vo/UserVO.php';
-	require_once '../vo/br/com/optimedia/assets/vo/ProfileVO.php';
-	require_once '../vo/br/com/optimedia/assets/vo/AccountVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
 	class HandlerProfile extends SqlManager {
 		
 		public function HandlerProfile() {
-			parent::SqlManager();
+			$host = "10.1.1.10";
+			$user = "opti";
+			$pass = "opti";
+			$db = "ekos2";
+			
+			parent::SqlManager($host, $user, $pass, $db);
 		}
 		
 		/**
@@ -18,9 +20,9 @@
 		 * 
 		 * @return Boolean
 		 */		
-		public function doInsert(ProfileVO $profile) {
+		public function doInsert(CompleteUserVO $profile) {
 			
-			$arrayProfile = array ('profile_id' => $profile -> profile_id);
+			$arrayProfile = array ('profile_id' => $profile -> account_id);
 							  
 			return parent::doInsert($arrayProfile, "eko_profile");
 		}
