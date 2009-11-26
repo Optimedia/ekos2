@@ -81,7 +81,7 @@
 					
 					// Apagado
 					case 5:
-						return 6;
+						return 1;
 						break;
 				}
 				
