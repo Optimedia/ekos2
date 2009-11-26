@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+				xmlns:generalcomponents="br.com.optimedia.assets.generalcomponents.*"
 				title="Cadastrar novo usuário" showCloseButton="true"
 				visible="false" creationComplete="init()"
-				close="closePopUp()" hideEffect="{fadeEffect}" showEffect="{fadeEffect}">
+				close="closePopUp()" hideEffect="{removeEffect}" showEffect="{fadeEffect}">
 				
 	<mx:Script>
 		<![CDATA[
@@ -30,15 +31,16 @@
 			
 			private function trySignUP():void {
 				if( passTextInput.text == passConfirmTextInput.text ) {
-					if(Validator.validateAll([emailValidator]).length == 0) {
+					if(Validator.validateAll([emailValidator, firstNameValidator, surnameValidator, userNameValidator, passValidator, passConfirmValidator]).length == 0) {
 						completeUserVO = new CompleteUserVO();
 						completeUserVO.first_name = nameTextInput.text;
 						completeUserVO.last_name = surnameTextInput.text;
-						completeUserVO.email = emailTextIput.text;
+						completeUserVO.email = emailTextInput.text;
 						completeUserVO.name = usernameTextInput.text;
 						completeUserVO.password = passTextInput.text;
 						dispatchEvent(new Event(TRY_SIGN_UP_EVENT));
 					}
+					else Alert.show("Verifique os campos em vermelho", "Atenção");
 				}
 				else Alert.show("Senhas não são iguais", "Atenção!");
 			}
@@ -49,13 +51,18 @@
 	
 	<mx:Fade id="fadeEffect"/>
 	
-	<mx:EmailValidator id="emailValidator" property="text" source="{emailTextIput}" triggerEvent="focusOut"
-						trigger="{emailTextIput}" required="true"
-						invalidCharError="E-mail Inválido" invalidDomainError="E-mail Inválido"
-						invalidPeriodsInDomainError="E-mail Inválido" invalidIPDomainError="E-mail Inválido"
-						tooManyAtSignsError="E-mail Inválido" missingAtSignError="E-mail Inválido"
-						missingPeriodInDomainError="E-mail Inválido" missingUsernameError="E-mail Inválido"
-						requiredFieldError="É necessário cadastrar um e-mail"/>
+	<generalcomponents:EkosStringValidator id="firstNameValidator" source="{nameTextInput}" property="text"
+						required="true" triggerEvent="focusOut" trigger="{nameTextInput}" /> 
+	<generalcomponents:EkosStringValidator id="surnameValidator" source="{surnameTextInput}" property="text"
+						required="true" triggerEvent="focusOut" trigger="{surnameTextInput}" /> 
+	<generalcomponents:EkosStringValidator id="userNameValidator" source="{usernameTextInput}" property="text"
+						required="true" triggerEvent="focusOut" trigger="{usernameTextInput}" /> 
+	<generalcomponents:EkosStringValidator id="passValidator" source="{passTextInput}" property="text"
+						required="true" triggerEvent="focusOut" trigger="{passTextInput}" /> 
+	<generalcomponents:EkosStringValidator id="passConfirmValidator" source="{passConfirmTextInput}" property="text"
+						required="true" triggerEvent="focusOut" trigger="{passConfirmTextInput}" /> 
+	<generalcomponents:EkosEmailValidator id="emailValidator" property="text" source="{emailTextInput}" triggerEvent="focusOut"
+						trigger="{emailTextInput}" required="true"/>
 	
 	<mx:Text text="Dados Pessoais"/>
 	
@@ -63,13 +70,13 @@
 		<mx:Form width="100%" height="100%"
 				paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 			<mx:FormItem label="Nome:">
-				<mx:TextInput id="nameTextInput"/>
+				<mx:TextInput id="nameTextInput" restrict="a-z A-Z"/>
 			</mx:FormItem>
 			<mx:FormItem id="emailFormItem" label="E-mail:">
-				<mx:TextInput id="emailTextIput" toolTip="O e-mail será verificado"/>
+				<mx:TextInput id="emailTextInput" toolTip="O e-mail será verificado"/>
 			</mx:FormItem>
 			<mx:FormItem label="Usuário:">
-				<mx:TextInput id="usernameTextInput"/>
+				<mx:TextInput id="usernameTextInput" restrict="a-z A-Z 0-9"/>
 			</mx:FormItem>
 			<mx:FormItem label="Senha:">
 				<mx:TextInput id="passTextInput"/>
@@ -78,7 +85,7 @@
 		<mx:Form width="100%" height="100%"
 				paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 			<mx:FormItem label="Sobrenome(s):">
-				<mx:TextInput id="surnameTextInput"/>
+				<mx:TextInput id="surnameTextInput" restrict="a-z A-Z"/>
 			</mx:FormItem>
 			<mx:Spacer height="100%" />
 			<mx:FormItem label="Confirmar senha:">

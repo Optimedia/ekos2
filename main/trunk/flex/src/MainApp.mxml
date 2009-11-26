@@ -34,26 +34,30 @@
 	
 	<mx:Fade id="fadeEffect"/>
 	
-	<!--Cockpit-->
-	<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
-		<mx:Image maxWidth="180" height="32"/>
+	<mx:ViewStack id="mainViewStack" width="100%" height="100%">
+		<mx:HBox width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<!--Cockpit-->
+			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
+				<mx:Image maxWidth="180" height="32"/>
+				
+				<component:AvatarBox width="100%" minHeight="224" maxWidth="180"/>
 		
-		<component:AvatarBox width="100%" minHeight="224" maxWidth="180"/>
-
-		<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%">
-
-		</mx:Panel>
-		<mx:Panel id="contactsPanel" styleName="contactsPanel" width="100%" minHeight="224"
-			title="Contatos do camarada">
-			<mx:ControlBar />
-		</mx:Panel>
-	</mx:VBox>
-	
-	<mx:VBox id="mainColumn" width="100%" height="100%" backgroundColor="#555555">
-		<mx:HBox width="100%" height="32" verticalAlign="middle" backgroundColor="#888888" >
-			<mx:ButtonBar width="100%" />
-			<mx:Button id="logoutBtn" label="Sair" />
+				<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%">
+		
+				</mx:Panel>
+				<mx:Panel id="contactsPanel" styleName="contactsPanel" width="100%" minHeight="224"
+					title="Contatos do camarada">
+					<mx:ControlBar />
+				</mx:Panel>
+			</mx:VBox>
+			
+			<mx:VBox id="mainColumn" width="100%" height="100%" backgroundColor="#555555">
+				<mx:HBox width="100%" height="32" verticalAlign="middle" backgroundColor="#888888" >
+					<mx:ButtonBar width="100%" />
+					<mx:Button id="logoutBtn" label="Sair" />
+				</mx:HBox>
+			</mx:VBox>
 		</mx:HBox>
-	</mx:VBox>
+	</mx:ViewStack>
 	
 </mx:Application>

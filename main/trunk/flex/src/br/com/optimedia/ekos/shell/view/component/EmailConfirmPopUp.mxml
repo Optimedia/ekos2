@@ -2,11 +2,13 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
 			showCloseButton="true" close="closePopUp()"
 			visible="false" creationComplete="init()"
-			title="Confirmar E-mail" hideEffect="{fadeEffect}" showEffect="{fadeEffect}">
+			title="Confirmar E-mail" hideEffect="{removeEffect}" showEffect="{fadeEffect}">
 	
 	<mx:Script>
 		<![CDATA[
 			import mx.managers.PopUpManager;
+			
+			public static const EMAIL_CONFIRM_EVENT:String = "EMAIL_CONFIRM_EVENT";
 			
 			private function init():void {
 				this.visible = true;
@@ -25,7 +27,7 @@
 	
 	<mx:Form width="100%">
 		<mx:FormItem label="Usuário:">
-			<mx:TextInput id="userTextInput"/>
+			<mx:TextInput id="userTextInput" restrict="a-z A-Z 0-9"/>
 		</mx:FormItem>
 		<mx:FormItem label="Código de ativação:">
 			<mx:TextInput id="codeTextInput"/>
@@ -33,7 +35,7 @@
 	</mx:Form>
 	<mx:HBox width="100%">
 		<mx:Spacer width="100%" />
-		<mx:Button id="confirmBtn" label="Confirmar" />
+		<mx:Button id="confirmBtn" label="Confirmar" click=" dispatchEvent(new Event(EMAIL_CONFIRM_EVENT) )"/>
 	</mx:HBox>
 	
 </mx:TitleWindow>
