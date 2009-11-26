@@ -3,9 +3,9 @@
 	require "LdapIntegration.php";
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 
-	class HandlerLdap extends HandlerBase {
+	class HandlerLdap {
 		
-		function insert(CompleteUserVO $completeUser) {
+		function doInsert(CompleteUserVO $completeUser) {
 			
 			$ldap = new LdapIntegration();
 			$ldap -> bindAsAdmin();
@@ -19,7 +19,7 @@
 										$completeUser -> name, 
 										$completeUser -> email);
 										 
-			return ($ldap->lastError() == 'Success') ? NULL : $ldap->lastError();
+			return ($ldap->lastError() == 'Success') ? true : $ldap->lastError();
 		}
 		
 		function update(&$dataIdm) {

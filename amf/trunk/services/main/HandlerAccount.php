@@ -1,10 +1,11 @@
 <?php
 	
-	require_once './LdapIntegration.php';
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
 	class HandlerAccount extends SqlManager {
+		
+		private $_table = "eko_account"; 
 		
 		public function HandlerAccount() {
 			$host = "10.1.1.10";
@@ -23,14 +24,39 @@
 		public function doInsert(CompleteUserVO $account) {
 			
 			$arrayAccount = array ('email' => $account -> email,
-								   'name' => $account -> name,
-								   'status' => $account -> status);
-							  
-			if(!parent::doInsert($arrayAccount, "eko_account")) {
-				return false;
-			} else {
+								   'name' => $account -> name);
+			
+			$result = parent::doInsert($arrayAccount, $this -> _table);
+					  
+			if($result) {
 				$lastId = mysql_insert_id(); 
 				return $lastId;
+			} else {
+				return $result;
+			}
+		}
+		
+		public function getEmail($email) {
+			$sql = "SELECT email FROM ".$this -> _table." WHERE email='$email'";
+			
+			$result = parent::doSelect($sql);
+			
+			if(mysql_num_rows($result) > 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		public function getName($name) {
+			$sql = "SELECT name FROM ".$this -> _table." WHERE name='$name'";
+			
+			$result = parent::doSelect($sql);
+			
+			if(mysql_num_rows($result) > 0) {
+				return false;
+			} else {
+				return true;
 			}
 		}
 		
