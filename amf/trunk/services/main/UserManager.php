@@ -1,19 +1,15 @@
 <?php
-	
-	require_once './LdapIntegration.php';
+
 	require_once '../includes/SqlManager.php';
-	require_once '../vo/br/com/optimedia/assets/vo/UserVO.php';
-	require_once '../vo/br/com/optimedia/assets/vo/ProfileVO.php';
-	require_once '../vo/br/com/optimedia/assets/vo/AccountVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
+	/**
+	 * Classe para manipulação do Usuário, inserindo, alterando e confirmando dados. 
+	 */
 	class UserManager extends SqlManager {
-		
-		private $ldap;
 		
 		public function UserManager() {
 			session_start();
-		 	$this->ldap = new LdapIntegration();
 			
 			$host = "10.1.1.10";
 			$user = "opti";
@@ -49,9 +45,10 @@
 		 * @return Boolean ArrayErrors
 		 */
 		public function insertUser(CompleteUserVO $completeUser) {
-			
+						
 			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elé a referência para os IDs das outras tabelas.
 			$handler_names = array ('Account', 'Ldap', 'Profile', 'User');
+			
 			
 			foreach($handler_names as $key => $value) {
 			
@@ -60,18 +57,24 @@
 				require "$handlerName.php";
 				$handler = new $handlerName();
 				
+				// Chamando o método para inserir os dados no bd, todos os métodos esperam um CompleteUserVO e utiliza somente
+				// os dados que são da tabela.
 	      		$result = $handler->doInsert($completeUser);
-				if($result == false) {
-					return array("$handlerName");
-				} else {
-					if($value == "Account") {
+				if($value == "Account") {
+					if(is_int($result)) {
 						$completeUser -> account_id = $result;
+					} else {
+						return $result;
+					}					
+				} else {
+					if($result != true) {
+						return $result;
 					}
 				}
 			}
 			
 			// Enviando confirmação de cadastro
-			$to      = $completeUser -> email;
+			/*$to      = $completeUser -> email;
 			$subject = "Confirmação de cadastro [".$completeUser -> name."].";
 			$message = "codigo de ativação: ".md5($completeUser -> email.$completeUser -> name);
 			$headers = "From: Suporte I-brasil.net <no-reply@i-brasil.net>" . "\r\n" .
@@ -81,11 +84,77 @@
 				$result[] = "error";
 				
 				return $result;
-			} else {
+			} else {*/
 				return true;
-			}
+			//}
 						
-		}	
+		}
+		
+		/**
+		 * Função para verificar se o 'email' já está sendo utlizado
+		 * 
+		 * @return Boolean 
+		 */
+		public function verifEmail($email) {
+			
+			require_once "./HandlerAccount.php";
+			$handlerAccount = new HandlerAccount();
+			
+			return $handlerAccount -> getEmail($email);
+						
+		}
+		
+		/**
+		 * Função para verificar se o 'name'já está sendo utilizado (Login)
+		 * 
+		 * @return Boolean
+		 */
+		public function verifName($name) {
+			require_once "./HandlerAccount.php";
+			$handlerAccount = new HandlerAccount();
+			
+			return $handlerAccount -> getName($name);
+		}
+		
+		/**
+		 * Função para validar o email cadastrado.
+		 * 
+		 * @return Boolean
+		 */
+		public function confEmail($name, $cod) {
+			$sql = "SELECT email FROM eko_account WHERE name='$name'";
+			
+			$result = parent::doSelect($sql);
+			
+			$verifCod = md5($name.mysql_result($result, 0, "email"));
+			
+			if($verifCod != $cod) {
+				return false;
+			} else {
+				$array = array("status" => 2);
+				$condition = "name='$name'";
+				
+				return parent::doUpdate($array, $condition, "eko_account"); 
+			}
+		}
+		
+		/**
+		 * Função para lembrar a senha, enviando ao email cadastrado
+		 * 
+		 * @return Boolean
+		 */		
+		public function getPassword($emailOrName) {			
+			$sql = "SELECT a.account_id, u.password FROM eko_account a, eko_user u WHERE (a.name='$emailOrName' OR a.email='$emailOrName') AND u.user_id=a.account_id";
+			$result = parent::doSelect($sql);
+			
+			if(mysql_num_rows($result) > 0) {
+				// Enviar email
+				
+				return mysql_result($result, 0, "password");
+			} else {
+				return false;
+			}			
+		}
 	}
 	
 ?>

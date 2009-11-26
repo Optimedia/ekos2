@@ -1,6 +1,5 @@
 <?php
 	
-	require_once './LdapIntegration.php';
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	

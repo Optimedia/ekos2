@@ -97,7 +97,7 @@
 		 */
 		public function getSession() {
 			if($_SESSION['user_logged']) {
-				return $_SESSION['complete_user_vo']; // CompleteUserVo
+				return $_SESSION['complete_user_vo']; // CompleteUserVO
 			} else {
 				return false;
 			}

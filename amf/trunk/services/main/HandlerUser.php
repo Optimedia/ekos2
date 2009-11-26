@@ -1,6 +1,5 @@
 <?php
 	
-	require_once './LdapIntegration.php';
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
@@ -20,9 +19,12 @@
 		 * 
 		 * @return Boolean 
 		 */		
-		public function doInsert(UserVO $user) {
+		public function doInsert(CompleteUserVO $user) {
 			
-			$arrayUser = array ('user_id' => $user -> user_id);
+			$arrayUser = array ('user_id' => $user -> account_id,
+								'first_name' => $user -> first_name,
+								'last_name' => $user -> last_name,
+								'password' => $user -> password);
 							  
 			return parent::doInsert($arrayUser, "eko_user");
 		}
