@@ -18,6 +18,8 @@
 			private var facade:MainAppFacade = MainAppFacade.getInstance();
 			
 			public var newAccPopUp:NewAccPopUp = new NewAccPopUp();
+			public var rememberPasswordPopUp:RememberPasswordPopUp = new RememberPasswordPopUp();
+			public var emailConfirmPopUp:EmailConfirmPopUp = new EmailConfirmPopUp();
 			
 			private function init():void {
 				facade.startup( this );
@@ -43,29 +45,29 @@
 			
 			private function createNewAcc():void {
 				this.visible = false;
-				//newAccPopUp = new NewAccPopUp();
 				PopUpManager.addPopUp(newAccPopUp, Application.application as MainApp, true);
 				PopUpManager.centerPopUp(newAccPopUp);
+				newAccPopUp.visible = true;
 				newAccPopUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}
 			
 			private function rememberPassword():void {
 				this.visible = false;
-				var popUp:RememberPasswordPopUp =  new RememberPasswordPopUp();
-				PopUpManager.addPopUp(popUp, Application.application as MainApp, true);
-				PopUpManager.centerPopUp(popUp);
-				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
+				PopUpManager.addPopUp(rememberPasswordPopUp, Application.application as MainApp, true);
+				PopUpManager.centerPopUp(rememberPasswordPopUp);
+				rememberPasswordPopUp.visible = true;
+				rememberPasswordPopUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}
 			
 			private function confirmEmail():void {
 				this.visible = false;
-				var popUp:EmailConfirmPopUp =  new EmailConfirmPopUp();
-				PopUpManager.addPopUp(popUp, Application.application as MainApp, true);
-				PopUpManager.centerPopUp(popUp);
-				popUp.addEventListener(CloseEvent.CLOSE, makeVisible);
+				PopUpManager.addPopUp(emailConfirmPopUp, Application.application as MainApp, true);
+				PopUpManager.centerPopUp(emailConfirmPopUp);
+				emailConfirmPopUp.visible = true;
+				emailConfirmPopUp.addEventListener(CloseEvent.CLOSE, makeVisible);
 			}
 			
-			private function makeVisible(e:CloseEvent):void {
+			public function makeVisible(e:CloseEvent):void {
 				this.visible = true;
 			}
 			
@@ -84,7 +86,7 @@
 		
 		<mx:Form width="100%" left="15" top="20">
 			<mx:FormItem label="Login" width="100%">
-				<mx:TextInput id="loginTextInput" width="100%" change="textInputChange()" enter="passTextInput.setFocus()"/>
+				<mx:TextInput id="loginTextInput" width="100%" change="textInputChange()" enter="passTextInput.setFocus()" restrict="a-z A-Z 0-9"/>
 			</mx:FormItem>
 			<mx:FormItem label="Senha" width="100%">
 				<mx:TextInput id="passTextInput" width="100%" change="textInputChange()"/>
