@@ -43,6 +43,13 @@
 			return $ignoreManager -> addFriend($i, $you);
 		}
 		
+		/**
+		 * Função para enviar uma mensagem privada
+		 * 
+		 * - Retorna: Boolean
+		 * .
+		 * @param MessageVO
+		 */
 		public function sendPrivateMessage(MessageVO $message) {
 			require_once './MessageManager.php';
 			$messageManager = new MessageManager();
