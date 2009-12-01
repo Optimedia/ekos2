@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" backgroundAlpha="0.2" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" backgroundAlpha="0.2" verticalScrollPolicy="off" horizontalScrollPolicy="off" xmlns:generalcomponents="br.com.optimedia.assets.generalcomponents.*"
+			currentState="myProfileAvatar"
+			creationComplete="init()">
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.ekos.MainAppFacade;
 			
 			[Bindable]
 			public var userName:String = "Nome";
 			[Bindable]
 			public var avatar:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
 			
+			private var facade:MainAppFacade = MainAppFacade.getInstance();
+			
 			public function set state(value:String):void {
 				this.currentState = value;
+			}
+			
+			private function init():void {
+				facade.startup( this )
 			}
 
 		]]>
 	</mx:Script>
 
 	<mx:states>
-		<mx:State name="smaller">
+		<mx:State name="myProfileAvatar">
+			<mx:RemoveChild target="{ekosbutton1}"/>
+			<mx:RemoveChild target="{ekosbutton2}"/>
+			<mx:RemoveChild target="{ekosbutton3}"/>
+		</mx:State>
+		<mx:State name="mySmallAvatar">
 			<mx:SetProperty target="{this}" name="maxWidth" value="100"/>
 			<mx:SetProperty target="{this}" name="width" value="100"/>
 			
@@ -29,7 +43,10 @@
 			<mx:SetProperty target="{avatarName}" name="maxWidth" value="100"/>
 			
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
+			<mx:RemoveChild target="{ekosbutton4}"/>
 		</mx:State>
+		<mx:State name="otherProfileAvatar" basedOn="myProfileAvatar"/>
+		<mx:State name="otherSmallAvatar" basedOn="mySmallAvatar"/>
 	</mx:states>
 	
 	<mx:Panel id="avatarPanel" styleName="avatarPanel" width="100%" height="100%" horizontalAlign="center">
@@ -37,13 +54,10 @@
 		<mx:Text id="avatarName" maxWidth="160" text="{userName}" />
 		<mx:HBox id="buttonsHBox" maxWidth="180" width="100%" paddingLeft="0" paddingBottom="0" paddingRight="0" paddingTop="0"
 				horizontalAlign="center">
-			<mx:Button label="Adicionar como amigo" width="15" height="15" useHandCursor="true" mouseChildren="false" buttonMode="true"/>
-			<mx:Button label="Ignorar usuário" width="15" height="15"/>
-			<mx:Button label="+" width="15" height="15"/>
-			<mx:Button label="+" width="15" height="15"/>
-			<mx:Button label="+" width="15" height="15"/>
-			<mx:Button label="+" width="15" height="15"/>
-			<mx:Button label="+" width="15" height="15"/>
+			<generalcomponents:EkosButton label="Alterar minha foto" width="15" height="15" id="ekosbutton4"/>
+			<generalcomponents:EkosButton label="Adicionar como amigo" width="15" height="15" id="ekosbutton1"/>
+			<generalcomponents:EkosButton label="Ignorar usuário" width="15" height="15" id="ekosbutton2"/>
+			<generalcomponents:EkosButton label="Enviar Menssagem Privada" width="15" height="15" id="ekosbutton3"/>
 		</mx:HBox>
 	</mx:Panel>
 	

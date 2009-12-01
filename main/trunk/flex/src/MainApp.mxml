@@ -40,7 +40,7 @@
 			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
 				<mx:Image maxWidth="180" height="32"/>
 				
-				<component:AvatarBox width="100%" minHeight="224" maxWidth="180"/>
+				<component:AvatarBox width="100%" minHeight="224" maxWidth="180" currentState="myProfileAvatar"/>
 		
 				<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%">
 		

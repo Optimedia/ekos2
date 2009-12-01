@@ -12,14 +12,14 @@ package br.com.optimedia.ekos.shell.controler
 	{
 		override public function execute(note:INotification):void
 		{
-			var app:MainApp = note.getBody() as MainApp;
+			var instance:MainApp = note.getBody() as MainApp;
 			
 			// Inicializa a Model primeiro (Proxies)
 			facade.registerProxy( new SsoConnectProxy() );
 			facade.registerProxy( new UserManagerProxy() );
 			
 			// depois inicializa a View (Mediators)
-			facade.registerMediator( new MainAppMediator( app ) );
+			facade.registerMediator( new MainAppMediator( instance ) );
 		}
 	}
 }

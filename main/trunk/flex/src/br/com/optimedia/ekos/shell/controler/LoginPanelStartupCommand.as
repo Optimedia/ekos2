@@ -10,10 +10,10 @@ package br.com.optimedia.ekos.shell.controler
 	{
 		override public function execute(note:INotification):void
 		{
-			var app:LoginPanel = note.getBody() as LoginPanel;
+			var instance:LoginPanel = note.getBody() as LoginPanel;
 			
 			// depois inicializa a View (Mediators)
-			facade.registerMediator( new LoginPanelMediator( app ) );
+			facade.registerMediator( new LoginPanelMediator( instance ) );
 		}
 	}
 }

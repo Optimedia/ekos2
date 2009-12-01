@@ -2,9 +2,12 @@ package br.com.optimedia.ekos
 {
 	
 	import br.com.optimedia.assets.constants.CommandConstants;
+	import br.com.optimedia.ekos.shell.controler.AvatarBoxDisposeCommand;
+	import br.com.optimedia.ekos.shell.controler.AvatarBoxStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.LoginPanelDisposeCommand;
 	import br.com.optimedia.ekos.shell.controler.LoginPanelStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.StartupCommand;
+	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	import br.com.optimedia.ekos.shell.view.component.LoginPanel;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
@@ -39,9 +42,11 @@ package br.com.optimedia.ekos
             //STARTUP COMMANDS
             registerCommand( CommandConstants.STARTUP_MAIN_APP, StartupCommand );
             registerCommand( CommandConstants.STARTUP_LOGIN_PANEL, LoginPanelStartupCommand );
+            registerCommand( CommandConstants.STARTUP_AVATAR_BOX, AvatarBoxStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.DISPOSE_LOGIN_PANEL, LoginPanelDisposeCommand );
+            registerCommand( CommandConstants.DISPOSE_AVATAR_BOX, AvatarBoxDisposeCommand );
         }
         
         /**
@@ -53,6 +58,7 @@ package br.com.optimedia.ekos
         {
         	if (app is MainApp) sendNotification( CommandConstants.STARTUP_MAIN_APP, app );
         	if (app is LoginPanel) sendNotification( CommandConstants.STARTUP_LOGIN_PANEL, app );
+        	if (app is AvatarBox) sendNotification( CommandConstants.STARTUP_AVATAR_BOX, app );
         }
 	}
 }
