@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+		styleName="friendsView">
 	
-</mx:VBox>
+	<mx:VBox width="100%" height="100%" paddingTop="10" paddingLeft="10" paddingBottom="10" paddingRight="10">
+		<mx:FormItem label="Buscar:">
+			<mx:TextInput id="searchTextInput" />
+		</mx:FormItem>
+	</mx:VBox>
+	
+	<mx:LinkButton width="10" height="100%"/> 
+	
+	<mx:Panel title="Filtro" width="150" height="100%">
+		
+		
+		
+	</mx:Panel>
+	
+</mx:HBox>
