@@ -20,6 +20,8 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+".onRegister()");
 			//avatarManagerProxy = facade.retrieveProxy( AvatarManagerProxy.NAME ) as AvatarManagerProxy;
+			
+			view.friendsView.addEventListener(
 		}
 		
 		override public function onRemove():void {

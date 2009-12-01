@@ -8,6 +8,7 @@ package br.com.optimedia.ekos.shell.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
 	
 
 	public class MainAppMediator extends Mediator
@@ -46,7 +47,7 @@ package br.com.optimedia.ekos.shell.view
 			switch (note.getName())
 			{
 				case NotificationConstants.LOGIN_OK:
-					view.showCockpit();
+					view.showCockpit(note.getBody() as CompleteUserVO);
 					break;
 				case NotificationConstants.LOGOUT_OK:
 					view.visible = false;

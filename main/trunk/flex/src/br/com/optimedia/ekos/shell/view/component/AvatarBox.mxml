@@ -5,21 +5,35 @@
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import br.com.optimedia.ekos.MainAppFacade;
 			
-			[Bindable]
-			public var userName:String = "Nome";
-			[Bindable]
-			public var avatar:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
-			
 			private var facade:MainAppFacade = MainAppFacade.getInstance();
+			
+			[Bindable]
+			private var _completeUserVO:CompleteUserVO = new CompleteUserVO();
+			/* [Bindable]
+			public var largeAvatarSource:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
+			[Bindable]
+			public var smallAvatarSource:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
+			[Bindable]
+			public var userName:String = "Nome"; */
 			
 			public function set state(value:String):void {
 				this.currentState = value;
 			}
 			
 			private function init():void {
-				facade.startup( this )
+				facade.startup( this );
+			}
+			
+			public function set completeUserVO(value:CompleteUserVO):void {
+				_completeUserVO = value;
+				if(!value.large_avatar) _completeUserVO.large_avatar = "br/com/optimedia/assets/imgs/defaultAvatar.png";
+				if(!value.small_avatar) _completeUserVO.small_avatar = "br/com/optimedia/assets/imgs/defaultAvatar.png";
+			}
+			public function get completeUserVO():CompleteUserVO {
+				return _completeUserVO;
 			}
 
 		]]>
@@ -44,14 +58,17 @@
 			
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
 			<mx:RemoveChild target="{ekosbutton4}"/>
+			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
 		</mx:State>
 		<mx:State name="otherProfileAvatar" basedOn="myProfileAvatar"/>
 		<mx:State name="otherSmallAvatar" basedOn="mySmallAvatar"/>
 	</mx:states>
 	
 	<mx:Panel id="avatarPanel" styleName="avatarPanel" width="100%" height="100%" horizontalAlign="center">
-		<mx:Image id="avatarImage" maxWidth="160" maxHeight="160" source="{avatar}" useHandCursor="true" mouseChildren="false" buttonMode="true"/>
-		<mx:Text id="avatarName" maxWidth="160" text="{userName}" />
+		<mx:Spacer height="100%"/>
+		<mx:Image id="avatarImage" maxWidth="160" maxHeight="160" source="{_completeUserVO.large_avatar}" useHandCursor="true" mouseChildren="false" buttonMode="true"/>
+		<mx:Spacer height="100%"/>
+		<mx:Text id="avatarName" maxWidth="160" text="{_completeUserVO.name}" />
 		<mx:HBox id="buttonsHBox" maxWidth="180" width="100%" paddingLeft="0" paddingBottom="0" paddingRight="0" paddingTop="0"
 				horizontalAlign="center">
 			<generalcomponents:EkosButton label="Alterar minha foto" width="15" height="15" id="ekosbutton4"/>
