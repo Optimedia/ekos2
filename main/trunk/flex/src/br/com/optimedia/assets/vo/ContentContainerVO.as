@@ -4,7 +4,7 @@ package br.com.optimedia.assets.vo
 	
 	public class ContentContainerVO
 	{
-		public var id:int;
+		public var id:uint;
 		
 		public var title:String;
 		
