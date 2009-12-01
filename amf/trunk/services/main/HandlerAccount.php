@@ -19,10 +19,11 @@
 		/**
 		 * Função para inserir um novo cadastro da tabela 'eko_account'
 		 * 
-		 * @return uint 
+		 * - Retorna: uint / false
+		 * .
+		 * @param CompleteUserVO 
 		 */		
 		public function doInsert(CompleteUserVO $account) {
-			
 			$arrayAccount = array ('email' => $account -> email,
 								   'name' => $account -> name);
 			
@@ -36,6 +37,29 @@
 			}
 		}
 		
+		/**
+		 * Função para atualizar os dados.
+		 * 
+		 * - Retorna: Boolean
+		 * .
+		 * @param CompleteUserVO
+		 */
+		public function doUpdate(CompleteUserVO $account) {
+			$arrayAccount = array ('email' => $account -> email,
+								   'name' => $account -> name);
+
+			$condition = "account_id=".$account -> account_id;
+
+			return parent::doUpdate($arrayAccount, $condition,  $this -> _table);
+		}
+		
+		/**
+		 * Função para verificar se o 'email' está liberado
+		 * 
+		 * - Retorna: Boolean
+		 * .
+		 * @param String
+		 */
 		public function getEmail($email) {
 			$sql = "SELECT email FROM ".$this -> _table." WHERE email='$email'";
 			
@@ -48,6 +72,13 @@
 			}
 		}
 		
+		/**
+		 * Função para verificar se o 'name' está liberado
+		 * 
+		 * - Retorna: Boolean
+		 * .
+		 * @param String
+		 */
 		public function getName($name) {
 			$sql = "SELECT name FROM ".$this -> _table." WHERE name='$name'";
 			

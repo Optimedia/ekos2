@@ -15,18 +15,36 @@
 		}
 		
 		/**
-		 * Função para inserir um novo cadastro da tabela 'eko_user'
+		 * Função para inserir um novo cadastro da tabela 'eko_profile'
 		 * 
-		 * @return Boolean 
-		 */		
+		 * - Retorna: Boolean
+		 * .
+		 * @param CompleteUserVO
+		 */
 		public function doInsert(CompleteUserVO $user) {
-			
 			$arrayUser = array ('user_id' => $user -> account_id,
 								'first_name' => $user -> first_name,
 								'last_name' => $user -> last_name,
 								'password' => $user -> password);
 							  
 			return parent::doInsert($arrayUser, "eko_user");
+		}
+		
+		/**
+		 * Função para atualizar um cadastro na tabela 'eko_profile'
+		 * 
+		 * - Retorna: Boolean
+		 * .
+		 * @param CompleteUserVO
+		 */
+		public function doUpdate(CompleteUserVO $user) {
+			$arrayUser = array ('first_name' => $user -> first_name,
+								'last_name' => $user -> last_name,
+								'password' => $user -> password);
+							  
+			$condition = "user_id=".$user -> account_id;
+			
+			return parent::doUpdate($arrayUser, $condition, "eko_user");
 		}
 		
 	}

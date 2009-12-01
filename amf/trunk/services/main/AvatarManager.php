@@ -16,20 +16,38 @@
 		/**
 		 * Função para adicionar um profile como amigo
 		 * 
-		 * @return Boolean
+		 * - Retorna: Boolean
+		 * .
+		 * @param uint
+		 * @param uint
 		 */
 		public function addFriend($i, $you) {
-			$arrayFriend = array('profile_id_i' => $i,
-								 'profile_id_you' => $you);
-								 
-			return parent::doInsert($arrayFriend, "eko_friend");
+			require_once './FriendManager.php';
+			$friendManager = new FriendManager();
+			
+			return $friendManager -> addFriend($i, $you);
 		}
 		
+		/**
+		 * Função para adicionar um profile como ignorado
+		 * 
+		 * - Retorna: Boolean
+		 * .
+		 * @param uint
+		 * @param uint
+		 */
 		public function addIgnore($i, $you) {
-			$arrayIgnore = array('profile_id_i' => $i,
-								 'profile_id_you' => $you);
-								 
-			return parent::doInsert($arrayIgnore, "eko_ignore");
+			require_once './IgnoreManager.php';
+			$ignoreManager = new IgnoreManager();
+			
+			return $ignoreManager -> addFriend($i, $you);
+		}
+		
+		public function sendPrivateMessage(MessageVO $message) {
+			require_once './MessageManager.php';
+			$messageManager = new MessageManager();
+			
+			return $messageManager -> sendPrivateMessage($message);
 		}
 		
 	}
