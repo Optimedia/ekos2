@@ -2,6 +2,7 @@ package br.com.optimedia.ekos.shell.view
 {
 	import br.com.optimedia.assets.constants.CommandConstants;
 	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
 	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
 	import br.com.optimedia.ekos.shell.model.UserManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.EmailConfirmPopUp;
@@ -14,14 +15,16 @@ package br.com.optimedia.ekos.shell.view
 	
 	import mx.controls.Alert;
 	import mx.events.FlexEvent;
-	import mx.managers.PopUpManager;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.ekos.MainAppFacade;
 
 	public class LoginPanelMediator extends Mediator
 	{
 		public static const NAME:String = 'LoginPanelMediator';
+		
+		//protected var facade:MainAppFacade = MainAppFacade.getInstance();
 		
 		private var ssoConnectProxy:SsoConnectProxy;
 		private var userManagerProxy:UserManagerProxy;

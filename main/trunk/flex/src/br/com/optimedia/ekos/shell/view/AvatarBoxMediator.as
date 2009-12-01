@@ -1,5 +1,7 @@
 package br.com.optimedia.ekos.shell.view
 {
+	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
 	import br.com.optimedia.ekos.shell.model.AvatarManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	

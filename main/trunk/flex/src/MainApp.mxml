@@ -6,6 +6,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import br.com.optimedia.ekos.shell.view.component.LoginPanel;
 			import mx.managers.PopUpManager;
 			import br.com.optimedia.ekos.MainAppFacade;
@@ -23,7 +24,8 @@
 				PopUpManager.centerPopUp(loginPanel);
 			}
 			
-			public function showCockpit():void {
+			public function showCockpit(completeUserVO:CompleteUserVO):void {
+				myAvatar.completeUserVO = completeUserVO;
 				this.visible = true;
 			}
 			
@@ -40,7 +42,7 @@
 			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
 				<mx:Image maxWidth="180" height="32"/>
 				
-				<component:AvatarBox width="100%" minHeight="224" maxWidth="180" currentState="myProfileAvatar"/>
+				<component:AvatarBox id="myAvatar" width="100%" minHeight="224" maxWidth="180" currentState="myProfileAvatar"/>
 		
 				<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%">
 		
