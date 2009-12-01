@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TabNavigator xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
-				creationComplete="init()">
+				creationComplete="init()" styleName="appsTabNavigator"
+				paddingTop="0"
+				xmlns:component="br.com.optimedia.ekos.shell.view.component.*">
 	<mx:Script>
 		<![CDATA[
 			private function init():void {
@@ -9,6 +11,6 @@
 		]]>
 	</mx:Script>
 	
-	
+	<component:FriendsView label="Amigos"/>
 	
 </mx:TabNavigator>

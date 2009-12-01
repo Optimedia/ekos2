@@ -22,7 +22,7 @@ package br.com.optimedia.ekos.shell.controler
 			facade.registerProxy( new AvatarManagerProxy() );
 			
 			// depois inicializa a View (Mediators)
-			facade.registerMediator( new AppsTabNavigatorMediator( instance.appsTabNavigator );
+			facade.registerMediator( new AppsTabNavigatorMediator( instance.appsTabNavigator ) );
 			facade.registerMediator( new MainAppMediator( instance ) );
 		}
 	}

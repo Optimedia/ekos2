@@ -29,3 +29,11 @@ Application {
    roundedBottomCorners: true;
    corner-radius: 10;
 }
+
+.friendsView {
+	background-alpha: 0;
+}
+
+.appsTabNavigator {
+	background-alpha: 0;
+}
