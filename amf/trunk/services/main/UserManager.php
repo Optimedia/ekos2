@@ -22,9 +22,10 @@
 		/**
 		 * Função que retorna todos os usuários
 		 *  
-		 * @return Array CompleteUserVO
+		 * - Retorna: Array - CompleteUserVO
+		 * .
 		 */
-		public function getUser() {
+		public function getAllUser() {
 			
 			$sql = "SELECT a.* ,u.*, p.* FROM eko_account a, eko_user u, eko_profile p WHERE u.user_id=a.account_id AND p.profile_id=a.account_id";
 			$query = parent::doSelect($sql);
@@ -40,9 +41,29 @@
 		}
 		
 		/**
+		 * Função para buscar dados do profile
+		 * 
+		 * - Retorna: CompleteUserVO
+		 * .
+		 * @param uint
+		 */
+		public function getUser($user_id) {
+			$sql = "SELECT a.* ,u.*, p.* FROM eko_account a, eko_user u, eko_profile p WHERE account_id=$user_id AND u.user_id=a.account_id AND p.profile_id=a.account_id";
+			$result = parent::doSelect($sql);
+			
+			$completeUser = new CompleteUserVO();
+			
+			$completeUser = mysql_fetch_object($result, "CompleteUserVO");
+			
+			return $completeUser;
+		}
+		
+		/**
 		 * Função para inserir um novo usuário
 		 * 
-		 * @return Boolean ArrayErrors
+		 * - Retorna: Boolean | ArrayErrors
+		 * 
+		 * @param CompleteUserVO
 		 */
 		public function insertUser(CompleteUserVO $completeUser) {
 						
@@ -91,17 +112,53 @@
 		}
 		
 		/**
+		 * Função para atualizar dados do usuário
+		 * 
+		 * - Retorna Boolean
+		 * .
+		 * @param CompleteUserVO
+		 */
+		public function updateUser(CompleteUserVO $completeUser) {
+			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elé a referência para os IDs das outras tabelas.
+			$handler_names = array ('Account', 'Profile', 'User');
+			
+			$error = 0;
+			
+			foreach($handler_names as $key => $value) {
+			
+				$handlerName = 'Handler' . $value;
+				
+				require "$handlerName.php";
+				$handler = new $handlerName();
+				
+				// Chamando o método para inserir os dados no bd, todos os métodos esperam um CompleteUserVO e utiliza somente
+				// os dados que são da tabela.
+	      		$result = $handler->doUpdate($completeUser);
+				
+				if($result != true) {
+					$error ++;
+				}
+			}
+			
+			if($error == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		/**
 		 * Função para verificar se o 'email' já está sendo utlizado
 		 * 
-		 * @return Boolean 
+		 * - Retorna: Boolean
+		 * 
+		 * @param String
 		 */
 		public function verifEmail($email) {
-			
 			require_once "./HandlerAccount.php";
 			$handlerAccount = new HandlerAccount();
 			
 			return $handlerAccount -> getEmail($email);
-						
 		}
 		
 		/**
