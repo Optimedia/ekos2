@@ -1,5 +1,7 @@
 package br.com.optimedia.ekos.shell.model
 {
+	import br.com.optimedia.assets.vo.MessageVO;
+	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -32,22 +34,22 @@ package br.com.optimedia.ekos.shell.model
 			Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function addFriend(myID:int, friendID:int):void {
+		public function addFriend(myID:uint, friendID:uint):void {
 			var asynkToken:AsyncToken = remoteService.addFriend(myID, friendID);
 			asynkToken.addResponder( new Responder(addFriendResult, generalFault) );
 		}
 		private function addFriendResult(event:ResultEvent):void {
 			Alert.show("finish me", "addFriendResult");
 		}
-		public function addIgnore(myID:int, friendID:int):void {
+		public function addIgnore(myID:uint, friendID:uint):void {
 			var asynkToken:AsyncToken = remoteService.addIgnore(myID, friendID);
 			asynkToken.addResponder( new Responder(addIgnoreResult, generalFault) );
 		}
 		private function addIgnoreResult(event:ResultEvent):void {
 			Alert.show("finish me", "addIgnoreResult");
 		}
-		public function sendPrivateMesage(myID:int, friendID:int, message:String):void {
-			var asynkToken:AsyncToken = remoteService.addIgnore(myID, friendID, message);
+		public function sendPrivateMesage(messageVO:MessageVO):void {
+			var asynkToken:AsyncToken = remoteService.addIgnore(messageVO);
 			asynkToken.addResponder( new Responder(sendPrivateMesageResult, generalFault) );
 		}
 		private function sendPrivateMesageResult(event:ResultEvent):void {
