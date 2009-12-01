@@ -35,5 +35,6 @@ Application {
 }
 
 .appsTabNavigator {
+	border-thickness: 0;
 	background-alpha: 0;
 }
