@@ -54,7 +54,10 @@
 		 * @param uint
 		 */
 		public function getAllFriend($user_id) {
-			// por fora
+			require_once './FriendManager.php';
+			$friendManager = new FriendManager();
+			
+			return $friendManager -> getAllFriends($user_id);
 		}
 		
 		/**
@@ -64,8 +67,11 @@
 		 * .
 		 * @param uint
 		 */
-		public function getAllIgnore($user_id) {
+		public function getAllIgnores($user_id) {
+			require_once './IgnoreManager.php';
+			$ignoreManager = new IgnoreManager();
 			
+			return $ignoreManager -> getAllIgnores($user_id);
 		}
 		
 		/**
@@ -80,14 +86,17 @@
 		}
 		
 		/**
-		 * Função para pegar todas as mensagens do usuário.
+		 * Função para pegar todas as mensagens recebidas pelo usuário.
 		 * 
-		 * - Retorna: Array CompleteUserVO
+		 * - Retorna: Array MessageVO
 		 * .
 		 * @param uint
 		 */
-		public function getAllMessage($user_id) {
+		public function getAllReciveMessages($user_id) {
+			require_once './MessageManager.php';
+			$messageManager = new MessageManager();
 			
+			$messageManager -> getAllMessages($user_id);
 		}
 		
 	}
