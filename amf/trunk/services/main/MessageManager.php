@@ -17,6 +17,27 @@
 		}
 		
 		/**
+		 * Função para buscar todas mensagens recebidas pelo usuário
+		 * 
+		 * - Retorna: Array MessageVO
+		 * .
+		 * @param uint
+		 */
+		private function getAllReciveMessages($user_id) {
+			$sql = "SELECT * FROM eko_message WHERE reciver_profile_id=$user_id";
+			$result = parent::doSelect($sql);
+			
+			$message = new MessageVO();
+			$arrayMessage = array();
+			
+			while($message = mysql_fetch_object($result)) {
+				$arrayMessage[] = $message;
+			}
+			
+			return $arrayMessage;
+		}
+		
+		/**
 		 * Função para envio de mensagem para um usuário
 		 * 
 		 * - Retorna: Boolean

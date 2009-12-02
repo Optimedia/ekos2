@@ -3,7 +3,7 @@
 	class ProfileVO {
 		
 		public $profile_id;
-		public $alias;
+		public $nickname;
 		public $small_avatar;
 		public $large_avatar;
 		public $sex;
