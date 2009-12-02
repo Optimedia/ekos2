@@ -28,7 +28,7 @@
 		<mx:TileList width="100%" height="100%" dataProvider="{_friendsArrayCollection}">
 			<mx:itemRenderer>
 			<mx:Component>
-				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" >
+				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" currentState="otherSmallAvatar">
 					<mx:Script>
 						<![CDATA[
 							import br.com.optimedia.assets.vo.CompleteUserVO;

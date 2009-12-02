@@ -41,9 +41,9 @@
 
 	<mx:states>
 		<mx:State name="myProfileAvatar">
-			<mx:RemoveChild target="{ekosbutton1}"/>
-			<mx:RemoveChild target="{ekosbutton2}"/>
-			<mx:RemoveChild target="{ekosbutton3}"/>
+			<mx:RemoveChild target="{addFriendBtn}"/>
+			<mx:RemoveChild target="{ignoreUserBtn}"/>
+			<mx:RemoveChild target="{sendPrivateMsgBtn}"/>
 		</mx:State>
 		<mx:State name="mySmallAvatar">
 			<mx:SetProperty target="{this}" name="maxWidth" value="100"/>
@@ -57,7 +57,7 @@
 			<mx:SetProperty target="{avatarName}" name="maxWidth" value="100"/>
 			
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
-			<mx:RemoveChild target="{ekosbutton4}"/>
+			<mx:RemoveChild target="{changeAvatarBtn}"/>
 			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
 		</mx:State>
 		<mx:State name="otherProfileAvatar" basedOn="myProfileAvatar"/>
@@ -71,10 +71,10 @@
 		<mx:Text id="avatarName" maxWidth="160" text="{_completeUserVO.name}" />
 		<mx:HBox id="buttonsHBox" maxWidth="180" width="100%" paddingLeft="0" paddingBottom="0" paddingRight="0" paddingTop="0"
 				horizontalAlign="center">
-			<generalcomponents:EkosButton label="Alterar minha foto" width="15" height="15" id="ekosbutton4"/>
-			<generalcomponents:EkosButton label="Adicionar como amigo" width="15" height="15" id="ekosbutton1"/>
-			<generalcomponents:EkosButton label="Ignorar usuário" width="15" height="15" id="ekosbutton2"/>
-			<generalcomponents:EkosButton label="Enviar Menssagem Privada" width="15" height="15" id="ekosbutton3"/>
+			<generalcomponents:EkosButton label="Alterar minha foto" width="15" height="15" id="changeAvatarBtn"/>
+			<generalcomponents:EkosButton label="Adicionar como amigo" width="15" height="15" id="addFriendBtn"/>
+			<generalcomponents:EkosButton label="Ignorar usuário" width="15" height="15" id="ignoreUserBtn"/>
+			<generalcomponents:EkosButton label="Enviar Menssagem Privada" width="15" height="15" id="sendPrivateMsgBtn"/>
 		</mx:HBox>
 	</mx:Panel>
 	
