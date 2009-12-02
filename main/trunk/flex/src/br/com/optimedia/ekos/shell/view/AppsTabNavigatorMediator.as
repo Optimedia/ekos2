@@ -1,6 +1,13 @@
 package br.com.optimedia.ekos.shell.view
 {
+	import br.com.optimedia.ekos.MainAppFacade;
+	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.AppsTabNavigator;
+	import br.com.optimedia.ekos.shell.view.component.FriendsView;
+	
+	import flash.events.MouseEvent;
+	
+	import mx.events.IndexChangedEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -9,7 +16,7 @@ package br.com.optimedia.ekos.shell.view
 	{
 		public static const NAME:String = 'AppsTabNavigatorMediator';
 		
-		//private var avatarManagerProxy:AvatarManagerProxy;
+		private var friendManagerProxy:FriendManagerProxy;
 		
 		public function AppsTabNavigatorMediator(viewComponent:Object=null)
 		{
@@ -19,9 +26,10 @@ package br.com.optimedia.ekos.shell.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			//avatarManagerProxy = facade.retrieveProxy( AvatarManagerProxy.NAME ) as AvatarManagerProxy;
+			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
 			
-			view.friendsView.addEventListener(
+			view.addEventListener(IndexChangedEvent.CHANGE, onSelectedItemChange);
+			view.friendsView.searchBtn.addEventListener(MouseEvent.CLICK, onSearchBtnClick);
 		}
 		
 		override public function onRemove():void {
@@ -44,6 +52,14 @@ package br.com.optimedia.ekos.shell.view
 				default:
 					break;
 			}
+		}
+		
+		private function onSelectedItemChange(event:IndexChangedEvent):void {
+			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends( MainAppFacade(facade).myCompleteUserVO.account_id );
+		}
+		
+		private function onSearchBtnClick(event:MouseEvent):void {
+			friendManagerProxy.findFriend( view.friendsView.searchTextInput.text );
 		}
 	}
 }

@@ -11,6 +11,7 @@ package br.com.optimedia.ekos
 	import br.com.optimedia.ekos.shell.view.component.LoginPanel;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
 	
 
 	public class MainAppFacade extends Facade
@@ -18,6 +19,9 @@ package br.com.optimedia.ekos
 		
 		[Bindable]
 		public var lng:XML = new XML();
+		
+		[Bindable]
+		public var myCompleteUserVO:CompleteUserVO = new CompleteUserVO();
 		
 		public function MainAppFacade(key:String)
 		{
