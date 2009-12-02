@@ -9,6 +9,7 @@ package br.com.optimedia.ekos.shell.controler
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
 
 	public class StartupCommand extends SimpleCommand
 	{
@@ -20,6 +21,7 @@ package br.com.optimedia.ekos.shell.controler
 			facade.registerProxy( new SsoConnectProxy() );
 			facade.registerProxy( new UserManagerProxy() );
 			facade.registerProxy( new AvatarManagerProxy() );
+			facade.registerProxy( new FriendManagerProxy() );
 			
 			// depois inicializa a View (Mediators)
 			facade.registerMediator( new AppsTabNavigatorMediator( instance.appsTabNavigator ) );

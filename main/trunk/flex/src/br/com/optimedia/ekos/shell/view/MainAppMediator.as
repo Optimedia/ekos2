@@ -2,13 +2,14 @@ package br.com.optimedia.ekos.shell.view
 {
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
+	import br.com.optimedia.ekos.MainAppFacade;
 	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
 	
 	import flash.events.MouseEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.assets.vo.CompleteUserVO;
 	
 
 	public class MainAppMediator extends Mediator
@@ -47,6 +48,7 @@ package br.com.optimedia.ekos.shell.view
 			switch (note.getName())
 			{
 				case NotificationConstants.LOGIN_OK:
+					MainAppFacade(facade).myCompleteUserVO = note.getBody() as CompleteUserVO;
 					view.showCockpit(note.getBody() as CompleteUserVO);
 					break;
 				case NotificationConstants.LOGOUT_OK:
