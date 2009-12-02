@@ -37,8 +37,8 @@
 	<mx:Fade id="fadeEffect"/>
 	
 	<mx:ViewStack id="mainViewStack" width="100%" height="100%">
+		<!--Cockpit-->
 		<mx:HBox width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
-			<!--Cockpit-->
 			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
 				<mx:Image maxWidth="180" height="32"/>
 				
@@ -61,6 +61,7 @@
 				<component:AppsTabNavigator id="appsTabNavigator" />
 			</mx:VBox>
 		</mx:HBox>
+		<!--/Cockpit-->
 	</mx:ViewStack>
 	
 </mx:Application>
