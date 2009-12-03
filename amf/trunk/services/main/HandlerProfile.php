@@ -38,7 +38,7 @@
 		 */
 		public function doUpdate(CompleteUserVO $profile) {
 			$arrayProfile = array ('profile_id' => $profile -> account_id,
-								   'alias' => $profile -> nickname,
+								   'nickname' => $profile -> nickname,
 								   'small_avatar' => $profile -> small_avatar,
 								   'large_avatar' => $profile -> large_avatar,
 								   'sex' => $profile -> sex,
