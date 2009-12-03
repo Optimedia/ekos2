@@ -105,6 +105,10 @@
 		
 		public function doLogout() {
 			unset($_SESSION);
-			session_destroy();
+			if(session_destroy()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
