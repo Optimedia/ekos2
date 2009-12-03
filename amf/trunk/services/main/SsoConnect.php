@@ -101,5 +101,10 @@
 			} else {
 				return false;
 			}
-		}				
+		}
+		
+		public function doLogout() {
+			unset($_SESSION);
+			session_destroy();
+		}
 	}
