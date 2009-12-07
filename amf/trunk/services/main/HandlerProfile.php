@@ -24,7 +24,8 @@
 		 * @param CompleteUserVO
 		 */
 		public function doInsert(CompleteUserVO $profile) {
-			$arrayProfile = array ('profile_id' => $profile -> account_id);
+			$arrayProfile = array ('profile_id' => $profile -> account_id,
+								   'nickname' => $profile -> nickname);
 							  
 			return parent::doInsert($arrayProfile, "eko_profile");
 		}
