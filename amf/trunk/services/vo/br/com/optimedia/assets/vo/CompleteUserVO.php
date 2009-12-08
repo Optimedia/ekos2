@@ -30,6 +30,12 @@
 		public $name;
 		public $status;
 		
+		// Details
+		public addressArray;
+		public educationArray;
+		public languageArray;
+		public professionArray;
+		
 		public $_explicitType = "br.com.optimedia.assets.vo.CompleteUserVO";
 		
 	}
