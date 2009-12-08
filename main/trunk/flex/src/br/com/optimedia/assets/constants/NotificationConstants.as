@@ -8,5 +8,6 @@ package br.com.optimedia.assets.constants
 		public static const INSERT_USER_OK:String = "INSERT_USER_OK";
 		public static const REMEMBER_PASSWORD_OK:String = "REMEMBER_PASSWORD_OK";
 		public static const EMAIL_CONFIRM_OK:String = "EMAIL_CONFIRM_OK";
+		public static const FIND_FRIEND_RESULT_ARRAY:String = "FIND_FRIEND_RESULT_ARRAY";
 	}
 }

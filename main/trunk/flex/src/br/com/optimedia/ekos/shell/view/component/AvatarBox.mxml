@@ -12,16 +12,6 @@
 			
 			[Bindable]
 			private var _completeUserVO:CompleteUserVO = new CompleteUserVO();
-			/* [Bindable]
-			public var largeAvatarSource:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
-			[Bindable]
-			public var smallAvatarSource:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
-			[Bindable]
-			public var userName:String = "Nome"; */
-			
-			public function set state(value:String):void {
-				this.currentState = value;
-			}
 			
 			private function init():void {
 				facade.startup( this );
@@ -44,37 +34,67 @@
 			<mx:RemoveChild target="{addFriendBtn}"/>
 			<mx:RemoveChild target="{ignoreUserBtn}"/>
 			<mx:RemoveChild target="{sendPrivateMsgBtn}"/>
+			<mx:RemoveChild target="{removeFriendBtn}"/>
+			
+			<mx:RemoveChild target="{completeName}"/>
 		</mx:State>
 		<mx:State name="mySmallAvatar">
-			<mx:SetProperty target="{this}" name="maxWidth" value="100"/>
 			<mx:SetProperty target="{this}" name="width" value="100"/>
-			
 			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="100"/>
-			
-			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="80"/>
-			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="80"/>
-			
-			<mx:SetProperty target="{avatarName}" name="maxWidth" value="100"/>
-			
+			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{nickName}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
-			<mx:RemoveChild target="{changeAvatarBtn}"/>
 			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
+			
+			<mx:RemoveChild target="{completeName}"/>
+			
+			<mx:RemoveChild target="{changeAvatarBtn}"/>
+			<mx:RemoveChild target="{addFriendBtn}"/>
+			<mx:RemoveChild target="{sendPrivateMsgBtn}"/>
+			<mx:RemoveChild target="{ignoreUserBtn}"/>
+			<mx:RemoveChild target="{removeFriendBtn}"/>
 		</mx:State>
-		<mx:State name="otherProfileAvatar" basedOn="myProfileAvatar"/>
-		<mx:State name="otherSmallAvatar" basedOn="mySmallAvatar"/>
+		<mx:State name="generalSmallAvatar">
+			<mx:SetProperty target="{this}" name="width" value="100"/>
+			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{nickName}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>
+			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
+			
+			<mx:RemoveChild target="{completeName}"/>
+			
+			<mx:RemoveChild target="{changeAvatarBtn}"/>
+		</mx:State>
+		<mx:State name="searchSmallAvatar">
+			<mx:SetProperty target="{this}" name="width" value="200"/>
+			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="200"/>
+			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{nickName}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>
+			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
+			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
+			
+			<mx:RemoveChild target="{changeAvatarBtn}"/>
+		</mx:State>
 	</mx:states>
 	
-	<mx:Panel id="avatarPanel" styleName="avatarPanel" width="100%" height="100%" horizontalAlign="center">
-		<mx:Spacer height="100%"/>
-		<mx:Image id="avatarImage" maxWidth="160" maxHeight="160" source="{_completeUserVO.large_avatar}" useHandCursor="true" mouseChildren="false" buttonMode="true"/>
-		<mx:Spacer height="100%"/>
-		<mx:Text id="avatarName" maxWidth="160" text="{_completeUserVO.name}" />
+	<mx:Panel id="avatarPanel" styleName="avatarPanel" width="180" horizontalAlign="center">
+		<mx:HBox width="100%" height="100" horizontalAlign="center">
+			<mx:Image id="avatarImage" maxWidth="100" maxHeight="100" source="{_completeUserVO.large_avatar}"/>
+			<mx:Text id="completeName" width="100%" text="{_completeUserVO.first_name + ' ' + _completeUserVO.last_name}" />
+		</mx:HBox>
+		<mx:Text id="nickName" text="{_completeUserVO.nickname}" />
+		<!--<mx:Image id="avatarImage" maxWidth="160" maxHeight="160" source="{_completeUserVO.large_avatar}" useHandCursor="true" mouseChildren="false" buttonMode="true"/>-->
 		<mx:HBox id="buttonsHBox" maxWidth="180" width="100%" paddingLeft="0" paddingBottom="0" paddingRight="0" paddingTop="0"
 				horizontalAlign="center">
 			<generalcomponents:EkosButton label="Alterar minha foto" width="15" height="15" id="changeAvatarBtn"/>
 			<generalcomponents:EkosButton label="Adicionar como amigo" width="15" height="15" id="addFriendBtn"/>
 			<generalcomponents:EkosButton label="Ignorar usuário" width="15" height="15" id="ignoreUserBtn"/>
 			<generalcomponents:EkosButton label="Enviar Menssagem Privada" width="15" height="15" id="sendPrivateMsgBtn"/>
+			<generalcomponents:EkosButton label="Remover Amigo" width="15" height="15" id="removeFriendBtn"/>
 		</mx:HBox>
 	</mx:Panel>
 	

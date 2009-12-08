@@ -1,5 +1,7 @@
 package br.com.optimedia.assets.vo
 {
+	import mx.collections.ArrayCollection;
+	
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.CompleteUserVO")]
 	
 	public class CompleteUserVO
@@ -24,6 +26,12 @@ package br.com.optimedia.assets.vo
 		public var email:String;
 		public var name:String;
 		public var status:int;
+		
+		//Profile Details
+		public var addressArray:ArrayCollection = new ArrayCollection();
+		public var educationArray:ArrayCollection = new ArrayCollection();
+		public var languageArray:ArrayCollection = new ArrayCollection();
+		public var professionArray:ArrayCollection = new ArrayCollection();
 		
 	}
 }

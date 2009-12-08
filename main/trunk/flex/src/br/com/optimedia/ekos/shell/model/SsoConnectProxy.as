@@ -33,7 +33,9 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		private function generalFault(event:FaultEvent):void {
-			Alert.show(event.fault.faultCode as String);
+			if(event.fault.faultCode == "Client.Error.MessageSend")
+				Alert.show("Não foi possível conectar ao servidor de login.", "Atenção");
+			else Alert.show(event.fault.faultCode as String);
 		}
 		
 		public function doLogin(login:String, pass:String):void {

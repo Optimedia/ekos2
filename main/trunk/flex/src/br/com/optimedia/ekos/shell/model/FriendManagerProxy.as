@@ -1,5 +1,7 @@
 package br.com.optimedia.ekos.shell.model
 {
+	import br.com.optimedia.assets.constants.NotificationConstants;
+	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -45,7 +47,8 @@ package br.com.optimedia.ekos.shell.model
 			asynkToken.addResponder( new Responder(findFriendResult, generalFault) );
 		}
 		private function findFriendResult(event:ResultEvent):void {
-			Alert.show("finish me", "findFriendResult");
+			sendNotification( NotificationConstants.FIND_FRIEND_RESULT_ARRAY, event.result);
+			//Alert.show("finish me", "findFriendResult");
 		}
 	}
 }
