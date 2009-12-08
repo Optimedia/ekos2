@@ -42,9 +42,9 @@
 			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
 				<mx:Image maxWidth="180" height="32"/>
 				
-				<component:AvatarBox id="myAvatar" width="100%" minHeight="224" maxWidth="180" currentState="myProfileAvatar"/>
+				<component:AvatarBox id="myAvatar" width="180" currentState="myProfileAvatar"/>
 		
-				<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%">
+				<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%" height="150">
 		
 				</mx:Panel>
 				<mx:Panel id="contactsPanel" styleName="contactsPanel" width="100%" minHeight="224"

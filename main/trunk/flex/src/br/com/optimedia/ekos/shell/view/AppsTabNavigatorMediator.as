@@ -1,12 +1,15 @@
 package br.com.optimedia.ekos.shell.view
 {
+	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.ekos.MainAppFacade;
 	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.AppsTabNavigator;
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import mx.events.FlexEvent;
 	import mx.events.IndexChangedEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -29,6 +32,8 @@ package br.com.optimedia.ekos.shell.view
 			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
 			
 			view.addEventListener(IndexChangedEvent.CHANGE, onSelectedItemChange);
+			
+			view.friendsView.searchTextInput.addEventListener(FlexEvent.ENTER, onSearchBtnClick);
 			view.friendsView.searchBtn.addEventListener(MouseEvent.CLICK, onSearchBtnClick);
 		}
 		
@@ -42,13 +47,17 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [NotificationConstants.FIND_FRIEND_RESULT_ARRAY];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case NotificationConstants.FIND_FRIEND_RESULT_ARRAY:
+					//var teste:Object = note.getBody();
+					view.friendsView.usersArrayCollection = note.getBody() as Array;
+					break;
 				default:
 					break;
 			}
@@ -58,7 +67,7 @@ package br.com.optimedia.ekos.shell.view
 			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends( MainAppFacade(facade).myCompleteUserVO.account_id );
 		}
 		
-		private function onSearchBtnClick(event:MouseEvent):void {
+		private function onSearchBtnClick(event:Event):void {
 			friendManagerProxy.findFriend( view.friendsView.searchTextInput.text );
 		}
 	}

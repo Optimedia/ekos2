@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="vertical" width="300" height="200"
+				showCloseButton="true" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			
+			private function init():void {
+				
+			}
+			
+			private function closeHandler(event:CloseEvent):void {
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox width="100%">
+		<mx:FormItem id="fileFormItem" label="Imagem">
+			<mx:TextInput id="fileTextInput" />
+		</mx:FormItem>
+		<mx:Button id="fileBtn" label="Procurar" />
+	</mx:HBox>
+	
+	<mx:Button id="saveBtn" label="Salvar" />
+	
+</mx:TitleWindow>
