@@ -4,7 +4,7 @@
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
 	/**
-	 * Classe para manipulação do Usuário, inserindo, alterando e confirmando dados. 
+	 * Classe para manipulaï¿½ï¿½o do Usuï¿½rio, inserindo, alterando e confirmando dados. 
 	 */
 	class UserManager extends SqlManager {
 		
@@ -20,7 +20,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos os usuários
+		 * Funï¿½ï¿½o que retorna todos os usuï¿½rios
 		 *  
 		 * - Retorna: Array - CompleteUserVO
 		 * .
@@ -41,7 +41,7 @@
 		}
 		
 		/**
-		 * Função para buscar dados do profile
+		 * Funï¿½ï¿½o para buscar dados do profile
 		 * 
 		 * - Retorna: CompleteUserVO
 		 * .
@@ -59,7 +59,7 @@
 		}
 		
 		/**
-		 * Função para inserir um novo usuário
+		 * Funï¿½ï¿½o para inserir um novo usuï¿½rio
 		 * 
 		 * - Retorna: Boolean | ArrayErrors
 		 * 
@@ -67,7 +67,7 @@
 		 */
 		public function insertUser(CompleteUserVO $completeUser) {
 						
-			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elé a referência para os IDs das outras tabelas.
+			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elï¿½ a referï¿½ncia para os IDs das outras tabelas.
 			$handler_names = array ('Account', 'Ldap', 'Profile', 'User');
 			
 			
@@ -78,8 +78,8 @@
 				require "$handlerName.php";
 				$handler = new $handlerName();
 				
-				// Chamando o método para inserir os dados no bd, todos os métodos esperam um CompleteUserVO e utiliza somente
-				// os dados que são da tabela.
+				// Chamando o mï¿½todo para inserir os dados no bd, todos os mï¿½todos esperam um CompleteUserVO e utiliza somente
+				// os dados que sï¿½o da tabela.
 	      		$result = $handler->doInsert($completeUser);
 				if($value == "Account") {
 					if(is_int($result)) {
@@ -94,10 +94,10 @@
 				}
 			}
 			
-			// Enviando confirmação de cadastro
+			// Enviando confirmaï¿½ï¿½o de cadastro
 			/*$to      = $completeUser -> email;
-			$subject = "Confirmação de cadastro [".$completeUser -> name."].";
-			$message = "codigo de ativação: ".md5($completeUser -> email.$completeUser -> name);
+			$subject = "Confirmaï¿½ï¿½o de cadastro [".$completeUser -> name."].";
+			$message = "codigo de ativaï¿½ï¿½o: ".md5($completeUser -> email.$completeUser -> name);
 			$headers = "From: Suporte I-brasil.net <no-reply@i-brasil.net>" . "\r\n" .
 		    "Reply-To: no-reply@i-brasil.net" . "\r\n" . "X-Mailer: PHP/" . phpversion();		
 			
@@ -112,14 +112,14 @@
 		}
 		
 		/**
-		 * Função para atualizar dados do usuário
+		 * Funï¿½ï¿½o para atualizar dados do usuï¿½rio
 		 * 
 		 * - Retorna Boolean
 		 * .
 		 * @param CompleteUserVO
 		 */
 		public function updateUser(CompleteUserVO $completeUser) {
-			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elé a referência para os IDs das outras tabelas.
+			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois elï¿½ a referï¿½ncia para os IDs das outras tabelas.
 			$handler_names = array ('Account', 'Profile', 'User');
 			
 			$error = 0;
@@ -131,8 +131,8 @@
 				require "$handlerName.php";
 				$handler = new $handlerName();
 				
-				// Chamando o método para inserir os dados no bd, todos os métodos esperam um CompleteUserVO e utiliza somente
-				// os dados que são da tabela.
+				// Chamando o mï¿½todo para inserir os dados no bd, todos os mï¿½todos esperam um CompleteUserVO e utiliza somente
+				// os dados que sï¿½o da tabela.
 	      		$result = $handler->doUpdate($completeUser);
 				
 				if($result != true) {
@@ -148,7 +148,7 @@
 		}
 		
 		/**
-		 * Função para verificar se o 'email' já está sendo utlizado
+		 * Funï¿½ï¿½o para verificar se o 'email' jï¿½ estï¿½ sendo utlizado
 		 * 
 		 * - Retorna: Boolean
 		 * 
@@ -162,7 +162,7 @@
 		}
 		
 		/**
-		 * Função para verificar se o 'name'já está sendo utilizado (Login)
+		 * Funï¿½ï¿½o para verificar se o 'name'jï¿½ estï¿½ sendo utilizado (Login)
 		 * 
 		 * @return Boolean
 		 */
@@ -174,7 +174,7 @@
 		}
 		
 		/**
-		 * Função para validar o email cadastrado.
+		 * Funï¿½ï¿½o para validar o email cadastrado.
 		 * 
 		 * @return Boolean
 		 */
@@ -196,7 +196,7 @@
 		}
 		
 		/**
-		 * Função para lembrar a senha, enviando ao email cadastrado
+		 * Funï¿½ï¿½o para lembrar a senha, enviando ao email cadastrado
 		 * 
 		 * @return Boolean
 		 */		

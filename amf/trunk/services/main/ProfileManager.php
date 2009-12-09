@@ -19,7 +19,7 @@
 		}
 		
 		/**
-		 * Função para buscar dados do profile
+		 * Funï¿½ï¿½o para buscar dados do profile
 		 * 
 		 * - Retorna: CompleteUserVO
 		 * .
@@ -33,7 +33,7 @@
 		}
 		
 		/**
-		 * Função para atualizar dados do usuário
+		 * Funï¿½ï¿½o para atualizar dados do usuï¿½rio
 		 * 
 		 * - Retorna: Boolean
 		 * .
@@ -47,7 +47,7 @@
 		}
 		
 		/**
-		 * Função para pegar toda a lista de amigos do usuário.
+		 * Funï¿½ï¿½o para pegar toda a lista de amigos do usuï¿½rio.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
@@ -61,7 +61,7 @@
 		}
 		
 		/**
-		 * Função para pegar toda a lista de amigos do usuário.
+		 * Funï¿½ï¿½o para pegar toda a lista de amigos do usuï¿½rio.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
@@ -75,18 +75,20 @@
 		}
 		
 		/**
-		 * Função para pegar toda a lista de amigos do usuário.
+		 * Funï¿½ï¿½o para pegar toda a lista de amigos do usuï¿½rio.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
 		 * @param uint
 		 */
+		
+		//XXX aasdasd
 		public function getAllScrap($user_id) {
 			
 		}
 		
 		/**
-		 * Função para pegar todas as mensagens recebidas pelo usuário.
+		 * Funï¿½ï¿½o para pegar todas as mensagens recebidas pelo usuï¿½rio.
 		 * 
 		 * - Retorna: Array MessageVO
 		 * .

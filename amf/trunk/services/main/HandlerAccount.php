@@ -17,7 +17,7 @@
 		}
 		
 		/**
-		 * Função para inserir um novo cadastro da tabela 'eko_account'
+		 * Funï¿½ï¿½o para inserir um novo cadastro da tabela 'eko_account'
 		 * 
 		 * - Retorna: uint / false
 		 * .
@@ -38,7 +38,7 @@
 		}
 		
 		/**
-		 * Função para atualizar os dados.
+		 * Funï¿½ï¿½o para atualizar os dados.
 		 * 
 		 * - Retorna: Boolean
 		 * .
@@ -54,7 +54,7 @@
 		}
 		
 		/**
-		 * Função para verificar se o 'email' está liberado
+		 * Funï¿½ï¿½o para verificar se o 'email' estï¿½ liberado
 		 * 
 		 * - Retorna: Boolean
 		 * .
@@ -73,7 +73,7 @@
 		}
 		
 		/**
-		 * Função para verificar se o 'name' está liberado
+		 * Funï¿½ï¿½o para verificar se o 'name' estï¿½ liberado
 		 * 
 		 * - Retorna: Boolean
 		 * .
