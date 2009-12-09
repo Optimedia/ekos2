@@ -5,7 +5,7 @@
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
 	/**
-	* Função de Login do LDAP.
+	* Funï¿½ï¿½o de Login do LDAP.
 	*/
 	class SsoConnect extends SqlManager {
 		
@@ -24,7 +24,7 @@
 		}
 		
 		/**
-		 * Função que faz o Login no LDAP, criando a sessão para o sso.
+		 * Funï¿½ï¿½o que faz o Login no LDAP, criando a sessï¿½o para o sso.
 		 * 
 		 * @return CompleteUserVO 
 		 */		
@@ -35,7 +35,7 @@
 			
 			if ($result) {
 								
-				// Verificar status do usuário
+				// Verificar status do usuï¿½rio
 				$sql = "SELECT a.* ,u.*, p.* FROM eko_account a, eko_user u, eko_profile p WHERE a.name='$login' AND u.user_id=a.account_id AND p.profile_id=a.account_id";
 				$query = parent::doSelect($sql);
 				
@@ -60,7 +60,7 @@
 					// Ativo
 					case 2:
 					
-						// Criar a sessão.
+						// Criar a sessï¿½o.
 						$_SESSION['complete_user_vo'] = $completeUser;
 						$_SESSION['user_logged'] = true;											
 						return $completeUser;
@@ -88,7 +88,7 @@
 		}
 		
 		/**
-		 * Função que retorna se a sessão está ativa ou não.
+		 * Funï¿½ï¿½o que retorna se a sessï¿½o estï¿½ ativa ou nï¿½o.
 		 * 
 		 * @return CompleteUserVO
 		 */

@@ -82,9 +82,9 @@
 		 * @param uint
 		 */
 		
-		//XXX aasdasd
+		//FIXME aasdasd
 		public function getAllScrap($user_id) {
-			
+			// XXX asdasd
 		}
 		
 		/**
@@ -95,6 +95,8 @@
 		 * @param uint
 		 */
 		public function getAllReciveMessages($user_id) {
+			// TODO asdasd
+			
 			require_once './MessageManager.php';
 			$messageManager = new MessageManager();
 			
