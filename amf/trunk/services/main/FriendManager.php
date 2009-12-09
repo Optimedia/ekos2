@@ -20,7 +20,7 @@
 		}
 		
 		/**
-		 * Função para pegar toda a lista de amigos do usuário.
+		 * Funï¿½ï¿½o para pegar toda a lista de amigos do usuï¿½rio.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
@@ -44,7 +44,7 @@
 		}
 		
 		/**
-		 * Função para buscar um profile pelo nome, sobrenome ou nickname.
+		 * Funï¿½ï¿½o para buscar um profile pelo nome, sobrenome ou nickname.
 		 * 
 		 * - Retorna: Array CompleteUserVO
 		 * .
@@ -68,7 +68,7 @@
 		}
 		
 		/**
-		 * Função para pegar adicionar um amigo.
+		 * Funï¿½ï¿½o para pegar adicionar um amigo.
 		 * 
 		 * - Retorna: Boolean 
 		 * .
@@ -83,7 +83,7 @@
 		}
 		
 		/**
-		 * Função para deletar um amigo.
+		 * Funï¿½ï¿½o para deletar um amigo.
 		 * 
 		 * - Retorna: Boolean 
 		 * .
