@@ -1,7 +1,7 @@
 <?php
 	
 	/**
-	 * Classe que reúne todos os dados do usuário no ekos.
+	 * Classe que reï¿½ne todos os dados do usuï¿½rio no ekos.
 	 * 
 	 * 		UserVO
 	 * 		ProfileVO
@@ -31,10 +31,10 @@
 		public $status;
 		
 		// Details
-		public addressArray;
-		public educationArray;
-		public languageArray;
-		public professionArray;
+		public $addressArray;
+		public $educationArray;
+		public $languageArray;
+		public $professionArray;
 		
 		public $_explicitType = "br.com.optimedia.assets.vo.CompleteUserVO";
 		
