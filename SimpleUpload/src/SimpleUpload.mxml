@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()" width="250" height="250">
+	<mx:Script>
+		<![CDATA[
+			
+						    
+			    import mx.controls.Button;
+			    import mx.controls.ProgressBar;
+			    
+			    import mx.controls.Alert;
+			    
+			    import flash.events.*;
+			    import flash.net.FileFilter;
+			    import flash.net.FileReference;
+			    import flash.net.URLRequest;
+			    import flash.net.URLVariables;
+			    
+			    
+			    
+			    
+			    
+			    
+			    private var URLEnvioArquivo:String = "upload.php";
+			    private var urlRequest:URLRequest = new URLRequest(URLEnvioArquivo);
+			    
+			    [Bindable] private var nomeArquivo:String = "";
+			    private var tipoArquivo:String = "";
+			    private var tamanhoArquivo:int = 0;
+			  
+			    private var file:FileReference;
+			    
+			    private function init():void{
+			    	
+			    	init2();
+			    	pbEnvioArquivo.mode = "manual";
+			    	
+			    }
+			    
+			    private function init2():void{
+
+                    file = new FileReference();			    
+			    	//file.addEventListener(Event.COMPLETE,uploadCompleto);
+			    	file.addEventListener(Event.SELECT, selecionouArquivo);
+			    	file.addEventListener(ProgressEvent.PROGRESS, progressoUpload);
+			    	file.addEventListener(HTTPStatusEvent.HTTP_STATUS,httpstatus);
+			    	file.addEventListener(IOErrorEvent.IO_ERROR,ioerror);
+			    	file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA,uploadCompleto);
+			    	
+			    	btnEnviar.addEventListener(MouseEvent.CLICK,enviarArquivo);
+			    	btnSelecionarArquivo.addEventListener(MouseEvent.CLICK,selecionarArquivo);
+			    	
+			    	pbEnvioArquivo.visible = false;
+			    	
+			    	
+			    	nomeArquivo="";
+                 	tipoArquivo="";
+                 	iptCodigo.text="";
+                 	tamanhoArquivo=0;
+                 	
+			    }
+			    
+			    
+			    private function ioerror(evento:IOErrorEvent):void{
+			    
+			          Alert.show(String(evento),"ioError",0);
+                }
+                
+                private function httpstatus(evento:HTTPStatusEvent):void{
+                	    	
+                	   if(evento.status==404){
+                	   	
+                	   	  Alert.show("Falha no upload, tente novamente","ERRO!",0);
+                	   	
+                	   }
+                	   else if(evento.status==403){
+                	   	
+                	   	  Alert.show("Arquivo Existente, renomeie e tente novamente","ERRO!",0);
+                	   	
+                	   }
+                	    	
+			          
+			    }
+			    
+			     private function selecionarArquivo(evento:Event):void{
+			           var tipo1:FileFilter = new FileFilter("Arquivos Vídeo Flash (*.flv)","*.flv");      
+			    
+			           var arrayTipos:Array = new Array(tipo1);
+			   	   
+			   	      file.browse(arrayTipos); 
+			  	
+			     }
+            
+                 private function progressoUpload(evento:ProgressEvent):void{
+                 	
+                 	// Alert.show(evento.bytesLoaded+" - "+evento.bytesTotal,"ENVIO");
+                 	  pbEnvioArquivo.setProgress(evento.bytesLoaded,evento.bytesTotal);
+                 	  
+                 } 
+           
+                 private function uploadCompleto(evento:DataEvent):void
+                 {
+                 	
+                 	
+                 	 Alert.show(evento.data,"Upload");
+                 	 
+                 	 init2();
+                 }
+
+                 private function selecionouArquivo(evento:Event):void
+                 {
+                     
+                     nomeArquivo = evento.currentTarget.name;
+                     tipoArquivo = evento.currentTarget.type;
+                     tamanhoArquivo = evento.currentTarget.size;
+                     
+                 }
+
+				private function enviarArquivo(evento:Event):void
+				{
+				  
+				  if(nomeArquivo==""){
+				 
+				  		Alert.show("Nome do Arquivo inválido","Erro");
+				  	
+				  }
+				  else if(tipoArquivo!=".flv"){
+				  		
+				  		Alert.show("Tipo de arquivo não suportado","Erro");
+				  	
+				  }else if(tamanhoArquivo<=0){
+				  		
+				  		Alert.show("Tamanho de arquivo inválido","Erro");
+				  	
+				  }else if(tamanhoArquivo>(1024*1024*50)){
+				  		
+				  		Alert.show("Tamanho de arquivo superior ao suportado","Erro");
+				  	
+				  }else if(iptCodigo.text!="q1w2e3"){
+				  	
+				  		Alert.show("Código Inválido","Erro");
+				  }
+				  else{
+				  	
+				  	
+					  file.upload(urlRequest);
+					  pbEnvioArquivo.visible = true;
+				  
+				  };	
+				}
+				
+				
+		]]>
+	</mx:Script>
+	<mx:Label x="60.5" y="10" text="Envio de Vídeos" fontSize="14" color="#360AF4" fontWeight="bold" fontStyle="italic" textAlign="center"/>
+	<mx:ProgressBar x="25" y="190" label="enviando %3%%" id="pbEnvioArquivo"/>
+	<mx:TextInput x="45" y="67" id="iptArquivo" text="{nomeArquivo}"/>
+	<mx:TextInput x="45" y="136" id="iptCodigo" displayAsPassword="true"/>
+	<mx:Button x="73" y="95" label="Selecionar Arquivo" textAlign="center" id="btnSelecionarArquivo"/>
+	<mx:Button x="143" y="164" label="Enviar" textAlign="right" id="btnEnviar"/>
+	<mx:Label x="45" y="50" text="Arquivo"/>
+	<mx:Label x="45" y="119" text="Código"/>
+</mx:Application>
