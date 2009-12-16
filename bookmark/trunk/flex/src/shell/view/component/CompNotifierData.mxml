@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:controls="br.com.interludio.flexLib.controls.*"
+			creationComplete="init()">
+			
+	<mx:Script>
+		<![CDATA[
+			
+			import br.com.optimedia.notifier.shell.NotifierFacade;
+			import flash.net.sendToURL;
+			import mx.events.CloseEvent;
+			import mx.events.CollectionEvent;
+			import mx.collections.ArrayCollection;
+			import br.com.optimedia.assets.vo.NotifierVO;			
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			
+			[Bindable]
+			public var dataProvider:Array = [];
+			
+			[Bindable]
+			public var lng:XML = new XML();
+			
+			[Bindable]
+			private var facade:NotifierFacade = NotifierFacade.getInstance( Notifier.NAME );
+			
+			public static const ON_DELETE_EVENT:String = "ON_DELETE_EVENT";
+			
+			private function init():void {
+				dataProvider.filter(dataProviderFilterFunction);
+			}
+						
+			public function excluir(event:MouseEvent):void
+			{
+				event.stopPropagation();
+				Alert.noLabel = lng.bkm.no;
+				Alert.yesLabel = lng.bkm.yes;
+				Alert.show(NotifierVO(dpNotifier.selectedItem).title+"?", lng.bkm.delete_entry, Alert.YES | Alert.NO, this, alertCloseHandler);	
+			}
+			
+			public function alertCloseHandler(event:CloseEvent):void {
+				if(event.detail == 1) {
+					dispatchEvent(new Event(ON_DELETE_EVENT));
+				}
+				else {
+					Alert.show(lng.bkm.not_possible_to_delete_entry, lng.bkm.atention+'!');
+				}
+			}
+			
+			private var popNotifier:PopNotifier;
+			
+			public function adicionar():void
+			{
+				popNotifier = new PopNotifier();
+				createPopNotifierPopup();
+				popNotifier.title = lng.bkm.add;
+				PopUpManager.addPopUp(popNotifier, this);
+			}
+			
+			public function editar(event:MouseEvent):void
+			{
+				event.stopPropagation();
+				popNotifier = new PopNotifier();
+				popNotifier.title = lng.bkm.edit;
+			    createPopNotifierPopup( dpNotifier.selectedItem as NotifierVO );
+				PopUpManager.addPopUp(popNotifier, this, true);
+			}
+			
+			private function createPopNotifierPopup(notifierVO:NotifierVO=null):void {				
+				popNotifier.x = (Application.application.width / 2) - (popNotifier.width / 2);
+				popNotifier.y = (Application.application.height / 2) - (popNotifier.height / 2);
+				
+				// IMPORTANTÍSSIMO!!
+				popNotifier.lng = lng;
+				
+				if (notifierVO) popNotifier.notifierVO = notifierVO;
+				else popNotifier.notifierVO = new NotifierVO();
+			}
+				
+			public function goURL():void 
+			{
+				var url:String = dpNotifier.selectedItem.url;
+				var request:URLRequest = new URLRequest(url);
+				navigateToURL(request, "_blank");
+			} 
+			
+			private function onSearchInputChange():void
+			{
+				var busca:Array = new Array();
+				if(dataProvider) {
+					busca = dataProvider.filter(dataProviderFilterFunction);
+				}
+				dpNotifier.dataProvider = busca;
+				//dataProvider.filter(dataProviderFilterFunction); 
+			
+			}
+			private function dataProviderFilterFunction(item:NotifierVO, index:int, arra:Array):Boolean
+			{
+				var encontrado:Boolean = false;
+				
+				if(searchInput.text.length == 0) encontrado = true;
+				if(item.description.toLowerCase().search(searchInput.text.toLowerCase()) != -1) encontrado = true;
+				if(item.title.toLowerCase().search(searchInput.text.toLowerCase()) != -1) encontrado = true;
+				if(item.uri.toLowerCase().search(searchInput.text.toLowerCase()) != -1) encontrado = true;
+				
+				return encontrado;
+			}
+			
+			public function onTagClick(event:MouseEvent):void {
+				trace("onTagClick()");
+			}
+			
+			private function onNovoBtnClick(event:MouseEvent):void {
+				event.stopPropagation();
+			    Application.application.enabled = false;
+			    popNotifier = new PopNotifier();
+				popNotifier.title = lng.bkm.title;
+				popNotifier.notifierVO.uri = "http://";			
+				createPopNotifierPopup();
+				PopUpManager.addPopUp(popNotifier, this, true);
+			}
+				
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%">
+		<mx:Button label="{lng.bkm.new_label}" click="onNovoBtnClick(event)"/>
+		<mx:Spacer width="100%"/>
+		<controls:SeachInput id="searchInput" change="onSearchInputChange()"/>
+	</mx:HBox>
+	<mx:List id="dpNotifier" dataProvider="{dataProvider}" width="600" height="500" itemClick="goURL()" borderStyle="none" >
+		<mx:itemRenderer>
+		<mx:Component>
+			<mx:VBox>
+				<mx:HBox width="100%">
+					<mx:Label text="{data.title}" width="100%" />
+					<mx:Label text="{data.creation_date}" />
+				</mx:HBox>
+				<mx:TextArea text="{data.description}" width="100%" editable="false" backgroundAlpha="0" borderStyle="none"/>
+				<mx:HBox width="100%">
+					<mx:Label text="{data.tags}" width="100%" />
+					<mx:Button width="20" icon="@Embed(source='br/com/optimedia/assets/imgs/pencil.png')" click="parentDocument.editar(event)"/>
+					<mx:Button width="20" icon="@Embed(source='br/com/optimedia/assets/imgs/delete.png')" click="parentDocument.excluir(event)"/>
+				</mx:HBox>
+			</mx:VBox>
+		</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
+</mx:VBox>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="400" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.assets.vo.NotifierVO;
+			import br.com.optimedia.notifier.shell.NotifierFacade;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			
+			public static const NOTIFIER_SAVE_EVENT:String = "NOTIFIER_SAVE_EVENT";
+			
+			private var facade:NotifierFacade = NotifierFacade.getInstance( Notifier.NAME);
+			
+			[Bindable]
+			public var lng:XML = new XML();
+			
+			[Bindable]
+			public var notifierVO:NotifierVO = new NotifierVO();
+			
+			private function init():void {
+				facade.startupPopNotifier( this );
+			}
+			
+			public function fechar():void
+			{	
+				facade.disposePopNotifier( this );
+				Application.application.enabled = true;
+				PopUpManager.removePopUp(this);	
+			}
+			private function salvar():void
+			{
+				notifierVO.title = titleTextInput.text;
+				notifierVO.uri = urlTextInput.text;
+				notifierVO.description = descriptionTextInput.text;
+				notifierVO.source = tagsTextInput.text;
+				
+				dispatchEvent(new Event(NOTIFIER_SAVE_EVENT));
+			}
+		
+		]]>
+	</mx:Script>
+	<mx:Form width="100%">
+		<mx:FormItem label="{lng.bkm.title}" width="100%">
+			<mx:TextInput id="titleTextInput" text="{notifierVO.title}" width="100%"/>
+		</mx:FormItem>
+		<mx:FormItem label="{lng.bkm.url}" width="100%">
+			<mx:TextInput id="urlTextInput" text="{notifierVO.uri}" width="100%" />
+		</mx:FormItem>
+		<mx:FormItem label="{lng.bkm.description}" width="100%">
+			<mx:TextArea id="descriptionTextInput" text="{notifierVO.description}" width="100%" />
+		</mx:FormItem>
+		<mx:FormItem label="{lng.bkm.tags}" width="100%">
+			<mx:TextInput id="tagsTextInput" text="{notifierVO.source}" width="100%" />
+		</mx:FormItem>
+	</mx:Form>
+	<mx:ControlBar>
+		<mx:Button label="{lng.bkm.save}" click="salvar()"/>
+		<mx:Spacer width="100%" />
+		<mx:Button label="{lng.bkm.cancel}" click="fechar()"/>		
+	</mx:ControlBar>
+</mx:TitleWindow>
