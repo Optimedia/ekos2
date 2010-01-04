@@ -1,17 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-				layout="vertical" width="300" height="200"
+				layout="vertical" width="350" height="150"
 				showCloseButton="true" creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.remoting.mxml.RemoteObject;
+			import mx.controls.Alert;
+			import br.com.optimedia.assets.vo.FileVO;
+			import mx.managers.PopUpManager;
 			import mx.events.CloseEvent;
 			
-			private function init():void {
-				
-			}
+			public static const UPLOAD_FILE_EVENT:String = "UPLOAD_FILE_EVENT";
+			
+			private var fr:FileReference;
+            private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg; *.jpeg; *.gif; *.png");
+            private var allTypes:Array = new Array(imageTypes);
+            
+            private function init():void {
+				fileTextInput.text = "";
+                fr = new FileReference();
+                fr.addEventListener(Event.OPEN, onOpen);
+                fr.addEventListener(Event.COMPLETE, onComplete);
+                fr.addEventListener(Event.SELECT, onSelect);
+                fr.addEventListener(ProgressEvent.PROGRESS, onProgress);
+            }
+            
+            private function browse():void {
+                fr.browse(allTypes);
+            }
+            
+            private function onOpen(e:Event):void {
+                progressBar.label = "%3%%";
+            }
+            
+            private function onComplete(e:Event):void {
+                Alert.show("Arquivo enviado com sucesso!");
+                progressBar.visible = false;
+            }
+            
+            private function onSelect(e:Event):void {
+            	fileTextInput.text = fr.name;
+                fr.load();
+                progressBar.visible = true;
+            }
+            
+            private function onProgress(event:ProgressEvent):void {
+                progressBar.setProgress(event.bytesLoaded, event.bytesTotal);
+            }
 			
 			private function closeHandler(event:CloseEvent):void {
+				PopUpManager.removePopUp( this );
+			}
+			
+			private function save():void {
+				var data:ByteArray = new ByteArray(); 
+				var file:FileVO = new FileVO();;
+								
+				//Read the bytes into bytearray var
+				fr.data.readBytes(data, 0, fr.data.length); 
 				
+				// Create a new FileVO instance
+				file.filename = fr.name;
+				file.filedata = data;
+				
+				var remoteService = new RemoteObject();
+				remoteService.destination = "amfphp";
+				remoteService.source = "main.FileUpload";
+				remoteService.showBusyCursor = true;
+				
+				var asynkToken:AsyncToken = remoteService.upload(file);
+				//asynkToken.addResponder( new Responder(uploadResult, generalFault) );
+				
+			}
+			private function generalFault(event:FaultEvent):void {
+				Alert.show(event.fault.faultCode as String);
+			}
+			
+			private function uploadResult(event:ResultEvent):void {
+				//sendNotification( NotificationConstants.FIND_FRIEND_RESULT_ARRAY, event.result);
+				Alert.show("finish me", "uploadResult");
 			}
 			
 		]]>
@@ -21,9 +91,11 @@
 		<mx:FormItem id="fileFormItem" label="Imagem">
 			<mx:TextInput id="fileTextInput" />
 		</mx:FormItem>
-		<mx:Button id="fileBtn" label="Procurar" />
+		<mx:Button id="fileBtn" label="Procurar" click="browse()"/>
 	</mx:HBox>
 	
 	<mx:Button id="saveBtn" label="Salvar" />
+	
+	<mx:ProgressBar id="progressBar" mode="manual" labelPlacement="center" visible="false" width="90%"/>
 	
 </mx:TitleWindow>

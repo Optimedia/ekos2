@@ -39,7 +39,10 @@ package br.com.optimedia.ekos.shell.model
 			asynkToken.addResponder( new Responder(getAllFriendsResult, generalFault) );
 		}
 		private function getAllFriendsResult(event:ResultEvent):void {
-			Alert.show("finish me", "getAllFriendsResult");
+			if(event.result.lengh > 0) {
+				sendNotification( NotificationConstants.GET_ALL_FRIENDS_RESULT, event.result );
+				//Alert.show("finish me", "getAllFriendsResult");
+			}
 		}
 
 		public function findFriend(name:String):void {
