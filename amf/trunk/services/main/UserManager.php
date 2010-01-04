@@ -2,6 +2,7 @@
 
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
+	require_once '../vo/br/com/optimedia/assets/vo/FileVO.php';
 	
 	/**
 	 * Classe para manipula��o do Usu�rio, inserindo, alterando e confirmando dados. 
@@ -211,6 +212,12 @@
 			} else {
 				return false;
 			}			
+		}
+		
+		public function upload(FileVO $file) { 
+			$data = $file->filedata->data;
+			file_put_contents( 'uploads/' . $file->filename, $data);
+			return 'File: ' . $file->filename .' Uploaded '; 
 		}
 	}
 	
