@@ -3,6 +3,7 @@ package br.com.optimedia.ekos.shell.model
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.assets.vo.CompleteUserVO;
+	import br.com.optimedia.assets.vo.FileVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
@@ -106,5 +107,6 @@ package br.com.optimedia.ekos.shell.model
 			if(event.result == true) sendNotification( NotificationConstants.EMAIL_CONFIRM_OK );
 			if(event.result == false) Alert.show("Código inválido", "Atenção");
 		}
+		
 	}
 }
