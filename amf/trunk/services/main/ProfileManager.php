@@ -33,7 +33,7 @@
 		}
 		
 		/**
-		 * Fun��o para atualizar dados do usu�rio
+		 * Função para atualizar dados do usuário
 		 * 
 		 * - Retorna: Boolean
 		 * .
@@ -81,10 +81,8 @@
 		 * .
 		 * @param uint
 		 */
-		
-		//FIXME aasdasd
 		public function getAllScrap($user_id) {
-			// XXX asdasd
+			
 		}
 		
 		/**
@@ -94,15 +92,34 @@
 		 * .
 		 * @param uint
 		 */
-		public function getAllReciveMessages($user_id) {
-			// TODO asdasd
-			
+		public function getAllReciveMessages($user_id) {			
 			require_once './MessageManager.php';
 			$messageManager = new MessageManager();
 			
-			$messageManager -> getAllMessages($user_id);
+			return $messageManager -> getAllMessages($user_id);
 		}
 		
+		/**
+		 * Função para buscar os níveis de educação.
+		 * 
+		 * - Retorna: Array [detail_education_level_id] | [name]
+		 * .
+		 *
+		 */
+		public function getEducationLevel() {
+			require_once "./EducationManager.php";
+			$educationManager = new EducationManager();
+			
+			return $educationManager -> getEducationLevel();
+		}
+		
+		public function getAdressType() {
+			// TODO Pegar os tipos de endereço
+		}
+		
+		public function getAvaliableLanguage() {
+			// TODO Pegar as linguas
+		}
 	}
 	
 ?>
