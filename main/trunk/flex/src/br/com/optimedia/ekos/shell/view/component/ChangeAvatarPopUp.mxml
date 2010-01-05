@@ -4,28 +4,38 @@
 				showCloseButton="true" creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.ekos.MainAppFacade;
+			import org.puremvc.as3.multicore.patterns.facade.Facade;
+			import mx.rpc.AsyncToken;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
-			import mx.rpc.AsyncToken;
 			import mx.rpc.remoting.mxml.RemoteObject;
 			import mx.controls.Alert;
 			import br.com.optimedia.assets.vo.FileVO;
 			import mx.managers.PopUpManager;
 			import mx.events.CloseEvent;
+			import mx.rpc.Responder;
 			
 			public static const UPLOAD_FILE_EVENT:String = "UPLOAD_FILE_EVENT";
 			
+            [Bindable]
 			private var fr:FileReference;
             private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg; *.jpeg; *.gif; *.png");
             private var allTypes:Array = new Array(imageTypes);
+            public var fileVO:FileVO;
+            
+            private var facade:MainAppFacade = MainAppFacade.getInstance();
             
             private function init():void {
+            	facade.startup( this );
+            	
 				fileTextInput.text = "";
                 fr = new FileReference();
                 fr.addEventListener(Event.OPEN, onOpen);
                 fr.addEventListener(Event.COMPLETE, onComplete);
                 fr.addEventListener(Event.SELECT, onSelect);
                 fr.addEventListener(ProgressEvent.PROGRESS, onProgress);
+                
             }
             
             private function browse():void {
@@ -37,41 +47,46 @@
             }
             
             private function onComplete(e:Event):void {
-                Alert.show("Arquivo enviado com sucesso!");
-                progressBar.visible = false;
+				//Alert.show("Arquivo enviado com sucesso!");
+				//progressBar.visible = false;
             }
             
             private function onSelect(e:Event):void {
             	fileTextInput.text = fr.name;
                 fr.load();
-                progressBar.visible = true;
+                saveBtn.enabled = true;
+                //progressBar.visible = true;
             }
             
             private function onProgress(event:ProgressEvent):void {
                 progressBar.setProgress(event.bytesLoaded, event.bytesTotal);
             }
-			
+			/* 
 			private function closeHandler(event:CloseEvent):void {
 				PopUpManager.removePopUp( this );
-			}
+			} */
 			
 			private function save():void {
 				var data:ByteArray = new ByteArray(); 
-				var file:FileVO = new FileVO();;
+				fileVO = new FileVO();
 								
 				//Read the bytes into bytearray var
 				fr.data.readBytes(data, 0, fr.data.length); 
 				
 				// Create a new FileVO instance
-				file.filename = fr.name;
-				file.filedata = data;
+				fileVO.filename = fr.name;
+				fileVO.filedata = data;
 				
-				var remoteService = new RemoteObject();
+				dispatchEvent( new Event(UPLOAD_FILE_EVENT) );
+				
+				/* var remoteService = new RemoteObject();
 				remoteService.destination = "amfphp";
 				remoteService.source = "main.FileUpload";
 				remoteService.showBusyCursor = true;
 				
 				var asynkToken:AsyncToken = remoteService.upload(file);
+				asynkToken.addResponder( new Responder(uploadResult, generalFault) ); */
+				
 				//asynkToken.addResponder( new Responder(uploadResult, generalFault) );
 				
 			}
@@ -84,6 +99,11 @@
 				Alert.show("finish me", "uploadResult");
 			}
 			
+			public function removePopup():void {
+				PopUpManager.removePopUp( this );
+				System.gc();
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -94,8 +114,8 @@
 		<mx:Button id="fileBtn" label="Procurar" click="browse()"/>
 	</mx:HBox>
 	
-	<mx:Button id="saveBtn" label="Salvar" />
+	<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
 	
-	<mx:ProgressBar id="progressBar" mode="manual" labelPlacement="center" visible="false" width="90%"/>
+	<mx:ProgressBar id="progressBar" mode="manual" labelPlacement="center" visible="true" width="90%"/>
 	
 </mx:TitleWindow>

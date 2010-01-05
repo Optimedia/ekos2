@@ -2,6 +2,7 @@ package br.com.optimedia.ekos.shell.model
 {
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.generalcomponents.FaultHandler;
 	import br.com.optimedia.assets.vo.CompleteUserVO;
 	import br.com.optimedia.assets.vo.FileVO;
 	
@@ -34,7 +35,8 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		private function generalFault(event:FaultEvent):void {
-			Alert.show(event.fault.faultCode as String);
+			FaultHandler.handleFault(event);
+			//Alert.show(event.fault.faultCode as String);
 		}
 
 		public function trySignUp(completeUserVO:CompleteUserVO):void {
@@ -108,5 +110,12 @@ package br.com.optimedia.ekos.shell.model
 			if(event.result == false) Alert.show("Código inválido", "Atenção");
 		}
 		
+		public function uploadFile(fileVO:FileVO):void {
+			var asynkToken:AsyncToken = remoteService.uploadFile(new FileVO);
+			asynkToken.addResponder( new Responder(uploadFileResult, generalFault) );
+		}
+		private function uploadFileResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.FILE_UPLOAD_COMPLETE, event.result );
+		}
 	}
 }

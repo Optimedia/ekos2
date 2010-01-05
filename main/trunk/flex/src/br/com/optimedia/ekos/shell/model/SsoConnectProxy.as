@@ -2,6 +2,7 @@ package br.com.optimedia.ekos.shell.model
 {
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.generalcomponents.FaultHandler;
 	import br.com.optimedia.assets.vo.CompleteUserVO;
 	
 	import mx.controls.Alert;
@@ -33,9 +34,10 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		private function generalFault(event:FaultEvent):void {
-			if(event.fault.faultCode == "Client.Error.MessageSend")
+			FaultHandler.handleFault(event);
+			/* if(event.fault.faultCode == "Client.Error.MessageSend")
 				Alert.show("Não foi possível conectar ao servidor de login.", "Atenção");
-			else Alert.show(event.fault.faultCode as String);
+			else Alert.show(event.fault.faultCode as String); */
 		}
 		
 		public function doLogin(login:String, pass:String):void {
