@@ -33,6 +33,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		override public function onRemove():void {
+			trace(NAME+".onRemove()");
 			view.removePopup();
 		}
 		
@@ -51,7 +52,8 @@ package br.com.optimedia.ekos.shell.view
 			switch (note.getName())
 			{
 				case NotificationConstants.FILE_UPLOAD_COMPLETE:
-					Alert.show("finish me", "uploadFileResult");
+					Alert.show("Arquivo enviado com sucesso! FINISH ME!!", "uploadFileResult");
+					removePopUp(null);
 					break;
 				default:
 					break;

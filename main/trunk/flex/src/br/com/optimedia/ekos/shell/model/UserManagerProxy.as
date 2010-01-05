@@ -111,7 +111,7 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		public function uploadFile(fileVO:FileVO):void {
-			var asynkToken:AsyncToken = remoteService.uploadFile(new FileVO);
+			var asynkToken:AsyncToken = remoteService.uploadFile(fileVO);
 			asynkToken.addResponder( new Responder(uploadFileResult, generalFault) );
 		}
 		private function uploadFileResult(event:ResultEvent):void {

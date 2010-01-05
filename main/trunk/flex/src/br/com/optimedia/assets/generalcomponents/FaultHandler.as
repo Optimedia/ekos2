@@ -14,8 +14,12 @@ package br.com.optimedia.assets.generalcomponents
 					Alert.show('Método inexistente no servidor', 'Erro');
 					break;
 				case 'Client.Error.DeliveryInDoubt':
-					Alert.show('FINISH ME!! Client.Error.DeliveryInDoubt', 'Erro');
+					Alert.show('Erro no código PHP ou de Include', 'Erro');
 					break;
+				case 'AMFPHP_RUNTIME_ERROR':
+					Alert.show('Erro no código PHP', 'Erro');
+					break;
+					
 				default:
 					Alert.show(event.fault.faultCode, 'Erro');
 					break;

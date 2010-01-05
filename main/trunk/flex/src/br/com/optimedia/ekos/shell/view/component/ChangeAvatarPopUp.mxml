@@ -116,6 +116,6 @@
 	
 	<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
 	
-	<mx:ProgressBar id="progressBar" mode="manual" labelPlacement="center" visible="true" width="90%"/>
+	<mx:ProgressBar label="Carregando" id="progressBar" mode="manual" labelPlacement="center" visible="true" width="100%"/>
 	
 </mx:TitleWindow>
