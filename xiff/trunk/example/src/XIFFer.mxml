@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="org.davekeen.xiffer.view.components.*"
+    layout="absolute"
+    width="760" height="440" 
+    verticalGap="0"
+    horizontalGap="0"
+    creationComplete="facade.sendNotification(ApplicationFacade.STARTUP, this);">
+    <mx:Script>
+        <![CDATA[
+		import mx.controls.Alert;
+		import mx.core.Application;
+		import mx.containers.TitleWindow;
+		import org.davekeen.xiffer.ApplicationFacade;
+		
+        private var facade:ApplicationFacade = ApplicationFacade.getInstance();
+		
+		/**
+		 * Show a security alert
+		 */
+		public function showSecurityAlert(message:String):void {
+			// Popup an alert
+			Alert.show("Security error\n" + message, "Error", Alert.OK, this);
+		}
+		
+        ]]>
+    </mx:Script>
+	
+	<mx:Canvas left="0" top="0" right="0" bottom="0">
+		<view:LoginView id="loginView" />
+		<view:RosterView y="30" id="rosterView" />
+	</mx:Canvas>
+	
+</mx:Application>
