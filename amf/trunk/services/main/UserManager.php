@@ -214,7 +214,7 @@
 			}			
 		}
 		
-		public function upload(FileVO $file) { 
+		public function uploadFile(FileVO $file) { 
 			$data = $file->filedata->data;
 			file_put_contents( 'uploads/' . $file->filename, $data);
 			return 'File: ' . $file->filename .' Uploaded '; 
