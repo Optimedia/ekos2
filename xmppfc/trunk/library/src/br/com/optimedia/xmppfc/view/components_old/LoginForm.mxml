@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" title="Login">
+
+	<mx:Script>
+			<![CDATA[
+				import mx.validators.Validator;
+				import mx.managers.PopUpManager;
+				import mx.core.Application;
+				
+				public static const ON_LOGIN_SUCESS:String = "onLoginSucess";
+				
+				[Bindable]
+				private var _messageError:String = null;
+				private var _username:String;
+				private var _password:String;
+				private var _server:String;
+				
+				private function init():void {
+					this.addEventListener(Event.ACTIVATE, onActivate);
+					PopUpManager.centerPopUp(this);
+				}
+				
+				public function onActivate(e:Event):void {
+					if (_messageError) {
+						this.lblError.text = _messageError;
+						this.lblError.visible = true;
+					}
+					this.txtPassword.text = _password;
+					this.txtUser.text = _username;
+					this.txtServer.text = _server;
+				}
+		
+				public function get server():String {
+					return this._server;
+				}
+				public function set server(value:String): void { 
+					this._server = value;
+				}
+		
+				public function get username():String {
+					return this._username;
+				}
+				public function set username(value:String): void { 
+					this._username = value;
+				}
+
+				public function get password():String {
+					return this._password;
+				}
+				public function set password(value:String): void { 
+					this._password = value;
+				}
+				
+				public function get messageError():String {
+					return this._messageError;
+				}
+				public function set messageError(value:String): void { 
+					this._messageError = value;
+				}
+				
+
+				private function verifForm():void {
+					var result:Array = Validator.validateAll([userValidator, passValidator, serverValidator]);
+					btnLogin.enabled = (result.length==0) && (!this.lblMessage.visible);
+				}
+				
+				public function showModal():void {
+					PopUpManager.addPopUp(this, (Application.application as DisplayObject), true);
+					/*
+					if (_messageError) {
+						this.lblError.text = _messageError;
+						this.lblError.visible = true;
+					}
+					this.txtPassword.text = _password;
+					this.txtUser.text = _username;
+					this.txtServer.text = _server;
+					*/
+				}
+				
+				public function hideModal():void {
+					PopUpManager.removePopUp(this);
+				}
+				
+				public function wait():void {
+					this.lblMessage.visible = true;
+					this.frmLogin.enabled = false;
+					this.btnLogin.enabled = false;
+				}
+				
+				public function unwait():void {
+					this.lblMessage.visible = false;
+					this.frmLogin.enabled = true;
+					this.verifForm();
+				}
+				
+				private function sucess():void {
+					this._messageError = null;
+					this._password = this.txtPassword.text;
+					this._username = this.txtUser.text;
+					this._server = this.txtServer.text;
+					this.wait();
+					//this.hideModal();
+					this.dispatchEvent(new Event(ON_LOGIN_SUCESS, true));
+				}
+				
+			]]>
+	</mx:Script>
+	
+	<mx:StringValidator id="userValidator" minLength="4" maxLength="12" required="true" 
+		property="text" source="{txtUser}" triggerEvent="change" trigger="{txtUser}"/>
+	<mx:StringValidator id="passValidator" minLength="4" maxLength="12" required="true" 
+		property="text" source="{txtPassword}" triggerEvent="change" trigger="{txtUser}"/>
+	<mx:StringValidator id="serverValidator" minLength="4" maxLength="12" required="true" 
+		property="text" source="{txtServer}" triggerEvent="change" trigger="{txtUser}"/>
+	
+	<mx:Text id="lblError" width="100%" visible="true" color="#FC0404" textAlign="center" fontWeight="bold" text="{this._messageError}" />
+	<mx:Text id="lblMessage" width="100%" visible="false" textAlign="center" fontWeight="bold" text="Wait..." />
+	<mx:Form id="frmLogin" width="100%" height="100%" >
+		<mx:FormItem label="Username" required="true">
+			<mx:TextInput id="txtUser" change="verifForm()"/>
+		</mx:FormItem>
+		<mx:FormItem label="Password" required="true">
+			<mx:TextInput id="txtPassword" displayAsPassword="true" change="verifForm()"/>
+		</mx:FormItem>
+		<mx:FormItem label="Server" required="true">
+			<mx:TextInput id="txtServer" change="verifForm()"/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HBox width="100%" horizontalAlign="center">
+		<mx:Button id="btnLogin" label="Login" click="sucess()" enabled="false"/>
+	</mx:HBox>
+</mx:TitleWindow>
