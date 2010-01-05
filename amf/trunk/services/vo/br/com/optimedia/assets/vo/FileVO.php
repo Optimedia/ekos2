@@ -1,10 +1,9 @@
 <?php
-class FileVO {
-	
-	public $filename;
-	public $filedata;
-	
-	// explicit actionscript class
-    var $_explicitType = "br.com.optimedia.assets.vo.FileVO";
-}
-?>
+
+	class FileVO {
+		
+		public $filename;
+		public $filedata;
+		
+	    var $_explicitType = "br.com.optimedia.assets.vo.FileVO";
+	}
