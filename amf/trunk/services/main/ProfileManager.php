@@ -114,7 +114,10 @@
 		}
 		
 		public function getAdressType() {
-			// TODO Pegar os tipos de endereço
+			require_once "./AdressManager.php";
+			$adressManager = new AdressManager();
+			
+			return $adressManager -> getAdressType();
 		}
 		
 		public function getAvaliableLanguage() {
