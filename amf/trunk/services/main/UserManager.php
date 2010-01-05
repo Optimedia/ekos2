@@ -214,9 +214,13 @@
 			}			
 		}
 		
+		public function uploads($teste) {
+			return $teste;
+		}
+		
 		public function uploadFile(FileVO $file) { 
 			$data = $file->filedata->data;
-			file_put_contents( 'uploads/' . $file->filename, $data);
+			file_put_contents( 'avatars/' . mt_rand() . $file->filename, $data);
 			return 'File: ' . $file->filename .' Uploaded '; 
 		}
 	}
