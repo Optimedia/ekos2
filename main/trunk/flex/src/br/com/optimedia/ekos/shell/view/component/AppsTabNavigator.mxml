@@ -12,7 +12,7 @@
 		]]>
 	</mx:Script>
 	
-	<component:EditProfileView id="editProfileView" label="Perfil"/>
+	<component:EditProfile id="editProfileView" label="Perfil"/>
 	
 	<component:FriendsView id="friendsView" label="Amigos"/>
 	
