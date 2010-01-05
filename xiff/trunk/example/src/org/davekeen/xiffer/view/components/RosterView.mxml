@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+		import flash.events.Event;
+		import mx.events.ListEvent;
+		import org.davekeen.xiffer.events.ChatEvent;
+		import org.jivesoftware.xiff.core.JID;
+		
+		private function onChatClick():void {
+			if (rosterGrid.selectedItem) {
+				// Get the selected item and convert it to a JID
+				var jid:JID = new JID(rosterGrid.selectedItem.jid);
+				
+				// Dispatch an event for the mediator
+				dispatchEvent(new ChatEvent(ChatEvent.START_CHAT, jid));
+			}
+		}
+		
+		]]>
+	</mx:Script>
+	<mx:TitleWindow id="titleWindow" title="Buddy list" enabled="false">
+		<mx:DataGrid id="rosterGrid" editable="false" width="160" height="300" showHeaders="true">
+			<mx:columns>
+				<mx:DataGridColumn dataField="displayName" headerText="Username" />
+				<mx:DataGridColumn dataField="online" width="55" headerText="Online?" />
+			</mx:columns>
+		</mx:DataGrid>
+		<mx:Button width="160" label="Chat..." click="onChatClick()" />
+	</mx:TitleWindow>
+</mx:Canvas>
