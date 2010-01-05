@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" horizontalGap="4"><!-- layout="absolute"-->
+		
+		<mx:Script>
+			<![CDATA[
+				
+				[Embed(source="assets/default-avatar-small.png")]
+	            [Bindable]
+	
+	            public var smalAvatar:Class;  
+				
+			]]>
+		</mx:Script>
+		
+		<mx:Image source="{smalAvatar}" id="imgAvatar" width="32" height="32"/>
+		<mx:VBox height="100%" width="100%" verticalGap="0">
+			<mx:LinkButton label="LinkButton" width="100%" textAlign="left"/>
+			<mx:ComboBox width="100%"></mx:ComboBox>
+		</mx:VBox>
+</mx:HBox>

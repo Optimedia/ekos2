@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="br.com.optimedia.xmppfc.example.view.components.*"
+    layout="absolute"
+    width="760" height="440" 
+    verticalGap="0"
+    horizontalGap="0"
+    creationComplete="init();">
+    <mx:Script>
+        <![CDATA[
+		import mx.controls.Alert;
+		import mx.core.Application;
+		import mx.containers.TitleWindow;
+		import br.com.optimedia.xmppfc.ApplicationFacade;
+		import br.com.optimedia.xmppfc.example.view.mediators.ExampleXmppFcMediator;
+		
+        private var facade:ApplicationFacade = ApplicationFacade.getInstance();
+		
+		public function init():void {
+			//facade.setLoginMediator(new LoginMediator(loginView));
+			facade.sendNotification(ApplicationFacade.STARTUP, new ExampleXmppFcMediator(this));
+		}
+		
+        ]]> 
+    </mx:Script>
+	
+	<mx:Canvas left="0" top="0" right="0" bottom="0">
+		<view:LoginView id="loginView" />
+		<view:RosterView y="41" id="rosterView" />
+	</mx:Canvas>
+	 
+</mx:Application>
