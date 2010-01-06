@@ -40,7 +40,8 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.LOGIN_OK];
+			return [NotificationConstants.LOGIN_OK,
+					NotificationConstants.AVATAR_UPLOAD_COMPLETE];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -49,6 +50,9 @@ package br.com.optimedia.ekos.shell.view
 			{
 				case NotificationConstants.LOGIN_OK:
 					view.completeUserVO = note.getBody() as CompleteUserVO;
+					break;
+				case NotificationConstants.AVATAR_UPLOAD_COMPLETE:
+					view.completeUserVO.large_avatar = "//10.1.1.10/web/amf/services/main/avatars/160x160/"+note.getBody();
 					break;
 				default:
 					break;

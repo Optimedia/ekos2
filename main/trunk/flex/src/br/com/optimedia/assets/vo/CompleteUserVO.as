@@ -1,5 +1,7 @@
 package br.com.optimedia.assets.vo
 {
+	import flash.utils.ByteArray;
+	
 	import mx.collections.ArrayCollection;
 	
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.CompleteUserVO")]
@@ -33,5 +35,13 @@ package br.com.optimedia.assets.vo
 		public var languageArray:ArrayCollection = new ArrayCollection();
 		public var professionArray:ArrayCollection = new ArrayCollection();
 		
+		//usado para copiar o VO sem criar assuciação entre as variáveis
+		//uso: newVO = oldVO.clone();
+		public function clone():* {
+		    var copier:ByteArray = new ByteArray();
+		    copier.writeObject(this);
+		    copier.position = 0;
+		    return copier.readObject() as CompleteUserVO;
+		}
 	}
 }

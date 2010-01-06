@@ -115,7 +115,7 @@ package br.com.optimedia.ekos.shell.model
 			asynkToken.addResponder( new Responder(uploadFileResult, generalFault) );
 		}
 		private function uploadFileResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.FILE_UPLOAD_COMPLETE, event.result );
+			sendNotification( NotificationConstants.AVATAR_UPLOAD_COMPLETE, event.result );
 		}
 	}
 }
