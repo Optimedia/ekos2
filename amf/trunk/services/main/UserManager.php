@@ -1,6 +1,7 @@
 <?php
 
 	require_once '../includes/SqlManager.php';
+	require_once '../includes/thumbnail_generator.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/FileVO.php';
 	
@@ -220,9 +221,9 @@
 		
 		public function uploadFile(FileVO $file) { 
 			$data = $file->filedata->data;
-			file_put_contents( 'avatars/' . mt_rand() . $file->filename, $data);
-			return 'File: ' . $file->filename .' Uploaded '; 
+			$filename = mt_rand() . $file->filename;
+			file_put_contents( 'avatars/' . $filename, $data);
+			createthumb("avatars/$filename","avatars/160x160/$filename", 160, 160);
+			return $filename;
 		}
 	}
-	
-?>
