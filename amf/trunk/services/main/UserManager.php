@@ -215,10 +215,6 @@
 			}			
 		}
 		
-		public function uploads($teste) {
-			return $teste;
-		}
-		
 		public function uploadFile(FileVO $file) { 
 			$data = $file->filedata->data;
 			$filename = mt_rand() . $file->filename;
