@@ -44,14 +44,14 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.FILE_UPLOAD_COMPLETE];
+			return [NotificationConstants.AVATAR_UPLOAD_COMPLETE];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				case NotificationConstants.FILE_UPLOAD_COMPLETE:
+				case NotificationConstants.AVATAR_UPLOAD_COMPLETE:
 					Alert.show("Arquivo enviado com sucesso! FINISH ME!!", "uploadFileResult");
 					removePopUp(null);
 					break;

@@ -10,6 +10,6 @@ package br.com.optimedia.assets.constants
 		public static const EMAIL_CONFIRM_OK:String = "EMAIL_CONFIRM_OK";
 		public static const GET_ALL_FRIENDS_RESULT:String = "GET_ALL_FRIENDS_RESULT";
 		public static const FIND_FRIEND_RESULT_ARRAY:String = "FIND_FRIEND_RESULT_ARRAY";
-		public static const FILE_UPLOAD_COMPLETE:String = "FILE_UPLOAD_COMPLETE";
+		public static const AVATAR_UPLOAD_COMPLETE:String = "AVATAR_UPLOAD_COMPLETE";
 	}
 }

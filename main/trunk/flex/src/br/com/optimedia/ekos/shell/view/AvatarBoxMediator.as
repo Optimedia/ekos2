@@ -35,13 +35,20 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [NotificationConstants.LOGIN_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case NotificationConstants.LOGIN_OK:
+					view.completeUserVO = CompleteUserVO(note.getBody()).clone();
+					/* view.completeUserVO.large_avatar = CompleteUserVO(note.getBody()).large_avatar;
+					view.completeUserVO.first_name = CompleteUserVO(note.getBody()).first_name;
+					view.completeUserVO.last_name = CompleteUserVO(note.getBody()).last_name;
+					view.completeUserVO.nickname = CompleteUserVO(note.getBody()).nickname; */
+					break;
 				default:
 					break;
 			}

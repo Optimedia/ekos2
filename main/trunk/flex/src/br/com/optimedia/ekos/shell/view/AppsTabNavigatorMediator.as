@@ -1,8 +1,8 @@
 package br.com.optimedia.ekos.shell.view
 {
 	import br.com.optimedia.assets.constants.NotificationConstants;
-	import br.com.optimedia.ekos.MainAppFacade;
 	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
+	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
 	import br.com.optimedia.ekos.shell.view.component.AppsTabNavigator;
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
 	
@@ -20,6 +20,7 @@ package br.com.optimedia.ekos.shell.view
 		public static const NAME:String = 'AppsTabNavigatorMediator';
 		
 		private var friendManagerProxy:FriendManagerProxy;
+		//private var ssoConnectProxy:SsoConnectProxy;
 		
 		public function AppsTabNavigatorMediator(viewComponent:Object=null)
 		{
@@ -30,6 +31,7 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+".onRegister()");
 			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
+			//ssoConnectProxy = facade.retrieveProxy( SsoConnectProxy.NAME ) as SsoConnectProxy;
 			
 			view.addEventListener(IndexChangedEvent.CHANGE, onSelectedItemChange);
 			
@@ -69,7 +71,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function onSelectedItemChange(event:IndexChangedEvent):void {
-			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends( MainAppFacade(facade).myCompleteUserVO.account_id );
+			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends( SsoConnectProxy.myID );
 		}
 		
 		private function onSearchBtnClick(event:Event):void {

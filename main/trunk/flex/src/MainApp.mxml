@@ -24,8 +24,8 @@
 				PopUpManager.centerPopUp(loginPanel);
 			}
 			
-			public function showCockpit(completeUserVO:CompleteUserVO):void {
-				myAvatar.completeUserVO = completeUserVO;
+			public function showCockpit():void {
+				//myAvatar.completeUserVO = completeUserVO;
 				this.visible = true;
 			}
 			

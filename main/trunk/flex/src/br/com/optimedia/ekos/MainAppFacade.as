@@ -27,8 +27,8 @@ package br.com.optimedia.ekos
 		[Bindable]
 		public var lng:XML = new XML();
 		
-		[Bindable]
-		public var myCompleteUserVO:CompleteUserVO = new CompleteUserVO();
+		/* [Bindable]
+		public var myCompleteUserVO:CompleteUserVO = new CompleteUserVO(); */
 		
 		public function MainAppFacade(key:String)
 		{
