@@ -120,7 +120,7 @@
 		 */
 		public function updateUser(CompleteUserVO $completeUser) {
 			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois el� a refer�ncia para os IDs das outras tabelas.
-			$handler_names = array ('Account', 'Profile', 'User');
+			$handler_names = array ('Account', 'Profile', 'User', 'Adress', 'Education');
 			
 			$error = 0;
 			
