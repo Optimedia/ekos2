@@ -113,6 +113,13 @@
 			return $educationManager -> getEducationLevel();
 		}
 		
+		/**
+		 * Função para buscar os níveis de educação.
+		 * 
+		 * - Retorna: Array [eko_detail_address_type] | [name]
+		 * .
+		 *
+		 */
 		public function getAdressType() {
 			require_once "./AdressManager.php";
 			$adressManager = new AdressManager();
