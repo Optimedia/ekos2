@@ -202,7 +202,7 @@
 		 * 
 		 * @return Boolean
 		 */		
-		public function getPassword($emailOrName) {			
+		public function getPassword($emailOrName) {
 			$sql = "SELECT a.account_id, u.password FROM eko_account a, eko_user u WHERE (a.name='$emailOrName' OR a.email='$emailOrName') AND u.user_id=a.account_id";
 			$result = parent::doSelect($sql);
 			
