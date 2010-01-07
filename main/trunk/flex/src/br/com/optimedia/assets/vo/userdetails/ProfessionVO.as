@@ -7,11 +7,11 @@ package br.com.optimedia.assets.vo.userdetails
 	{
 		public var company:String;
 		public var position:String;
-		public var jobDescription:String;
-		public var jobCountry:String;
-		public var jobState:String;
-		public var jobCity:String;
-		public var jobBeginDate:String;
-		public var jobEndDate:String;
+		public var description:String;
+		public var country_name:String;
+		public var state_name:String;
+		public var city_name:String;
+		public var begin_date:String;
+		public var end_date:String;
 	}
 }

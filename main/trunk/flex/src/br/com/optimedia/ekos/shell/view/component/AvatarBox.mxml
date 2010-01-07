@@ -35,15 +35,15 @@
 			<mx:RemoveChild target="{ignoreUserBtn}"/>
 			<mx:RemoveChild target="{sendPrivateMsgBtn}"/>
 			<mx:RemoveChild target="{removeFriendBtn}"/>
-			
 			<mx:RemoveChild target="{completeName}"/>
+			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
 		</mx:State>
 		<mx:State name="mySmallAvatar">
 			<mx:SetProperty target="{this}" name="width" value="100"/>
 			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="100"/>
-			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>
+			<!--<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>-->
 			<mx:SetProperty target="{nickName}" name="maxWidth" value="100"/>
-			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>
+			<!--<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>-->
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
 			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
 			
@@ -58,9 +58,9 @@
 		<mx:State name="generalSmallAvatar">
 			<mx:SetProperty target="{this}" name="width" value="100"/>
 			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="100"/>
-			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>
+			<!--<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>-->
 			<mx:SetProperty target="{nickName}" name="maxWidth" value="100"/>
-			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>
+			<!--<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>-->
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
 			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
 			
@@ -71,9 +71,9 @@
 		<mx:State name="searchSmallAvatar">
 			<mx:SetProperty target="{this}" name="width" value="200"/>
 			<mx:SetProperty target="{avatarPanel}" name="maxWidth" value="200"/>
-			<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>
+			<!--<mx:SetProperty target="{avatarImage}" name="maxWidth" value="100"/>-->
 			<mx:SetProperty target="{nickName}" name="maxWidth" value="100"/>
-			<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>
+			<!--<mx:SetProperty target="{avatarImage}" name="maxHeight" value="100"/>-->
 			<mx:SetProperty target="{buttonsHBox}" name="maxWidth" value="100"/>
 			<mx:SetProperty target="{avatarImage}" name="source" value="{_completeUserVO.small_avatar}"/>
 			
@@ -83,7 +83,8 @@
 	
 	<mx:Panel id="avatarPanel" styleName="avatarPanel" width="180" horizontalAlign="center">
 		<mx:HBox width="100%" height="100" horizontalAlign="center">
-			<mx:Image id="avatarImage" maxWidth="100" maxHeight="100" source="{_completeUserVO.large_avatar}"/>
+			<!--<mx:Image id="avatarImage" maxWidth="100" maxHeight="100" source="{_completeUserVO.large_avatar}"/>-->
+			<mx:Image id="avatarImage" source="{_completeUserVO.small_avatar}"/>
 			<mx:Text id="completeName" width="100%" text="{_completeUserVO.first_name + ' ' + _completeUserVO.last_name}" />
 		</mx:HBox>
 		<mx:Text id="nickName" text="{_completeUserVO.nickname}" />

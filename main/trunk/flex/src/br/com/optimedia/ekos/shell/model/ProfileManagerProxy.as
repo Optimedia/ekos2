@@ -45,5 +45,12 @@ package br.com.optimedia.ekos.shell.model
 			sendNotification( NotificationConstants.AVATAR_UPLOAD_COMPLETE, event.result );
 		}
 		
+		public function getEducationLevels():void {
+			var asynkToken:AsyncToken = remoteService.getEducationLevels();
+			asynkToken.addResponder( new Responder(getEducationLevelsResult, generalFault) );
+		}
+		private function getEducationLevelsResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.GET_EDUCATION_LEVELS_OK, event.result );
+		}
 	}
 }

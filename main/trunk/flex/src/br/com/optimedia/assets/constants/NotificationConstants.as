@@ -12,5 +12,6 @@ package br.com.optimedia.assets.constants
 		public static const FIND_FRIEND_RESULT_ARRAY:String = "FIND_FRIEND_RESULT_ARRAY";
 		public static const AVATAR_UPLOAD_COMPLETE:String = "AVATAR_UPLOAD_COMPLETE";
 		public static const UPDATE_USER_OK:String = "UPDATE_USER_OK";
+		public static const GET_EDUCATION_LEVELS_OK:String = "GET_EDUCATION_LEVELS_OK";
 	}
 }
