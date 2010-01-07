@@ -141,8 +141,7 @@
 			}
 			
 			if($error == 0) {
-				//return true;
-				return $completeUser->large_avatar;
+				return true;
 			} else {
 				return false;
 			}
