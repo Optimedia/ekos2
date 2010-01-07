@@ -20,7 +20,7 @@ package br.com.optimedia.ekos.shell.model
 		
 		private var remoteService:RemoteObject;
 		
-		public static var myID:int;
+		//public static var myID:int;
 		
 		public function SsoConnectProxy(data:Object=null)
 		{
@@ -48,7 +48,7 @@ package br.com.optimedia.ekos.shell.model
 		}
 		private function doLoginResult(event:ResultEvent):void {
 			if (event.result is CompleteUserVO) {
-				myID = CompleteUserVO(event.result).account_id;
+				//myID = CompleteUserVO(event.result).account_id;
 				sendNotification(NotificationConstants.LOGIN_OK, event.result );
 			}
 			if (event.result == 1) Alert.show("Usuário inexistente ou senha não confere", "Atenção");

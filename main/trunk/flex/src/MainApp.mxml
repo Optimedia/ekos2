@@ -2,7 +2,8 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="horizontal" height="100%" width="100%"
 				creationComplete="init()" xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
-				horizontalScrollPolicy="off" visible="false" showEffect="{fadeEffect}"  hideEffect="{fadeEffect}">
+				horizontalScrollPolicy="off" verticalScrollPolicy="off"
+				visible="false" showEffect="{fadeEffect}"  hideEffect="{fadeEffect}">
 	
 	<mx:Script>
 		<![CDATA[

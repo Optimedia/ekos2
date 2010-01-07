@@ -1,6 +1,7 @@
 package br.com.optimedia.ekos.shell.model
 {
 	import br.com.optimedia.assets.constants.NotificationConstants;
+	import br.com.optimedia.assets.generalcomponents.FaultHandler;
 	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
@@ -31,11 +32,12 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		private function generalFault(event:FaultEvent):void {
-			Alert.show(event.fault.faultCode as String);
+			FaultHandler.handleFault(event);
+			//Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function getAllFriends(myID:uint):void {
-			var asynkToken:AsyncToken = remoteService.getAllFriends(myID);
+		public function getAllFriends():void {
+			var asynkToken:AsyncToken = remoteService.getAllFriends();
 			asynkToken.addResponder( new Responder(getAllFriendsResult, generalFault) );
 		}
 		private function getAllFriendsResult(event:ResultEvent):void {

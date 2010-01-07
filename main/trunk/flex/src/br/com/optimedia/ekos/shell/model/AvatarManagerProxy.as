@@ -1,5 +1,6 @@
 package br.com.optimedia.ekos.shell.model
 {
+	import br.com.optimedia.assets.generalcomponents.FaultHandler;
 	import br.com.optimedia.assets.vo.MessageVO;
 	
 	import mx.controls.Alert;
@@ -31,18 +32,19 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		private function generalFault(event:FaultEvent):void {
-			Alert.show(event.fault.faultCode as String);
+			FaultHandler.handleFault(event);
+			//Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function addFriend(myID:uint, friendID:uint):void {
-			var asynkToken:AsyncToken = remoteService.addFriend(myID, friendID);
+		public function addFriend(friendID:uint):void {
+			var asynkToken:AsyncToken = remoteService.addFriend(friendID);
 			asynkToken.addResponder( new Responder(addFriendResult, generalFault) );
 		}
 		private function addFriendResult(event:ResultEvent):void {
 			Alert.show("finish me", "addFriendResult");
 		}
-		public function addIgnore(myID:uint, friendID:uint):void {
-			var asynkToken:AsyncToken = remoteService.addIgnore(myID, friendID);
+		public function addIgnore(friendID:uint):void {
+			var asynkToken:AsyncToken = remoteService.addIgnore(friendID);
 			asynkToken.addResponder( new Responder(addIgnoreResult, generalFault) );
 		}
 		private function addIgnoreResult(event:ResultEvent):void {

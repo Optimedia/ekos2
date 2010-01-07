@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
-			creationComplete="init()">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="510"
+			creationComplete="init()" paddingRight="10">
 	
 	<mx:Script>
 	<![CDATA[
@@ -17,6 +17,7 @@
 		
 		private function init():void {
 			facade.startup( this );
+			socialPanel.height = 380;
 		}
 		
 		public function set completeUserVO(value:CompleteUserVO):void {
@@ -39,7 +40,9 @@
 		}
 		
 		private function addEducationForm():void {
+			if(!_completeUserVO.educationArray) _completeUserVO.educationArray = new ArrayCollection();
 			_completeUserVO.educationArray.addItemAt(new Object(), _completeUserVO.educationArray.length);
+			educationList.height += 235;
 		}
 		
 		/* 
@@ -53,7 +56,9 @@
 			return _completeUserVO.professionArray;
 		}
 		private function addProfessionForm():void {
+			if(!_completeUserVO.professionArray) _completeUserVO.professionArray = new ArrayCollection();
 			_completeUserVO.professionArray.addItemAt(new Object(), _completeUserVO.professionArray.length);
+			professionList.height += 290;
 		}
 		
 		/* 
@@ -66,7 +71,9 @@
 			return _completeUserVO.addressArray;
 		}
 		private function addAddressForm():void {
+			if(!_completeUserVO.addressArray) _completeUserVO.addressArray = new ArrayCollection();
 			_completeUserVO.addressArray.addItemAt(new Object(), _completeUserVO.addressArray.length);
+			addressList.height += 260;
 		}
 		
 		/* 
@@ -79,7 +86,9 @@
 			return _completeUserVO.languageArray;
 		}
 		private function addLanguageForm():void {
+			if(!_completeUserVO.languageArray) _completeUserVO.languageArray = new ArrayCollection();
 			_completeUserVO.languageArray.addItemAt(new Object(), _completeUserVO.languageArray.length);
+			languageList.height += 175;
 		}
 		
 		private var changeAvatarPopUp:ChangeAvatarPopUp;
@@ -88,342 +97,345 @@
 			PopUpManager.addPopUp( changeAvatarPopUp, Application.application as DisplayObject, true );
 			PopUpManager.centerPopUp( changeAvatarPopUp );
 		}
+		
+		private function saveHandler():void {
+			trace(_completeUserVO);
+		}
 	]]>
 	</mx:Script>
 	
-	<mx:TabNavigator id="tabNavigator" width="500" height="400" creationPolicy="all">
+	<mx:Button id="resetBtn" label="Reset" />
+	<mx:Button id="saveBtn" label="Salvar"/>
 		
-		<mx:VBox width="100%" height="100%" label="Social" horizontalAlign="center">
-			<mx:Form >
-				<mx:FormItem label="E-mail">
-					<mx:TextInput id="emailTextInput" text="{_completeUserVO.email}"/>
-				</mx:FormItem>
-				<mx:FormItem label="Apelido">
-					<mx:TextInput id="nicknameTextInput" text="{_completeUserVO.nickname}"/>
-				</mx:FormItem>
-				<mx:FormItem label="Nome">
-					<mx:TextInput id="firstNameTextInput" text="{_completeUserVO.first_name}"/>
-				</mx:FormItem>
-				<mx:FormItem label="Sobrenome">
-					<mx:TextInput id="lastNameTextInput" text="{_completeUserVO.last_name}"/>
-				</mx:FormItem>
-			</mx:Form>
-			<mx:Image source="{_completeUserVO.large_avatar}" />
-			<mx:Button id="avatarChangeBtn" label="Alterar" click="openChangeAvatarPopUp()"/>
-		</mx:VBox>
-		
-		<mx:VBox width="100%" height="100%" label="Educação" verticalScrollPolicy="off">
-			<mx:Button id="addEducationBtn" label="Adicionar" click="addEducationForm()"/>
-			<mx:List id="educationList" width="100%" height="340" verticalScrollPolicy="auto"
-					selectable="false" dataProvider="{_completeUserVO.educationArray}">
-				<mx:itemRenderer>
-				<mx:Component>
-					<mx:VBox width="100%" horizontalAlign="center">
-						<mx:Script>
-							<![CDATA[
-								import mx.collections.ArrayCollection;
-								
-								private function moveItemToTop(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
-									ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.educationArray).addItemAt(item, 0);
-								}
-								private function moveItemUp(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
-									// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
-									if (fromIndex != 0) {
-										ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.educationArray).addItemAt(item, fromIndex-1);
-									}
-								}
-								private function moveItemDown(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.educationArray).length;
-									// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
-									if (lenght - fromIndex > 1) {
-										ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.educationArray).addItemAt(item, fromIndex+1);
-									}
-								}
-								private function moveItemToBottom(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.educationArray).length;
-									ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.educationArray).addItemAt(item, lenght-1);
-								}
-							]]>
-						</mx:Script>
-						<mx:Form>
-							<mx:FormItem label="Nível">
-								<mx:ComboBox id="levelComboBox" />
-							</mx:FormItem>
-							<mx:FormItem label="Instituição">
-								<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Conclusão">
-								<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Situação">
-								<mx:ComboBox id="statusComboBox" />
-							</mx:FormItem>
-							<mx:FormItem label="Curso">
-								<mx:TextInput id="courseTextInput" text="{data.course}" change="data.course=courseTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Título">
-								<mx:TextInput id="titleTextInput" text="{data.title}" change="data.title=titleTextInput.text"/>
-							</mx:FormItem>
-						</mx:Form>
-						<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
-							<mx:Button id="topProfessionBtn" label="Início" click="moveItemToTop(data)"/>
-							<mx:Button id="upProfessionBtn" label="Sobe" click="moveItemUp(data)"/>
-							<mx:Button id="downProfessionBtn" label="Desce" click="moveItemDown(data)"/>
-							<mx:Button id="bottomProfessionBtn" label="Fim" click="moveItemToBottom(data)"/>
-							<mx:Spacer width="100%"/>
-							<mx:Button id="deleteProfessionBtn" label="Excluir"/>
-						</mx:HBox>
-					</mx:VBox>
-				</mx:Component>
-				</mx:itemRenderer>
-			</mx:List>
-		</mx:VBox>
-		
-		<mx:VBox width="100%" height="100%" label="Profissional" verticalScrollPolicy="off">
-			<mx:Button id="addProfessionBtn" label="Adicionar" click="addProfessionForm()"/>
-			<mx:List id="professionList" width="100%" height="340" verticalScrollPolicy="auto"
-					selectable="false" dataProvider="{_completeUserVO.professionArray}">
-				<mx:itemRenderer>
-				<mx:Component>
-					<mx:VBox width="100%" horizontalAlign="center">
-						<mx:Script>
-							<![CDATA[
-								import mx.collections.ArrayCollection;
-								
-								private function moveItemToTop(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
-									ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.professionArray).addItemAt(item, 0);
-								}
-								private function moveItemUp(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
-									// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
-									if (fromIndex != 0) {
-										ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.professionArray).addItemAt(item, fromIndex-1);
-									}
-								}
-								private function moveItemDown(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.professionArray).length;
-									// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
-									if (lenght - fromIndex > 1) {
-										ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.professionArray).addItemAt(item, fromIndex+1);
-									}
-								}
-								private function moveItemToBottom(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.professionArray).length;
-									ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.professionArray).addItemAt(item, lenght-1);
-								}
-							]]>
-						</mx:Script>
-						<mx:Form>
-							<mx:FormItem label="Empresa">
-								<mx:TextInput id="companyTextInput" text="{data.company}" change="data.company=companyTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Cargo">
-								<mx:TextInput id="positionTextInput" text="{data.position}" change="data.position=positionTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Descrição">
-								<mx:TextInput id="jobDescriptionTextInput" text="{data.jobDescription}" change="data.jobDescription=jobDescriptionTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="País">
-								<mx:TextInput id="jobCountryTextInput" text="{data.jobCountry}" change="data.jobCountry=jobCountryTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Estado">
-								<mx:TextInput id="jobUFTextInput" text="{data.jobUF}" change="data.jobState=jobUFTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Cidade">
-								<mx:TextInput id="jobCityTextInput" text="{data.jobCity}" change="data.jobCity=jobCityTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Início">
-								<mx:TextInput id="jobBeginTextInput" text="{data.jobBeginDate}" change="data.jobBeginDate=jobBeginTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Cidade">
-								<mx:TextInput id="jobEndTextInput" text="{data.jobEndDate}" change="data.jobEndDate=jobEndTextInput.text"/>
-							</mx:FormItem>
-						</mx:Form>
-						<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
-							<mx:Button id="topEducationBtn" label="Início" click="moveItemToTop(data)"/>
-							<mx:Button id="upEducationBtn" label="Sobe" click="moveItemUp(data)"/>
-							<mx:Button id="downEducationBtn" label="Desce" click="moveItemDown(data)"/>
-							<mx:Button id="bottomEducationBtn" label="Fim" click="moveItemToBottom(data)"/>
-							<mx:Spacer width="100%"/>
-							<mx:Button id="deleteEducationBtn" label="Excluir"/>
-						</mx:HBox>
-					</mx:VBox>
-				</mx:Component>
-				</mx:itemRenderer>
-			</mx:List>
-		</mx:VBox>
-			
-		<mx:VBox width="100%" height="100%" label="Endereço" verticalScrollPolicy="off">
-			<mx:Button id="addAddressBtn" label="Adicionar" click="addAddressForm()"/>
-			<mx:List id="addressList" width="100%" height="340" verticalScrollPolicy="auto"
-					selectable="false" dataProvider="{_completeUserVO.addressArray}">
-				<mx:itemRenderer>
-				<mx:Component>
-					<mx:VBox width="100%" horizontalAlign="center">
-						<mx:Script>
-							<![CDATA[
-								import mx.collections.ArrayCollection;
-								
-								private function moveItemToTop(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
-									ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.addressArray).addItemAt(item, 0);
-								}
-								private function moveItemUp(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
-									// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
-									if (fromIndex != 0) {
-										ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.addressArray).addItemAt(item, fromIndex-1);
-									}
-								}
-								private function moveItemDown(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.addressArray).length;
-									// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
-									if (lenght - fromIndex > 1) {
-										ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.addressArray).addItemAt(item, fromIndex+1);
-									}
-								}
-								private function moveItemToBottom(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.addressArray).length;
-									ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.addressArray).addItemAt(item, lenght-1);
-								}
-							]]>
-						</mx:Script>
-						<mx:Form>
-							<mx:FormItem label="Tipo">
-								<mx:ComboBox id="addressTypeComboBox"/>
-							</mx:FormItem>
-							<mx:FormItem label="País">
-								<mx:TextInput id="addressCountryTextInput" text="{data.addressCountry}" change="data.addressCountry=addressCountryTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Estado">
-								<mx:TextInput id="addressUFTextInput" text="{data.addressUF}" change="data.addressUF=addressUFTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Cidade">
-								<mx:TextInput id="addressCityTextInput" text="{data.addressCity}" change="data.addressCity=addressCityTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Endereço">
-								<mx:TextInput id="addressTextInput" text="{data.address}" change="data.address=addressTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="Complemento">
-								<mx:TextInput id="addressComplementTextInput" text="{data.addressComplement}" change="data.addressComplement=addressComplementTextInput.text"/>
-							</mx:FormItem>
-							<mx:FormItem label="CEP">
-								<mx:TextInput id="zipCodeTextInput" text="{data.zipCode}" change="data.zipCode=zipCodeTextInput.text"/>
-							</mx:FormItem>
-						</mx:Form>
-						<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
-							<mx:Button id="topAddressBtn" label="Início" click="moveItemToTop(data)"/>
-							<mx:Button id="upAddressBtn" label="Sobe" click="moveItemUp(data)"/>
-							<mx:Button id="downAddressBtn" label="Desce" click="moveItemDown(data)"/>
-							<mx:Button id="bottomAddressBtn" label="Fim" click="moveItemToBottom(data)"/>
-							<mx:Spacer width="100%"/>
-							<mx:Button id="deleteAddressBtn" label="Excluir"/>
-						</mx:HBox>
-					</mx:VBox>
-				</mx:Component>
-				</mx:itemRenderer>
-			</mx:List>
-		</mx:VBox>
-			
-		<mx:VBox width="100%" height="100%" label="Linguas" verticalScrollPolicy="off">
-			<mx:Button id="addLanguageBtn" label="Adicionar" click="addLanguageForm()"/>
-			<mx:List id="languageList" width="100%" height="340" verticalScrollPolicy="auto"
-					selectable="false" dataProvider="{_completeUserVO.languageArray}">
-				<mx:itemRenderer>
-				<mx:Component>
-					<mx:VBox width="100%" horizontalAlign="center">
-						<mx:Script>
-							<![CDATA[
-								import mx.collections.ArrayCollection;
-								
-								private var levels:Array = ["Muito bom", "Bom", "Normal", "Ruim", "Muito ruim"];
-								
-								private function onLanguageSelection():void {
-									speechComboBox.selectedIndex = 2;
-									writingComboBox.selectedIndex = 2;
-									readingComboBox.selectedIndex = 2;
-								}
-								
-								private function moveItemToTop(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
-									ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, 0);
-								}
-								private function moveItemUp(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
-									// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
-									if (fromIndex != 0) {
-										ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, fromIndex-1);
-									}
-								}
-								private function moveItemDown(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.languageArrayCollection).length;
-									// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
-									if (lenght - fromIndex > 1) {
-										ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
-										ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, fromIndex+1);
-									}
-								}
-								private function moveItemToBottom(item:Object):void {
-									var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
-									var lenght:int = ArrayCollection(parentDocument.languageArrayCollection).length;
-									ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
-									ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, lenght-1);
-								}
-								
-							]]>
-						</mx:Script>
-						<mx:Form>
-							<mx:FormItem label="Lingua">
-								<mx:ComboBox id="languageComboBox" change="onLanguageSelection()" prompt=""/>
-							</mx:FormItem>
-							<mx:FormItem label="Fala">
-								<mx:ComboBox id="speechComboBox" dataProvider="{levels}" prompt=""/>
-							</mx:FormItem>
-							<mx:FormItem label="Escrita">
-								<mx:ComboBox id="writingComboBox" dataProvider="{levels}" prompt=""/>
-							</mx:FormItem>
-							<mx:FormItem label="Leitura">
-								<mx:ComboBox id="readingComboBox" dataProvider="{levels}" prompt=""/>
-							</mx:FormItem>
-						</mx:Form>
-						<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
-							<mx:Button id="topLanguageBtn" label="Início" click="moveItemToTop(data)"/>
-							<mx:Button id="upLanguageBtn" label="Sobe" click="moveItemUp(data)"/>
-							<mx:Button id="downLanguageBtn" label="Desce" click="moveItemDown(data)"/>
-							<mx:Button id="bottomLanguageBtn" label="Fim" click="moveItemToBottom(data)"/>
-							<mx:Spacer width="100%"/>
-							<mx:Button id="deleteLanguageBtn" label="Excluir"/>
-						</mx:HBox>
-					</mx:VBox>
-				</mx:Component>
-				</mx:itemRenderer>
-			</mx:List>
-		</mx:VBox>
-		
-	</mx:TabNavigator>
+	<mx:Panel id="socialPanel" title="Social" width="100%" height="0" horizontalAlign="center">
+		<mx:Form >
+			<mx:FormItem label="E-mail">
+				<mx:TextInput id="emailTextInput" text="{_completeUserVO.email}" change="_completeUserVO.email=emailTextInput.text"/>
+			</mx:FormItem>
+			<mx:FormItem label="Apelido">
+				<mx:TextInput id="nicknameTextInput" text="{_completeUserVO.nickname}" change="_completeUserVO.nickname=nicknameTextInput.text"/>
+			</mx:FormItem>
+			<mx:FormItem label="Nome">
+				<mx:TextInput id="firstNameTextInput" text="{_completeUserVO.first_name}" change="_completeUserVO.first_name=firstNameTextInput.text"/>
+			</mx:FormItem>
+			<mx:FormItem label="Sobrenome">
+				<mx:TextInput id="lastNameTextInput" text="{_completeUserVO.last_name}" change="_completeUserVO.last_name=lastNameTextInput.text"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:Image source="{_completeUserVO.large_avatar}" />
+		<mx:Button id="avatarChangeBtn" label="Alterar" click="openChangeAvatarPopUp()"/>
+	</mx:Panel>
 	
-</mx:Canvas>
+	<mx:Panel title="Educação" width="100%">
+		<mx:Button id="addEducationBtn" label="Adicionar" click="addEducationForm()"/>
+		<mx:List id="educationList" width="100%" height="0" verticalScrollPolicy="off"
+				selectable="false" dataProvider="{_completeUserVO.educationArray}">
+			<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox width="100%" horizontalAlign="center">
+					<mx:Script>
+						<![CDATA[
+							import mx.collections.ArrayCollection;
+							
+							private function moveItemToTop(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+								ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.educationArray).addItemAt(item, 0);
+							}
+							private function moveItemUp(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+								// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+								if (fromIndex != 0) {
+									ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.educationArray).addItemAt(item, fromIndex-1);
+								}
+							}
+							private function moveItemDown(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.educationArray).length;
+								// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+								if (lenght - fromIndex > 1) {
+									ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.educationArray).addItemAt(item, fromIndex+1);
+								}
+							}
+							private function moveItemToBottom(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.educationArray).length;
+								ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.educationArray).addItemAt(item, lenght-1);
+							}
+						]]>
+					</mx:Script>
+					<mx:Form>
+						<mx:FormItem label="Nível">
+							<mx:ComboBox id="levelComboBox" />
+						</mx:FormItem>
+						<mx:FormItem label="Instituição">
+							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Conclusão">
+							<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Situação">
+							<mx:ComboBox id="statusComboBox" />
+						</mx:FormItem>
+						<mx:FormItem label="Curso">
+							<mx:TextInput id="courseTextInput" text="{data.course}" change="data.course=courseTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Título">
+							<mx:TextInput id="titleTextInput" text="{data.title}" change="data.title=titleTextInput.text"/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+						<mx:Button id="topProfessionBtn" label="Início" click="moveItemToTop(data)"/>
+						<mx:Button id="upProfessionBtn" label="Sobe" click="moveItemUp(data)"/>
+						<mx:Button id="downProfessionBtn" label="Desce" click="moveItemDown(data)"/>
+						<mx:Button id="bottomProfessionBtn" label="Fim" click="moveItemToBottom(data)"/>
+						<mx:Spacer width="100%"/>
+						<mx:Button id="deleteProfessionBtn" label="Excluir"/>
+					</mx:HBox>
+				</mx:VBox>
+			</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+	</mx:Panel>
+	
+	<mx:Panel title="Profissional" width="100%">
+		<mx:Button id="addProfessionBtn" label="Adicionar" click="addProfessionForm()"/>
+		<mx:List id="professionList" width="100%" height="0" verticalScrollPolicy="off"
+				selectable="false" dataProvider="{_completeUserVO.professionArray}">
+			<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox width="100%" horizontalAlign="center">
+					<mx:Script>
+						<![CDATA[
+							import mx.collections.ArrayCollection;
+							
+							private function moveItemToTop(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+								ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.professionArray).addItemAt(item, 0);
+							}
+							private function moveItemUp(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+								// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+								if (fromIndex != 0) {
+									ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.professionArray).addItemAt(item, fromIndex-1);
+								}
+							}
+							private function moveItemDown(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.professionArray).length;
+								// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+								if (lenght - fromIndex > 1) {
+									ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.professionArray).addItemAt(item, fromIndex+1);
+								}
+							}
+							private function moveItemToBottom(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.professionArray).length;
+								ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.professionArray).addItemAt(item, lenght-1);
+							}
+						]]>
+					</mx:Script>
+					<mx:Form>
+						<mx:FormItem label="Empresa">
+							<mx:TextInput id="companyTextInput" text="{data.company}" change="data.company=companyTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Cargo">
+							<mx:TextInput id="positionTextInput" text="{data.position}" change="data.position=positionTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Descrição">
+							<mx:TextInput id="jobDescriptionTextInput" text="{data.jobDescription}" change="data.jobDescription=jobDescriptionTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="País">
+							<mx:TextInput id="jobCountryTextInput" text="{data.jobCountry}" change="data.jobCountry=jobCountryTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Estado">
+							<mx:TextInput id="jobUFTextInput" text="{data.jobUF}" change="data.jobState=jobUFTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Cidade">
+							<mx:TextInput id="jobCityTextInput" text="{data.jobCity}" change="data.jobCity=jobCityTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Início">
+							<mx:TextInput id="jobBeginTextInput" text="{data.jobBeginDate}" change="data.jobBeginDate=jobBeginTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Cidade">
+							<mx:TextInput id="jobEndTextInput" text="{data.jobEndDate}" change="data.jobEndDate=jobEndTextInput.text"/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+						<mx:Button id="topEducationBtn" label="Início" click="moveItemToTop(data)"/>
+						<mx:Button id="upEducationBtn" label="Sobe" click="moveItemUp(data)"/>
+						<mx:Button id="downEducationBtn" label="Desce" click="moveItemDown(data)"/>
+						<mx:Button id="bottomEducationBtn" label="Fim" click="moveItemToBottom(data)"/>
+						<mx:Spacer width="100%"/>
+						<mx:Button id="deleteEducationBtn" label="Excluir"/>
+					</mx:HBox>
+				</mx:VBox>
+			</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+	</mx:Panel>
+	
+	<mx:Panel title="Endereço" width="100%">
+		<mx:Button id="addAddressBtn" label="Adicionar" click="addAddressForm()"/>
+		<mx:List id="addressList" width="100%" height="0" verticalScrollPolicy="off"
+				selectable="false" dataProvider="{_completeUserVO.addressArray}">
+			<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox width="100%" horizontalAlign="center">
+					<mx:Script>
+						<![CDATA[
+							import mx.collections.ArrayCollection;
+							
+							private function moveItemToTop(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+								ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.addressArray).addItemAt(item, 0);
+							}
+							private function moveItemUp(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+								// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+								if (fromIndex != 0) {
+									ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.addressArray).addItemAt(item, fromIndex-1);
+								}
+							}
+							private function moveItemDown(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.addressArray).length;
+								// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+								if (lenght - fromIndex > 1) {
+									ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.addressArray).addItemAt(item, fromIndex+1);
+								}
+							}
+							private function moveItemToBottom(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.addressArray).length;
+								ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.addressArray).addItemAt(item, lenght-1);
+							}
+						]]>
+					</mx:Script>
+					<mx:Form>
+						<mx:FormItem label="Tipo">
+							<mx:ComboBox id="addressTypeComboBox"/>
+						</mx:FormItem>
+						<mx:FormItem label="País">
+							<mx:TextInput id="addressCountryTextInput" text="{data.addressCountry}" change="data.addressCountry=addressCountryTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Estado">
+							<mx:TextInput id="addressUFTextInput" text="{data.addressUF}" change="data.addressUF=addressUFTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Cidade">
+							<mx:TextInput id="addressCityTextInput" text="{data.addressCity}" change="data.addressCity=addressCityTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Endereço">
+							<mx:TextInput id="addressTextInput" text="{data.address}" change="data.address=addressTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="Complemento">
+							<mx:TextInput id="addressComplementTextInput" text="{data.addressComplement}" change="data.addressComplement=addressComplementTextInput.text"/>
+						</mx:FormItem>
+						<mx:FormItem label="CEP">
+							<mx:TextInput id="zipCodeTextInput" text="{data.zipCode}" change="data.zipCode=zipCodeTextInput.text"/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+						<mx:Button id="topAddressBtn" label="Início" click="moveItemToTop(data)"/>
+						<mx:Button id="upAddressBtn" label="Sobe" click="moveItemUp(data)"/>
+						<mx:Button id="downAddressBtn" label="Desce" click="moveItemDown(data)"/>
+						<mx:Button id="bottomAddressBtn" label="Fim" click="moveItemToBottom(data)"/>
+						<mx:Spacer width="100%"/>
+						<mx:Button id="deleteAddressBtn" label="Excluir"/>
+					</mx:HBox>
+				</mx:VBox>
+			</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+	</mx:Panel>
+	
+	<mx:Panel title="Linguas" width="100%">
+		<mx:Button id="addLanguageBtn" label="Adicionar" click="addLanguageForm()"/>
+		<mx:List id="languageList" width="100%" height="0" verticalScrollPolicy="auto"
+				selectable="false" dataProvider="{_completeUserVO.languageArray}">
+			<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox width="100%" horizontalAlign="center">
+					<mx:Script>
+						<![CDATA[
+							import mx.collections.ArrayCollection;
+							
+							private var levels:Array = ["Muito bom", "Bom", "Normal", "Ruim", "Muito ruim"];
+							
+							private function onLanguageSelection():void {
+								speechComboBox.selectedIndex = 2;
+								writingComboBox.selectedIndex = 2;
+								readingComboBox.selectedIndex = 2;
+							}
+							
+							private function moveItemToTop(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+								ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, 0);
+							}
+							private function moveItemUp(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+								// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+								if (fromIndex != 0) {
+									ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, fromIndex-1);
+								}
+							}
+							private function moveItemDown(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.languageArrayCollection).length;
+								// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+								if (lenght - fromIndex > 1) {
+									ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+									ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, fromIndex+1);
+								}
+							}
+							private function moveItemToBottom(item:Object):void {
+								var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+								var lenght:int = ArrayCollection(parentDocument.languageArrayCollection).length;
+								ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+								ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, lenght-1);
+							}
+							
+						]]>
+					</mx:Script>
+					<mx:Form>
+						<mx:FormItem label="Lingua">
+							<mx:ComboBox id="languageComboBox" change="onLanguageSelection()" prompt=""/>
+						</mx:FormItem>
+						<mx:FormItem label="Fala">
+							<mx:ComboBox id="speechComboBox" dataProvider="{levels}" prompt=""/>
+						</mx:FormItem>
+						<mx:FormItem label="Escrita">
+							<mx:ComboBox id="writingComboBox" dataProvider="{levels}" prompt=""/>
+						</mx:FormItem>
+						<mx:FormItem label="Leitura">
+							<mx:ComboBox id="readingComboBox" dataProvider="{levels}" prompt=""/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+						<mx:Button id="topLanguageBtn" label="Início" click="moveItemToTop(data)"/>
+						<mx:Button id="upLanguageBtn" label="Sobe" click="moveItemUp(data)"/>
+						<mx:Button id="downLanguageBtn" label="Desce" click="moveItemDown(data)"/>
+						<mx:Button id="bottomLanguageBtn" label="Fim" click="moveItemToBottom(data)"/>
+						<mx:Spacer width="100%"/>
+						<mx:Button id="deleteLanguageBtn" label="Excluir"/>
+					</mx:HBox>
+				</mx:VBox>
+			</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+	</mx:Panel>
+	
+</mx:VBox>
