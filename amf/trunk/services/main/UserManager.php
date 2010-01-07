@@ -47,8 +47,8 @@
 		 * .
 		 * @param uint
 		 */
-		public function getUser($user_id) {
-			$sql = "SELECT a.* ,u.*, p.* FROM eko_account a, eko_user u, eko_profile p WHERE account_id=$user_id AND u.user_id=a.account_id AND p.profile_id=a.account_id";
+		public function getUser() {
+			$sql = "SELECT a.* ,u.*, p.* FROM eko_account a, eko_user u, eko_profile p WHERE account_id=".$_SESSION['complete_user_vo']->account_id." AND u.user_id=a.account_id AND p.profile_id=a.account_id";
 			$result = parent::doSelect($sql);
 			
 			$completeUser = new CompleteUserVO();

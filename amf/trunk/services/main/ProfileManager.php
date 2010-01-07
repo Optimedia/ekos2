@@ -25,13 +25,13 @@
 		 * 
 		 * - Retorna: CompleteUserVO
 		 * .
-		 * @param uint
+		 * 
 		 */
-		public function getProfile($user_id) {
+		public function getProfile() {
 			require_once './UserManager.php';
 			$userManager = new UserManager();
 			
-			return $userManager -> getUser($user_id);
+			return $userManager -> getUser($_SESSION['complete_user_vo']->account_id);
 		}
 		
 		/**
@@ -53,13 +53,13 @@
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
-		 * @param uint
+		 * 
 		 */
-		public function getAllFriend($user_id) {
+		public function getAllFriend() {
 			require_once './FriendManager.php';
 			$friendManager = new FriendManager();
 			
-			return $friendManager -> getAllFriends($user_id);
+			return $friendManager -> getAllFriends($_SESSION['complete_user_vo']->account_id);
 		}
 		
 		/**
@@ -67,13 +67,12 @@
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
-		 * @param uint
 		 */
-		public function getAllIgnores($user_id) {
+		public function getAllIgnores() {
 			require_once './IgnoreManager.php';
 			$ignoreManager = new IgnoreManager();
 			
-			return $ignoreManager -> getAllIgnores($user_id);
+			return $ignoreManager -> getAllIgnores($_SESSION['complete_user_vo']->account_id);
 		}
 		
 		/**
@@ -81,9 +80,9 @@
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
-		 * @param uint
+		 * 
 		 */
-		public function getAllScrap($user_id) {
+		public function getAllScrap() {
 			
 		}
 		
@@ -92,13 +91,13 @@
 		 * 
 		 * - Retorna: Array MessageVO
 		 * .
-		 * @param uint
+		 * 
 		 */
-		public function getAllReciveMessages($user_id) {			
+		public function getAllReciveMessages() {			
 			require_once './MessageManager.php';
 			$messageManager = new MessageManager();
 			
-			return $messageManager -> getAllMessages($user_id);
+			return $messageManager -> getAllMessages($_SESSION['complete_user_vo']->account_id);
 		}
 		
 		/**
