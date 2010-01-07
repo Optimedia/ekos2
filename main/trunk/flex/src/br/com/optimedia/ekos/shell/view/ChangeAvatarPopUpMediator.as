@@ -2,7 +2,7 @@ package br.com.optimedia.ekos.shell.view
 {
 	import br.com.optimedia.assets.constants.CommandConstants;
 	import br.com.optimedia.assets.constants.NotificationConstants;
-	import br.com.optimedia.ekos.shell.model.UserManagerProxy;
+	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.ChangeAvatarPopUp;
 	
 	import flash.events.Event;
@@ -17,7 +17,7 @@ package br.com.optimedia.ekos.shell.view
 	{
 		public static const NAME:String = 'ChangeAvatarPopUpMediator';
 		
-		private var userManagerProxy:UserManagerProxy;
+		private var profileManagerProxy:ProfileManagerProxy;
 		
 		public function ChangeAvatarPopUpMediator(viewComponent:Object=null)
 		{
@@ -27,7 +27,7 @@ package br.com.optimedia.ekos.shell.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			userManagerProxy = facade.retrieveProxy( UserManagerProxy.NAME ) as UserManagerProxy;
+			profileManagerProxy = facade.retrieveProxy( ProfileManagerProxy.NAME ) as ProfileManagerProxy;
 			view.addEventListener( ChangeAvatarPopUp.UPLOAD_FILE_EVENT, uploadFile );
 			view.addEventListener( CloseEvent.CLOSE, removePopUp);
 		}
@@ -61,7 +61,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function uploadFile(event:Event):void {
-			userManagerProxy.uploadFile( view.fileVO );
+			profileManagerProxy.uploadFile( view.fileVO );
 		}
 		
 		private function removePopUp(event:CloseEvent):void {

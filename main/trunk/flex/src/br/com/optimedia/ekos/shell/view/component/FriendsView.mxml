@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
-		styleName="friendsView" xmlns:component="br.com.optimedia.ekos.shell.view.component.*">
+		styleName="friendsView" xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
+		creationComplete="init()">
 		
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.ekos.MainAppFacade;
 			import mx.collections.ArrayCollection;
 			
 			[Bindable]
 			private var _usersArrayCollection:Array = new Array();
+			
+			private var facade:MainAppFacade = MainAppFacade.getInstance();
+			
+			private function init():void {
+				facade.startup( this );
+			}
 			
 			public function set usersArrayCollection(value:Array):void {
 				_usersArrayCollection = value;

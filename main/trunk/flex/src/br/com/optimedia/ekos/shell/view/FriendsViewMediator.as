@@ -2,14 +2,20 @@ package br.com.optimedia.ekos.shell.view
 {
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
 	
+	import flash.events.MouseEvent;
+	
+	import mx.events.FlexEvent;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
+	import flash.events.Event;
 
 	public class FriendsViewMediator extends Mediator
 	{
 		public static const NAME:String = 'FriendsViewMediator';
 		
-		//private var userManagerProxy:UserManagerProxy;
+		private var friendManagerProxy:FriendManagerProxy;
 		
 		public function FriendsViewMediator(viewComponent:Object=null)
 		{
@@ -19,8 +25,11 @@ package br.com.optimedia.ekos.shell.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			//userManagerProxy = facade.retrieveProxy( UserManagerProxy.NAME ) as UserManagerProxy;
-			//view.addEventListener( ChangeAvatarPopUp.UPLOAD_FILE_EVENT, uploadFile );
+			
+			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
+			
+			view.searchTextInput.addEventListener(FlexEvent.ENTER, onSearchBtnClick);
+			view.searchBtn.addEventListener(MouseEvent.CLICK, onSearchBtnClick);
 		}
 		
 		override public function onRemove():void {
@@ -44,6 +53,10 @@ package br.com.optimedia.ekos.shell.view
 				default:
 					break;
 			}
+		}
+		
+		private function onSearchBtnClick(event:Event):void {
+			friendManagerProxy.findFriend( view.searchTextInput.text );
 		}
 	}
 }

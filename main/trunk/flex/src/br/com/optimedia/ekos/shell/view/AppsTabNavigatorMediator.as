@@ -20,7 +20,6 @@ package br.com.optimedia.ekos.shell.view
 		public static const NAME:String = 'AppsTabNavigatorMediator';
 		
 		private var friendManagerProxy:FriendManagerProxy;
-		//private var ssoConnectProxy:SsoConnectProxy;
 		
 		public function AppsTabNavigatorMediator(viewComponent:Object=null)
 		{
@@ -31,12 +30,8 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+".onRegister()");
 			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
-			//ssoConnectProxy = facade.retrieveProxy( SsoConnectProxy.NAME ) as SsoConnectProxy;
 			
 			view.addEventListener(IndexChangedEvent.CHANGE, onSelectedItemChange);
-			
-			view.friendsView.searchTextInput.addEventListener(FlexEvent.ENTER, onSearchBtnClick);
-			view.friendsView.searchBtn.addEventListener(MouseEvent.CLICK, onSearchBtnClick);
 		}
 		
 		override public function onRemove():void {
@@ -58,11 +53,9 @@ package br.com.optimedia.ekos.shell.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_ALL_FRIENDS_RESULT:
-					//var teste:Object = note.getBody();
 					view.friendsView.usersArrayCollection = note.getBody() as Array;
 					break;
 				case NotificationConstants.FIND_FRIEND_RESULT_ARRAY:
-					//var teste:Object = note.getBody();
 					view.friendsView.usersArrayCollection = note.getBody() as Array;
 					break;
 				default:
@@ -71,11 +64,11 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function onSelectedItemChange(event:IndexChangedEvent):void {
-			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends( SsoConnectProxy.myID );
+			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends();
 		}
 		
-		private function onSearchBtnClick(event:Event):void {
+		/* private function onSearchBtnClick(event:Event):void {
 			friendManagerProxy.findFriend( view.friendsView.searchTextInput.text );
-		}
+		} */
 	}
 }

@@ -4,7 +4,6 @@ package br.com.optimedia.ekos.shell.model
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.assets.generalcomponents.FaultHandler;
 	import br.com.optimedia.assets.vo.CompleteUserVO;
-	import br.com.optimedia.assets.vo.FileVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
@@ -110,12 +109,13 @@ package br.com.optimedia.ekos.shell.model
 			if(event.result == false) Alert.show("Código inválido", "Atenção");
 		}
 		
-		public function uploadFile(fileVO:FileVO):void {
-			var asynkToken:AsyncToken = remoteService.uploadFile(fileVO);
-			asynkToken.addResponder( new Responder(uploadFileResult, generalFault) );
+		
+		public function updateUser(completeUserVO:CompleteUserVO):void {
+			var asynkToken:AsyncToken = remoteService.updateUser(completeUserVO);
+			asynkToken.addResponder( new Responder(updateUserResult, generalFault) );
 		}
-		private function uploadFileResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.AVATAR_UPLOAD_COMPLETE, event.result );
+		private function updateUserResult(event:ResultEvent):void {
+			if(event.result==true) sendNotification( NotificationConstants.UPDATE_USER_OK, event.result );
 		}
 	}
 }
