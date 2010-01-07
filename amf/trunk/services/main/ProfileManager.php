@@ -107,11 +107,11 @@
 		 * .
 		 *
 		 */
-		public function getEducationLevel() {
+		public function getEducationLevels() {
 			require_once "./EducationManager.php";
 			$educationManager = new EducationManager();
 			
-			return $educationManager -> getEducationLevel();
+			return $educationManager -> getEducationLevels();
 		}
 		
 		/**
