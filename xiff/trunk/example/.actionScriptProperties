@@ -5,8 +5,8 @@
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
 <libraryPathEntry kind="1" linkType="1" path="libs"/>
-<libraryPathEntry kind="3" linkType="1" path="/XIFF/bin/XIFF.swc" useDefaultLinkType="false"/>
 <libraryPathEntry kind="3" linkType="1" path="D:/Dev/flexLibs/PureMVC_AS3_2_0_4/bin/PureMVC_AS3_2_0_4.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/xiff_library/bin/xiff_library.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
