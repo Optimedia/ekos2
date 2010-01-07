@@ -5,7 +5,7 @@ package br.com.optimedia.assets.vo.userdetails
 	// LANGUAGE DETAILS
 	public class LanguageVO
 	{
-		public var language:String;
+		public var language_name:String;
 		public var speech:int;
 		public var writing:int;
 		public var reading:int;

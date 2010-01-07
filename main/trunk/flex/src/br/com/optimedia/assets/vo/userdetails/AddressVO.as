@@ -5,12 +5,14 @@ package br.com.optimedia.assets.vo.userdetails
 	// ADDRESS DETAILS
 	public class AddressVO
 	{
-		public var addressType:String;
-		public var addressCountry:String;
-		public var addressUF:String;
-		public var addressCity:String;
-		public var address:String;
-		public var addressComplement:String;
-		public var zipCode:String;
+		public var detail_address_type_id:int;
+		public var country_name:String;
+		public var state_name:String;
+		public var city_name:String;
+		public var town_name:String;
+		public var address_part1:String;
+		public var address_part2:String;
+		public var zipcode:String;
+		
 	}
 }
