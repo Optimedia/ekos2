@@ -2,7 +2,6 @@
 
 	class AddressVO {
 		
-		public $profile_id;
 		public $detail_address_type_id;
 		public $country_name;
 		public $state_name;
