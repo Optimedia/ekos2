@@ -2,6 +2,8 @@
 	
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
+	require_once '../includes/thumbnail_generator.php';
+	require_once '../vo/br/com/optimedia/assets/vo/FileVO.php';
 	
 	// FriendManager
 	// IgnoreManager
@@ -129,6 +131,15 @@
 		
 		public function getAvaliableLanguage() {
 			// TODO Pegar as linguas
+		}
+		
+		public function uploadFile(FileVO $file) { 
+			$data = $file->filedata->data;
+			$filename = mt_rand() . $file->filename;
+			file_put_contents( 'avatars/' . $filename, $data);
+			createthumb("avatars/$filename","avatars/160x160/$filename", 160, 160);
+			createthumb("avatars/$filename","avatars/100x100/$filename", 100, 100);
+			return $filename;
 		}
 	}
 	
