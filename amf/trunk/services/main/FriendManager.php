@@ -32,6 +32,8 @@
 				   
 			$result = parent::doSelect($sql);
 			
+			return $sql;
+			
 			$completeUser = new CompleteUserVO();
 			$arrayCompleteUser = array();
 			
