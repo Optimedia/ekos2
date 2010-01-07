@@ -26,9 +26,9 @@
 		 * .
 		 * @param uint
 		 */
-		public function getAllFriends($user_id) {
+		public function getAllFriends() {
 			$sql = "SELECT f.*, a.account_id ,u.first_name, u.last_name, p.small_avatar, p.nickname FROM eko_friend f, eko_account a, eko_user u, eko_profile p ".
-				   "WHERE profile_id_i=$user_id AND account_id=f.profile_id_you AND u.user_id=f.profile_id_you AND p.profile_id=f.profile_id_you";
+				   "WHERE profile_id_i=".$_SESSION['complete_user_vo']->account_id." AND account_id=f.profile_id_you AND u.user_id=f.profile_id_you AND p.profile_id=f.profile_id_you";
 				   
 			$result = parent::doSelect($sql);
 			
@@ -73,10 +73,9 @@
 		 * - Retorna: Boolean 
 		 * .
 		 * @param uint
-		 * @param uint
 		 */
-		public function addFriend($i, $you) {
-			$arrayFriend = array ('profile_id_i' => $i,
+		public function addFriend($you) {
+			$arrayFriend = array ('profile_id_i' => $_SESSION['complete_user_vo']->account_id,
 								  'profile_id_you' => $you);
 			
 			return parent::doInsert($arrayFriend, $this -> _table);
@@ -88,10 +87,9 @@
 		 * - Retorna: Boolean 
 		 * .
 		 * @param uint
-		 * @param uint
 		 */
-		public function removeFriend($i, $you) {
-			$where = "profile_id_i=$i AND profile_id_you=$you";
+		public function removeFriend($you) {
+			$where = "profile_id_i=$_SESSION['complete_user_vo']->account_id AND profile_id_you=$you";
 			
 			return parent::doDelete($where, $this -> _table);
 		}
