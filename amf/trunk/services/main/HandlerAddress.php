@@ -42,15 +42,15 @@
 			$addressArray = $profile -> addressArray;			
 			
 			foreach($addressArray as $value) {
-				$addressFinalArray = array ('profile_id' => $value -> account_id,
-									   'detail_address_type_id' => $value -> detail_address_type_id,
-									   'country_name' => $value -> country_name,
-									   'state_name' => $value -> state_name,
-									   'city_name' => $value -> city_name,
-							    	   'town_name' => $value -> town_name,
-									   'address_part1' => $value -> address_part1,
-									   'address_part2' => $value -> address_part2,
-									   'zipcode' => $value -> zipcode);
+				$addressFinalArray = array ('profile_id' => $_SESSION['account_id'],
+									   		'detail_address_type_id' => $value -> detail_address_type_id,
+									   		'country_name' => $value -> country_name,
+									   		'state_name' => $value -> state_name,
+									   		'city_name' => $value -> city_name,
+							    	   		'town_name' => $value -> town_name,
+									   		'address_part1' => $value -> address_part1,
+									   		'address_part2' => $value -> address_part2,
+									   		'zipcode' => $value -> zipcode);
 				
 				$condition = "profile_id=".$value -> account_id." AND detail_address_type_id=".$value -> detail_address_type_id;
 				
