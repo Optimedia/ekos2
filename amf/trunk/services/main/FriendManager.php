@@ -11,6 +11,8 @@
 		private $_table = "eko_friend";
 		
 		public function FriendManager() {
+			session_start();
+			
 			$host = "10.1.1.10";
 			$user = "opti";
 			$pass = "opti";
@@ -28,7 +30,7 @@
 		 */
 		public function getAllFriends() {
 			$sql = "SELECT f.*, a.account_id ,u.first_name, u.last_name, p.small_avatar, p.nickname FROM eko_friend f, eko_account a, eko_user u, eko_profile p ".
-				   "WHERE profile_id_i=".$_SESSION['complete_user_vo']->account_id." AND account_id=f.profile_id_you AND u.user_id=f.profile_id_you AND p.profile_id=f.profile_id_you";
+				   "WHERE profile_id_i=".$_SESSION['account_id']." AND account_id=f.profile_id_you AND u.user_id=f.profile_id_you AND p.profile_id=f.profile_id_you";
 			
 			$result = parent::doSelect($sql);
 			
