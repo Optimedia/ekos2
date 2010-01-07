@@ -220,6 +220,7 @@
 			$filename = mt_rand() . $file->filename;
 			file_put_contents( 'avatars/' . $filename, $data);
 			createthumb("avatars/$filename","avatars/160x160/$filename", 160, 160);
+			createthumb("avatars/$filename","avatars/100x100/$filename", 100, 100);
 			return $filename;
 		}
 	}
