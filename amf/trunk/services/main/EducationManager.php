@@ -22,19 +22,19 @@
 		 * .
 		 *
 		 */
-		public function getEducationLevel() {
+		public function getEducationLevels() {
 			
 			$sql = "SELECT * FROM eko_detail_education_level";
 			
 			$result = parent::doSelect($sql);
 			
-			$arrayEducationLevel = array();
+			$arrayEducationLevels = array();
 			
-			while($educationLevel = mysql_fetch_array($result, MYSQL_ASSOC)) { 
-				$arrayEducationLevel[] = $educationLevel;
+			while($educationLevels = mysql_fetch_array($result, MYSQL_ASSOC)) { 
+				$arrayEducationLevels[] = $educationLevels;
 			}
 			
-			return $arrayEducationLevel;
+			return $arrayEducationLevels;
 			
 		}
 		
