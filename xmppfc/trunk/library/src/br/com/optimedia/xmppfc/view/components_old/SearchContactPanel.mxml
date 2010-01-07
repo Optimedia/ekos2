@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
-	<mx:TextInput width="100%"/>
-	<mx:Button label="Search"/>
-	<mx:Button label="Clear"/>
-</mx:HBox>
