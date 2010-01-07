@@ -59,7 +59,7 @@
 			require_once './FriendManager.php';
 			$friendManager = new FriendManager();
 			
-			return $friendManager -> getAllFriends($_SESSION['complete_user_vo']->account_id);
+			return $friendManager -> getAllFriends();
 		}
 		
 		/**
@@ -139,6 +139,19 @@
 			createthumb("avatars/$filename","avatars/160x160/$filename", 160, 160);
 			createthumb("avatars/$filename","avatars/100x100/$filename", 100, 100);
 			return $filename;
+		}
+		
+	/**
+		 * Fun��o que retorna se a sess�o est� ativa ou n�o.
+		 * 
+		 * @return CompleteUserVO
+		 */
+		public function getSession() {
+			if($_SESSION['user_logged']) {
+				return $_SESSION['account_id']; // CompleteUserVO
+			} else {
+				return false;
+			}
 		}
 	}
 	
