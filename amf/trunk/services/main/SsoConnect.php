@@ -61,7 +61,7 @@
 					case 2:
 					
 						// Criar a sess�o.
-						$_SESSION['complete_user_vo'] = $completeUser;
+						$_SESSION['account_id'] = $completeUser->account_id;
 						$_SESSION['user_logged'] = true;											
 						return $completeUser;
 						break;
@@ -94,7 +94,7 @@
 		 */
 		public function getSession() {
 			if($_SESSION['user_logged']) {
-				return $_SESSION['complete_user_vo']; // CompleteUserVO
+				return $_SESSION['account_id']; // CompleteUserVO
 			} else {
 				return false;
 			}
