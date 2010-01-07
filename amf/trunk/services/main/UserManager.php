@@ -141,7 +141,7 @@
 			}
 			
 			if($error == 0) {
-				return true;
+				return $completeUser;
 			} else {
 				return false;
 			}
