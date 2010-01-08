@@ -1,6 +1,6 @@
 <?php
 
-  	require_once './LdapIntegration.php';
+ 	require_once './LdapIntegration.php';
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
@@ -31,7 +31,7 @@
 		public function doLogin($login, $pass) {
 			// Fazendo o login no LDAP
 			$result = $this->ldap->bindAsUser($login, $pass);
-			$result = gettype($result) == boolean ? $result : false;
+			$result = gettype($result) == 'boolean' ? $result : false;
 			
 			if ($result) {
 								
@@ -109,3 +109,6 @@
 			}
 		}
 	}
+	
+//$sso = new SsoConnect();
+//$sso->doLogin('a','a');
