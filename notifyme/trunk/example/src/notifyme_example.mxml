@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	xmlns:view="br.com.optimedia.notifyme.view.base.components.*"
+	creationComplete="init();" >
+    <mx:Script>
+        <![CDATA[
+        	import br.com.optimedia.notifyme.view.base.mediators.NotifymeBaseMediator;
+        	import br.com.optimedia.notifyme.NotifymeFacade;
+		import mx.controls.Alert;
+		import mx.core.Application;
+		import mx.containers.TitleWindow;
+		
+        private var notifymeFacade: NotifymeFacade = NotifymeFacade.getInstance();
+		
+		public function init():void {
+			notifymeFacade.sendNotification(NotifymeFacade.STARTUP, new NotifymeBaseMediator(this.notifymeView));
+		}
+		
+        ]]> 
+    </mx:Script>
+	<mx:VBox backgroundColor="#FFFFFF" width="100%">
+		<view:NotifymeBaseView id="notifymeView" width="100%" />
+	</mx:VBox>
+</mx:Application>
