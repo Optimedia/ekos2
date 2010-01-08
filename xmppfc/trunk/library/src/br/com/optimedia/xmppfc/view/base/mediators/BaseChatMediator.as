@@ -5,6 +5,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 	import br.com.optimedia.xmppfc.events.ChatEvent;
 	import br.com.optimedia.xmppfc.view.api.components.IChatView;
 	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
+	import br.com.optimedia.xmppfc.view.base.components.BaseChatView;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -130,7 +131,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		
 		// abstract
 		protected function newChatView(): IChatView {
-			return null;
+			return new BaseChatView();
 		}
 
 	}
