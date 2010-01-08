@@ -128,7 +128,7 @@
 			return $adressManager -> getAddressTypes();
 		}
 		
-		public function getAvaliableLanguages() {
+		public function getAvailableLanguages() {
 			// TODO Pegar as linguas
 		}
 		
