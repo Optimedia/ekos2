@@ -48,6 +48,7 @@
 		 * @param uint
 		 */
 		public function getUserData() {
+			return $_SESSION;
 			$sql = "SELECT a.* ,u.*, p.* FROM eko_account a, eko_user u, eko_profile p WHERE account_id=".$_SESSION['complete_user_vo']->account_id." AND u.user_id=a.account_id AND p.profile_id=a.account_id";
 			$result = parent::doSelect($sql);
 			
@@ -214,3 +215,8 @@
 		}
 		
 	}
+
+
+$um = new UserManager();
+echo "<pre>";
+var_dump($um->getUserData());
