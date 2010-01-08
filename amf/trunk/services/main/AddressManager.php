@@ -2,11 +2,11 @@
 
 	require_once '../includes/SqlManager.php';
 
-	class AdressManager extends SqlManager {
+	class AddressManager extends SqlManager {
 		
 		private $_table = "eko_detail_address";
 		
-		public function AdressManager() {
+		public function AddressManager() {
 			$host = "10.1.1.10";
 			$user = "opti";
 			$pass = "opti";
@@ -22,19 +22,19 @@
 		 * .
 		 *
 		 */
-		public function getAdressTypes() {
+		public function getAddressTypes() {
 			
 			$sql = "SELECT * FROM eko_detail_address_type";
 			
 			$result = parent::doSelect($sql);
 			
-			$arrayAdressType = array();
+			$arrayAddressType = array();
 			
-			while($adressType = mysql_fetch_array($result, MYSQL_ASSOC)) { 
-				$arrayAdressType[] = $adressType;
+			while($addressType = mysql_fetch_array($result, MYSQL_ASSOC)) { 
+				$arrayAddressType[] = $addressType;
 			}
 			
-			return $arrayAdressType;
+			return $arrayAddressType;
 			
 		}
 		
