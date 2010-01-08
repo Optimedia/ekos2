@@ -122,7 +122,7 @@
 		 *
 		 */
 		public function getAddressTypes() {
-			require_once "./AdressManager.php";
+			require_once "./AddressManager.php";
 			$adressManager = new AddressManager();
 			
 			return $adressManager -> getAddressTypes();
