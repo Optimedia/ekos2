@@ -5,7 +5,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 
 	import br.com.optimedia.xmppfc.events.ChatEvent;
 
-	import br.com.optimedia.xmppfc.ApplicationFacade;
+	import br.com.optimedia.xmppfc.XmppfcFacade;
 	import br.com.optimedia.xmppfc.model.XMPPProxy;
 	import br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator;
 	import br.com.optimedia.xmppfc.view.api.components.IRosterView;
@@ -27,8 +27,8 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		
 		override public function listNotificationInterests():Array {
 			return [
-						ApplicationFacade.VALID_LOGIN,
-						ApplicationFacade.DISCONNECT
+						XmppfcFacade.VALID_LOGIN,
+						XmppfcFacade.DISCONNECT
 					];
 		}
 
@@ -36,10 +36,10 @@ package br.com.optimedia.xmppfc.view.base.mediators
 			var xmppProxy:XMPPProxy = facade.retrieveProxy(XMPPProxy.NAME) as XMPPProxy;
 			
 			switch (note.getName()) {
-				case ApplicationFacade.VALID_LOGIN:
+				case XmppfcFacade.VALID_LOGIN:
 					onValidLogin(note);
 					break;
-				case ApplicationFacade.DISCONNECT:
+				case XmppfcFacade.DISCONNECT:
 					onDisconnect(note);
 					break;
 				default:
@@ -63,7 +63,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		}
 		
 		public function onStartChat(chatEvent: ChatEvent): void {
-			sendNotification(ApplicationFacade.OPEN_CHAT_WINDOW, chatEvent.getJID());
+			sendNotification(XmppfcFacade.OPEN_CHAT_WINDOW, chatEvent.getJID());
 		}
 		
 	}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	creationComplete="init()" 
+	title="Login" 
+	implements="br.com.optimedia.xmppfc.view.api.components.ILoginView">
+	<mx:Script>
+			<![CDATA[
+				import mx.validators.Validator;
+				import mx.managers.PopUpManager;
+				import mx.core.Application;
+				import mx.controls.Alert;
+				import br.com.optimedia.xmppfc.events.LoginViewEvent;
+				
+				public static const ON_LOGIN_SUCESS:String = "onLoginSucess";
+				
+				[Bindable]
+				private var _messageError:String = null;
+				
+				public function showModal():void {
+					PopUpManager.addPopUp(this, (Application.application as DisplayObject), true);
+				}
+				
+				public function hideModal():void {
+					PopUpManager.removePopUp(this);
+				}
+				
+				public function wait():void {
+					this.lblMessage.visible = true;
+					this.frmLogin.enabled = false;
+					this.btnLogin.enabled = false;
+				}
+				
+				public function unwait():void {
+					this.lblMessage.visible = false;
+					this.frmLogin.enabled = true;
+					this.verifyForm();
+				}
+
+
+
+				
+				private function init():void {
+					//this.addEventListener(Event.ACTIVATE, onActivate);
+					PopUpManager.centerPopUp(this);
+				}
+				
+				private function onConnectClick():void {
+					dispatchEvent(new LoginViewEvent(LoginViewEvent.LOGIN, txtUser.text, txtPassword.text, "i-brasil.net"));
+				}
+				
+				/*
+				private function onDisconnectClick():void {
+					dispatchEvent(new LoginViewEvent(LoginViewEvent.LOGOUT));
+				}
+				*/
+				
+				private function verifyForm():void {
+					var result:Array = Validator.validateAll([userValidator, passValidator]);
+					btnLogin.enabled = (result.length==0) && (!this.lblMessage.visible);
+				}
+				
+				public function showInvalidLoginAlert(msgError: String):void {
+					// Popup an alert
+					Alert.show(msgError, "Error", Alert.OK, this);
+					
+					// Clear the input fields and notify the change handler (this will disable the connect button)
+					txtUser.text = "";
+					txtPassword.text = "";
+					verifyForm();
+				}
+			]]>
+	</mx:Script>
+	
+	<mx:StringValidator id="userValidator" minLength="4" maxLength="12" required="true" 
+		property="text" source="{txtUser}" triggerEvent="change" trigger="{txtUser}"/>
+	<mx:StringValidator id="passValidator" minLength="4" maxLength="12" required="true" 
+		property="text" source="{txtPassword}" triggerEvent="change" trigger="{txtUser}"/>
+	
+	<mx:Text id="lblError" width="100%" visible="true" color="#FC0404" textAlign="center" fontWeight="bold" text="{this._messageError}" />
+	<mx:Text id="lblMessage" width="100%" visible="false" textAlign="center" fontWeight="bold" text="Wait..." />
+	<mx:Form id="frmLogin" width="100%" height="100%" >
+		<mx:FormItem label="Username" required="true">
+			<mx:TextInput id="txtUser" change="verifyForm()"/>
+		</mx:FormItem>
+		<mx:FormItem label="Password" required="true">
+			<mx:TextInput id="txtPassword" displayAsPassword="true" change="verifyForm()"/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HBox width="100%" horizontalAlign="center">
+		<mx:Button id="btnLogin" label="Login" click="onConnectClick()" enabled="false"/>
+	</mx:HBox>
+</mx:TitleWindow>

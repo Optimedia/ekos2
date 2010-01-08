@@ -1,7 +1,7 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
 	
-	import br.com.optimedia.xmppfc.ApplicationFacade;
+	import br.com.optimedia.xmppfc.XmppfcFacade;
 	import br.com.optimedia.xmppfc.events.ChatEvent;
 	import br.com.optimedia.xmppfc.view.api.components.IChatView;
 	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
@@ -40,25 +40,25 @@ package br.com.optimedia.xmppfc.view.base.mediators
 
 		override public function listNotificationInterests():Array {
 			return [
-						ApplicationFacade.OPEN_CHAT_WINDOW,
-						ApplicationFacade.RECEIVE_MESSAGE,
-						ApplicationFacade.VALID_LOGIN,
-						ApplicationFacade.DISCONNECT
+						XmppfcFacade.OPEN_CHAT_WINDOW,
+						XmppfcFacade.RECEIVE_MESSAGE,
+						XmppfcFacade.VALID_LOGIN,
+						XmppfcFacade.DISCONNECT
 					];
 		}
 
 		override public function handleNotification(note:INotification):void {
 			switch (note.getName()) {
-				case ApplicationFacade.OPEN_CHAT_WINDOW:
+				case XmppfcFacade.OPEN_CHAT_WINDOW:
 					onOpenChatWindow(note);
 					break;
-				case ApplicationFacade.RECEIVE_MESSAGE:
+				case XmppfcFacade.RECEIVE_MESSAGE:
 					onReceiveMessage(note);
 					break;
-				case ApplicationFacade.VALID_LOGIN:
+				case XmppfcFacade.VALID_LOGIN:
 					onValidLogin(note);
 					break;
-				case ApplicationFacade.DISCONNECT:
+				case XmppfcFacade.DISCONNECT:
 					onDisconnect(note);
 					break;
 				default:
@@ -119,7 +119,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 			var chatView:IChatView = chatEvent.currentTarget as IChatView;
 			var message:Message = new Message(chatEvent.getJID(), null, chatEvent.getMessage(), null, Message.CHAT_TYPE);
 			chatViews[chatView.getJID().toBareJID()].addMessage(message);
-			sendNotification(ApplicationFacade.SEND_MESSAGE, message);
+			sendNotification(XmppfcFacade.SEND_MESSAGE, message);
 		}
 		
 		public function onChatViewClose(event: Event): void {

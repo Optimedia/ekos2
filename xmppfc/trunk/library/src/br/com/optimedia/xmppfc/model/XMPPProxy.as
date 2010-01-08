@@ -1,7 +1,7 @@
 ﻿package br.com.optimedia.xmppfc.model {
 	import flash.events.Event;
 	import flash.system.Security;
-	import br.com.optimedia.xmppfc.ApplicationFacade;
+	import br.com.optimedia.xmppfc.XmppfcFacade;
 	import org.jivesoftware.xiff.core.JID;
 	import org.jivesoftware.xiff.core.XMPPSocketConnection;
 	import org.jivesoftware.xiff.data.Message;
@@ -125,7 +125,7 @@
 		private function onLogin(loginEvent:LoginEvent):void {
 			roster.setPresence(Presence.SHOW_CHAT, "", 0);
 			
-			sendNotification(ApplicationFacade.VALID_LOGIN);
+			sendNotification(XmppfcFacade.VALID_LOGIN);
 		}
 		
 		/**
@@ -136,10 +136,10 @@
 		private function onXiffError(xiffErrorEvent:XIFFErrorEvent):void {
 			switch (xiffErrorEvent.errorCode) {
 				case 400:
-					sendNotification(ApplicationFacade.INVALID_LOGIN);
+					sendNotification(XmppfcFacade.INVALID_LOGIN);
 					break;
 				case 401:
-					sendNotification(ApplicationFacade.SECURITY_ERROR, xiffErrorEvent.errorMessage);
+					sendNotification(XmppfcFacade.SECURITY_ERROR, xiffErrorEvent.errorMessage);
 					break;
 				default:
 					break;
@@ -153,7 +153,7 @@
 		 * @param	disconnectionEvent
 		 */
 		private function onDisconnect(disconnectionEvent:DisconnectionEvent):void {
-			sendNotification(ApplicationFacade.DISCONNECT);
+			sendNotification(XmppfcFacade.DISCONNECT);
 		}
 		
 		/**
@@ -162,7 +162,7 @@
 		 * @param	messageEvent
 		 */
 		private function onMessage(messageEvent:MessageEvent):void {
-			sendNotification(ApplicationFacade.RECEIVE_MESSAGE, messageEvent.data);
+			sendNotification(XmppfcFacade.RECEIVE_MESSAGE, messageEvent.data);
 		}
 		
 	}

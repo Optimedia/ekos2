@@ -1,13 +1,12 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
+	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.events.LoginViewEvent;
+	import br.com.optimedia.xmppfc.view.api.components.ILoginView;
+	import br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator;
+	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-
-	import br.com.optimedia.xmppfc.ApplicationFacade;
-	import br.com.optimedia.xmppfc.model.XMPPProxy;
-	import br.com.optimedia.xmppfc.events.LoginViewEvent;
-	import br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator;
-	import br.com.optimedia.xmppfc.view.api.components.ILoginView;
 	
 	
 	public class BaseLoginMediator extends Mediator implements ILoginMediator {
@@ -31,21 +30,21 @@ package br.com.optimedia.xmppfc.view.base.mediators
 
 		override public function listNotificationInterests():Array {
 			return [
-						ApplicationFacade.VALID_LOGIN,
-						ApplicationFacade.INVALID_LOGIN,
-						ApplicationFacade.DISCONNECT
+						XmppfcFacade.VALID_LOGIN,
+						XmppfcFacade.INVALID_LOGIN,
+						XmppfcFacade.DISCONNECT
 					];
 		}
 
 		override public function handleNotification(note:INotification):void {
 			switch (note.getName()) {
-				case ApplicationFacade.VALID_LOGIN:
+				case XmppfcFacade.VALID_LOGIN:
 					doValidLogin(note);
 					break;
-				case ApplicationFacade.INVALID_LOGIN:
+				case XmppfcFacade.INVALID_LOGIN:
 					doInvalidLogin(note);
 					break;
-				case ApplicationFacade.DISCONNECT:
+				case XmppfcFacade.DISCONNECT:
 					doDisconnect(note);
 					break;
 				default:
@@ -54,11 +53,11 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		}
 		
 		public function onConnectClick(loginViewEvent: LoginViewEvent): void {
-			sendNotification(ApplicationFacade.LOGIN, loginViewEvent);
+			sendNotification(XmppfcFacade.LOGIN, loginViewEvent);
 		}
 		
 		public function onDisconnectClick(loginViewEvent: LoginViewEvent): void {
-			sendNotification(ApplicationFacade.LOGOUT, loginViewEvent);
+			sendNotification(XmppfcFacade.LOGOUT, loginViewEvent);
 		}
 		
 		// abstract

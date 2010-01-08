@@ -1,10 +1,10 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
-	import br.com.optimedia.xmppfc.ApplicationFacade;
-	import br.com.optimedia.xmppfc.view.api.mediators.IXmppFcMediator;
+	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
 	import br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator;
 	import br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator;
-	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
+	import br.com.optimedia.xmppfc.view.api.mediators.IXmppFcMediator;
 	
 	import mx.core.Application;
 	
@@ -26,8 +26,8 @@ package br.com.optimedia.xmppfc.view.base.mediators
 			return Application.application;
 		}
 		
-		protected function get facadeXmppFc(): ApplicationFacade {
-			return facade as ApplicationFacade;
+		protected function get facadeXmppFc(): XmppfcFacade {
+			return facade as XmppfcFacade;
 		}
 		
 		// overrides
@@ -38,26 +38,26 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		override public function listNotificationInterests(): Array {
 			// @ template method
 			return [
-						ApplicationFacade.LOGIN,
-						ApplicationFacade.VALID_LOGIN,
-						ApplicationFacade.INVALID_LOGIN,
-						ApplicationFacade.SECURITY_ERROR
+						XmppfcFacade.LOGIN,
+						XmppfcFacade.VALID_LOGIN,
+						XmppfcFacade.INVALID_LOGIN,
+						XmppfcFacade.SECURITY_ERROR
 					];
 		}
 
 		override public function handleNotification(note:INotification):void {
 			// @ template method
 			switch (note.getName()) {
-				case ApplicationFacade.LOGIN:
+				case XmppfcFacade.LOGIN:
 					doLogin(note);
 					break;
-				case ApplicationFacade.VALID_LOGIN:
+				case XmppfcFacade.VALID_LOGIN:
 					doValidLogin(note);
 					break;
-				case ApplicationFacade.INVALID_LOGIN:
+				case XmppfcFacade.INVALID_LOGIN:
 					doInvalidLogin(note);
 					break;
-				case ApplicationFacade.SECURITY_ERROR:
+				case XmppfcFacade.SECURITY_ERROR:
 					doSecurityError(note);
 					break;
 				default:

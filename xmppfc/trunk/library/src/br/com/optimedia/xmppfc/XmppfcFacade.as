@@ -12,7 +12,7 @@
 	* ...
 	* @author Dave Keen
 	*/
-	public class ApplicationFacade extends Facade implements IFacade {
+	public class XmppfcFacade extends Facade implements IFacade {
 		// Notification name constants
 		public static const STARTUP:String = "startup";
 		
@@ -29,9 +29,9 @@
 		
 		public static const OPEN_CHAT_WINDOW:String = "open_chat_window";
 		
-		public static function getInstance(): ApplicationFacade {
-			if (instance == null) instance = new ApplicationFacade();
-			return instance as ApplicationFacade;
+		public static function getInstance(): XmppfcFacade {
+			if (XmppfcFacade == null) instance = new XmppfcFacade();
+			return XmppfcFacade as XmppfcFacade;
 		}
 		
 		// Register commands with the controller
