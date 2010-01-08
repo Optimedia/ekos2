@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
 	xmlns:view="br.com.optimedia.xmppfc.example.view.components.*"
-    layout="absolute"
     width="760" height="440" 
     verticalGap="0"
     horizontalGap="0"
