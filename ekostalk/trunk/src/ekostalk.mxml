@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	xmlns:optimedia="br.com.optimedia.ekostalk.view.components.*"
+    width="760" height="480" 
+    creationComplete="init();">
+    <mx:Script>
+        <![CDATA[
+        	import br.com.optimedia.ekostalk.view.components.LoginFormView;
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.containers.TitleWindow;
+	
+	    	import br.com.optimedia.notifyme.view.base.mediators.NotifymeBaseMediator;
+	    	import br.com.optimedia.notifyme.NotifymeFacade;
+			import br.com.optimedia.xmppfc.XmppfcFacade;
+        	import br.com.optimedia.ekostalk.view.mediators.TalkMediator;
+			
+	        private var notifymeFacade: NotifymeFacade = NotifymeFacade.getInstance();
+	        private var xpmmfcFacade:XmppfcFacade = XmppfcFacade.getInstance();
+	        public var loginView: LoginFormView;
+			
+			public function init():void {
+				this.loginView = new LoginFormView();
+				//this.loginForm.addEventListener(LoginForm.ON_LOGIN_SUCESS, onSucess);
+				//this.loginForm.server = this._server;
+				this.loginView.showModal(); 
+				notifymeFacade.sendNotification(NotifymeFacade.STARTUP, new NotifymeBaseMediator(this.notifymeView));
+				xpmmfcFacade.sendNotification(XmppfcFacade.STARTUP, new TalkMediator(this));
+			}
+        ]]> 
+    </mx:Script>
+	<mx:VBox id="mainBody" width="100%" height="100%" verticalGap="0" visible="false">
+		<!--optimedia:TalkLoginView id="loginView"  height="30"/-->
+		<optimedia:TalkNotifymeView id="notifymeView" width="100%" backgroundColor="#FFFFFF" />
+		<mx:HBox width="100%" height="100%" horizontalGap="0" backgroundColor="#FD0000">
+			<optimedia:TalkRosterView id="rosterView" width="194" height="100%"/>
+			<mx:Canvas width="100%" height="100%" backgroundColor="#F2E408">
+			</mx:Canvas>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Application>

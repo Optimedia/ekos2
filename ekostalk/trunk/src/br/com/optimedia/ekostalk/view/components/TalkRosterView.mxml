@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" 
+	width="100%" 
+	height="100%"
+	title="Buddy list"
+	enabled="false"
+	implements="br.com.optimedia.xmppfc.view.api.components.IRosterView">
+	<mx:Script>
+		<![CDATA[
+		import flash.events.Event;
+		import mx.events.ListEvent;
+		import br.com.optimedia.xmppfc.events.ChatEvent;
+		import org.jivesoftware.xiff.core.JID;
+		
+		private function onChatClick():void {
+			if (rosterList.selectedItem) {
+				var jid:JID = new JID(rosterList.selectedItem.jid);
+				dispatchEvent(new ChatEvent(ChatEvent.START_CHAT, jid));
+			}
+		}
+		
+		override public function set enabled(value: Boolean): void {
+			super.enabled = value;
+			//if (titleWindow) {
+			//	titleWindow.enabled = value;
+			//}
+		}
+		
+		public function set dataProvider(value: Object): void {
+			this.rosterList.dataProvider = value;
+		}
+		
+		]]>
+	</mx:Script>
+	<mx:List id="rosterList" editable="false" width="100%" height="100%">
+		<mx:itemRenderer>
+			<mx:Component>
+				<mx:HBox>
+					<mx:Image source="{data.online}" />
+					<mx:Label text="{data.displayName}" />
+				</mx:HBox>
+			</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
+	<mx:Button width="100%" label="Chat..." click="onChatClick()" />
+</mx:TitleWindow>
