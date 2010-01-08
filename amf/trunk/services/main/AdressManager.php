@@ -22,7 +22,7 @@
 		 * .
 		 *
 		 */
-		public function getAdressType() {
+		public function getAdressTypes() {
 			
 			$sql = "SELECT * FROM eko_detail_address_type";
 			

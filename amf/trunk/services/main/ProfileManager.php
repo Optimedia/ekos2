@@ -121,11 +121,11 @@
 		 * .
 		 *
 		 */
-		public function getAdressType() {
+		public function getAdressTypes() {
 			require_once "./AdressManager.php";
 			$adressManager = new AdressManager();
 			
-			return $adressManager -> getAdressType();
+			return $adressManager -> getAdressTypes();
 		}
 		
 		public function getAvaliableLanguage() {
