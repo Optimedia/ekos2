@@ -1,0 +1,14 @@
+package br.com.optimedia.notifyme.events
+{
+	import br.com.optimedia.notifyme.NotifymeFacade;
+	import br.com.optimedia.notifyme.model.vo.NotificationVO;
+
+	public class GotoLastEvent extends BaseGotoEvent
+	{
+		public function GotoLastEvent(vo: NotificationVO, bubbles:Boolean=false, cancelable:Boolean=false)
+		{
+			super(NotifymeFacade.GOTO_LAST, vo, bubbles, cancelable);
+		}
+		
+	}
+}
