@@ -52,7 +52,6 @@ package br.com.optimedia.ekos.shell.view
 			switch (note.getName())
 			{
 				case NotificationConstants.AVATAR_UPLOAD_COMPLETE:
-					Alert.show("Arquivo enviado com sucesso! FINISH ME!!", "uploadFileResult");
 					removePopUp(null);
 					break;
 				default:

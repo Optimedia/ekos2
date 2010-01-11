@@ -48,7 +48,6 @@ package br.com.optimedia.ekos.shell.view
 			switch (note.getName())
 			{
 				case NotificationConstants.LOGIN_OK:
-					//MainAppFacade(facade).myCompleteUserVO = note.getBody() as CompleteUserVO;
 					view.showCockpit();
 					break;
 				case NotificationConstants.LOGOUT_OK:

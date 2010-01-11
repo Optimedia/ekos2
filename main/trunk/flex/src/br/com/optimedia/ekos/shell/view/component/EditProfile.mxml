@@ -11,12 +11,16 @@
 		import br.com.optimedia.ekos.MainAppFacade;
 		
 		private var facade:MainAppFacade = MainAppFacade.getInstance();
-			
+		
 		[Bindable]
 		private var _completeUserVO:CompleteUserVO = new CompleteUserVO();
 		
 		[Bindable]
 		public var educationLevelsAC:ArrayCollection = new ArrayCollection();
+		[Bindable]
+		public var addressTypesAC:ArrayCollection = new ArrayCollection();
+		[Bindable]
+		public var languagesAC:ArrayCollection = new ArrayCollection();
 		
 		private function init():void {
 			facade.startup( this );
@@ -180,7 +184,8 @@
 					</mx:Script>
 					<mx:Form>
 						<mx:FormItem label="Nível">
-							<mx:ComboBox id="levelComboBox" />
+							<mx:ComboBox id="levelComboBox" dataProvider="{parentDocument.addressTypesAC}" labelField="name"
+										prompt="Escolha"/>
 						</mx:FormItem>
 						<mx:FormItem label="Instituição">
 							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text"/>
@@ -346,7 +351,8 @@
 					</mx:Script>
 					<mx:Form>
 						<mx:FormItem label="Tipo">
-							<mx:ComboBox id="addressTypeComboBox"/>
+							<mx:ComboBox id="addressTypeComboBox" dataProvider="{parentDocument.addressTypesAC}"
+										labelField="name" prompt="Escolha"/>
 						</mx:FormItem>
 						<mx:FormItem label="País">
 							<mx:TextInput id="addressCountryTextInput" text="{data.country_name}" change="data.country_name=addressCountryTextInput.text"/>
@@ -440,7 +446,7 @@
 					</mx:Script>
 					<mx:Form>
 						<mx:FormItem label="Lingua">
-							<mx:ComboBox id="languageComboBox" dataProvider="{parentDocument.educationLevelsAC}"
+							<mx:ComboBox id="languageComboBox" dataProvider="{parentDocument.languagesAC}"
 									change="onLanguageSelection()" prompt="Escolha" labelField="name"/>
 						</mx:FormItem>
 						<mx:FormItem label="Fala">

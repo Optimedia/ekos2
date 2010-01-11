@@ -52,5 +52,21 @@ package br.com.optimedia.ekos.shell.model
 		private function getEducationLevelsResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.GET_EDUCATION_LEVELS_OK, event.result );
 		}
+		
+		public function getAddressTypes():void {
+			var asynkToken:AsyncToken = remoteService.getAddressTypes();
+			asynkToken.addResponder( new Responder(getAddressTypesResult, generalFault) );
+		}
+		private function getAddressTypesResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.GET_ADDRESS_TYPES_OK, event.result );
+		}
+		
+		public function getAvailableLanguages():void {
+			var asynkToken:AsyncToken = remoteService.getAvailableLanguages();
+			asynkToken.addResponder( new Responder(getAvailableLanguagesResult, generalFault) );
+		}
+		private function getAvailableLanguagesResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.GET_AVAILABLE_LANGUAGES_OK, event.result );
+		}
 	}
 }

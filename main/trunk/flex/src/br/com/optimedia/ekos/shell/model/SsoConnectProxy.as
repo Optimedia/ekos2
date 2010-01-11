@@ -49,7 +49,8 @@ package br.com.optimedia.ekos.shell.model
 		private function doLoginResult(event:ResultEvent):void {
 			if (event.result is CompleteUserVO) {
 				//myID = CompleteUserVO(event.result).account_id;
-				sendNotification(NotificationConstants.LOGIN_OK, event.result );
+				sendNotification(NotificationConstants.LOGIN_OK);
+				sendNotification(NotificationConstants.USER_UPDATE_AVAILABLE, event.result);
 			}
 			if (event.result == 1) Alert.show("Usuário inexistente ou senha não confere", "Atenção");
 			if (event.result == 2) Alert.show("Usuário não ativado", "Atenção");

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-				layout="vertical" width="350" height="150"
+				layout="vertical" width="350" height="100"
 				showCloseButton="true" creationComplete="init()">
 	<mx:Script>
 		<![CDATA[
@@ -31,10 +31,8 @@
             	
 				fileTextInput.text = "";
                 fr = new FileReference();
-                fr.addEventListener(Event.OPEN, onOpen);
                 fr.addEventListener(Event.COMPLETE, onComplete);
                 fr.addEventListener(Event.SELECT, onSelect);
-                fr.addEventListener(ProgressEvent.PROGRESS, onProgress);
                 
             }
             
@@ -42,29 +40,14 @@
                 fr.browse(allTypes);
             }
             
-            private function onOpen(e:Event):void {
-                progressBar.label = "%3%%";
-            }
-            
             private function onComplete(e:Event):void {
-				//Alert.show("Arquivo enviado com sucesso!");
-				//progressBar.visible = false;
+                saveBtn.enabled = true;
             }
             
             private function onSelect(e:Event):void {
             	fileTextInput.text = fr.name;
                 fr.load();
-                saveBtn.enabled = true;
-                //progressBar.visible = true;
             }
-            
-            private function onProgress(event:ProgressEvent):void {
-                progressBar.setProgress(event.bytesLoaded, event.bytesTotal);
-            }
-			/* 
-			private function closeHandler(event:CloseEvent):void {
-				PopUpManager.removePopUp( this );
-			} */
 			
 			private function save():void {
 				var data:ByteArray = new ByteArray(); 
@@ -79,24 +62,9 @@
 				
 				dispatchEvent( new Event(UPLOAD_FILE_EVENT) );
 				
-				/* var remoteService = new RemoteObject();
-				remoteService.destination = "amfphp";
-				remoteService.source = "main.FileUpload";
-				remoteService.showBusyCursor = true;
-				
-				var asynkToken:AsyncToken = remoteService.upload(file);
-				asynkToken.addResponder( new Responder(uploadResult, generalFault) ); */
-				
-				//asynkToken.addResponder( new Responder(uploadResult, generalFault) );
-				
 			}
 			private function generalFault(event:FaultEvent):void {
 				Alert.show(event.fault.faultCode as String);
-			}
-			
-			private function uploadResult(event:ResultEvent):void {
-				//sendNotification( NotificationConstants.FIND_FRIEND_RESULT_ARRAY, event.result);
-				Alert.show("finish me", "uploadResult");
 			}
 			
 			public function removePopup():void {
@@ -115,7 +83,5 @@
 	</mx:HBox>
 	
 	<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
-	
-	<mx:ProgressBar label="Carregando" id="progressBar" mode="manual" labelPlacement="center" visible="true" width="100%"/>
 	
 </mx:TitleWindow>

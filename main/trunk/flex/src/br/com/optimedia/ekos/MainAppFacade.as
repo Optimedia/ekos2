@@ -2,7 +2,6 @@ package br.com.optimedia.ekos
 {
 	
 	import br.com.optimedia.assets.constants.CommandConstants;
-	import br.com.optimedia.assets.vo.CompleteUserVO;
 	import br.com.optimedia.ekos.shell.controler.AvatarBoxDisposeCommand;
 	import br.com.optimedia.ekos.shell.controler.AvatarBoxStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.ChangeAvatarPopUpDisposeCommand;
@@ -11,6 +10,7 @@ package br.com.optimedia.ekos
 	import br.com.optimedia.ekos.shell.controler.FriendsViewStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.LoginPanelDisposeCommand;
 	import br.com.optimedia.ekos.shell.controler.LoginPanelStartupCommand;
+	import br.com.optimedia.ekos.shell.controler.ModelStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.StartupCommand;
 	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	import br.com.optimedia.ekos.shell.view.component.ChangeAvatarPopUp;
@@ -51,6 +51,7 @@ package br.com.optimedia.ekos
         {
             super.initializeController();
             //STARTUP COMMANDS
+            registerCommand( CommandConstants.STARTUP_MODEL, ModelStartupCommand );
             registerCommand( CommandConstants.STARTUP_MAIN_APP, StartupCommand );
             registerCommand( CommandConstants.STARTUP_LOGIN_PANEL, LoginPanelStartupCommand );
             registerCommand( CommandConstants.STARTUP_AVATAR_BOX, AvatarBoxStartupCommand );
@@ -71,6 +72,7 @@ package br.com.optimedia.ekos
          */
         public function startup( app:Object ):void
         {
+        	if (app == "model") sendNotification( CommandConstants.STARTUP_MODEL, null );
         	if (app is MainApp) sendNotification( CommandConstants.STARTUP_MAIN_APP, app );
         	if (app is LoginPanel) sendNotification( CommandConstants.STARTUP_LOGIN_PANEL, app );
         	if (app is AvatarBox) sendNotification( CommandConstants.STARTUP_AVATAR_BOX, app );

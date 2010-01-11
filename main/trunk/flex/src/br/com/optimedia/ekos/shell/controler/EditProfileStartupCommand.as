@@ -15,10 +15,6 @@ package br.com.optimedia.ekos.shell.controler
 		{
 			var instance:EditProfile = note.getBody() as EditProfile;
 			
-			// inicia model
-			facade.registerProxy( new UserManagerProxy() );
-			facade.registerProxy( new ProfileManagerProxy() );
-			
 			// depois inicializa a View (Mediators)
 			facade.registerMediator( new EditProfileMediator( instance ) );
 		}

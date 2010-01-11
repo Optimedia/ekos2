@@ -3,6 +3,7 @@ package br.com.optimedia.assets.constants
 	public class CommandConstants
 	{
 		// STARTUP COMMANDS
+		public static const STARTUP_MODEL:String = 'STARTUP_MODEL';
 		public static const STARTUP_MAIN_APP:String = 'STARTUP_MAIN_APP';
 		public static const STARTUP_LOGIN_PANEL:String = 'STARTUP_LOGIN_PANEL';
 		public static const STARTUP_AVATAR_BOX:String = 'STARTUP_AVATAR_BOX';
