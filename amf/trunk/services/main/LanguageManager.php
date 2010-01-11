@@ -22,19 +22,22 @@
 		 * .
 		 *
 		 */
-		public function getAdressType() {
+		public function getLanguage() {
 			
-			$sql = "SELECT * FROM eko_detail_address_type";
+			$sql = "SELECT * FROM eko_detail_language";
 			
 			$result = parent::doSelect($sql);
 			
-			$arrayAdressType = array();
+			require_once '../vo/br/com/optimedia/assets/vo/LanguageVO.php';
+			$language = new LanguageVO();
 			
-			while($adressType = mysql_fetch_array($result, MYSQL_ASSOC)) { 
-				$arrayAdressType[] = $adressType;
+			$arrayLanguage = array();
+			
+			while($languageVO = mysql_fetch_object($result, "LanguageVO") {
+				$arrayLanguage[] = $languageVO;
 			}
 			
-			return $arrayAdressType;
+			return $arrayLanguage;
 			
 		}
 		
