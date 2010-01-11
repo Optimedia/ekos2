@@ -129,7 +129,10 @@
 		}
 		
 		public function getAvailableLanguages() {
-			// TODO Pegar as linguas
+			require_once "./LanguageManager.php";
+			$languageManager = new LanguageManager();
+			
+			return $languageManager -> getLanguage();
 		}
 		
 		public function uploadFile(FileVO $file) { 
@@ -141,7 +144,7 @@
 			return $filename;
 		}
 		
-	/**
+		/**
 		 * Fun��o que retorna se a sess�o est� ativa ou n�o.
 		 * 
 		 * @return CompleteUserVO
