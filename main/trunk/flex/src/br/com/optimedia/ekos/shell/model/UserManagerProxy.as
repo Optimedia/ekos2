@@ -109,13 +109,21 @@ package br.com.optimedia.ekos.shell.model
 			if(event.result == false) Alert.show("Código inválido", "Atenção");
 		}
 		
-		
 		public function updateUser(completeUserVO:CompleteUserVO):void {
 			var asynkToken:AsyncToken = remoteService.updateUser(completeUserVO);
 			asynkToken.addResponder( new Responder(updateUserResult, generalFault) );
 		}
 		private function updateUserResult(event:ResultEvent):void {
-			if(event.result==true) sendNotification( NotificationConstants.UPDATE_USER_OK, event.result );
+			Alert.show("Seus dados foram salvos com sucesso!", "OK!");
+			if(event.result is CompleteUserVO) sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
+		}
+		
+		public function getUserData():void {
+			var asynkToken:AsyncToken = remoteService.getUserData();
+			asynkToken.addResponder( new Responder(getUserDataResult, generalFault) );
+		}
+		private function getUserDataResult(event:ResultEvent):void {
+			if(event.result is CompleteUserVO) sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
 		}
 	}
 }

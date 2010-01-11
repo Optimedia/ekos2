@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="horizontal" height="100%" width="100%"
-				creationComplete="init()" xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
+				xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
+				initialize="preInit()" creationComplete="init()"
 				horizontalScrollPolicy="off" verticalScrollPolicy="off"
 				visible="false" showEffect="{fadeEffect}"  hideEffect="{fadeEffect}">
 	
@@ -13,6 +14,10 @@
 			import br.com.optimedia.ekos.MainAppFacade;
 			
 			protected var facade:MainAppFacade = MainAppFacade.getInstance();
+			
+			private function preInit():void {
+				facade.startup( "model" );
+			}
 			
 			private function init():void {
 				facade.startup( this );

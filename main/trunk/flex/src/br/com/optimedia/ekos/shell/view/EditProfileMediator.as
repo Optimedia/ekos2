@@ -34,6 +34,8 @@ package br.com.optimedia.ekos.shell.view
 			profileManagerProxy = facade.retrieveProxy( ProfileManagerProxy.NAME ) as ProfileManagerProxy;
 			
 			profileManagerProxy.getEducationLevels();
+			profileManagerProxy.getAddressTypes();
+			profileManagerProxy.getAvailableLanguages();
 			
 			view.resetBtn.addEventListener(MouseEvent.CLICK, resetBtnHandler);
 			view.saveBtn.addEventListener(MouseEvent.CLICK, saveBtnHandler);
@@ -50,36 +52,44 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.LOGIN_OK,
-					NotificationConstants.AVATAR_UPLOAD_COMPLETE,
-					NotificationConstants.UPDATE_USER_OK,
-					NotificationConstants.GET_EDUCATION_LEVELS_OK];
+			return [NotificationConstants.AVATAR_UPLOAD_COMPLETE,
+					NotificationConstants.USER_UPDATE_AVAILABLE,
+					NotificationConstants.GET_EDUCATION_LEVELS_OK,
+					NotificationConstants.GET_ADDRESS_TYPES_OK,
+					NotificationConstants.GET_AVAILABLE_LANGUAGES_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				case NotificationConstants.LOGIN_OK:
-					view.completeUserVO = CompleteUserVO(note.getBody()).clone();
+				case NotificationConstants.USER_UPDATE_AVAILABLE:
+					view.completeUserVO = CompleteUserVO( note.getBody() ).clone();
 					break;
 				case NotificationConstants.AVATAR_UPLOAD_COMPLETE:
 					view.completeUserVO.large_avatar = "http://10.1.1.10/amf/services/main/avatars/160x160/"+note.getBody();
 					view.completeUserVO.small_avatar = "http://10.1.1.10/amf/services/main/avatars/100x100/"+note.getBody();
 					break;
-				case NotificationConstants.UPDATE_USER_OK:
-					Alert.show("case NotificationConstants.UPDATE_USER_OK FINISH ME!", "ATENÇÃO");
-					break;
 				case NotificationConstants.GET_EDUCATION_LEVELS_OK:
 					view.educationLevelsAC = new ArrayCollection(ArrayUtil.toArray(note.getBody()));
+					break;
+				case NotificationConstants.GET_ADDRESS_TYPES_OK:
+					view.addressTypesAC = new ArrayCollection(ArrayUtil.toArray(note.getBody()));
+					break;
+				case NotificationConstants.GET_AVAILABLE_LANGUAGES_OK:
+					view.languagesAC = new ArrayCollection(ArrayUtil.toArray(note.getBody()));
 					break;
 				default:
 					break;
 			}
 		}
 		
+		private function getUserData():void {
+			userManagerProxy.getUserData();
+		}
+		
 		private function resetBtnHandler(event:MouseEvent):void {
-			
+			getUserData();
 		}
 		
 		private function saveBtnHandler(event:MouseEvent):void {
