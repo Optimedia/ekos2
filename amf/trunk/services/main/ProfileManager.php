@@ -31,6 +31,10 @@
 			require_once './UserManager.php';
 			$userManager = new UserManager();
 			
+			if(empty($_SESSION['account_id'])) {
+				return "Não existe nenhum usuário na sessão.";
+			}
+			
 			return $userManager -> getUser($_SESSION['account_id']);
 		}
 		
