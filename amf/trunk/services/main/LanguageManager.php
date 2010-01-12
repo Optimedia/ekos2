@@ -24,16 +24,13 @@
 		 */
 		public function getLanguage() {
 			
-			$sql = "SELECT * FROM eko_detail_language";
+			$sql = "SELECT * FROM eko_detail_language_option";
 			
 			$result = parent::doSelect($sql);
 			
-			require_once '../vo/br/com/optimedia/assets/vo/LanguageVO.php';
-			$language = new LanguageVO();
-			
 			$arrayLanguage = array();
 			
-			while($language = mysql_fetch_object($result, "LanguageVO")) {
+			while($language = mysql_fetch_array($result, MYSQL_ASSOC)) { 
 				$arrayLanguage[] = $language;
 			}
 			
