@@ -26,7 +26,7 @@
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
-		 * @param uint
+		 * 
 		 */
 		public function getAllFriends() {
 			$sql = "SELECT f.*, a.account_id ,u.first_name, u.last_name, p.small_avatar, p.nickname FROM eko_friend f, eko_account a, eko_user u, eko_profile p ".

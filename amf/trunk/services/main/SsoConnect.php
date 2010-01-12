@@ -88,7 +88,7 @@
 		}
 		
 		/**
-		 * Fun��o que retorna se a sess�o est� ativa ou n�o.
+		 * Função que retorna se a sessão está ativa ou não.
 		 * 
 		 * @return CompleteUserVO
 		 */
