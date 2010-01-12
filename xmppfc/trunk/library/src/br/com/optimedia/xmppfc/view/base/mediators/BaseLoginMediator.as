@@ -5,8 +5,8 @@ package br.com.optimedia.xmppfc.view.base.mediators
 	import br.com.optimedia.xmppfc.view.api.components.ILoginView;
 	import br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator;
 	
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
 	
 	public class BaseLoginMediator extends Mediator implements ILoginMediator {
@@ -14,7 +14,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 
 		public function BaseLoginMediator(viewComponent:Object) {
 			super(NAME, viewComponent);
-			
+			this.initializeNotifier("XmppfcFacade");
 			loginView.addEventListener(LoginViewEvent.LOGIN, onConnectClick);
 			loginView.addEventListener(LoginViewEvent.LOGOUT, onDisconnectClick);
 		}

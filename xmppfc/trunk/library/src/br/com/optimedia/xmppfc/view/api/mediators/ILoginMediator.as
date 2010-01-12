@@ -1,10 +1,10 @@
 package br.com.optimedia.xmppfc.view.api.mediators
 {
-	import org.puremvc.as3.interfaces.IMediator;
-	import org.puremvc.as3.interfaces.INotification;
-	
 	import br.com.optimedia.xmppfc.events.LoginViewEvent;
 	import br.com.optimedia.xmppfc.view.api.components.ILoginView;
+	
+	import org.puremvc.as3.multicore.interfaces.IMediator;
+	import org.puremvc.as3.multicore.interfaces.INotification;
 
 	public interface ILoginMediator extends IMediator
 	{

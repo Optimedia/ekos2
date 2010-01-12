@@ -3,7 +3,7 @@ package br.com.optimedia.ekostalk.view.mediators
 	import br.com.optimedia.xmppfc.model.XMPPProxy;
 	import br.com.optimedia.xmppfc.view.base.mediators.BaseRosterMediator;
 	
-	import org.puremvc.as3.interfaces.INotification;
+	import org.puremvc.as3.multicore.interfaces.INotification;
 	
 	public class TalkRosterMediator extends BaseRosterMediator
 	{

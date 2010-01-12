@@ -8,8 +8,8 @@ package br.com.optimedia.xmppfc.view.base.mediators
 	
 	import mx.core.Application;
 	
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
 	public class BaseXmppFcMediator extends Mediator implements IXmppFcMediator {
 
@@ -18,6 +18,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		public function BaseXmppFcMediator(viewComponent:Object) {
 			// @ template method
 			super(NAME, viewComponent);
+			this.initializeNotifier("XmppfcFacade");
 			registerMediators()
 		}
 		

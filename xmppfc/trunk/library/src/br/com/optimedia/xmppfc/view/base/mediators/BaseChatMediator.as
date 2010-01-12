@@ -7,15 +7,15 @@ package br.com.optimedia.xmppfc.view.base.mediators
 	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
 	import br.com.optimedia.xmppfc.view.base.components.BaseChatView;
 	
-	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	
+	import mx.core.Application;
 	import mx.managers.PopUpManager;
 	
 	import org.jivesoftware.xiff.core.JID;
 	import org.jivesoftware.xiff.data.Message;
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
 	
 	public class BaseChatMediator extends Mediator implements IChatMediator {
@@ -26,6 +26,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 
 		public function BaseChatMediator(viewComponent:Object) {
 			super(NAME, viewComponent);
+			this.initializeNotifier("XmppfcFacade");
 			chatViews = new Array();
 		}
 		
@@ -101,7 +102,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 			if (!chatViews[jid.toBareJID()]) {
 				var chatView:IChatView = newChatView();
 				
-				PopUpManager.addPopUp(chatView, viewComponent as DisplayObjectContainer, false);
+				PopUpManager.addPopUp(chatView, Application.application.chatArea, false);
 				PopUpManager.bringToFront(chatView);
 				PopUpManager.centerPopUp(chatView);
 				

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalGap="2" creationComplete="init()" implements="br.com.optimedia.notifyme.view.api.components.INotifymeView">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" implements="br.com.optimedia.notifyme.view.api.components.INotifymeView">
 	<mx:Script>
 		<![CDATA[
 			import br.com.optimedia.notifyme.events.GotoListEvent;
@@ -8,7 +8,6 @@
 			import br.com.optimedia.notifyme.events.GotoPriorEvent;
 			import br.com.optimedia.notifyme.events.GotoFirstEvent;
 			import br.com.optimedia.notifyme.events.GotoPageEvent;
-			import org.puremvc.as3.patterns.facade.Facade;
 			import br.com.optimedia.notifyme.model.vo.NotificationVO;
 			import br.com.optimedia.notifyme.NotifymeFacade;
 			import mx.controls.Alert;
@@ -62,12 +61,17 @@
 			} 
 		]]>
 	</mx:Script>
-	<mx:Label text="{vo.source}" height="100%" />
-	<mx:Label text="{vo.title}" click="gotoPage()" width="100%"  height="100%" textDecoration="underline" mouseOver="doOver()"/>
-	<mx:Label text="{vo.timestamp}" height="100%"/>
-	<!--mx:Button label="|&lt;" click="doFirst()" /-->
-	<mx:Button label="&lt;" click="gotoPrior()"/>
-	<mx:Button label="&gt;" click="gotoNext()" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" />
-	<!--mx:Button label="&gt;|" click="doLast()"/-->
-	<!--mx:Button label="..." click="doList()"/-->
-</mx:HBox>
+	
+	<mx:VBox width="100%" height="100%">
+		<mx:HBox>
+			<mx:Label text="{vo.source}" height="100%" />
+			<mx:Label text="{vo.timestamp}" height="100%"/>
+		</mx:HBox>
+		<mx:Label text="{vo.title}" click="gotoPage()" width="100%"  height="100%" textDecoration="underline" mouseOver="doOver()"/>
+		<mx:HBox textAlign="center">
+			<mx:Button label="&lt;" click="gotoPrior()"/>
+			<mx:Button label="&gt;" click="gotoNext()" />
+		</mx:HBox>
+	</mx:VBox>
+	
+</mx:TitleWindow>

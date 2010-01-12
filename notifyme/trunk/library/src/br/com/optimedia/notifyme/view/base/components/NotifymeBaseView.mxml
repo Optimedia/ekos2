@@ -8,7 +8,6 @@
 			import br.com.optimedia.notifyme.events.GotoPriorEvent;
 			import br.com.optimedia.notifyme.events.GotoFirstEvent;
 			import br.com.optimedia.notifyme.events.GotoPageEvent;
-			import org.puremvc.as3.patterns.facade.Facade;
 			import br.com.optimedia.notifyme.model.vo.NotificationVO;
 			import br.com.optimedia.notifyme.NotifymeFacade;
 			import mx.controls.Alert;

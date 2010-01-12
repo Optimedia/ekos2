@@ -29,13 +29,12 @@
 			}
         ]]> 
     </mx:Script>
-	<mx:VBox id="mainBody" width="100%" height="100%" verticalGap="0" visible="false">
+	<mx:HBox id="mainBody" width="100%" height="100%" verticalGap="0" visible="false">
 		<!--optimedia:TalkLoginView id="loginView"  height="30"/-->
-		<optimedia:TalkNotifymeView id="notifymeView" width="100%" backgroundColor="#FFFFFF" />
-		<mx:HBox width="100%" height="100%" horizontalGap="0" backgroundColor="#FD0000">
-			<optimedia:TalkRosterView id="rosterView" width="194" height="100%"/>
-			<mx:Canvas width="100%" height="100%" backgroundColor="#F2E408">
-			</mx:Canvas>
-		</mx:HBox>
-	</mx:VBox>
+		<mx:VBox width="194" height="100%" horizontalGap="0">
+			<optimedia:TalkNotifymeView id="notifymeView" width="100%" />
+			<optimedia:TalkRosterView id="rosterView" />
+		</mx:VBox>
+		<mx:Canvas width="100%" height="100%" id="chatArea" />
+	</mx:HBox>
 </mx:Application>

@@ -3,10 +3,8 @@ package br.com.optimedia.notifyme.model.proxy
 	import br.com.optimedia.notifyme.NotifymeFacade;
 	import br.com.optimedia.notifyme.model.vo.NotificationVO;
 	
-	import mx.controls.Alert;
-	
-	import org.puremvc.as3.interfaces.IProxy;
-	import org.puremvc.as3.patterns.proxy.Proxy;
+	import org.puremvc.as3.multicore.interfaces.IProxy;
+	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 	
 	public class NotifymeProxy extends Proxy implements IProxy {
 		
