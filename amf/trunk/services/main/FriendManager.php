@@ -52,7 +52,7 @@
 		 * .
 		 * @param String
 		 */
-		/*public function findFriend($name) {
+		public function findFriend($name) {
 			$sql = "SELECT a.account_id ,u.first_name, u.last_name, p.small_avatar, p.nickname FROM eko_account a, eko_user u, eko_profile p " .
 					"WHERE (p.nickname LIKE '%$name%' OR u.first_name LIKE '%$name%' OR u.last_name LIKE '%$name%') AND " .
 					"u.user_id=a.account_id AND p.profile_id=a.account_id";
@@ -67,7 +67,7 @@
 			}
 			
 			return $arrayCompleteUser;
-		}*/
+		}
 		
 		/**
 		 * Fun��o para pegar adicionar um amigo.
@@ -76,12 +76,12 @@
 		 * .
 		 * @param uint
 		 */
-		/*public function addFriend($you) {
-			$arrayFriend = array ('profile_id_i' => $_SESSION['complete_user_vo']->account_id,
+		public function addFriend($you) {
+			$arrayFriend = array ('profile_id_i' => $_SESSION['account_id'],
 								  'profile_id_you' => $you);
 			
 			return parent::doInsert($arrayFriend, $this -> _table);
-		}*/
+		}
 		
 		/**
 		 * Fun��o para deletar um amigo.
