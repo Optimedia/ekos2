@@ -5,6 +5,7 @@
 	implements="br.com.optimedia.xmppfc.view.api.components.ILoginView">
 	<mx:Script>
 			<![CDATA[
+				import br.com.optimedia.xmppfc.XmppfcFacade;
 				import mx.validators.Validator;
 				import mx.managers.PopUpManager;
 				import mx.core.Application;
@@ -45,7 +46,8 @@
 				}
 				
 				private function onConnectClick():void {
-					dispatchEvent(new LoginViewEvent(LoginViewEvent.LOGIN, txtUser.text, txtPassword.text, "i-brasil.net"));
+					XmppfcFacade.getInstance().connect(txtUser.text, txtPassword.text, "10.1.1.10");
+					//dispatchEvent(new LoginViewEvent(LoginViewEvent.LOGIN, txtUser.text, txtPassword.text, "i-brasil.net"));
 				}
 				
 				/*

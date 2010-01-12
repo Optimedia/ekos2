@@ -8,10 +8,10 @@ package br.com.optimedia.notifyme.view.base.mediators
 	import br.com.optimedia.notifyme.view.api.components.INotifymeView;
 	import br.com.optimedia.notifyme.view.api.mediators.INotifymeMediator;
 	
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
-	public class NotifymeBaseMediator  extends Mediator implements INotifymeMediator {
+	public class NotifymeBaseMediator extends Mediator implements INotifymeMediator {
 		
 		public static const NAME:String = "NotifymeMediator";
 

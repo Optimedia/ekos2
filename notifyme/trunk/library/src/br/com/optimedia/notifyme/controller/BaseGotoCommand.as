@@ -1,11 +1,10 @@
 package br.com.optimedia.notifyme.controller
 {
-	import br.com.optimedia.notifyme.events.BaseGotoEvent;
 	import br.com.optimedia.notifyme.model.proxy.NotifymeProxy;
 	import br.com.optimedia.notifyme.model.vo.NotificationVO;
 	
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.command.SimpleCommand;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
 	public class BaseGotoCommand extends SimpleCommand {
 		

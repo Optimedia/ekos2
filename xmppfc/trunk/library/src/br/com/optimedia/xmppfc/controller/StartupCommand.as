@@ -5,8 +5,8 @@ package br.com.optimedia.xmppfc.controller {
 	import br.com.optimedia.xmppfc.model.XMPPProxy;
 	import br.com.optimedia.xmppfc.view.api.mediators.IXmppFcMediator;
 	
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.command.SimpleCommand;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 	
 	/**
 	 * Startup command

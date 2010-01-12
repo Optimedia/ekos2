@@ -4,10 +4,9 @@ package br.com.optimedia.xmppfc.view.api.mediators
 	import br.com.optimedia.xmppfc.view.api.components.IChatView;
 	
 	import flash.events.Event;
-
-	import org.puremvc.as3.interfaces.IMediator;
 	
 	import org.jivesoftware.xiff.core.JID;
+	import org.puremvc.as3.multicore.interfaces.IMediator;
 
 	public interface IChatMediator extends IMediator
 	{

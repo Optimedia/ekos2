@@ -1,14 +1,13 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
-
-	import br.com.optimedia.xmppfc.events.ChatEvent;
-
 	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.events.ChatEvent;
 	import br.com.optimedia.xmppfc.model.XMPPProxy;
-	import br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator;
 	import br.com.optimedia.xmppfc.view.api.components.IRosterView;
+	import br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator;
+	
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
 	
 	public class BaseRosterMediator extends Mediator implements IRosterMediator {
@@ -17,6 +16,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 
 		public function BaseRosterMediator(viewComponent:Object) {
 			super(NAME, viewComponent);
+			this.initializeNotifier("XmppfcFacade");
 			rosterView.addEventListener(ChatEvent.START_CHAT, onStartChat);
 		}
 		

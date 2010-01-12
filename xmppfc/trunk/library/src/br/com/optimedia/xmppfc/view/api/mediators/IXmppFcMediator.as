@@ -1,7 +1,7 @@
 package br.com.optimedia.xmppfc.view.api.mediators
 {
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.interfaces.IMediator;
+	import org.puremvc.as3.multicore.interfaces.IMediator;
+	import org.puremvc.as3.multicore.interfaces.INotification;
 
 	public interface IXmppFcMediator extends IMediator
 	{

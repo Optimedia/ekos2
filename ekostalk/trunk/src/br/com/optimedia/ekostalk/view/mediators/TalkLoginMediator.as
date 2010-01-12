@@ -1,12 +1,11 @@
 package br.com.optimedia.ekostalk.view.mediators
 {
 	import br.com.optimedia.ekostalk.view.components.LoginFormView;
-	import br.com.optimedia.ekostalk.view.components.TalkLoginView;
 	import br.com.optimedia.xmppfc.view.base.mediators.BaseLoginMediator;
 	
 	import mx.core.Application;
 	
-	import org.puremvc.as3.interfaces.INotification;
+	import org.puremvc.as3.multicore.interfaces.INotification;
 
 	public class TalkLoginMediator extends BaseLoginMediator
 	{
@@ -22,6 +21,7 @@ package br.com.optimedia.ekostalk.view.mediators
 		
 		override public function doValidLogin(note: INotification): void {
 			loginFormView.hideModal();
+			Application.application.mainBody.visible = true;
 		}
 		
 		override public function doInvalidLogin(note: INotification): void {

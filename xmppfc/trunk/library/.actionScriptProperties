@@ -13,8 +13,8 @@
 </libraryPathEntry>
 </modifiedEntries>
 </libraryPathEntry>
-<libraryPathEntry kind="3" linkType="1" path="D:/Dev/flexLibs/PureMVC_AS3_2_0_4/bin/PureMVC_AS3_2_0_4.swc" useDefaultLinkType="false"/>
 <libraryPathEntry kind="3" linkType="1" path="/xiff_library/bin/xiff_library.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/PureMVC_AS3_MultiCore_1_0_5/bin/PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>

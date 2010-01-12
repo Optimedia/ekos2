@@ -1,25 +1,18 @@
 ﻿package br.com.optimedia.xmppfc.model {
-	import flash.events.Event;
-	import flash.system.Security;
 	import br.com.optimedia.xmppfc.XmppfcFacade;
-	import org.jivesoftware.xiff.core.JID;
+	
+	import mx.collections.ArrayCollection;
+	
 	import org.jivesoftware.xiff.core.XMPPSocketConnection;
 	import org.jivesoftware.xiff.data.Message;
 	import org.jivesoftware.xiff.data.Presence;
-	import org.jivesoftware.xiff.events.ConnectionSuccessEvent;
 	import org.jivesoftware.xiff.events.DisconnectionEvent;
-	import org.jivesoftware.xiff.events.IncomingDataEvent;
 	import org.jivesoftware.xiff.events.LoginEvent;
-	import org.jivesoftware.xiff.events.OutgoingDataEvent;
-	import org.jivesoftware.xiff.events.RegistrationFieldsEvent;
-	import org.jivesoftware.xiff.events.RegistrationSuccessEvent;
-	import org.jivesoftware.xiff.events.RosterEvent;
 	import org.jivesoftware.xiff.events.MessageEvent;
 	import org.jivesoftware.xiff.events.XIFFErrorEvent;
 	import org.jivesoftware.xiff.im.Roster;
-	import org.puremvc.as3.interfaces.IProxy;
-	import org.puremvc.as3.patterns.proxy.Proxy;
-	import mx.collections.ArrayCollection;
+	import org.puremvc.as3.multicore.interfaces.IProxy;
+	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	/**
 	 * Proxy to XMPP server
