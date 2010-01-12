@@ -52,7 +52,7 @@
 									   		'address_part2' => $value -> address_part2,
 									   		'zipcode' => $value -> zipcode);
 				
-				$condition = "profile_id=".$value -> account_id." AND detail_address_type_id=".$value -> detail_address_type_id;
+				$condition = "profile_id=".$_SESSION['account_id']." AND detail_address_type_id=".$value -> detail_address_type_id;
 				
 				$resultDelete = parent::doDelete($condition, $this -> _table);
 				

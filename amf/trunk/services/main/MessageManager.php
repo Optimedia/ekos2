@@ -17,14 +17,14 @@
 		}
 		
 		/**
-		 * Função para buscar todas mensagens recebidas pelo usuário
+		 * Funï¿½ï¿½o para buscar todas mensagens recebidas pelo usuï¿½rio
 		 * 
 		 * - Retorna: Array MessageVO
 		 * .
 		 * @param uint
 		 */
-		private function getAllReciveMessages($user_id) {
-			$sql = "SELECT * FROM eko_message WHERE reciver_profile_id=$user_id";
+		private function getAllReciveMessages() {
+			$sql = "SELECT * FROM eko_message WHERE reciver_profile_id=".$_SESSION['account_id'];
 			$result = parent::doSelect($sql);
 			
 			$message = new MessageVO();
@@ -38,7 +38,7 @@
 		}
 		
 		/**
-		 * Função para envio de mensagem para um usuário
+		 * Funï¿½ï¿½o para envio de mensagem para um usuï¿½rio
 		 * 
 		 * - Retorna: Boolean
 		 * .
@@ -58,7 +58,7 @@
 		}
 		
 		/**
-		 * Função para deletar mensagem de um usuário
+		 * Funï¿½ï¿½o para deletar mensagem de um usuï¿½rio
 		 * 
 		 * - Retorna: Boolean
 		 * .

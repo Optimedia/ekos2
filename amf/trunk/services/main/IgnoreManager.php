@@ -20,15 +20,15 @@
 		}
 		
 		/**
-		 * Função para pegar toda a lista de ignorados do usuário.
+		 * Funï¿½ï¿½o para pegar toda a lista de ignorados do usuï¿½rio.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
 		 * @param uint
 		 */
-		public function getAllIgnores($user_id) {
+		public function getAllIgnores() {
 			$sql = "SELECT i.*, a.* ,u.*, p.* FROM eko_ignore i, eko_account a, eko_user u, eko_profile p ".
-				   "WHERE profile_id_i=$$user_id AND account_id=i.profile_id_you AND u.user_id=i.profile_id_you AND p.profile_id=i.profile_id_you";
+				   "WHERE profile_id_i=".$_SESSION['account_id']." AND account_id=i.profile_id_you AND u.user_id=i.profile_id_you AND p.profile_id=i.profile_id_you";
 				   
 			$result = parent::doSelect($sql);
 			
@@ -44,7 +44,7 @@
 		}
 		
 		/**
-		 * Função para pegar adicionar um usuario a lista de ignorados.
+		 * Funï¿½ï¿½o para pegar adicionar um usuario a lista de ignorados.
 		 * 
 		 * - Retorna: Boolean 
 		 * .
@@ -52,14 +52,14 @@
 		 * @param uint
 		 */
 		public function addIgnore($i, $you) {
-			$arrayIgnore = array ('profile_id_i' => $i,
+			$arrayIgnore = array ('profile_id_i' => $_SESSION['account_id'],
 								  'profile_id_you' => $you);
 			
 			return parent::doInsert($arrayIgnore, $this -> _table);
 		}
 		
 		/**
-		 * Função para deletar um usuario da lista de ignorados.
+		 * Funï¿½ï¿½o para deletar um usuario da lista de ignorados.
 		 * 
 		 * - Retorna: Boolean 
 		 * .
@@ -67,7 +67,7 @@
 		 * @param uint
 		 */
 		public function removeIgnore($i, $you) {
-			$where = "profile_id_i=$i AND profile_id_you=$you";
+			$where = "profile_id_i=".$_SESSION['account_id']." AND profile_id_you=$you";
 			
 			return parent::doDelete($where, $this -> _table);
 		}

@@ -76,7 +76,7 @@
 			require_once './IgnoreManager.php';
 			$ignoreManager = new IgnoreManager();
 			
-			return $ignoreManager -> getAllIgnores($_SESSION['account_id']);
+			return $ignoreManager -> getAllIgnores();
 		}
 		
 		/**
@@ -101,7 +101,7 @@
 			require_once './MessageManager.php';
 			$messageManager = new MessageManager();
 			
-			return $messageManager -> getAllMessages($_SESSION['account_id']);
+			return $messageManager -> getAllMessages();
 		}
 		
 		/**

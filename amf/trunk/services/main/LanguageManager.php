@@ -33,8 +33,8 @@
 			
 			$arrayLanguage = array();
 			
-			while($languageVO = mysql_fetch_object($result, "LanguageVO") {
-				$arrayLanguage[] = $languageVO;
+			while($language = mysql_fetch_object($result, "LanguageVO") {
+				$arrayLanguage[] = $language;
 			}
 			
 			return $arrayLanguage;
