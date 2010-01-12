@@ -21,7 +21,7 @@
 		}
 		
 		/**
-		 * Fun��o para buscar dados do profile
+		 * Função para buscar dados do profile
 		 * 
 		 * - Retorna: CompleteUserVO
 		 * .
@@ -31,7 +31,7 @@
 			require_once './UserManager.php';
 			$userManager = new UserManager();
 			
-			return $userManager -> getUser($_SESSION['complete_user_vo']->account_id);
+			return $userManager -> getUser($_SESSION['account_id']);
 		}
 		
 		/**
@@ -49,7 +49,7 @@
 		}
 		
 		/**
-		 * Fun��o para pegar toda a lista de amigos do usu�rio.
+		 * Função para pegar toda a lista de amigos do usuário.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
@@ -63,7 +63,7 @@
 		}
 		
 		/**
-		 * Fun��o para pegar toda a lista de amigos do usu�rio.
+		 * Função para pegar toda a lista de ignorados do usuário.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
@@ -72,11 +72,11 @@
 			require_once './IgnoreManager.php';
 			$ignoreManager = new IgnoreManager();
 			
-			return $ignoreManager -> getAllIgnores($_SESSION['complete_user_vo']->account_id);
+			return $ignoreManager -> getAllIgnores($_SESSION['account_id']);
 		}
 		
 		/**
-		 * Fun��o para pegar toda a lista de amigos do usu�rio.
+		 * Função para pegar todos os scraps enviados ao usuário.
 		 * 
 		 * - Retorna: Array CompleteUserVO 
 		 * .
@@ -87,7 +87,7 @@
 		}
 		
 		/**
-		 * Fun��o para pegar todas as mensagens recebidas pelo usu�rio.
+		 * Função para pegar todas as mensagens recebidas pelo usuário.
 		 * 
 		 * - Retorna: Array MessageVO
 		 * .
@@ -97,7 +97,7 @@
 			require_once './MessageManager.php';
 			$messageManager = new MessageManager();
 			
-			return $messageManager -> getAllMessages($_SESSION['complete_user_vo']->account_id);
+			return $messageManager -> getAllMessages($_SESSION['account_id']);
 		}
 		
 		/**
@@ -115,9 +115,9 @@
 		}
 		
 		/**
-		 * Função para buscar os níveis de educação.
+		 * Função para buscar os tipos de endereço.
 		 * 
-		 * - Retorna: Array [eko_detail_address_type] | [name]
+		 * - Retorna: Array [detail_address_type_id] | [name]
 		 * .
 		 *
 		 */
@@ -128,6 +128,13 @@
 			return $adressManager -> getAddressTypes();
 		}
 		
+		/**
+		 * Função para buscar os níveis de educação.
+		 * 
+		 * - Retorna: Array [eko_detail_address_type] | [name]
+		 * .
+		 *
+		 */
 		public function getAvailableLanguages() {
 			require_once "./LanguageManager.php";
 			$languageManager = new LanguageManager();
@@ -135,6 +142,13 @@
 			return $languageManager -> getLanguage();
 		}
 		
+		/**
+		 * Função para fazer o upload da imagem do perfil.
+		 * 
+		 * - Retorna: String [filename]
+		 * .
+		 *
+		 */
 		public function uploadFile(FileVO $file) { 
 			$data = $file->filedata->data;
 			$filename = mt_rand() . $file->filename;
@@ -145,9 +159,11 @@
 		}
 		
 		/**
-		 * Fun��o que retorna se a sess�o est� ativa ou n�o.
+		 * Função que retorna se a sessão está ativa ou não.
 		 * 
-		 * @return CompleteUserVO
+		 * - Retorna: int [account_id]
+		 * .
+		 *
 		 */
 		public function getSession() {
 			if($_SESSION['user_logged']) {
