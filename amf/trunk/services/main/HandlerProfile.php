@@ -17,7 +17,7 @@
 		}
 		
 		/**
-		 * Função para inserir um novo cadastro da tabela 'eko_profile'
+		 * Funï¿½ï¿½o para inserir um novo cadastro da tabela 'eko_profile'
 		 * 
 		 * - Retorna: Boolean
 		 * .
@@ -31,21 +31,20 @@
 		}
 		
 		/**
-		 * Função para atualizar um cadastro na tabela 'eko_profile'
+		 * Funï¿½ï¿½o para atualizar um cadastro na tabela 'eko_profile'
 		 * 
 		 * - Retorna: Boolean
 		 * .
 		 * @param CompleteUserVO
 		 */
 		public function doUpdate(CompleteUserVO $profile) {
-			$arrayProfile = array ('profile_id' => $profile -> account_id,
-								   'nickname' => $profile -> nickname,
-								   'small_avatar' => $profile -> small_avatar,
-								   'large_avatar' => $profile -> large_avatar,
-								   'sex' => $profile -> sex,
-								   'birthday' => $profile -> birthday);
-							  
-			$condition = "profile_id=".$profile -> account_id;
+			$arrayProfile = array ('nickname' 		=> $profile -> nickname,
+								   'small_avatar' 	=> $profile -> small_avatar,
+								   'large_avatar' 	=> $profile -> large_avatar,
+								   'sex' 			=> $profile -> sex,
+								   'birthday' 		=> $profile -> birthday);
+			
+			$condition = "profile_id=".$_SESSION['account_id'];
 			
 			return parent::doUpdate($arrayProfile, $condition, "eko_profile");
 		}
