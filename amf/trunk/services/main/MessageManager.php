@@ -45,11 +45,11 @@
 		 * @param MessageVO
 		 */
 		public function sendPrivateMessage(MessageVO $message) {
-			$arrayMessage = array('sender_profile_id' 	=> $message -> sender_profile_id,
+			$arrayMessage = array('sender_profile_id' 	=> $message -> $_SESSION['account_id'],
 								  'reciver_profile_id' 	=> $message -> reciver_profile_id,
 								  'sender_status' 		=> $message -> sender_status,
-								  'reciver_status' 		=> $message -> reciver_status,
-								  'send_date' 			=> $message -> send_date,
+								  'reciver_status' 		=> $message -> 2,
+								  'send_date' 			=> $message -> 'FIX ME',
 								  'subject' 			=> $message -> subject,
 								  'text' 				=> $message -> text);
 								  
