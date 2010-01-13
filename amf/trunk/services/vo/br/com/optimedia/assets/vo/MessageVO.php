@@ -18,9 +18,9 @@
 		
 		public $message_id;
 		public $sender_profile_id;
-		public $reciver_profile_id;
+		public $receiver_profile_id;
 		public $sender_status;
-		public $reciver_status;
+		public $receiver_status;
 		public $send_date;
 		public $subject;
 		public $text;

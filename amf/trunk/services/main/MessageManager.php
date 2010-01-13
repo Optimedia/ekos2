@@ -46,14 +46,14 @@
 		 */
 		public function sendPrivateMessage() {
 			$message = new MessageVO();
-			$message -> reciver_profile_id = 9;
+			$message -> receiver_profile_id = 9;
 			$message -> subject = 'fasd';
 			$message -> text = 'asssss';
 			
 			$arrayMessage = array('sender_profile_id' 	=> $_SESSION['account_id'],
-								  'reciver_profile_id' 	=> $message -> reciver_profile_id,
+								  'receiver_profile_id' 	=> $message -> receiver_profile_id,
 								  'sender_status' 		=> 1,
-								  'reciver_status' 		=> 2,
+								  'receiver_status' 		=> 2,
 								  'send_date' 			=> 'FIX ME',
 								  'subject' 			=> $message -> subject,
 								  'text' 				=> $message -> text);
