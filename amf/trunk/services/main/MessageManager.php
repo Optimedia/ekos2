@@ -46,7 +46,7 @@
 		 */
 		public function sendPrivateMessage() {
 			$message = new MessageVO();
-			$message -> receiver_profile_id = 9;
+			$message -> reciver_profile_id = 9;
 			$message -> subject = 'fasd';
 			$message -> text = 'asssss';
 			
