@@ -3,7 +3,7 @@
 	require_once '../includes/SqlManager.php';	
 	require_once '../vo/br/com/optimedia/assets/vo/MessageVO.php';
 	
-	class MessageManager {
+	class MessageManager extends SqlManager {
 		
 		private $_table = "eko_message";
 		
