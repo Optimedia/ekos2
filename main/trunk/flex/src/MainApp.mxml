@@ -15,6 +15,9 @@
 			
 			protected var facade:MainAppFacade = MainAppFacade.getInstance();
 			
+			[Bindable]
+			public var completeUserVO:CompleteUserVO = new CompleteUserVO();
+			
 			private function preInit():void {
 				facade.startup( "model" );
 			}
@@ -48,7 +51,12 @@
 			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
 				<mx:Image maxWidth="180" height="32"/>
 				
-				<component:AvatarBox id="myAvatar" width="180" currentState="myProfileAvatar"/>
+				<!--<component:AvatarBox id="myAvatar" width="180" currentState="myProfileAvatar"/>-->
+				<mx:Panel id="avatarPanel" styleName="avatarPanel" width="180" horizontalAlign="center">
+					<mx:Image id="avatarImage" source="{completeUserVO.small_avatar}" maxHeight="100" maxWidth="100"/>
+					<mx:Text id="completeName" text="{completeUserVO.first_name + ' ' + completeUserVO.last_name}" />
+					<mx:Text id="nickName" text="{completeUserVO.nickname}" />
+				</mx:Panel>
 		
 				<mx:Panel id="appPanel" styleName="appPanel" title="Aplicações do camarada" width="100%" height="150">
 		

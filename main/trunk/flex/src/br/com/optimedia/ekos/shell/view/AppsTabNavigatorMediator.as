@@ -44,20 +44,19 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.GET_ALL_FRIENDS_RESULT,
-					NotificationConstants.FIND_FRIEND_RESULT_ARRAY];
+			return [];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				case NotificationConstants.GET_ALL_FRIENDS_RESULT:
+				/* case NotificationConstants.GET_ALL_FRIENDS_RESULT:
 					view.friendsView.usersArrayCollection = note.getBody() as Array;
-					break;
-				case NotificationConstants.FIND_FRIEND_RESULT_ARRAY:
+					break; */
+				/* case NotificationConstants.FIND_FRIEND_RESULT_ARRAY:
 					view.friendsView.usersArrayCollection = note.getBody() as Array;
-					break;
+					break; */
 				default:
 					break;
 			}

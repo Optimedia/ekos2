@@ -46,6 +46,7 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		public function getEducationLevels():void {
+			// AINDA NÃO IMPLEMENTADO NO PHP
 			var asynkToken:AsyncToken = remoteService.getEducationLevels();
 			asynkToken.addResponder( new Responder(getEducationLevelsResult, generalFault) );
 		}
@@ -54,6 +55,7 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		public function getAddressTypes():void {
+			// AINDA NÃO IMPLEMENTADO NO PHP
 			var asynkToken:AsyncToken = remoteService.getAddressTypes();
 			asynkToken.addResponder( new Responder(getAddressTypesResult, generalFault) );
 		}
@@ -62,11 +64,20 @@ package br.com.optimedia.ekos.shell.model
 		}
 		
 		public function getAvailableLanguages():void {
+			// AINDA NÃO IMPLEMENTADO NO PHP
 			var asynkToken:AsyncToken = remoteService.getAvailableLanguages();
 			asynkToken.addResponder( new Responder(getAvailableLanguagesResult, generalFault) );
 		}
 		private function getAvailableLanguagesResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.GET_AVAILABLE_LANGUAGES_OK, event.result );
+		}
+		
+		public function getProfile():void {
+			var asynkToken:AsyncToken = remoteService.getProfile();
+			asynkToken.addResponder( new Responder(getProfileResult, generalFault) );
+		}
+		private function getProfileResult(event:ResultEvent):void {
+			if(event.result is CompleteUserVO) sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
 		}
 	}
 }

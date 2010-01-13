@@ -40,7 +40,8 @@ package br.com.optimedia.ekos.shell.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.LOGIN_OK,
-					NotificationConstants.LOGOUT_OK];
+					NotificationConstants.LOGOUT_OK,
+					NotificationConstants.USER_UPDATE_AVAILABLE];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -53,6 +54,9 @@ package br.com.optimedia.ekos.shell.view
 				case NotificationConstants.LOGOUT_OK:
 					view.visible = false;
 					view.showLoginPanel();
+					break;
+				case NotificationConstants.USER_UPDATE_AVAILABLE:
+					view.completeUserVO = CompleteUserVO( note.getBody() ).clone();
 					break;
 				default:
 					break;

@@ -33,10 +33,6 @@ package br.com.optimedia.ekos.shell.view
 			userManagerProxy = facade.retrieveProxy( UserManagerProxy.NAME ) as UserManagerProxy;
 			profileManagerProxy = facade.retrieveProxy( ProfileManagerProxy.NAME ) as ProfileManagerProxy;
 			
-			profileManagerProxy.getEducationLevels();
-			profileManagerProxy.getAddressTypes();
-			profileManagerProxy.getAvailableLanguages();
-			
 			view.resetBtn.addEventListener(MouseEvent.CLICK, resetBtnHandler);
 			view.saveBtn.addEventListener(MouseEvent.CLICK, saveBtnHandler);
 		}
@@ -52,7 +48,8 @@ package br.com.optimedia.ekos.shell.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.AVATAR_UPLOAD_COMPLETE,
+			return [NotificationConstants.LOGIN_OK,
+					NotificationConstants.AVATAR_UPLOAD_COMPLETE,
 					NotificationConstants.USER_UPDATE_AVAILABLE,
 					NotificationConstants.GET_EDUCATION_LEVELS_OK,
 					NotificationConstants.GET_ADDRESS_TYPES_OK,
@@ -63,6 +60,11 @@ package br.com.optimedia.ekos.shell.view
 		{
 			switch (note.getName())
 			{
+				case NotificationConstants.LOGIN_OK:
+					profileManagerProxy.getEducationLevels();
+					profileManagerProxy.getAddressTypes();
+					profileManagerProxy.getAvailableLanguages();
+					break;
 				case NotificationConstants.USER_UPDATE_AVAILABLE:
 					view.completeUserVO = CompleteUserVO( note.getBody() ).clone();
 					break;
@@ -85,7 +87,8 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function getUserData():void {
-			userManagerProxy.getUserData();
+			profileManagerProxy.getProfile();
+			//userManagerProxy.getUserData();
 		}
 		
 		private function resetBtnHandler(event:MouseEvent):void {
