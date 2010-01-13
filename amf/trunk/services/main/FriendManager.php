@@ -55,7 +55,7 @@
 		public function findFriend($name) {
 			$sql = "SELECT a.account_id ,u.first_name, u.last_name, p.small_avatar, p.nickname FROM eko_account a, eko_user u, eko_profile p " .
 					"WHERE (p.nickname LIKE '%$name%' OR u.first_name LIKE '%$name%' OR u.last_name LIKE '%$name%') AND " .
-					"u.user_id=a.account_id AND p.profile_id=a.account_id";
+					"u.user_id=a.account_id AND p.profile_id=a.account_id AND a.status=2";
 			
 			$result = parent::doSelect($sql);
 			
@@ -63,7 +63,9 @@
 			$arrayCompleteUser = array();
 			
 			while($completeUser = mysql_fetch_object($result, "CompleteUserVO")) {
-				$arrayCompleteUser[] = $completeUser;
+				if($completeUser->account_id != $_SESSION['account_id']) {
+					$arrayCompleteUser[] = $completeUser;
+				}
 			}
 			
 			return $arrayCompleteUser;
