@@ -15,6 +15,8 @@ package br.com.optimedia.assets.constants
 		public static const GET_EDUCATION_LEVELS_OK:String = "GET_EDUCATION_LEVELS_OK";
 		public static const GET_ADDRESS_TYPES_OK:String = "GET_ADDRESS_TYPES_OK";
 		public static const GET_AVAILABLE_LANGUAGES_OK:String = "GET_AVAILABLE_LANGUAGES_OK";
+		public static const ADD_FRIEND_OK:String = "ADD_FRIEND_OK";
+		
 		/* public static const NEW_USER_DATA:String = "NEW_USER_DATA"; */
 	}
 }

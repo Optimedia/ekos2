@@ -36,13 +36,6 @@ package br.com.optimedia.ekos.shell.model
 			//Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function addFriend(friendID:uint):void {
-			var asynkToken:AsyncToken = remoteService.addFriend(friendID);
-			asynkToken.addResponder( new Responder(addFriendResult, generalFault) );
-		}
-		private function addFriendResult(event:ResultEvent):void {
-			Alert.show("finish me", "addFriendResult");
-		}
 		public function addIgnore(friendID:uint):void {
 			var asynkToken:AsyncToken = remoteService.addIgnore(friendID);
 			asynkToken.addResponder( new Responder(addIgnoreResult, generalFault) );

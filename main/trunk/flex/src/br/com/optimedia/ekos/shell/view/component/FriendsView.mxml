@@ -23,7 +23,6 @@
 			public function get usersArrayCollection():Array {
 				return _usersArrayCollection;
 			}
-			
 		]]>
 	</mx:Script>
 	
@@ -33,7 +32,8 @@
 			<mx:TextInput id="searchTextInput"/>
 			<mx:Button id="searchBtn" label="Buscar" />
 		</mx:HBox>
-		<mx:TileList width="100%" height="100%" dataProvider="{_usersArrayCollection}" selectable="false">
+		<mx:TileList id="tileList" width="100%" height="100%" dataProvider="{_usersArrayCollection}" selectable="false"
+					backgroundColor="#111111">
 			<mx:itemRenderer>
 			<mx:Component>
 				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" currentState="searchSmallAvatar">
