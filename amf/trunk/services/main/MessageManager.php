@@ -44,7 +44,12 @@
 		 * .
 		 * @param MessageVO
 		 */
-		public function sendPrivateMessage(MessageVO $message) {
+		public function sendPrivateMessage() {
+			$message = new MessageVO();
+			$message -> receiver_profile_id = 2;
+			$message -> subject = 'fasd';
+			$message -> text = 'asssss';
+			
 			$arrayMessage = array('sender_profile_id' 	=> $_SESSION['account_id'],
 								  'reciver_profile_id' 	=> $message -> reciver_profile_id,
 								  'sender_status' 		=> 1,
