@@ -58,7 +58,7 @@
 								  'subject' 			=> $message -> subject,
 								  'text' 				=> $message -> text);
 								  
-			parent::doInsert($arrayMessage, $this -> _table);
+			return parent::doInsert($arrayMessage, $this -> _table);
 			
 		}
 		
