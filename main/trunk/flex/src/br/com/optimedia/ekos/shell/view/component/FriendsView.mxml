@@ -36,7 +36,7 @@
 					backgroundColor="#111111">
 			<mx:itemRenderer>
 			<mx:Component>
-				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" currentState="searchSmallAvatar">
+				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" paddingRight="5" paddingLeft="5">
 					<mx:Script>
 						<![CDATA[
 							import br.com.optimedia.assets.vo.CompleteUserVO;

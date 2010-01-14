@@ -118,11 +118,11 @@ package br.com.optimedia.ekos.shell.model
 			if(event.result is CompleteUserVO) sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
 		}
 		
-		/* public function getUserData():void {
-			var asynkToken:AsyncToken = remoteService.getUserData();
-			asynkToken.addResponder( new Responder(getUserDataResult, generalFault) );
+		/* public function getUser(userID:uint):void {
+			var asynkToken:AsyncToken = remoteService.getUser(userID);
+			asynkToken.addResponder( new Responder(getUserResult, generalFault) );
 		}
-		private function getUserDataResult(event:ResultEvent):void {
+		private function getUserResult(event:ResultEvent):void {
 			if(event.result is CompleteUserVO) sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
 		} */
 	}
