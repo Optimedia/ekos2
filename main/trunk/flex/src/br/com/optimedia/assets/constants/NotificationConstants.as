@@ -19,6 +19,7 @@ package br.com.optimedia.assets.constants
 		public static const SEND_PRIVATE_MESSAGE_OK:String = "SEND_PRIVATE_MESSAGE_OK";
 		public static const GET_INBOX_MESSAGES_RESULT:String = "GET_INBOX_MESSAGES_RESULT";
 		public static const GET_OUTBOX_MESSAGES_RESULT:String = "GET_OUTBOX_MESSAGES_RESULT";
+		public static const DELETE_MESSAGE_OK:String = "DELETE_MESSAGE_OK";
 		
 		/* public static const NEW_USER_DATA:String = "NEW_USER_DATA"; */
 	}
