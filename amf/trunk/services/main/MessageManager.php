@@ -23,7 +23,7 @@ class MessageManager extends SqlManager {
 	 * .
 	 * @param uint
 	 */
-	private function getInBoxMessages() {
+	public function getInBoxMessages() {
 		$sql = "SELECT * FROM eko_message WHERE receiver_profile_id=" . $_SESSION ['account_id'];
 		$result = parent::doSelect ( $sql );
 		
