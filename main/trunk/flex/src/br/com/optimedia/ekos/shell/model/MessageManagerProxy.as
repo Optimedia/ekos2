@@ -58,5 +58,13 @@ package br.com.optimedia.ekos.shell.model
 		private function getOutBoxMessagesResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.GET_OUTBOX_MESSAGES_RESULT, event.result );
 		}
+		
+		public function deleteMessage(messageID:uint):void {
+			var asynkToken:AsyncToken = remoteService.deleteMessage(messageID);
+			asynkToken.addResponder( new Responder(deleteMessageResult, generalFault) );
+		}
+		private function deleteMessageResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.DELETE_MESSAGE_OK, event.result );
+		}
 	}
 }

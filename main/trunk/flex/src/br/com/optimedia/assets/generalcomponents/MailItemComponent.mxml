@@ -3,11 +3,46 @@
 
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
+			import br.com.optimedia.ekos.shell.view.component.SendPrivateMessagePopUp;
 			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import br.com.optimedia.assets.vo.MessageVO;
+			
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			
+			public static const DELETE_MESSAGE_EVENT:String = "deleteEvent";
+			
+			private var sendPrivateMessagePopUp:SendPrivateMessagePopUp;
+			private function openSendPrivateMessagePopUp():void {
+				sendPrivateMessagePopUp = new SendPrivateMessagePopUp();
+				sendPrivateMessagePopUp.receiverUserVO = data.completeUserVO;
+				PopUpManager.addPopUp( sendPrivateMessagePopUp, Application.application as DisplayObject, true );
+				PopUpManager.centerPopUp( sendPrivateMessagePopUp );
+			}
+			
+			private function deleteMessage():void {
+				Alert.yesLabel = "Sim";
+				Alert.noLabel = "Não";
+				Alert.show("Tem certeza que deseja apagar a mensagem selecionada?", "Atenção!", 3, null, alertClickHandler);
+			}
+			
+			private function alertClickHandler(event:CloseEvent):void {
+				if (event.detail == Alert.YES) dispatchEvent( new Event('deleteEvent',true) );
+			}
 		]]>
 	</mx:Script>
-
+	
+	<mx:Metadata>
+		[Event(name=DELETE_MESSAGE_EVENT, type="flash.events.Event")]
+	</mx:Metadata>
+	
+	<mx:VBox width="100" height="100%">
+		<mx:Button id="replyBtn" label="Responder" click="openSendPrivateMessagePopUp()"/>
+		<mx:Button id="deleteBtn" label="Deletar" click="deleteMessage()"/>
+	</mx:VBox>
+	
 	<mx:Image source="{CompleteUserVO(data.completeUserVO).small_avatar}" width="100" height="100"/>
 
 	<mx:VBox width="150">
