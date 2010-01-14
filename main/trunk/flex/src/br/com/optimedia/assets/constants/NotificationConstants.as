@@ -16,6 +16,9 @@ package br.com.optimedia.assets.constants
 		public static const GET_ADDRESS_TYPES_OK:String = "GET_ADDRESS_TYPES_OK";
 		public static const GET_AVAILABLE_LANGUAGES_OK:String = "GET_AVAILABLE_LANGUAGES_OK";
 		public static const ADD_FRIEND_OK:String = "ADD_FRIEND_OK";
+		public static const SEND_PRIVATE_MESSAGE_OK:String = "SEND_PRIVATE_MESSAGE_OK";
+		public static const GET_INBOX_MESSAGES_RESULT:String = "GET_INBOX_MESSAGES_RESULT";
+		public static const GET_OUTBOX_MESSAGES_RESULT:String = "GET_OUTBOX_MESSAGES_RESULT";
 		
 		/* public static const NEW_USER_DATA:String = "NEW_USER_DATA"; */
 	}

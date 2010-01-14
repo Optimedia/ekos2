@@ -2,6 +2,7 @@ package br.com.optimedia.ekos.shell.controler
 {
 	import br.com.optimedia.ekos.shell.model.AvatarManagerProxy;
 	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
+	import br.com.optimedia.ekos.shell.model.MessageManagerProxy;
 	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
 	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
 	import br.com.optimedia.ekos.shell.model.UserManagerProxy;
@@ -19,7 +20,7 @@ package br.com.optimedia.ekos.shell.controler
 			facade.registerProxy( new AvatarManagerProxy() );
 			facade.registerProxy( new FriendManagerProxy() );
 			facade.registerProxy( new ProfileManagerProxy() );
-			
+			facade.registerProxy( new MessageManagerProxy() );
 		}
 	}
 }

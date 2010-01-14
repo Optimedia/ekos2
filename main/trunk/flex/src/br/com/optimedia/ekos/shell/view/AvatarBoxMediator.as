@@ -1,9 +1,7 @@
 package br.com.optimedia.ekos.shell.view
 {
-	import br.com.optimedia.assets.constants.NotificationConstants;
-	import br.com.optimedia.assets.vo.CompleteUserVO;
 	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
-	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
+	import br.com.optimedia.ekos.shell.model.MessageManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	
 	import flash.events.MouseEvent;
@@ -16,7 +14,7 @@ package br.com.optimedia.ekos.shell.view
 		public static const NAME:String = 'AvatarBoxMediator';
 		
 		private var friendManagerProxy:FriendManagerProxy;
-		//private var profileManagerProxy:ProfileManagerProxy;
+		//private var messageManagerProxy:MessageManagerProxy;
 		
 		public function AvatarBoxMediator(viewComponent:Object=null)
 		{
@@ -27,9 +25,10 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+viewComponent.uid+".onRegister()");
 			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
-			//profileManagerProxy = facade.retrieveProxy( ProfileManagerProxy.NAME ) as ProfileManagerProxy;
+			//messageManagerProxy = facade.retrieveProxy( MessageManagerProxy.NAME ) as MessageManagerProxy;
 			
-			view.addFriendBtn.addEventListener(MouseEvent.CLICK, addFriendBtnClickHandler);
+			view.addFriendBtn.addEventListener(MouseEvent.CLICK, addFriendBtnClick);
+
 			//não está funcionando
 			//view.addEventListener( FlexEvent.REMOVE, disposeMe);
 		}
@@ -64,7 +63,7 @@ package br.com.optimedia.ekos.shell.view
 			sendNotification( CommandConstants.DISPOSE_AVATAR_BOX, view);
 		} */
 		
-		private function addFriendBtnClickHandler(event:MouseEvent):void {
+		private function addFriendBtnClick(event:MouseEvent):void {
 			friendManagerProxy.addFriend(view.completeUserVO.account_id);
 		}
 	}

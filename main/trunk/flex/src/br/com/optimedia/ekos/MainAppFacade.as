@@ -10,13 +10,18 @@ package br.com.optimedia.ekos
 	import br.com.optimedia.ekos.shell.controler.FriendsViewStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.LoginPanelDisposeCommand;
 	import br.com.optimedia.ekos.shell.controler.LoginPanelStartupCommand;
+	import br.com.optimedia.ekos.shell.controler.MailBoxViewStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.ModelStartupCommand;
+	import br.com.optimedia.ekos.shell.controler.SendPrivateMessagePopUpDisposeCommand;
+	import br.com.optimedia.ekos.shell.controler.SendPrivateMessagePopUpStartupCommand;
 	import br.com.optimedia.ekos.shell.controler.StartupCommand;
 	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	import br.com.optimedia.ekos.shell.view.component.ChangeAvatarPopUp;
 	import br.com.optimedia.ekos.shell.view.component.EditProfile;
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
 	import br.com.optimedia.ekos.shell.view.component.LoginPanel;
+	import br.com.optimedia.ekos.shell.view.component.MailBoxView;
+	import br.com.optimedia.ekos.shell.view.component.SendPrivateMessagePopUp;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -58,11 +63,14 @@ package br.com.optimedia.ekos
             registerCommand( CommandConstants.STARTUP_CHANGE_AVATAR_POPUP, ChangeAvatarPopUpStartupCommand );
             registerCommand( CommandConstants.STARTUP_EDIT_PROFILE, EditProfileStartupCommand );
             registerCommand( CommandConstants.STARTUP_FRIENDS_VIEW, FriendsViewStartupCommand );
+            registerCommand( CommandConstants.STARTUP_SEND_PRIVATE_MESSAGE_POPUP, SendPrivateMessagePopUpStartupCommand );
+            registerCommand( CommandConstants.STARTUP_MAIL_BOX_VIEW, MailBoxViewStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.DISPOSE_LOGIN_PANEL, LoginPanelDisposeCommand );
             registerCommand( CommandConstants.DISPOSE_AVATAR_BOX, AvatarBoxDisposeCommand );
             registerCommand( CommandConstants.DISPOSE_CHANGE_AVATAR_POPUP, ChangeAvatarPopUpDisposeCommand );
+            registerCommand( CommandConstants.DISPOSE_SEND_PRIVATE_MESSAGE_POPUP, SendPrivateMessagePopUpDisposeCommand );
         }
         
         /**
@@ -79,6 +87,8 @@ package br.com.optimedia.ekos
         	if (app is ChangeAvatarPopUp) sendNotification( CommandConstants.STARTUP_CHANGE_AVATAR_POPUP, app );
         	if (app is EditProfile) sendNotification( CommandConstants.STARTUP_EDIT_PROFILE, app );
         	if (app is FriendsView) sendNotification( CommandConstants.STARTUP_FRIENDS_VIEW, app );
+        	if (app is SendPrivateMessagePopUp) sendNotification( CommandConstants.STARTUP_SEND_PRIVATE_MESSAGE_POPUP, app );
+        	if (app is MailBoxView) sendNotification( CommandConstants.STARTUP_MAIL_BOX_VIEW, app );
         }
 	}
 }

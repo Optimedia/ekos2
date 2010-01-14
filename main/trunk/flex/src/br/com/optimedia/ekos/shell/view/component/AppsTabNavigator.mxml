@@ -8,4 +8,6 @@
 	
 	<component:FriendsView id="friendsView" label="Amigos"/>
 	
+	<component:MailBoxView id="mailBoxView" label="Mail Box" width="100%" height="100%"/>
+	
 </mx:TabNavigator>
