@@ -45,10 +45,10 @@ class MessageManager extends SqlManager {
 	 * @param MessageVO
 	 */
 	public function sendPrivateMessage() {
-		$message = new MessageVO ( );
-		$message->receiver_profile_id = 9;
-		$message->subject = 'fasd';
-		$message->text = 'asssss';
+//		$message = new MessageVO ( );
+//		$message->receiver_profile_id = 9;
+//		$message->subject = 'fasd';
+//		$message->text = 'asssss';
 		
 		$arrayMessage = array ('sender_profile_id' => $_SESSION ['account_id'], 'receiver_profile_id' => $message->receiver_profile_id, 'sender_status' => 1, 'receiver_status' => 2, 'sent_date' => 'FIX ME', 'subject' => $message->subject, 'text' => $message->text );
 		
