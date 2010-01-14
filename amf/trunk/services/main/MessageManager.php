@@ -54,7 +54,7 @@
 								  'receiver_profile_id' 	=> $message -> receiver_profile_id,
 								  'sender_status' 		=> 1,
 								  'receiver_status' 		=> 2,
-								  'send_date' 			=> 'FIX ME',
+								  'sent_date' 			=> 'FIX ME',
 								  'subject' 			=> $message -> subject,
 								  'text' 				=> $message -> text);
 								  
