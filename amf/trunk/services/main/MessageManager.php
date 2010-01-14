@@ -17,26 +17,54 @@ class MessageManager extends SqlManager {
 	}
 	
 	/**
-	 * Fun��o para buscar todas mensagens recebidas pelo usu�rio
+	 * Função para buscar todas mensagens recebidas pelo usuário
 	 * 
-	 * - Retorna: Array MessageVO
-	 * .
-	 * @param uint
+	 * - Retorna: Array (completeUserVO, messageVO)
+	 * 
 	 */
 	public function getInBoxMessages() {
+		require_once "./UserManager.php";
+		$userManager = new UserManager();
+		
 		$sql = "SELECT * FROM eko_message WHERE receiver_profile_id=" . $_SESSION ['account_id'];
-		$result = parent::doSelect ( $sql );
+		$sqlResult = parent::doSelect ( $sql );
 		
 		$message = new MessageVO ( );
-		$arrayMessage = array ();
+		$user = new CompleteUserVO ();
+		$result = array ();
 		
-		while ( $message = mysql_fetch_object ( $result, "MessageVO" ) ) {
-			$arrayMessage [] = $message;
+		while ( $message = mysql_fetch_object ( $sqlResult, "MessageVO" ) ) {
+			$user = $userManager->getUser($message->sender_profile_id);
+			$result [] = array('completeUserVO' => $user, 'messageVO' => $message);
 		}
 		
-		return $arrayMessage;
+		return $result;
 	}
 	
+	/**
+	 * Função para buscar todas mensagens enviadas pelo usuário
+	 * 
+	 * - Retorna: Array (completeUserVO, messageVO)
+	 * 
+	 */
+	public function getOutBoxMessages() {
+		require_once "./UserManager.php";
+		$userManager = new UserManager();
+		
+		$sql = "SELECT * FROM eko_message WHERE sender_profile_id=" . $_SESSION ['account_id'];
+		$sqlResult = parent::doSelect ( $sql );
+		
+		$message = new MessageVO ( );
+		$user = new CompleteUserVO ();
+		$result = array ();
+		
+		while ( $message = mysql_fetch_object ( $sqlResult, "MessageVO" ) ) {
+			$user = $userManager->getUser($message->receiver_profile_id);
+			$result [] = array('completeUserVO' => $user, 'messageVO' => $message);
+		}
+		
+		return $result;
+	}
 	/**
 	 * Fun��o para envio de mensagem para um usu�rio
 	 * 
