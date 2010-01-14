@@ -44,7 +44,7 @@ class MessageManager extends SqlManager {
 	 * .
 	 * @param MessageVO
 	 */
-	public function sendPrivateMessage() {
+	public function sendPrivateMessage(MessageVO $message) {
 //		$message = new MessageVO ( );
 //		$message->receiver_profile_id = 9;
 //		$message->subject = 'fasd';
