@@ -21,7 +21,7 @@
 		public $receiver_profile_id;
 		public $sender_status;
 		public $receiver_status;
-		public $send_date;
+		public $sent_date;
 		public $subject;
 		public $text;
 		
