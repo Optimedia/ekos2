@@ -30,7 +30,7 @@ class MessageManager extends SqlManager {
 		$message = new MessageVO ( );
 		$arrayMessage = array ();
 		
-		while ( $message = mysql_fetch_object ( $result ) ) {
+		while ( $message = mysql_fetch_object ( $result, "MessageVO" ) ) {
 			$arrayMessage [] = $message;
 		}
 		
