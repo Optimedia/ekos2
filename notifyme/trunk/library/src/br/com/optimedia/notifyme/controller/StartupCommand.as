@@ -1,6 +1,6 @@
 package br.com.optimedia.notifyme.controller
 {
-	import br.com.optimedia.notifyme.model.proxy.NotifymeProxy;
+	import br.com.optimedia.notifyme.NotifymeFacade;
 	import br.com.optimedia.notifyme.view.api.mediators.INotifymeMediator;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -12,7 +12,7 @@ package br.com.optimedia.notifyme.controller
 		
 		override public function execute(notification:INotification):void {
 			facade.registerMediator(notification.getBody() as INotifymeMediator);
-			notifymeProxy.gotoFirst();
+			(facade as NotifymeFacade).gotoFirst();
 		}
 	
 
