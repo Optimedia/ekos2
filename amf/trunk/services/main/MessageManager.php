@@ -34,8 +34,10 @@ class MessageManager extends SqlManager {
 		$result = array ();
 		
 		while ( $message = mysql_fetch_object ( $sqlResult, "MessageVO" ) ) {
-			$user = $userManager->getUser($message->sender_profile_id);
-			$result [] = array('completeUserVO' => $user, 'messageVO' => $message);
+			if($message->receiver_status != 3) {
+				$user = $userManager->getUser($message->sender_profile_id);
+				$result [] = array('completeUserVO' => $user, 'messageVO' => $message);
+			}
 		}
 		
 		return $result;
@@ -59,8 +61,10 @@ class MessageManager extends SqlManager {
 		$result = array ();
 		
 		while ( $message = mysql_fetch_object ( $sqlResult, "MessageVO" ) ) {
-			$user = $userManager->getUser($message->receiver_profile_id);
-			$result [] = array('completeUserVO' => $user, 'messageVO' => $message);
+			if($message->sender_status != 3) {
+				$user = $userManager->getUser($message->receiver_profile_id);
+				$result [] = array('completeUserVO' => $user, 'messageVO' => $message);
+			}
 		}
 		
 		return $result;
@@ -92,9 +96,35 @@ class MessageManager extends SqlManager {
 	 * @param uint
 	 */
 	public function deleteMessage($message_id) {
-		$where = "message_id=$message_id";
+		$sql = "SELECT * FROM eko_message WHERE message_id=$message_id";
+		$sqlResult = parent::doSelect ( $sql );
 		
-		parent::doDelete ( $where, $this->_table );
+		$message = mysql_fetch_object ( $sqlResult, "MessageVO" );
+		
+		if($message->sender_profile_id == $_SESSION ['account_id']) {
+			$message->sender_status = 3;
+		}
+		else if($message->receiver_profile_id == $_SESSION ['account_id']) {
+			$message->receiver_status = 3;
+		}
+		else return false;
+		
+		$where = "message_id=$message_id";
+
+		$array = array();
+		
+		$array = array ('message_id'=>$message->message_id,
+						'sender_profile_id'=>$message->sender_profile_id,
+						'receiver_profile_id'=>$message->receiver_profile_id,
+						'sender_status'=>$message->sender_status,
+						'receiver_status'=>$message->receiver_status,
+						'sent_date'=>$message->sent_date,
+						'subject'=>$message->subject,
+						'text'=>$message->text
+				 		);
+		
+		return parent::doUpdate($array, $where, $this->_table);
+		//return parent::doDelete ( $where, $this->_table );
 	}
 
 }
