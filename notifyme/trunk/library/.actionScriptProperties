@@ -4,7 +4,7 @@
 <compilerSourcePath/>
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
-<libraryPathEntry kind="3" linkType="1" path="/PureMVC_AS3_MultiCore_1_0_5/bin/PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_PureMVC_AS3_MultiCore_1_0_5/bin/library_PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
