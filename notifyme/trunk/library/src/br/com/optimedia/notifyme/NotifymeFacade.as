@@ -1,9 +1,8 @@
 package br.com.optimedia.notifyme
 {
-	import br.com.optimedia.notifyme.controller.GotoFirstCommand;
-	import br.com.optimedia.notifyme.controller.GotoNextCommand;
-	import br.com.optimedia.notifyme.controller.GotoPriorCommand;
 	import br.com.optimedia.notifyme.controller.StartupCommand;
+	import br.com.optimedia.notifyme.model.proxy.NotifymeProxy;
+	import br.com.optimedia.notifyme.model.vo.NotificationVO;
 	
 	import org.puremvc.as3.multicore.interfaces.IFacade;
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
@@ -20,10 +19,14 @@ package br.com.optimedia.notifyme
 		public static const GOTO_LIST: String  = "gotoList";
 		public static const NOTIFY: String  = "NOTIFY";
 		
-		private static var instanceNotifymeFacade: NotifymeFacade; 
+		private static var instanceNotifymeFacade: NotifymeFacade;
+		 
+		private var notifymeProxy: NotifymeProxy; 
 
-		override public function NotifymeFacade( key:String ) {
+		override public function NotifymeFacade( key: String ) {
 			super(key);
+			notifymeProxy = new NotifymeProxy();
+			registerProxy(notifymeProxy);
 		}
 
 		public static function getInstance(): NotifymeFacade {
@@ -34,13 +37,27 @@ package br.com.optimedia.notifyme
 		
 		override protected function initializeController():void {
 			super.initializeController();
-			
 			registerCommand(STARTUP, StartupCommand);
-			
-			registerCommand(NotifymeFacade.GOTO_FIRST, GotoFirstCommand);
-			registerCommand(NotifymeFacade.GOTO_PRIOR, GotoPriorCommand);
-			registerCommand(NotifymeFacade.GOTO_NEXT,  GotoNextCommand);
+		}
+		
+		public function gotoFirst(): void {
+			this.notifymeProxy.gotoFirst();
 		}
 
+		public function gotoPrior(vo: NotificationVO): void {
+			if (!vo.isFirst) {
+				this.notifymeProxy.gotoPrior();
+			}
+		}
+		
+		public function gotoNext(vo: NotificationVO): void {
+			if (!vo.isLast) {
+				this.notifymeProxy.gotoNext();
+			}
+		}
+		
+		public function getList(): void {
+			this.notifymeProxy.getList();
+		}
 	}
 }
