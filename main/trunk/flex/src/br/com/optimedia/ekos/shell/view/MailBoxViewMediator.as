@@ -93,9 +93,9 @@ package br.com.optimedia.ekos.shell.view
 		
 		private function deleteMessage(event:Event):void {
 			if(view.viewStack.selectedIndex == 0)
-				messageManagerProxy.deleteMessage(MessageVO(view.inBoxList.selectedItem.data.messageVO).message_id);
+				messageManagerProxy.deleteMessage(MessageVO(view.inBoxList.selectedItem.messageVO).message_id);
 			else if(view.viewStack.selectedIndex == 1)
-				messageManagerProxy.deleteMessage(MessageVO(view.outBoxList.selectedItem.data.messageVO).message_id);
+				messageManagerProxy.deleteMessage(MessageVO(view.outBoxList.selectedItem.messageVO).message_id);
 		}
 	}
 }
