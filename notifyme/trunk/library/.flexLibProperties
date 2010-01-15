@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flexLibProperties version="1">
 <includeClasses>
-<classEntry path="br.com.optimedia.notifyme.model.proxy.NotifymeProxy"/>
-<classEntry path="br.com.optimedia.notifyme.events.GotoFirstEvent"/>
-<classEntry path="br.com.optimedia.notifyme.events.GotoNextEvent"/>
-<classEntry path="br.com.optimedia.notifyme.events.NotifyEvent"/>
-<classEntry path="br.com.optimedia.notifyme.events.GotoListEvent"/>
-<classEntry path="br.com.optimedia.notifyme.model.vo.NotificationVO"/>
-<classEntry path="br.com.optimedia.notifyme.events.GotoPriorEvent"/>
-<classEntry path="br.com.optimedia.notifyme.events.GotoPageEvent"/>
-<classEntry path="br.com.optimedia.notifyme.view.base.mediators.NotifymeBaseMediator"/>
-<classEntry path="br.com.optimedia.notifyme.events.GotoLastEvent"/>
-<classEntry path="br.com.optimedia.notifyme.view.base.components.NotifymeBaseView"/>
 <classEntry path="br.com.optimedia.notifyme.NotifymeFacade"/>
-<classEntry path="br.com.optimedia.notifyme.events.BaseGotoEvent"/>
-<classEntry path="br.com.optimedia.notifyme.controller.StartupCommand"/>
+<classEntry path="br.com.optimedia.notifyme.events.NotifyEvent"/>
+<classEntry path="br.com.optimedia.notifyme.model.proxy.NotifymeProxy"/>
+<classEntry path="br.com.optimedia.notifyme.model.vo.NotificationVO"/>
+<classEntry path="br.com.optimedia.notifyme.view.base.components.BaseNotifymeView"/>
+<classEntry path="br.com.optimedia.notifyme.view.base.mediators.BaseNotifymeMediator"/>
+<classEntry path="br.com.optimedia.notifyme.view.api.components.INotifymeView"/>
+<classEntry path="br.com.optimedia.notifyme.view.api.mediators.INotifymeMediator"/>
 </includeClasses>
 <includeResources/>
 <namespaceManifests/>
