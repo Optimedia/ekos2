@@ -4,21 +4,23 @@
 	creationComplete="init();" >
     <mx:Script>
         <![CDATA[
-        	import br.com.optimedia.notifyme.view.base.mediators.NotifymeBaseMediator;
+        	import br.com.optimedia.notifyme.view.base.mediators.BaseNotifymeMediator;
         	import br.com.optimedia.notifyme.NotifymeFacade;
 		import mx.controls.Alert;
 		import mx.core.Application;
 		import mx.containers.TitleWindow;
 		
-        private var notifymeFacade: NotifymeFacade = NotifymeFacade.getInstance();
-		
-		public function init():void {
-			notifymeFacade.sendNotification(NotifymeFacade.STARTUP, new NotifymeBaseMediator(this.notifymeView));
+        private var notifymeFacade: NotifymeFacade;
+
+		public function init(): void {
+			notifymeFacade = NotifymeFacade.getInstance();
+			notifymeFacade.notifymeMediator = new BaseNotifymeMediator(this.notifymeView);
+			notifymeFacade.gotoFirst();
 		}
 		
         ]]> 
     </mx:Script>
 	<mx:VBox backgroundColor="#FFFFFF" width="100%">
-		<view:NotifymeBaseView id="notifymeView" width="100%" />
+		<view:BaseNotifymeView id="notifymeView" width="100%" />
 	</mx:VBox>
 </mx:Application>
