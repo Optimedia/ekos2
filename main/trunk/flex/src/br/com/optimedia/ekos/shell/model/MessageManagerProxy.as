@@ -64,7 +64,7 @@ package br.com.optimedia.ekos.shell.model
 			asynkToken.addResponder( new Responder(deleteMessageResult, generalFault) );
 		}
 		private function deleteMessageResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.DELETE_MESSAGE_OK, event.result );
+			if(event.result == true) sendNotification( NotificationConstants.DELETE_MESSAGE_OK, event.result );
 		}
 	}
 }

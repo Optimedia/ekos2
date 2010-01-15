@@ -3,10 +3,11 @@ package br.com.optimedia.ekos.shell.view
 	
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.assets.vo.CompleteUserVO;
-	import br.com.optimedia.ekos.MainAppFacade;
 	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
 	
 	import flash.events.MouseEvent;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -52,8 +53,10 @@ package br.com.optimedia.ekos.shell.view
 					view.showCockpit();
 					break;
 				case NotificationConstants.LOGOUT_OK:
-					view.visible = false;
-					view.showLoginPanel();
+					//view.visible = false;
+					//view.showLoginPanel();
+					var urlReq:URLRequest = new URLRequest("file:///D:/Dev/Workspace/main/bin-debug/MainApp.html");
+					navigateToURL(urlReq, "_self");
 					break;
 				case NotificationConstants.USER_UPDATE_AVAILABLE:
 					view.completeUserVO = CompleteUserVO( note.getBody() ).clone();
