@@ -5,17 +5,18 @@
     creationComplete="init();">
     <mx:Script>
         <![CDATA[
+        	import br.com.optimedia.ekostalk.view.mediators.TalkNotifymeMediator;
+        	import br.com.optimedia.notifyme.view.base.mediators.BaseNotifymeMediator;
         	import br.com.optimedia.ekostalk.view.components.LoginFormView;
 			import mx.controls.Alert;
 			import mx.core.Application;
 			import mx.containers.TitleWindow;
 	
-	    	import br.com.optimedia.notifyme.view.base.mediators.NotifymeBaseMediator;
 	    	import br.com.optimedia.notifyme.NotifymeFacade;
 			import br.com.optimedia.xmppfc.XmppfcFacade;
         	import br.com.optimedia.ekostalk.view.mediators.TalkMediator;
 			
-	        private var notifymeFacade: NotifymeFacade = NotifymeFacade.getInstance();
+	        private var notifymeFacade: NotifymeFacade;
 	        private var xpmmfcFacade:XmppfcFacade = XmppfcFacade.getInstance();
 	        public var loginView: LoginFormView;
 			
@@ -23,8 +24,10 @@
 				this.loginView = new LoginFormView();
 				//this.loginForm.addEventListener(LoginForm.ON_LOGIN_SUCESS, onSucess);
 				//this.loginForm.server = this._server;
-				this.loginView.showModal(); 
-				notifymeFacade.sendNotification(NotifymeFacade.STARTUP, new NotifymeBaseMediator(this.notifymeView));
+				this.loginView.showModal();
+				notifymeFacade = NotifymeFacade.getInstance();
+				notifymeFacade.notifymeMediator = new TalkNotifymeMediator(this.notifymeView);
+				notifymeFacade.gotoFirst();
 				xpmmfcFacade.sendNotification(XmppfcFacade.STARTUP, new TalkMediator(this));
 			}
         ]]> 

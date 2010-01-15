@@ -5,10 +5,10 @@
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
 <libraryPathEntry kind="1" linkType="1" path="libs"/>
-<libraryPathEntry kind="3" linkType="1" path="/notifyme_library/bin/notifyme_library.swc" useDefaultLinkType="false"/>
-<libraryPathEntry kind="3" linkType="1" path="/xiff_library/bin/xiff_library.swc" useDefaultLinkType="false"/>
-<libraryPathEntry kind="3" linkType="1" path="/xmppfc_library/bin/xmppfc_library.swc" useDefaultLinkType="false"/>
-<libraryPathEntry kind="3" linkType="1" path="/PureMVC_AS3_MultiCore_1_0_5/bin/PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_PureMVC_AS3_MultiCore_1_0_5/bin/library_PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_notifyme/bin/library_notifyme.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_xiff/bin/library_xiff.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_xmppfc/bin/library_xmppfc.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>

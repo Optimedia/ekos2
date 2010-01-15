@@ -2,12 +2,6 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" implements="br.com.optimedia.notifyme.view.api.components.INotifymeView">
 	<mx:Script>
 		<![CDATA[
-			import br.com.optimedia.notifyme.events.GotoListEvent;
-			import br.com.optimedia.notifyme.events.GotoLastEvent;
-			import br.com.optimedia.notifyme.events.GotoNextEvent;
-			import br.com.optimedia.notifyme.events.GotoPriorEvent;
-			import br.com.optimedia.notifyme.events.GotoFirstEvent;
-			import br.com.optimedia.notifyme.events.GotoPageEvent;
 			import br.com.optimedia.notifyme.model.vo.NotificationVO;
 			import br.com.optimedia.notifyme.NotifymeFacade;
 			import mx.controls.Alert;
@@ -18,46 +12,17 @@
 			private var facade: NotifymeFacade;
 			
 			public function init(): void {
-				/*
-				facade = NotifymeFacade.getInstance();
-				*/
-				gotoFirst();
 			}
-			
-			public function gotoPage(): void {
-				dispatchEvent( new GotoPageEvent(vo) );
-			}
-			
-			public function doOver(): void {
-				//dispatchEvent( new GotoPage(vo) );
-			}
-			
-			public function gotoFirst(): void {
-				dispatchEvent( new GotoFirstEvent(vo) );
-			}
-			
-			public function gotoPrior(): void {
-				dispatchEvent( new GotoPriorEvent(vo) );
-			}
-			
-			public function gotoNext(): void {
-				dispatchEvent( new GotoNextEvent(vo) );
-			}
-			
-			public function gotoLast(): void {
-				dispatchEvent( new GotoLastEvent(vo) );
-			}
-			
-			public function gotoList(): void {
-				dispatchEvent( new GotoListEvent(vo) );
-			}
-			
+
 			public function notify(vo: NotificationVO): void {
 				
 			}
 			
 			public function setNotificationVO(value: NotificationVO): void {
 				this.vo = value;
+			} 
+			public function getNotificationVO(): NotificationVO {
+				return this.vo;
 			} 
 		]]>
 	</mx:Script>
@@ -67,10 +32,10 @@
 			<mx:Label text="{vo.source}" height="100%" />
 			<mx:Label text="{vo.timestamp}" height="100%"/>
 		</mx:HBox>
-		<mx:Label text="{vo.title}" click="gotoPage()" width="100%"  height="100%" textDecoration="underline" mouseOver="doOver()"/>
+		<mx:Label id="lblTitle" text="{vo.title}" width="100%"  height="100%" textDecoration="underline" />
 		<mx:HBox textAlign="center">
-			<mx:Button label="&lt;" click="gotoPrior()"/>
-			<mx:Button label="&gt;" click="gotoNext()" />
+			<mx:Button id="btnPrior" label="&lt;" />
+			<mx:Button id="btnNext" label="&gt;" />
 		</mx:HBox>
 	</mx:VBox>
 	
