@@ -13,8 +13,8 @@
 </libraryPathEntry>
 </modifiedEntries>
 </libraryPathEntry>
-<libraryPathEntry kind="3" linkType="1" path="/xiff_library/bin/xiff_library.swc" useDefaultLinkType="false"/>
-<libraryPathEntry kind="3" linkType="1" path="/PureMVC_AS3_MultiCore_1_0_5/bin/PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_PureMVC_AS3_MultiCore_1_0_5/bin/library_PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/library_xiff/bin/library_xiff.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
