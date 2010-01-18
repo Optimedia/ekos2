@@ -93,7 +93,7 @@
 		 * @param uint
 		 */
 		public function removeFriend($you) {
-			$where = "profile_id_i=$_SESSION['account_id'] AND profile_id_you=$you";
+			$where = "profile_id_i=".$_SESSION['account_id']." AND profile_id_you=$you";
 			
 			return parent::doDelete($where, $this -> _table);
 		}
