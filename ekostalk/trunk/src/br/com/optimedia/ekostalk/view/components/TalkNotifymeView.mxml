@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" implements="br.com.optimedia.notifyme.view.api.components.INotifymeView">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" implements="br.com.optimedia.notifyme.view.api.INotifymeView">
 	<mx:Script>
 		<![CDATA[
 			import br.com.optimedia.notifyme.model.vo.NotificationVO;
-			import br.com.optimedia.notifyme.NotifymeFacade;
+			import br.com.optimedia.notifyme.model.NotifymeFacade;
 			import mx.controls.Alert;
 			
 			[Bindable]
@@ -28,14 +28,14 @@
 	</mx:Script>
 	
 	<mx:VBox width="100%" height="100%">
-		<mx:HBox>
+		<mx:HBox width="100%">
 			<mx:Label text="{vo.source}" height="100%" />
 			<mx:Label text="{vo.timestamp}" height="100%"/>
 		</mx:HBox>
-		<mx:Label id="lblTitle" text="{vo.title}" width="100%"  height="100%" textDecoration="underline" />
-		<mx:HBox textAlign="center">
-			<mx:Button id="btnPrior" label="&lt;" />
-			<mx:Button id="btnNext" label="&gt;" />
+		<mx:HBox textAlign="center" width="100%">
+			<mx:Label id="btnPrior" text="&lt;"  width="20"/>
+			<mx:Label id="lblTitle" text="{vo.title}" width="100%"  height="100%" textDecoration="underline" />
+			<mx:Label id="btnNext" text="&gt;"  width="20" textAlign="center"/>
 		</mx:HBox>
 	</mx:VBox>
 	

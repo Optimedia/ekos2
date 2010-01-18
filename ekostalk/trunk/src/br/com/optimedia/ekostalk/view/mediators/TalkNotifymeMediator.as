@@ -1,7 +1,7 @@
 package br.com.optimedia.ekostalk.view.mediators
 {
 	import br.com.optimedia.ekostalk.view.components.TalkNotifymeView;
-	import br.com.optimedia.notifyme.view.base.mediators.BaseNotifymeMediator;
+	import br.com.optimedia.notifyme.controller.base.BaseNotifymeMediator;
 	
 	import flash.events.MouseEvent;
 
