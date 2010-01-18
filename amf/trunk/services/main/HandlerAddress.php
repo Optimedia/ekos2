@@ -37,9 +37,9 @@
 		 * .
 		 * @param CompleteUserVO
 		 */
-		public function doUpdate(CompleteUserVO $profile) {
+		public function doUpdate(CompleteUserVO $value) {
 			
-			$addressArray = $profile -> addressArray;			
+			$addressArray = $value -> addressArray;			
 			
 			foreach($addressArray as $value) {
 				$addressFinalArray = array ('profile_id' => $_SESSION['account_id'],
