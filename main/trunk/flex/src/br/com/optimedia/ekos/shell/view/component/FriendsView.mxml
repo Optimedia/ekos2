@@ -5,11 +5,15 @@
 		
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import br.com.optimedia.ekos.MainAppFacade;
 			import mx.collections.ArrayCollection;
 			
 			[Bindable]
-			private var _usersArrayCollection:Array = new Array();
+			public var usersArrayCollection:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var avatarBoxCurrentState:String = AvatarBox.FRIENDS_VIEW_STATE;
 			
 			private var facade:MainAppFacade = MainAppFacade.getInstance();
 			
@@ -17,11 +21,30 @@
 				facade.startup( this );
 			}
 			
-			public function set usersArrayCollection(value:Array):void {
-				_usersArrayCollection = value;
+			private function onFilterChange():void {
+				usersArrayCollection.filterFunction = usersFilterFunction;
+				usersArrayCollection.refresh();
 			}
-			public function get usersArrayCollection():Array {
-				return _usersArrayCollection;
+			
+			private function usersFilterFunction(item:Object):Boolean {
+				var user:CompleteUserVO = CompleteUserVO(item);
+				var text:String = filterTextInput.text.toLowerCase();
+				var found:Boolean = false;
+				
+				if ( user.first_name ) {
+					if ( user.first_name.toLowerCase().search( text ) != -1 ) found = true;
+					else if ( user.last_name ) {
+						if ( user.last_name.toLowerCase().search( text ) != -1 ) found = true;
+						else if( user.name ) {
+							if ( user.name.toLowerCase().search( text ) != -1 ) found = true;
+							else if( user.nickname ) {
+								if ( user.nickname.toLowerCase().search( text ) != -1 ) found = true;
+							}
+						}
+					}
+				}
+				
+				return found;
 			}
 		]]>
 	</mx:Script>
@@ -31,12 +54,15 @@
 			<mx:Text text="Procurar:" />
 			<mx:TextInput id="searchTextInput"/>
 			<mx:Button id="searchBtn" label="Buscar" />
+			<mx:Spacer width="100%"/>
+			<mx:LinkButton id="backToFriendsBtn" label="Voltar para amigos" visible="false" includeInLayout="false" color="#ffffff"/>
+			<mx:LinkButton id="seeIgnoredBtn" label="Ignorados" visible="true" includeInLayout="true" color="#ffffff"/>
 		</mx:HBox>
-		<mx:TileList id="tileList" width="100%" height="100%" dataProvider="{_usersArrayCollection}" selectable="false"
+		<mx:TileList id="tileList" width="100%" height="100%" dataProvider="{usersArrayCollection}" selectable="false"
 					backgroundColor="#111111">
 			<mx:itemRenderer>
 			<mx:Component>
-				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" paddingRight="5" paddingLeft="5">
+				<component:AvatarBox completeUserVO="{data as CompleteUserVO}" paddingRight="5" paddingLeft="5" currentState="{parentDocument.avatarBoxCurrentState}">
 					<mx:Script>
 						<![CDATA[
 							import br.com.optimedia.assets.vo.CompleteUserVO;
@@ -50,9 +76,9 @@
 	
 	<mx:LinkButton width="10" height="100%"/> 
 	
-	<mx:Panel title="Filtro" width="150" height="100%">
+	<mx:Panel title="Filtro" width="150" height="100%" paddingLeft="3" paddingRight="3" paddingTop="3" paddingBottom="3">
 		
-		
+		<mx:TextInput id="filterTextInput" change="onFilterChange()" width="100%"/>
 		
 	</mx:Panel>
 	
