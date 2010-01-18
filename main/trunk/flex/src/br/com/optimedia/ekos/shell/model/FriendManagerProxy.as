@@ -36,7 +36,7 @@ package br.com.optimedia.ekos.shell.model
 			//Alert.show(event.fault.faultCode as String);
 		}
 		
-		public function getAllFriends():void {
+		/* public function getAllFriends():void {
 			var asynkToken:AsyncToken = remoteService.getAllFriends();
 			asynkToken.addResponder( new Responder(getAllFriendsResult, generalFault) );
 		}
@@ -45,7 +45,7 @@ package br.com.optimedia.ekos.shell.model
 				sendNotification( NotificationConstants.GET_ALL_FRIENDS_RESULT, event.result );
 				//Alert.show("finish me", "getAllFriendsResult");
 			}
-		}
+		} */
 
 		public function findFriend(name:String):void {
 			var asynkToken:AsyncToken = remoteService.findFriend(name);
@@ -62,6 +62,14 @@ package br.com.optimedia.ekos.shell.model
 		}
 		private function addFriendResult(event:ResultEvent):void {
 			if( event.result == true ) sendNotification( NotificationConstants.ADD_FRIEND_OK );
+		}
+		
+		public function removeFriend(friendID:uint):void {
+			var asynkToken:AsyncToken = remoteService.removeFriend(friendID);
+			asynkToken.addResponder( new Responder(removeFriendResult, generalFault) );
+		}
+		private function removeFriendResult(event:ResultEvent):void {
+			if( event.result == true ) sendNotification( NotificationConstants.REMOVE_FRIEND_OK );
 		}
 	}
 }

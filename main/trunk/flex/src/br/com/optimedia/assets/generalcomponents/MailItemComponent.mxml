@@ -39,8 +39,8 @@
 	</mx:Metadata>
 	
 	<mx:VBox width="100" height="100%">
-		<mx:Button id="replyBtn" label="Responder" click="openSendPrivateMessagePopUp()"/>
-		<mx:Button id="deleteBtn" label="Deletar" click="deleteMessage()"/>
+		<mx:Button id="replyBtn" label="Responder" click="openSendPrivateMessagePopUp()" width="100%" height="100%"/>
+		<mx:Button id="deleteBtn" label="Deletar" click="deleteMessage()" width="100%" height="100%"/>
 	</mx:VBox>
 	
 	<mx:Image source="{CompleteUserVO(data.completeUserVO).small_avatar}" width="100" height="100"/>

@@ -20,6 +20,9 @@ package br.com.optimedia.assets.constants
 		public static const GET_INBOX_MESSAGES_RESULT:String = "GET_INBOX_MESSAGES_RESULT";
 		public static const GET_OUTBOX_MESSAGES_RESULT:String = "GET_OUTBOX_MESSAGES_RESULT";
 		public static const DELETE_MESSAGE_OK:String = "DELETE_MESSAGE_OK";
+		public static const REMOVE_FRIEND_OK:String = "REMOVE_FRIEND_OK";
+		public static const GET_ALL_IGNORES:String = "GET_ALL_IGNORES";
+		public static const ADD_IGNORE_OK:String = "ADD_IGNORE_OK";
 		
 		/* public static const NEW_USER_DATA:String = "NEW_USER_DATA"; */
 	}

@@ -9,6 +9,7 @@ package br.com.optimedia.ekos.shell.controler
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import br.com.optimedia.ekos.shell.model.IgnoreManagerProxy;
 
 	public class ModelStartupCommand extends SimpleCommand
 	{
@@ -21,6 +22,7 @@ package br.com.optimedia.ekos.shell.controler
 			facade.registerProxy( new FriendManagerProxy() );
 			facade.registerProxy( new ProfileManagerProxy() );
 			facade.registerProxy( new MessageManagerProxy() );
+			facade.registerProxy( new IgnoreManagerProxy() );
 		}
 	}
 }

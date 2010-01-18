@@ -14,12 +14,14 @@ package br.com.optimedia.ekos.shell.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
 
 	public class AppsTabNavigatorMediator extends Mediator
 	{
 		public static const NAME:String = 'AppsTabNavigatorMediator';
 		
 		private var friendManagerProxy:FriendManagerProxy;
+		private var profileManagerProxy:ProfileManagerProxy;
 		
 		public function AppsTabNavigatorMediator(viewComponent:Object=null)
 		{
@@ -30,6 +32,7 @@ package br.com.optimedia.ekos.shell.view
 		{
 			trace(NAME+".onRegister()");
 			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
+			profileManagerProxy = facade.retrieveProxy( ProfileManagerProxy.NAME ) as ProfileManagerProxy;
 			
 			view.addEventListener(IndexChangedEvent.CHANGE, onSelectedItemChange);
 		}
@@ -63,7 +66,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function onSelectedItemChange(event:IndexChangedEvent):void {
-			if(view.selectedChild is FriendsView) friendManagerProxy.getAllFriends();
+			if(view.selectedChild is FriendsView) profileManagerProxy.getAllFriends();
 		}
 		
 		/* private function onSearchBtnClick(event:Event):void {
