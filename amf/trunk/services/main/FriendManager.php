@@ -86,17 +86,17 @@
 		}
 		
 		/**
-		 * Fun��o para deletar um amigo.
+		 * Função para deletar um amigo.
 		 * 
 		 * - Retorna: Boolean 
 		 * .
 		 * @param uint
 		 */
-		/*public function removeFriend($you) {
-			$where = "profile_id_i=$_SESSION['complete_user_vo']->account_id AND profile_id_you=$you";
+		public function removeFriend($you) {
+			$where = "profile_id_i=$_SESSION['account_id'] AND profile_id_you=$you";
 			
 			return parent::doDelete($where, $this -> _table);
-		}*/
+		}
 		
 	}
 	
