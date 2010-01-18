@@ -51,7 +51,7 @@
 		 * @param uint
 		 * @param uint
 		 */
-		public function addIgnore($i, $you) {
+		public function addIgnore($you) {
 			$arrayIgnore = array ('profile_id_i' => $_SESSION['account_id'],
 								  'profile_id_you' => $you);
 			
