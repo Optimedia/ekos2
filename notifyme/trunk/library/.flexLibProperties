@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flexLibProperties version="1">
 <includeClasses>
-<classEntry path="br.com.optimedia.notifyme.NotifymeFacade"/>
-<classEntry path="br.com.optimedia.notifyme.events.NotifyEvent"/>
-<classEntry path="br.com.optimedia.notifyme.model.proxy.NotifymeProxy"/>
-<classEntry path="br.com.optimedia.notifyme.model.vo.NotificationVO"/>
-<classEntry path="br.com.optimedia.notifyme.view.base.components.BaseNotifymeView"/>
-<classEntry path="br.com.optimedia.notifyme.view.base.mediators.BaseNotifymeMediator"/>
-<classEntry path="br.com.optimedia.notifyme.view.api.components.INotifymeView"/>
-<classEntry path="br.com.optimedia.notifyme.view.api.mediators.INotifymeMediator"/>
+<classEntry path="br.com.optimedia.notifyme.controller.api.INotifymeMediator" />
+<classEntry path="br.com.optimedia.notifyme.controller.base.BaseNotifymeMediator" />
+<classEntry path="br.com.optimedia.notifyme.events.NotifyEvent" />
+<classEntry path="br.com.optimedia.notifyme.model.proxy.NotifymeProxy" />
+<classEntry path="br.com.optimedia.notifyme.model.vo.NotificationVO" />
+<classEntry path="br.com.optimedia.notifyme.model.NotifymeFacade" />
+<classEntry path="br.com.optimedia.notifyme.view.api.INotifymeView" />
 </includeClasses>
 <includeResources/>
 <namespaceManifests/>
