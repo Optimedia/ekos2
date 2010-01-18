@@ -1,6 +1,6 @@
 package br.com.optimedia.notifyme.model.proxy
 {
-	import br.com.optimedia.notifyme.NotifymeFacade;
+	import br.com.optimedia.notifyme.model.NotifymeFacade;
 	import br.com.optimedia.notifyme.model.vo.NotificationVO;
 	
 	import org.puremvc.as3.multicore.interfaces.IProxy;
