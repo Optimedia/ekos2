@@ -59,7 +59,7 @@
 		 * .
 		 * 
 		 */
-		public function getAllFriend() {
+		public function getAllFriends() {
 			require_once './FriendManager.php';
 			$friendManager = new FriendManager();
 			
