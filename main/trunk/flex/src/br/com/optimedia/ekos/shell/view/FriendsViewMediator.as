@@ -96,6 +96,7 @@ package br.com.optimedia.ekos.shell.view
 		} */
 		
 		private function onSearchBtnClick(event:Event):void {
+			view.usersArrayCollection = new ArrayCollection();
 			view.backToFriendsBtn.visible = true;
 			view.backToFriendsBtn.includeInLayout = true;
 			view.seeIgnoredBtn.visible = false;
@@ -105,6 +106,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function backToFriends(event:MouseEvent):void {
+			view.usersArrayCollection = new ArrayCollection();
 			view.backToFriendsBtn.includeInLayout = false;
 			view.backToFriendsBtn.visible = false;
 			view.seeIgnoredBtn.visible = true;
@@ -114,6 +116,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function seeIgnored(event:MouseEvent):void {
+			view.usersArrayCollection = new ArrayCollection();
 			view.backToFriendsBtn.visible = true;
 			view.backToFriendsBtn.includeInLayout = true;
 			view.seeIgnoredBtn.visible = false;
