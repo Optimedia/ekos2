@@ -6,7 +6,7 @@ var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : f
 var isOpera = (navigator.userAgent.indexOf("Opera") != -1) ? true : false;
 
 function ControlVersion()
-{
+{                          
 	var version;
 	var axo;
 	var e;
