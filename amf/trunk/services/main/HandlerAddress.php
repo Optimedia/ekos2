@@ -37,29 +37,72 @@
 		 * .
 		 * @param CompleteUserVO
 		 */
-		public function doUpdate(CompleteUserVO $value) {
+		public function doUpdate(CompleteUserVO $value = NULL) {
 			
-			$addressArray = $value -> addressArray;			
+			//$addressArray = $value -> addressArray;
+
+			/* Teste
+				
+				$value = new CompleteUserVO();
+				
+				require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
+				
+				$singleAddress1 = new AddressVO();
+				$singleAddress2 = new AddressVO();
+				
+				$singleAddress1 -> detail_address_type_id = 1;
+				$singleAddress1 -> country_name = "Brasil";
+				$singleAddress1 -> state_name = "Distrito Federal";
+				$singleAddress1 -> city_name = "Brasília";
+				$singleAddress1 -> town_name = "Asa Sul";
+				$singleAddress1 -> address_part1 = "902 Sul";
+				$singleAddress1 -> address_part2 = "";
+				$singleAddress1 -> zipcode = "72000000";
+				
+				$singleAddress2 -> detail_address_type_id = 2;
+				$singleAddress2 -> country_name = "Brasil";
+				$singleAddress2 -> state_name = "Distrito Federal";
+				$singleAddress2 -> city_name = "Taguatinga";
+				$singleAddress2 -> town_name = "Taguatinga Sul";
+				$singleAddress2 -> address_part1 = "QSD 26";
+				$singleAddress2 -> address_part2 = "Casa 5";
+				$singleAddress2 -> zipcode = "72000000";
+				
+				// Details
+				$value -> addressArray = array($singleAddress1, $singleAddress2);
+				
+				$addressArray = $value -> addressArray;
 			
-			foreach($addressArray as $value) {
+			*/
+			
+			foreach($addressArray as $address) {
 				$addressFinalArray = array ('profile_id' => $_SESSION['account_id'],
-									   		'detail_address_type_id' => $value -> detail_address_type_id,
-									   		'country_name' => $value -> country_name,
-									   		'state_name' => $value -> state_name,
-									   		'city_name' => $value -> city_name,
-							    	   		'town_name' => $value -> town_name,
-									   		'address_part1' => $value -> address_part1,
-									   		'address_part2' => $value -> address_part2,
-									   		'zipcode' => $value -> zipcode);
+									   		'detail_address_type_id' => $address -> detail_address_type_id,
+									   		'country_name' => $address -> country_name,
+									   		'state_name' => $address -> state_name,
+									   		'city_name' => $address -> city_name,
+							    	   		'town_name' => $address -> town_name,
+									   		'address_part1' => $address -> address_part1,
+									   		'address_part2' => $address -> address_part2,
+									   		'zipcode' => $address -> zipcode);
 				
-				$condition = "profile_id=".$_SESSION['account_id']." AND detail_address_type_id=".$value -> detail_address_type_id;
+				// Verificando se já está cadastrado.
+				$condition = "profile_id=".$_SESSION['account_id']." AND detail_address_type_id=".$address -> detail_address_type_id;
 				
-				$resultDelete = parent::doDelete($condition, $this -> _table);
+				$sqlCheck = "SELECT * FROM ". $this -> _table ." WHERE ".$condition;
+				$resultCheck = parent::doSelect($sqlCheck);
+				
+				if(mysql_num_rows($resultCheck) > 0) {
+					$resultDelete = parent::doDelete($condition, $this -> _table);
+				} else {
+					$resultDelete = true;
+				}
 				
 				if($resultDelete) {
-					$resultUpdate = parent::doInsert($addressFinalArray, "eko_profile");
+					$resultUpdate = parent::doInsert($addressFinalArray, $this -> _table);
 					
 					if($resultUpdate != true) {
+						$ctrl = false;
 						return "Erro no doUpdate Adress";
 					} else {
 						$ctrl = true;
