@@ -40,6 +40,7 @@
 		public function doUpdate(CompleteUserVO $value = NULL) {
 			
 			require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
+			
 			$address = new AddressVO();
 			$addressArray = $value -> addressArray;
 
@@ -94,11 +95,11 @@
 				$sqlCheck = "SELECT * FROM ". $this -> _table ." WHERE ".$condition;
 				$resultCheck = parent::doSelect($sqlCheck);
 				
-				if(mysql_num_rows($resultCheck) > 0) {
-					$resultDelete = parent::doDelete($condition, $this -> _table);
-				} else {
+				/*if(mysql_num_rows($resultCheck) > 0) {
+					//$resultDelete = parent::doDelete($condition, $this -> _table);
+				} else {*/
 					$resultDelete = true;
-				}
+				//}
 				
 				if($resultDelete) {
 					$resultUpdate = parent::doInsert($addressFinalArray, $this -> _table);
