@@ -39,7 +39,9 @@
 		 */
 		public function doUpdate(CompleteUserVO $value = NULL) {
 			
-			//$addressArray = $value -> addressArray;
+			require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
+			$address = new AddressVO();
+			$addressArray = $value -> addressArray;
 
 			/* Teste
 				
