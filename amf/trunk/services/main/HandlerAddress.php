@@ -57,7 +57,7 @@
 				$resultDelete = parent::doDelete($condition, $this -> _table);
 				
 				if($resultDelete) {
-					$resultUpdate = parent::doInsert($addressFinalArray, $condition, "eko_profile");
+					$resultUpdate = parent::doInsert($addressFinalArray, "eko_profile");
 					
 					if($resultUpdate != true) {
 						return "Erro no doUpdate Adress";
