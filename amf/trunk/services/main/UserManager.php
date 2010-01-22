@@ -136,6 +136,11 @@
 				// os dados que s�o da tabela.
 	      		$result = $handler->doUpdate($completeUser);
 				
+	      		if($value == "Address") {
+	      			return $result;
+	      			break;
+	      		}
+	      		
 				if($result != true) {
 					$error ++;
 				}
