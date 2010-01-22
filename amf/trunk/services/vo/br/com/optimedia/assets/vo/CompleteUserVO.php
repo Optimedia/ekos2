@@ -1,5 +1,7 @@
 <?php
 	
+	require_once "./AddressVO.php";
+
 	/**
 	 * Classe que re�ne todos os dados do usu�rio no ekos.
 	 * 
