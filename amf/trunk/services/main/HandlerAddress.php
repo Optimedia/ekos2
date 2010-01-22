@@ -37,7 +37,7 @@
 		 * .
 		 * @param CompleteUserVO
 		 */
-		public function doUpdate(CompleteUserVO $value = NULL) {
+		public function doUpdate(CompleteUserVO $value) {
 			
 			require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
 			
@@ -78,7 +78,7 @@
 			
 			*/
 			
-			foreach($addressArray as $address) {
+			/*foreach($addressArray as $address) {
 				$addressFinalArray = array ('profile_id' => $_SESSION['account_id'],
 									   		'detail_address_type_id' => $address -> detail_address_type_id,
 									   		'country_name' => $address -> country_name,
@@ -101,7 +101,7 @@
 					$resultDelete = true;
 				//}
 				
-				if($resultDelete) {
+				/*if($resultDelete) {
 					$resultUpdate = parent::doInsert($addressFinalArray, $this -> _table);
 					
 					if($resultUpdate != true) {
@@ -112,9 +112,9 @@
 					}
 				}
 				
-			}
+			}*/
 			
-			return $ctrl;
+			return $value;
 		}
 		
 	}
