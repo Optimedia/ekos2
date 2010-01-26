@@ -1,6 +1,6 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
-	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.model.XmppfcFacade;
 	import br.com.optimedia.xmppfc.events.LoginViewEvent;
 	import br.com.optimedia.xmppfc.view.api.components.ILoginView;
 	import br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator;

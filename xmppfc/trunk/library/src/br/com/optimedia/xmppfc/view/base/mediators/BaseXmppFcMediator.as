@@ -1,9 +1,10 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
-	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.model.XmppfcFacade;
 	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
 	import br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator;
 	import br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator;
+	import br.com.optimedia.xmppfc.view.api.mediators.ISubscriptionMediator;
 	import br.com.optimedia.xmppfc.view.api.mediators.IXmppFcMediator;
 	
 	import mx.core.Application;
@@ -72,6 +73,7 @@ package br.com.optimedia.xmppfc.view.base.mediators
 			facade.registerMediator(newLoginMediator());
 			facade.registerMediator(newChatMediator());
 			facade.registerMediator(newRosterMediator());
+			facade.registerMediator(newSubscriptionMediator());
 		}
 		
 		protected function newLoginMediator(): ILoginMediator {
@@ -84,6 +86,9 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		
 		protected function newRosterMediator(): IRosterMediator {
 			return new BaseRosterMediator(application.rosterView);
+		}
+		protected function newSubscriptionMediator():ISubscriptionMediator {
+			return new BaseSubscriptionMediator(application);
 		}
 
 		// template methods

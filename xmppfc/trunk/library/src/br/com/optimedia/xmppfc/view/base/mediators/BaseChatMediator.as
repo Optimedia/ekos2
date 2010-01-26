@@ -1,7 +1,7 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
 	
-	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.model.XmppfcFacade;
 	import br.com.optimedia.xmppfc.events.ChatEvent;
 	import br.com.optimedia.xmppfc.view.api.components.IChatView;
 	import br.com.optimedia.xmppfc.view.api.mediators.IChatMediator;
@@ -15,10 +15,9 @@ package br.com.optimedia.xmppfc.view.base.mediators
 	import org.jivesoftware.xiff.core.JID;
 	import org.jivesoftware.xiff.data.Message;
 	import org.puremvc.as3.multicore.interfaces.INotification;
-	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	
 	
-	public class BaseChatMediator extends Mediator implements IChatMediator {
+	public class BaseChatMediator extends BaseMediator implements IChatMediator {
 
 		public static const NAME:String = "XmppFcChatMediator";
 
