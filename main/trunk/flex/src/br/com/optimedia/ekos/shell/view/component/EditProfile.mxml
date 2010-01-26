@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.assets.vo.userdetails.AddressVO;
 		import mx.core.Application;
 		import mx.managers.PopUpManager;
 		import mx.collections.ArrayCollection;
@@ -64,7 +65,7 @@
 		}
 		private function addProfessionForm():void {
 			if(!_completeUserVO.professionArray) _completeUserVO.professionArray = new ArrayCollection();
-			_completeUserVO.professionArray.addItemAt(new Object(), _completeUserVO.professionArray.length);
+			_completeUserVO.professionArray.addItemAt(new AddressVO(), _completeUserVO.professionArray.length);
 			professionList.height += 290;
 		}
 		
@@ -117,20 +118,20 @@
 		roundedBottomCorners="true">
 		<mx:Form >
 			<mx:FormItem label="E-mail">
-				<mx:TextInput id="emailTextInput" text="{_completeUserVO.email}" change="_completeUserVO.email=emailTextInput.text"/>
+				<mx:TextInput id="emailTextInput" text="{_completeUserVO.email}" change="_completeUserVO.email=emailTextInput.text" tabIndex="1"/>
 			</mx:FormItem>
 			<mx:FormItem label="Apelido">
-				<mx:TextInput id="nicknameTextInput" text="{_completeUserVO.nickname}" change="_completeUserVO.nickname=nicknameTextInput.text"/>
+				<mx:TextInput id="nicknameTextInput" text="{_completeUserVO.nickname}" change="_completeUserVO.nickname=nicknameTextInput.text" tabIndex="2"/>
 			</mx:FormItem>
 			<mx:FormItem label="Nome">
-				<mx:TextInput id="firstNameTextInput" text="{_completeUserVO.first_name}" change="_completeUserVO.first_name=firstNameTextInput.text"/>
+				<mx:TextInput id="firstNameTextInput" text="{_completeUserVO.first_name}" change="_completeUserVO.first_name=firstNameTextInput.text" tabIndex="3"/>
 			</mx:FormItem>
 			<mx:FormItem label="Sobrenome">
-				<mx:TextInput id="lastNameTextInput" text="{_completeUserVO.last_name}" change="_completeUserVO.last_name=lastNameTextInput.text"/>
+				<mx:TextInput id="lastNameTextInput" text="{_completeUserVO.last_name}" change="_completeUserVO.last_name=lastNameTextInput.text" tabIndex="4"/>
 			</mx:FormItem>
 		</mx:Form>
 		<mx:Image source="{_completeUserVO.large_avatar}" />
-		<mx:Button id="avatarChangeBtn" label="Alterar" click="openChangeAvatarPopUp()"/>
+		<mx:Button id="avatarChangeBtn" label="Alterar" click="openChangeAvatarPopUp()" tabIndex="5"/>
 	</mx:Panel>
 	
 	<mx:Panel title="Educação" width="100%" borderStyle="solid" roundedBottomCorners="true">
@@ -139,7 +140,7 @@
 				selectable="false" dataProvider="{_completeUserVO.educationArray}" borderStyle="none">
 			<mx:itemRenderer>
 			<mx:Component>
-				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
+				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset" implements="mx.managers.IFocusManagerComponent">
 					<mx:Script>
 						<![CDATA[
 							import mx.collections.ArrayCollection;
@@ -182,22 +183,22 @@
 					<mx:Form>
 						<mx:FormItem label="Nível">
 							<mx:ComboBox id="levelComboBox" dataProvider="{parentDocument.educationLevelsAC}" labelField="name"
-										prompt="Escolha"/>
+										prompt="Escolha" tabIndex="6"/>
 						</mx:FormItem>
 						<mx:FormItem label="Instituição">
-							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text"/>
+							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text" tabIndex="1"/>
 						</mx:FormItem>
 						<mx:FormItem label="Conclusão">
-							<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text"/>
+							<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text" tabIndex="2"/>
 						</mx:FormItem>
 						<mx:FormItem label="Situação">
-							<mx:ComboBox id="statusComboBox" />
+							<mx:ComboBox id="statusComboBox"  tabIndex="3"/>
 						</mx:FormItem>
 						<mx:FormItem label="Curso">
-							<mx:TextInput id="courseTextInput" text="{data.course}" change="data.course=courseTextInput.text"/>
+							<mx:TextInput id="courseTextInput" text="{data.course}" change="data.course=courseTextInput.text" tabIndex="4"/>
 						</mx:FormItem>
 						<mx:FormItem label="Título">
-							<mx:TextInput id="titleTextInput" text="{data.title}" change="data.title=titleTextInput.text"/>
+							<mx:TextInput id="titleTextInput" text="{data.title}" change="data.title=titleTextInput.text" tabIndex="5"/>
 						</mx:FormItem>
 					</mx:Form>
 					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
@@ -223,7 +224,10 @@
 				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
 					<mx:Script>
 						<![CDATA[
+							import mx.managers.IFocusManagerComponent;
 							import mx.collections.ArrayCollection;
+							
+							IFocusManagerComponent
 							
 							private function moveItemToTop(item:Object):void {
 								var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
@@ -262,28 +266,28 @@
 					</mx:Script>
 					<mx:Form>
 						<mx:FormItem label="Empresa">
-							<mx:TextInput id="companyTextInput" text="{data.company}" change="data.company=companyTextInput.text"/>
+							<mx:TextInput id="companyTextInput" text="{data.company}" change="data.company=companyTextInput.text" tabIndex="1"/>
 						</mx:FormItem>
 						<mx:FormItem label="Cargo">
-							<mx:TextInput id="positionTextInput" text="{data.position}" change="data.position=positionTextInput.text"/>
+							<mx:TextInput id="positionTextInput" text="{data.position}" change="data.position=positionTextInput.text" tabIndex="2"/>
 						</mx:FormItem>
 						<mx:FormItem label="Descrição">
-							<mx:TextInput id="jobDescriptionTextInput" text="{data.description}" change="data.description=jobDescriptionTextInput.text"/>
+							<mx:TextInput id="jobDescriptionTextInput" text="{data.description}" change="data.description=jobDescriptionTextInput.text" tabIndex="3"/>
 						</mx:FormItem>
 						<mx:FormItem label="País">
-							<mx:TextInput id="jobCountryTextInput" text="{data.country_name}" change="data.country_name=jobCountryTextInput.text"/>
+							<mx:TextInput id="jobCountryTextInput" text="{data.country_name}" change="data.country_name=jobCountryTextInput.text" tabIndex="4"/>
 						</mx:FormItem>
 						<mx:FormItem label="Estado">
-							<mx:TextInput id="jobUFTextInput" text="{data.state_name}" change="data.state_name=jobUFTextInput.text"/>
+							<mx:TextInput id="jobUFTextInput" text="{data.state_name}" change="data.state_name=jobUFTextInput.text" tabIndex="5"/>
 						</mx:FormItem>
 						<mx:FormItem label="Cidade">
-							<mx:TextInput id="jobCityTextInput" text="{data.city_name}" change="data.city_name=jobCityTextInput.text"/>
+							<mx:TextInput id="jobCityTextInput" text="{data.city_name}" change="data.city_name=jobCityTextInput.text" tabIndex="6"/>
 						</mx:FormItem>
 						<mx:FormItem label="Início">
-							<mx:TextInput id="jobBeginTextInput" text="{data.begin_date}" change="data.begin_date=jobBeginTextInput.text"/>
+							<mx:TextInput id="jobBeginTextInput" text="{data.begin_date}" change="data.begin_date=jobBeginTextInput.text" tabIndex="7"/>
 						</mx:FormItem>
 						<mx:FormItem label="Cidade">
-							<mx:TextInput id="jobEndTextInput" text="{data.end_date}" change="data.end_date=jobEndTextInput.text"/>
+							<mx:TextInput id="jobEndTextInput" text="{data.end_date}" change="data.end_date=jobEndTextInput.text" tabIndex="8"/>
 						</mx:FormItem>
 					</mx:Form>
 					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
@@ -348,29 +352,29 @@
 					</mx:Script>
 					<mx:Form>
 						<mx:FormItem label="Tipo">
-							<mx:ComboBox id="addressTypeComboBox" dataProvider="{parentDocument.addressTypesAC}"
-										labelField="name" prompt="Escolha"/>
+							<mx:ComboBox id="addressTypeComboBox" dataProvider="{parentDocument.addressTypesAC}" tabIndex="1"
+										labelField="name" prompt="Escolha" change="data.detail_address_type_id=addressTypeComboBox.selectedItem.detail_address_type_id"/>
 						</mx:FormItem>
 						<mx:FormItem label="País">
-							<mx:TextInput id="addressCountryTextInput" text="{data.country_name}" change="data.country_name=addressCountryTextInput.text"/>
+							<mx:TextInput id="addressCountryTextInput" text="{data.country_name}" change="data.country_name=addressCountryTextInput.text" tabIndex="2"/>
 						</mx:FormItem>
 						<mx:FormItem label="Estado">
-							<mx:TextInput id="addressUFTextInput" text="{data.state_name}" change="data.state_name=addressUFTextInput.text"/>
+							<mx:TextInput id="addressUFTextInput" text="{data.state_name}" change="data.state_name=addressUFTextInput.text" tabIndex="3"/>
 						</mx:FormItem>
 						<mx:FormItem label="Cidade">
-							<mx:TextInput id="addressCityTextInput" text="{data.city_name}" change="data.city_name=addressCityTextInput.text"/>
+							<mx:TextInput id="addressCityTextInput" text="{data.city_name}" change="data.city_name=addressCityTextInput.text" tabIndex="4"/>
 						</mx:FormItem>
 						<mx:FormItem label="Bairro">
-							<mx:TextInput id="addressTownTextInput" text="{data.town_name}" change="data.town_name=addressTownTextInput.text"/>
+							<mx:TextInput id="addressTownTextInput" text="{data.town_name}" change="data.town_name=addressTownTextInput.text" tabIndex="5"/>
 						</mx:FormItem>
 						<mx:FormItem label="Endereço">
-							<mx:TextInput id="addressTextInput" text="{data.address_part1}" change="data.address_part1=addressTextInput.text"/>
+							<mx:TextInput id="addressTextInput" text="{data.address_part1}" change="data.address_part1=addressTextInput.text" tabIndex="6"/>
 						</mx:FormItem>
 						<mx:FormItem label="Complemento">
-							<mx:TextInput id="addressComplementTextInput" text="{data.address_part2}" change="data.address_part2=addressComplementTextInput.text"/>
+							<mx:TextInput id="addressComplementTextInput" text="{data.address_part2}" change="data.address_part2=addressComplementTextInput.text" tabIndex="7"/>
 						</mx:FormItem>
 						<mx:FormItem label="CEP">
-							<mx:TextInput id="zipCodeTextInput" text="{data.zipcode}" change="data.zipcode=zipCodeTextInput.text"/>
+							<mx:TextInput id="zipCodeTextInput" text="{data.zipcode}" change="data.zipcode=zipCodeTextInput.text" tabIndex="8"/>
 						</mx:FormItem>
 					</mx:Form>
 					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
@@ -444,16 +448,16 @@
 					<mx:Form>
 						<mx:FormItem label="Lingua">
 							<mx:ComboBox id="languageComboBox" dataProvider="{parentDocument.languagesAC}"
-									change="onLanguageSelection()" prompt="Escolha" labelField="name"/>
+									change="onLanguageSelection()" prompt="Escolha" labelField="name" tabIndex="1"/>
 						</mx:FormItem>
 						<mx:FormItem label="Fala">
-							<mx:ComboBox id="speechComboBox" dataProvider="{levels}" prompt=" "/>
+							<mx:ComboBox id="speechComboBox" dataProvider="{levels}" prompt=" " tabIndex="2"/>
 						</mx:FormItem>
 						<mx:FormItem label="Escrita">
-							<mx:ComboBox id="writingComboBox" dataProvider="{levels}" prompt=" "/>
+							<mx:ComboBox id="writingComboBox" dataProvider="{levels}" prompt=" " tabIndex="3"/>
 						</mx:FormItem>
 						<mx:FormItem label="Leitura">
-							<mx:ComboBox id="readingComboBox" dataProvider="{levels}" prompt=" "/>
+							<mx:ComboBox id="readingComboBox" dataProvider="{levels}" prompt=" " tabIndex="4"/>
 						</mx:FormItem>
 					</mx:Form>
 					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">

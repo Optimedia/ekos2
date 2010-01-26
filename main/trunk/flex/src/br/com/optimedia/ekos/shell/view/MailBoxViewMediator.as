@@ -1,7 +1,7 @@
 package br.com.optimedia.ekos.shell.view
 {
 	import br.com.optimedia.assets.constants.NotificationConstants;
-	import br.com.optimedia.assets.generalcomponents.MailItemComponent;
+	import br.com.optimedia.assets.generalcomponents.MailItem;
 	import br.com.optimedia.assets.vo.MessageVO;
 	import br.com.optimedia.ekos.shell.model.MessageManagerProxy;
 	import br.com.optimedia.ekos.shell.model.UserManagerProxy;
@@ -34,7 +34,7 @@ package br.com.optimedia.ekos.shell.view
 			userManagerProxy = facade.retrieveProxy( UserManagerProxy.NAME ) as UserManagerProxy;
 			
 			view.viewStack.addEventListener(IndexChangedEvent.CHANGE, indexChangedEventHandler);
-			view.addEventListener(MailItemComponent.DELETE_MESSAGE_EVENT, deleteMessage);
+			view.addEventListener(MailItem.DELETE_MESSAGE_EVENT, deleteMessage);
 			
 			messageManagerProxy.getInBoxMessages();
 		}
