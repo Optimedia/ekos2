@@ -13,7 +13,7 @@
 			import mx.containers.TitleWindow;
 	
 	    	import br.com.optimedia.notifyme.model.NotifymeFacade;
-			import br.com.optimedia.xmppfc.XmppfcFacade;
+			import br.com.optimedia.xmppfc.model.XmppfcFacade;
         	import br.com.optimedia.ekostalk.view.mediators.TalkMediator;
 			
 	        private var notifymeFacade: NotifymeFacade;
@@ -28,7 +28,7 @@
 				notifymeFacade = NotifymeFacade.getInstance();
 				notifymeFacade.notifymeMediator = new TalkNotifymeMediator(this.notifymeView);
 				notifymeFacade.gotoFirst();
-				xpmmfcFacade.sendNotification(XmppfcFacade.STARTUP, new TalkMediator(this));
+				xpmmfcFacade.mainMediator = new TalkMediator(this);
 			}
         ]]> 
     </mx:Script>

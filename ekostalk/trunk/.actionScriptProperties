@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actionScriptProperties mainApplicationPath="ekostalk.mxml" version="3">
-<compiler additionalCompilerArguments="-locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<compiler additionalCompilerArguments="-locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="10.0.0" htmlPlayerVersionCheck="true" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
 <compilerSourcePath/>
 <libraryPath defaultLinkType="1">
-<libraryPathEntry kind="4" path=""/>
+<libraryPathEntry kind="4" path="">
+<excludedEntries>
+<libraryPathEntry kind="3" linkType="2" path="${PROJECT_FRAMEWORKS}/libs/player/9/playerglobal.swc" useDefaultLinkType="false"/>
+</excludedEntries>
+</libraryPathEntry>
 <libraryPathEntry kind="1" linkType="1" path="libs"/>
 <libraryPathEntry kind="3" linkType="1" path="/library_PureMVC_AS3_MultiCore_1_0_5/bin/library_PureMVC_AS3_MultiCore_1_0_5.swc" useDefaultLinkType="false"/>
 <libraryPathEntry kind="3" linkType="1" path="/library_xiff/bin/library_xiff.swc" useDefaultLinkType="false"/>
 <libraryPathEntry kind="3" linkType="1" path="/library_xmppfc/bin/library_xmppfc.swc" useDefaultLinkType="false"/>
 <libraryPathEntry kind="3" linkType="1" path="/library_notifyme/bin/library_notifyme.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/player/10/playerglobal.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
