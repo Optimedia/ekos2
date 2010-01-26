@@ -1,10 +1,12 @@
 package br.com.optimedia.xmppfc.view.base.mediators
 {
-	import br.com.optimedia.xmppfc.XmppfcFacade;
+	import br.com.optimedia.xmppfc.model.XmppfcFacade;
 	import br.com.optimedia.xmppfc.events.ChatEvent;
-	import br.com.optimedia.xmppfc.model.XMPPProxy;
+	import br.com.optimedia.xmppfc.model.proxy.XMPPProxy;
 	import br.com.optimedia.xmppfc.view.api.components.IRosterView;
 	import br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator;
+	
+	import mx.controls.Alert;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -65,6 +67,8 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		public function onStartChat(chatEvent: ChatEvent): void {
 			sendNotification(XmppfcFacade.OPEN_CHAT_WINDOW, chatEvent.getJID());
 		}
-		
+		//public function onAddContactChat(addContato:String): void {
+		//	Alert.show("teste");
+		//}
 	}
 }

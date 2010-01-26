@@ -1,14 +1,20 @@
-﻿package br.com.optimedia.xmppfc {
+﻿package br.com.optimedia.xmppfc.model {
 	import br.com.optimedia.xmppfc.controller.*;
-	import br.com.optimedia.xmppfc.model.*;
-	import br.com.optimedia.xmppfc.view.*;
+	import br.com.optimedia.xmppfc.model.proxy.*;
+	import br.com.optimedia.xmppfc.view.api.mediators.IXmppFcMediator;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	
+	import org.jivesoftware.xiff.core.JID;
 	import org.jivesoftware.xiff.data.Message;
+	import org.jivesoftware.xiff.data.im.RosterItemVO;
+	import org.jivesoftware.xiff.im.Roster;
 	import org.puremvc.as3.multicore.interfaces.IFacade;
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
+	
+	//import org.puremvc.as3.multicore.interfaces.INotification;
+	//import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 	
 	/**
 	* ...
@@ -31,6 +37,10 @@
 		
 		public static const OPEN_CHAT_WINDOW:String = "open_chat_window";
 		
+		public static const SUBSCRIPTION_DENIAL:String = "subscripyin_denial";
+		public static const SUBSCRIPTION_REQUEST:String = "subscripyin_request";
+		public static const SUBSCRIPTION_REVOCATION:String = "subscripyin_revocation";
+		
 		private static var instanceXmppfcFacade: XmppfcFacade;
 		
 		public function XmppfcFacade(key: String) {
@@ -39,18 +49,25 @@
 		
 		public static function getInstance(): XmppfcFacade {
 			var key: String = "XmppfcFacade";
-			if (instanceMap[ key ] == null) instanceMap[ key ] = new XmppfcFacade(key);
+			if (instanceMap[ key ] == null) {
+				instanceMap[ key ] = new XmppfcFacade(key);
+				instanceMap[ key ].registerProxy(new XMPPProxy());
+			} 
 			return instanceMap[ key ] as XmppfcFacade;
 		}
 		
 		private function get xmppProxy(): XMPPProxy {
 			return retrieveProxy(XMPPProxy.NAME) as XMPPProxy;
 		}
+
+		public function set mainMediator (xmppfcMediator: IXmppFcMediator):void {
+			registerMediator(xmppfcMediator);
+		}
 		
 		// Register commands with the controller
 		override protected function initializeController():void {
 			super.initializeController();
-			registerCommand(STARTUP, StartupCommand);
+			
 			
 			/*
 			registerCommand(LOGIN, LoginCommand);
@@ -73,14 +90,21 @@
 			xmppProxy.disconnect();
 		}
 		
-		public function getRosterDataProvider():ArrayCollection {
+		public function getRosterDataProvider(): ArrayCollection {
 			return xmppProxy.getRosterDataProvider();
 		}
 		
-		public function sendMessage(message:Message):void {
+		public function sendMessage(jid: JID, msgTxt: String):void {
+			var message:Message = new Message(jid, null, msgTxt, null, Message.CHAT_TYPE);
 			return xmppProxy.sendMessage(message);
 		}
-		
+		public function addContact (contactTxt: String, nickname: String = null, group: String = null):void {
+			xmppProxy.addContact(contactTxt,nickname,group);
+
+		}
+		public function removeContact (vo:RosterItemVO):void{
+			xmppProxy.removeContact(vo);
+		}
 	}
 	
 }

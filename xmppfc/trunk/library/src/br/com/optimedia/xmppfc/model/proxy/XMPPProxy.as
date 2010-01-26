@@ -1,14 +1,17 @@
-﻿package br.com.optimedia.xmppfc.model {
-	import br.com.optimedia.xmppfc.XmppfcFacade;
+﻿package br.com.optimedia.xmppfc.model.proxy {
+	import br.com.optimedia.xmppfc.model.XmppfcFacade;
 	
 	import mx.collections.ArrayCollection;
 	
+	import org.jivesoftware.xiff.core.JID;
 	import org.jivesoftware.xiff.core.XMPPSocketConnection;
 	import org.jivesoftware.xiff.data.Message;
 	import org.jivesoftware.xiff.data.Presence;
+	import org.jivesoftware.xiff.data.im.RosterItemVO;
 	import org.jivesoftware.xiff.events.DisconnectionEvent;
 	import org.jivesoftware.xiff.events.LoginEvent;
 	import org.jivesoftware.xiff.events.MessageEvent;
+	import org.jivesoftware.xiff.events.RosterEvent;
 	import org.jivesoftware.xiff.events.XIFFErrorEvent;
 	import org.jivesoftware.xiff.im.Roster;
 	import org.puremvc.as3.multicore.interfaces.IProxy;
@@ -56,11 +59,11 @@
 			//xmppSocketConnection.addEventListener(RegistrationSuccessEvent.REGISTRATION_SUCCESS, onRegistrationSuccess);
 			
 			// Add event listeners related to the roster
-			//roster.addEventListener(RosterEvent.SUBSCRIPTION_DENIAL, rosterHandler);
-			//roster.addEventListener(RosterEvent.SUBSCRIPTION_REQUEST, rosterHandler);
-			//roster.addEventListener(RosterEvent.SUBSCRIPTION_REVOCATION, rosterHandler);
-			//roster.addEventListener(RosterEvent.USER_AVAILABLE, rosterHandler);
-			//roster.addEventListener(RosterEvent.USER_UNAVAILABLE, rosterHandler);
+			roster.addEventListener(RosterEvent.SUBSCRIPTION_DENIAL, 		subscriptionDenial);
+			roster.addEventListener(RosterEvent.SUBSCRIPTION_REQUEST, 		subscriptionRequest);
+			roster.addEventListener(RosterEvent.SUBSCRIPTION_REVOCATION, 	subscriptionRevocation);
+			//roster.addEventListener(RosterEvent.USER_AVAILABLE, 			rosterHandler);
+			//roster.addEventListener(RosterEvent.USER_UNAVAILABLE, 			rosterHandler);
 			
 			// Add event listeners related to presence
 			//xmppSocketConnection.addEventListener(PresenceEvent.PRESENCE, presenceHandler);
@@ -158,5 +161,22 @@
 			sendNotification(XmppfcFacade.RECEIVE_MESSAGE, messageEvent.data);
 		}
 		
+		public function addContact(contact: String, nickname: String = null, group: String = null): void {
+			var jid:JID = new JID(contact + "@" + "10.1.1.12");
+			roster.addContact(jid,nickname,group);
+		}
+		public function removeContact(vo:RosterItemVO):void {
+			roster.removeContact(vo);
+		}
+		public function subscriptionDenial(event:RosterEvent):void {
+			
+		}		
+		public function subscriptionRequest(event:RosterEvent):void {
+			sendNotification(XmppfcFacade.SUBSCRIPTION_REQUEST, event.data);
+			
+		}
+		public function subscriptionRevocation (event:RosterEvent):void {
+			
+		}
 	}
 }

@@ -160,7 +160,7 @@ package org.jivesoftware.xiff.im
 		 * @availability Flash Player 7
 		 * @example This example adds a contact to the roster and simultaneously requests a presence subscription
 		 * with the new contact.
-		 * <pre>myRoster.addContact( "homer@springfield.com", "Homer", "Drinking Buddies", true );</pre>
+		 *  * <pre>myRoster.addContact( "homer@springfield.com", "Homer", "Drinking Buddies", true );</pre>
 		 */
 		public function addContact( id:JID, displayName:String, groupName:String, requestSubscription:Boolean=true ):void
 		{
