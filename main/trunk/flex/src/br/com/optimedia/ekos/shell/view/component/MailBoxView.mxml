@@ -21,7 +21,7 @@
 			<mx:List id="inBoxList" width="100%" height="100%">
 				<mx:itemRenderer>
 				<mx:Component>
-					<generalcomponents:MailItemComponent width="100%" height="110"/>
+					<generalcomponents:MailItem width="100%" height="110"/>
 				</mx:Component>
 				</mx:itemRenderer>
 			</mx:List>
@@ -30,7 +30,7 @@
 			<mx:List id="outBoxList" width="100%" height="100%">
 				<mx:itemRenderer>
 				<mx:Component>
-					<generalcomponents:MailItemComponent width="100%" height="110"/>
+					<generalcomponents:MailItem width="100%" height="110"/>
 				</mx:Component>
 				</mx:itemRenderer>
 			</mx:List>
