@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="" showCloseButton="true" implements="br.com.optimedia.xmppfc.view.api.components.IChatView">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" showCloseButton="true" implements="br.com.optimedia.xmppfc.view.api.components.IChatView" creationComplete="init();">
 	<mx:Script>
 		<![CDATA[
+		import br.com.optimedia.xmppfc.model.XmppfcFacade;
 		import mx.formatters.DateFormatter;
 		import br.com.optimedia.xmppfc.events.ChatEvent;
 		import org.jivesoftware.xiff.core.JID;
 		import org.jivesoftware.xiff.data.Message;
 		
 		private var jid:JID;
+		private static var dateFormatter:DateFormatter = new DateFormatter();
+		
+		public function init():void {
+			dateFormatter.formatString = "HH:NN";
+		}
 		
 		/**
 		 * The send button was clicked so dispatch an event to the mediator
 		 */
 		private function sendClick():void {
-			var inputText:String = inputTextArea.text;
+			var msgTxt:String = inputTextArea.text;
 			
-			if (inputText && inputText.length > 0) {
-				dispatchEvent(new ChatEvent(ChatEvent.SEND_MESSAGE, jid, inputText));
+			if (msgTxt && msgTxt.length > 0) {
+				XmppfcFacade.getInstance().sendMessage(jid, msgTxt); 
+				this.printMessage(new Date(), msgTxt ) ;
 				inputTextArea.text = "";
 			}
 		}
@@ -37,9 +44,15 @@
 		 * @param	message
 		 */
 		public function addMessage(message:Message):void {
-			var dateFormatter:DateFormatter = new DateFormatter();
-			dateFormatter.formatString = "HH:NN";
-			chatTextArea.text += "[" + dateFormatter.format(new Date()) + "] " + message.body + "\n";
+			this.printMessage(message.time, message.body );
+		}
+		
+		private function printMessage(date: Date, msgTxt: String):void {
+			if (dateFormatter.format(date)) {
+				chatTextArea.text += "[" + dateFormatter.format(date) + "] " + msgTxt + "\n";
+			}else {
+				chatTextArea.text += "[" + new Date() + "] " + msgTxt + "\n";
+			}
 		}
 		public function isUserTyping(value:Boolean):void {
 			//lblTyping.visible = value;

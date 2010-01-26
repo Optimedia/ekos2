@@ -9,16 +9,20 @@
 		<![CDATA[
 		import flash.events.Event;
 		import mx.events.ListEvent;
+		import mx.controls.Alert;
+		import br.com.optimedia.xmppfc.model.XmppfcFacade;
 		import br.com.optimedia.xmppfc.events.ChatEvent;
 		import org.jivesoftware.xiff.core.JID;
 		
+		
+		/*
 		private function onChatClick():void {
 			if (rosterList.selectedItem) {
 				var jid:JID = new JID(rosterList.selectedItem.jid);
 				dispatchEvent(new ChatEvent(ChatEvent.START_CHAT, jid));
 			}
 		}
-		
+		*/		
 		override public function set enabled(value: Boolean): void {
 			super.enabled = value;
 			//if (titleWindow) {
@@ -42,5 +46,10 @@
 			</mx:Component>
 		</mx:itemRenderer>
 	</mx:List>
-	<mx:Button width="100%" label="Chat..." click="onChatClick()" />
+	<!--<mx:Button width="100%" label="Chat..." click="onChatClick()" />-->
+	<mx:HBox width="100%">
+		<mx:TextInput width="105" id="textAdd"/>
+		<mx:Button id="btnAdd" width="50" label="Add"/>
+		</mx:HBox>
+		<mx:Button id="btnRemove" width="100%" label="Remove"/>
 </mx:TitleWindow>

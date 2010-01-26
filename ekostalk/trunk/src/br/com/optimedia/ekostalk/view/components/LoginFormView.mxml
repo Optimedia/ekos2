@@ -5,7 +5,7 @@
 	implements="br.com.optimedia.xmppfc.view.api.components.ILoginView">
 	<mx:Script>
 			<![CDATA[
-				import br.com.optimedia.xmppfc.XmppfcFacade;
+				import br.com.optimedia.xmppfc.model.XmppfcFacade;
 				import mx.validators.Validator;
 				import mx.managers.PopUpManager;
 				import mx.core.Application;
