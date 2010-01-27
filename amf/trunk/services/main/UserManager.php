@@ -2,7 +2,6 @@
 
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
-	require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
 	
 	/**
 	 * Classe para manipula��o do Usu�rio, inserindo, alterando e confirmando dados. 
@@ -122,7 +121,9 @@
 		 */
 		public function updateUser(CompleteUserVO $completeUser) {
 			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois el� a refer�ncia para os IDs das outras tabelas.
-			/*$handler_names = array ('Account', 'Profile', 'User', 'Address');
+			
+			//*
+			$handler_names = array ('Account', 'Profile', 'User', 'Address');
 			
 			$error = 0;
 			
@@ -137,11 +138,6 @@
 				// os dados que s�o da tabela.
 	      		$result = $handler->doUpdate($completeUser);
 				
-	      		if($value == "Address") {
-	      			return $result;
-	      			break;
-	      		}
-	      		
 				if($result != true) {
 					$error ++;
 				}
@@ -151,7 +147,7 @@
 				return $completeUser;
 			} else {
 				return false;
-			}*/
+			}//*/
 			
 			return $completeUser;
 		}

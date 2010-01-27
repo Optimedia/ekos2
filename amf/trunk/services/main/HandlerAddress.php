@@ -39,46 +39,10 @@
 		 */
 		public function doUpdate(CompleteUserVO $value) {
 			
-			require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
-			
 			$address = new AddressVO();
 			$addressArray = $value -> addressArray;
 
-			/* Teste
-				
-				$value = new CompleteUserVO();
-				
-				require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
-				
-				$singleAddress1 = new AddressVO();
-				$singleAddress2 = new AddressVO();
-				
-				$singleAddress1 -> detail_address_type_id = 1;
-				$singleAddress1 -> country_name = "Brasil";
-				$singleAddress1 -> state_name = "Distrito Federal";
-				$singleAddress1 -> city_name = "Brasília";
-				$singleAddress1 -> town_name = "Asa Sul";
-				$singleAddress1 -> address_part1 = "902 Sul";
-				$singleAddress1 -> address_part2 = "";
-				$singleAddress1 -> zipcode = "72000000";
-				
-				$singleAddress2 -> detail_address_type_id = 2;
-				$singleAddress2 -> country_name = "Brasil";
-				$singleAddress2 -> state_name = "Distrito Federal";
-				$singleAddress2 -> city_name = "Taguatinga";
-				$singleAddress2 -> town_name = "Taguatinga Sul";
-				$singleAddress2 -> address_part1 = "QSD 26";
-				$singleAddress2 -> address_part2 = "Casa 5";
-				$singleAddress2 -> zipcode = "72000000";
-				
-				// Details
-				$value -> addressArray = array($singleAddress1, $singleAddress2);
-				
-				$addressArray = $value -> addressArray;
-			
-			*/
-			
-			/*foreach($addressArray as $address) {
+			foreach($addressArray as $address) {
 				$addressFinalArray = array ('profile_id' => $_SESSION['account_id'],
 									   		'detail_address_type_id' => $address -> detail_address_type_id,
 									   		'country_name' => $address -> country_name,
@@ -95,13 +59,13 @@
 				$sqlCheck = "SELECT * FROM ". $this -> _table ." WHERE ".$condition;
 				$resultCheck = parent::doSelect($sqlCheck);
 				
-				/*if(mysql_num_rows($resultCheck) > 0) {
-					//$resultDelete = parent::doDelete($condition, $this -> _table);
-				} else {*/
+				if(mysql_num_rows($resultCheck) > 0) {
+					$resultDelete = parent::doDelete($condition, $this -> _table);
+				} else {
 					$resultDelete = true;
-				//}
+				}
 				
-				/*if($resultDelete) {
+				if($resultDelete) {
 					$resultUpdate = parent::doInsert($addressFinalArray, $this -> _table);
 					
 					if($resultUpdate != true) {
@@ -112,9 +76,9 @@
 					}
 				}
 				
-			}*/
+			}
 			
-			return $value;
+			return $addressArray;
 		}
 		
 	}
