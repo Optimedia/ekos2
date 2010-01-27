@@ -2,6 +2,7 @@
 
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
+	require_once '../vo/br/com/optimedia/assets/vo/AddressVO.php';
 	
 	/**
 	 * Classe para manipula��o do Usu�rio, inserindo, alterando e confirmando dados. 
