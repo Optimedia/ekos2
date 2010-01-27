@@ -1,6 +1,6 @@
-package br.com.optimedia.assets.vo.userdetails
+package br.com.optimedia.assets.vo
 {
-	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.userdetails.EducationVO")]
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.EducationVO")]
 	
 	// EDUCATION DETAILS
 	public class EducationVO

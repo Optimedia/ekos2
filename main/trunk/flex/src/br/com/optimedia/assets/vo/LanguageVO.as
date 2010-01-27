@@ -1,6 +1,6 @@
-package br.com.optimedia.assets.vo.userdetails
+package br.com.optimedia.assets.vo
 {
-	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.userdetails.LanguageVO")]
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.LanguageVO")]
 	
 	// LANGUAGE DETAILS
 	public class LanguageVO

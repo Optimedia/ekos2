@@ -96,7 +96,7 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function saveBtnHandler(event:MouseEvent):void {
-			view.completeUserVO.addressArray = new Array[view.completeUserVO.addressArray.toArray()];
+			//view.completeUserVO.addressArray = new Array[view.completeUserVO.addressArray.toArray()];
 			userManagerProxy.updateUser( view.completeUserVO );
 		}
 	}

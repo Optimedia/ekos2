@@ -1,4 +1,333 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:ViewStack xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()">
 	
-</mx:VBox>
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.assets.vo.userdetails.EducationVO;
+			
+			private var _data:Object;
+			
+			private function init():void {
+				if(_data) {
+					if(this._data is EducationVO) this.selectedIndex = 0;
+					/* if(this._dataProvider[0] is ProfessionVO) this.selectedIndex = 1;
+					if(this._dataProvider[0] is AddressVO) this.selectedIndex = 2;
+					if(this._dataProvider[0] is LanguageVO) this.selectedIndex = 3; */
+				}
+			}
+			
+			override public function set data(value:Object):void {
+				this._data = value;
+				if(this._data is EducationVO) this.selectedIndex = 0;
+				/* if(this._dataProvider[0] is ProfessionVO) this.selectedIndex = 1;
+				if(this._dataProvider[0] is AddressVO) this.selectedIndex = 2;
+				if(this._dataProvider[0] is LanguageVO) this.selectedIndex = 3; */
+			}
+			override public function get data():Object {
+				return this._data;
+			}
+			
+		]]>
+	</mx:Script>
+
+	<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
+		<mx:Script>
+			<![CDATA[
+				import mx.collections.ArrayCollection;
+				
+				private function moveItemToTop(item:Object):void {
+					/* var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+					ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.educationArray).addItemAt(item, 0); */
+				}
+				private function moveItemUp(item:Object):void {
+					/* var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+					// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+					if (fromIndex != 0) {
+						ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.educationArray).addItemAt(item, fromIndex-1);
+					} */
+				}
+				private function moveItemDown(item:Object):void {
+					/* var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.educationArray).length;
+					// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+					if (lenght - fromIndex > 1) {
+						ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.educationArray).addItemAt(item, fromIndex+1);
+					} */
+				}
+				private function moveItemToBottom(item:Object):void {
+					/* var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.educationArray).length;
+					ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.educationArray).addItemAt(item, lenght-1); */
+				}
+				private function deleteItem(item:Object):void {
+					/* var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
+					ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
+					parentDocument.educationList.height -= 235; */
+				}
+			]]>
+		</mx:Script>
+		<mx:Form>
+			<mx:FormItem label="Nível">
+				<mx:ComboBox id="levelComboBox" dataProvider="{parentDocument.educationLevelsAC}" labelField="name"
+							prompt="Escolha" tabIndex="15"/>
+			</mx:FormItem>
+			<mx:FormItem label="Instituição">
+				<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text" tabIndex="16"/>
+			</mx:FormItem>
+			<mx:FormItem label="Conclusão">
+				<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text" tabIndex="17"/>
+			</mx:FormItem>
+			<mx:FormItem label="Situação">
+				<mx:ComboBox id="statusComboBox"  tabIndex="18"/>
+			</mx:FormItem>
+			<mx:FormItem label="Curso">
+				<mx:TextInput id="courseTextInput" text="{data.course}" change="data.course=courseTextInput.text" tabIndex="19"/>
+			</mx:FormItem>
+			<mx:FormItem label="Título">
+				<mx:TextInput id="titleTextInput" text="{data.title}" change="data.title=titleTextInput.text" tabIndex="20"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+			<mx:Button id="topProfessionBtn" label="Início" click="moveItemToTop(data)"/>
+			<mx:Button id="upProfessionBtn" label="Sobe" click="moveItemUp(data)"/>
+			<mx:Button id="downProfessionBtn" label="Desce" click="moveItemDown(data)"/>
+			<mx:Button id="bottomProfessionBtn" label="Fim" click="moveItemToBottom(data)"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button id="deleteProfessionBtn" label="Excluir" click="deleteItem(data)"/>
+		</mx:HBox>
+	</mx:VBox>
+	
+	<!--<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
+		<mx:Script>
+			<![CDATA[
+				import mx.managers.IFocusManagerComponent;
+				import mx.collections.ArrayCollection;
+				
+				IFocusManagerComponent
+				
+				private function moveItemToTop(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+					ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.professionArray).addItemAt(item, 0);
+				}
+				private function moveItemUp(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+					// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+					if (fromIndex != 0) {
+						ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.professionArray).addItemAt(item, fromIndex-1);
+					}
+				}
+				private function moveItemDown(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.professionArray).length;
+					// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+					if (lenght - fromIndex > 1) {
+						ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.professionArray).addItemAt(item, fromIndex+1);
+					}
+				}
+				private function moveItemToBottom(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.professionArray).length;
+					ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.professionArray).addItemAt(item, lenght-1);
+				}
+				private function deleteItem(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.professionArray).getItemIndex(item);
+					ArrayCollection(parentDocument.professionArray).removeItemAt(fromIndex);
+					parentDocument.professionList.height -= 290;
+				}
+			]]>
+		</mx:Script>
+		<mx:Form>
+			<mx:FormItem label="Empresa">
+				<mx:TextInput id="companyTextInput" text="{data.company}" change="data.company=companyTextInput.text" tabIndex="1"/>
+			</mx:FormItem>
+			<mx:FormItem label="Cargo">
+				<mx:TextInput id="positionTextInput" text="{data.position}" change="data.position=positionTextInput.text" tabIndex="2"/>
+			</mx:FormItem>
+			<mx:FormItem label="Descrição">
+				<mx:TextInput id="jobDescriptionTextInput" text="{data.description}" change="data.description=jobDescriptionTextInput.text" tabIndex="3"/>
+			</mx:FormItem>
+			<mx:FormItem label="País">
+				<mx:TextInput id="jobCountryTextInput" text="{data.country_name}" change="data.country_name=jobCountryTextInput.text" tabIndex="4"/>
+			</mx:FormItem>
+			<mx:FormItem label="Estado">
+				<mx:TextInput id="jobUFTextInput" text="{data.state_name}" change="data.state_name=jobUFTextInput.text" tabIndex="5"/>
+			</mx:FormItem>
+			<mx:FormItem label="Cidade">
+				<mx:TextInput id="jobCityTextInput" text="{data.city_name}" change="data.city_name=jobCityTextInput.text" tabIndex="6"/>
+			</mx:FormItem>
+			<mx:FormItem label="Início">
+				<mx:TextInput id="jobBeginTextInput" text="{data.begin_date}" change="data.begin_date=jobBeginTextInput.text" tabIndex="7"/>
+			</mx:FormItem>
+			<mx:FormItem label="Cidade">
+				<mx:TextInput id="jobEndTextInput" text="{data.end_date}" change="data.end_date=jobEndTextInput.text" tabIndex="8"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+			<mx:Button id="topEducationBtn" label="Início" click="moveItemToTop(data)"/>
+			<mx:Button id="upEducationBtn" label="Sobe" click="moveItemUp(data)"/>
+			<mx:Button id="downEducationBtn" label="Desce" click="moveItemDown(data)"/>
+			<mx:Button id="bottomEducationBtn" label="Fim" click="moveItemToBottom(data)"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button id="deleteEducationBtn" label="Excluir" click="deleteItem(data)"/>
+		</mx:HBox>
+	</mx:VBox>
+	
+	<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
+		<mx:Script>
+			<![CDATA[
+				import mx.collections.ArrayCollection;
+				
+				private function moveItemToTop(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+					ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.addressArray).addItemAt(item, 0);
+				}
+				private function moveItemUp(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+					// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+					if (fromIndex != 0) {
+						ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.addressArray).addItemAt(item, fromIndex-1);
+					}
+				}
+				private function moveItemDown(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.addressArray).length;
+					// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+					if (lenght - fromIndex > 1) {
+						ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.addressArray).addItemAt(item, fromIndex+1);
+					}
+				}
+				private function moveItemToBottom(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.addressArray).length;
+					ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.addressArray).addItemAt(item, lenght-1);
+				}
+				private function deleteItem(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.addressArray).getItemIndex(item);
+					ArrayCollection(parentDocument.addressArray).removeItemAt(fromIndex);
+					parentDocument.addressList.height -= 260;
+				}
+			]]>
+		</mx:Script>
+		<mx:Form>
+			<mx:FormItem label="Tipo">
+				<mx:ComboBox id="addressTypeComboBox" dataProvider="{parentDocument.addressTypesAC}" tabIndex="1"
+							labelField="name" prompt="Escolha" change="data.detail_address_type_id=addressTypeComboBox.selectedItem.detail_address_type_id"/>
+			</mx:FormItem>
+			<mx:FormItem label="País">
+				<mx:TextInput id="addressCountryTextInput" text="{data.country_name}" change="data.country_name=addressCountryTextInput.text" tabIndex="2"/>
+			</mx:FormItem>
+			<mx:FormItem label="Estado">
+				<mx:TextInput id="addressUFTextInput" text="{data.state_name}" change="data.state_name=addressUFTextInput.text" tabIndex="3"/>
+			</mx:FormItem>
+			<mx:FormItem label="Cidade">
+				<mx:TextInput id="addressCityTextInput" text="{data.city_name}" change="data.city_name=addressCityTextInput.text" tabIndex="4"/>
+			</mx:FormItem>
+			<mx:FormItem label="Bairro">
+				<mx:TextInput id="addressTownTextInput" text="{data.town_name}" change="data.town_name=addressTownTextInput.text" tabIndex="5"/>
+			</mx:FormItem>
+			<mx:FormItem label="Endereço">
+				<mx:TextInput id="addressTextInput" text="{data.address_part1}" change="data.address_part1=addressTextInput.text" tabIndex="6"/>
+			</mx:FormItem>
+			<mx:FormItem label="Complemento">
+				<mx:TextInput id="addressComplementTextInput" text="{data.address_part2}" change="data.address_part2=addressComplementTextInput.text" tabIndex="7"/>
+			</mx:FormItem>
+			<mx:FormItem label="CEP">
+				<mx:TextInput id="zipCodeTextInput" text="{data.zipcode}" change="data.zipcode=zipCodeTextInput.text" tabIndex="8"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+			<mx:Button id="topAddressBtn" label="Início" click="moveItemToTop(data)"/>
+			<mx:Button id="upAddressBtn" label="Sobe" click="moveItemUp(data)"/>
+			<mx:Button id="downAddressBtn" label="Desce" click="moveItemDown(data)"/>
+			<mx:Button id="bottomAddressBtn" label="Fim" click="moveItemToBottom(data)"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button id="deleteAddressBtn" label="Excluir" click="deleteItem(data)"/>
+		</mx:HBox>
+	</mx:VBox>
+	
+	<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
+		<mx:Script>
+			<![CDATA[
+				import mx.collections.ArrayCollection;
+				
+				private var levels:Array = ["Muito bom", "Bom", "Normal", "Ruim", "Muito ruim"];
+				
+				private function onLanguageSelection():void {
+					speechComboBox.selectedIndex = 2;
+					writingComboBox.selectedIndex = 2;
+					readingComboBox.selectedIndex = 2;
+				}
+				
+				private function moveItemToTop(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+					ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, 0);
+				}
+				private function moveItemUp(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+					// SE NÃO ESTIVER NA PRIMEIRA POSIÇÃO
+					if (fromIndex != 0) {
+						ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, fromIndex-1);
+					}
+				}
+				private function moveItemDown(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.languageArrayCollection).length;
+					// SE NÃO ESTIVER NA ULTIMA POSIÇÃO
+					if (lenght - fromIndex > 1) {
+						ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+						ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, fromIndex+1);
+					}
+				}
+				private function moveItemToBottom(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.languageArrayCollection).getItemIndex(item);
+					var lenght:int = ArrayCollection(parentDocument.languageArrayCollection).length;
+					ArrayCollection(parentDocument.languageArrayCollection).removeItemAt(fromIndex);
+					ArrayCollection(parentDocument.languageArrayCollection).addItemAt(item, lenght-1);
+				}
+				private function deleteItem(item:Object):void {
+					var fromIndex:int = ArrayCollection(parentDocument.languageArray).getItemIndex(item);
+					ArrayCollection(parentDocument.languageArray).removeItemAt(fromIndex);
+					parentDocument.languageList.height -= 175;
+				}
+			]]>
+		</mx:Script>
+		<mx:Form>
+			<mx:FormItem label="Lingua">
+				<mx:ComboBox id="languageComboBox" dataProvider="{parentDocument.languagesAC}"
+						change="onLanguageSelection()" prompt="Escolha" labelField="name" tabIndex="1"/>
+			</mx:FormItem>
+			<mx:FormItem label="Fala">
+				<mx:ComboBox id="speechComboBox" dataProvider="{levels}" prompt=" " tabIndex="2"/>
+			</mx:FormItem>
+			<mx:FormItem label="Escrita">
+				<mx:ComboBox id="writingComboBox" dataProvider="{levels}" prompt=" " tabIndex="3"/>
+			</mx:FormItem>
+			<mx:FormItem label="Leitura">
+				<mx:ComboBox id="readingComboBox" dataProvider="{levels}" prompt=" " tabIndex="4"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:HBox width="100%" horizontalGap="0" paddingRight="5">
+			<mx:Button id="topLanguageBtn" label="Início" click="moveItemToTop(data)"/>
+			<mx:Button id="upLanguageBtn" label="Sobe" click="moveItemUp(data)"/>
+			<mx:Button id="downLanguageBtn" label="Desce" click="moveItemDown(data)"/>
+			<mx:Button id="bottomLanguageBtn" label="Fim" click="moveItemToBottom(data)"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button id="deleteLanguageBtn" label="Excluir" click="deleteItem(data)"/>
+		</mx:HBox>
+	</mx:VBox>-->
+	
+</mx:ViewStack>
