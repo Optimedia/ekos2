@@ -4,6 +4,8 @@
 	
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.assets.vo.LanguageVO;
+		import br.com.optimedia.assets.vo.ProfessionVO;
 		import br.com.optimedia.assets.vo.EducationVO;
 		import br.com.optimedia.assets.vo.AddressVO;
 		import mx.core.Application;
@@ -66,7 +68,7 @@
 		}
 		private function addProfessionForm():void {
 			if(!_completeUserVO.professionArray) _completeUserVO.professionArray = new ArrayCollection();
-			_completeUserVO.professionArray.addItemAt(new AddressVO(), _completeUserVO.professionArray.length);
+			_completeUserVO.professionArray.addItemAt(new ProfessionVO(), _completeUserVO.professionArray.length);
 			professionList.height += 290;
 		}
 		
@@ -81,7 +83,7 @@
 		}
 		private function addAddressForm():void {
 			if(!_completeUserVO.addressArray) _completeUserVO.addressArray = new ArrayCollection();
-			_completeUserVO.addressArray.addItemAt(new Object(), _completeUserVO.addressArray.length);
+			_completeUserVO.addressArray.addItemAt(new AddressVO(), _completeUserVO.addressArray.length);
 			addressList.height += 260;
 		}
 		
@@ -96,7 +98,7 @@
 		}
 		private function addLanguageForm():void {
 			if(!_completeUserVO.languageArray) _completeUserVO.languageArray = new ArrayCollection();
-			_completeUserVO.languageArray.addItemAt(new Object(), _completeUserVO.languageArray.length);
+			_completeUserVO.languageArray.addItemAt(new LanguageVO(), _completeUserVO.languageArray.length);
 			languageList.height += 175;
 		}
 		
