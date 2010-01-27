@@ -9,6 +9,6 @@
 		public $course;
 		public $title;
 		
-		$_explicitType = "br.com.optimedia.assets.vo.EducationVO";
+		public $_explicitType = "br.com.optimedia.assets.vo.EducationVO";
 		
 	}
