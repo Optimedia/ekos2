@@ -30,18 +30,50 @@ package br.com.optimedia.assets.vo
 		public var status:int;
 		
 		//Profile Details
-		public var addressArray:ArrayCollection = new ArrayCollection();
-		public var educationArray:ArrayCollection = new ArrayCollection();
-		public var languageArray:ArrayCollection = new ArrayCollection();
-		public var professionArray:ArrayCollection = new ArrayCollection();
+		private var _addressArray:ArrayCollection = new ArrayCollection();
+		private var _educationArray:ArrayCollection = new ArrayCollection();
+		private var _languageArray:ArrayCollection = new ArrayCollection();
+		private var _professionArray:ArrayCollection = new ArrayCollection();
 		
 		//usado para copiar o VO sem criar assuciação entre as variáveis
 		//uso: newVO = oldVO.clone();
 		public function clone():* {
-		    var copier:ByteArray = new ByteArray();
-		    copier.writeObject(this);
-		    copier.position = 0;
-		    return copier.readObject() as CompleteUserVO;
+			var copier:ByteArray = new ByteArray();
+			copier.writeObject(this);
+			copier.position = 0;
+			return copier.readObject() as CompleteUserVO;
+		}
+		
+		public function set educationArray(value:*):void {
+			if( value is ArrayCollection) _educationArray = value;
+			else _educationArray = new ArrayCollection( value );
+		}
+		public function get educationArray():* {
+			return _educationArray;
+		}
+		
+		public function set addressArray(value:*):void {
+			if( value is ArrayCollection) _addressArray = value;
+			else _addressArray = new ArrayCollection( value );
+		}
+		public function get addressArray():* {
+			return _addressArray;
+		}
+		
+		public function set professionArray(value:*):void {
+			if( value is ArrayCollection) _professionArray = value;
+			else _professionArray = new ArrayCollection( value );
+		}
+		public function get professionArray():* {
+			return _professionArray;
+		}
+		
+		public function set languageArray(value:*):void {
+			if( value is ArrayCollection) _languageArray = value;
+			else _languageArray = new ArrayCollection( value );
+		}
+		public function get languageArray():* {
+			return _languageArray;
 		}
 	}
 }

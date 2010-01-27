@@ -11,8 +11,10 @@ package br.com.optimedia.ekos.shell.model
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
+	import mx.utils.ArrayUtil;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+	import mx.collections.ArrayCollection;
 
 	public class UserManagerProxy extends Proxy
 	{
@@ -114,8 +116,10 @@ package br.com.optimedia.ekos.shell.model
 			asynkToken.addResponder( new Responder(updateUserResult, generalFault) );
 		}
 		private function updateUserResult(event:ResultEvent):void {
-			Alert.show("Seus dados foram salvos com sucesso!", "OK!");
-			if(event.result is CompleteUserVO) sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
+			if(event.result is CompleteUserVO) {
+				sendNotification( NotificationConstants.USER_UPDATE_AVAILABLE, event.result );
+				Alert.show("Seus dados foram salvos com sucesso!", "OK!");
+			}
 		}
 		
 		/* public function getUser(userID:uint):void {

@@ -4,8 +4,7 @@
 	
 	<mx:Script>
 	<![CDATA[
-		import br.com.optimedia.assets.vo.EducationVO;
-		import br.com.optimedia.assets.vo.AddressVO;
+		import br.com.optimedia.assets.vo.userdetails.AddressVO;
 		import mx.core.Application;
 		import mx.managers.PopUpManager;
 		import mx.collections.ArrayCollection;
@@ -50,7 +49,7 @@
 		
 		private function addEducationForm():void {
 			if(!_completeUserVO.educationArray) _completeUserVO.educationArray = new ArrayCollection();
-			_completeUserVO.educationArray.addItemAt(new EducationVO(), _completeUserVO.educationArray.length);
+			_completeUserVO.educationArray.addItemAt(new Object(), _completeUserVO.educationArray.length);
 			educationList.height += 235;
 		}
 		
@@ -138,13 +137,12 @@
 	<mx:Panel title="Educação" width="100%" borderStyle="solid" roundedBottomCorners="true">
 		<mx:Button id="addEducationBtn" label="Adicionar" click="addEducationForm()"/>
 		<mx:List id="educationList" width="100%" height="0" verticalScrollPolicy="off"
-				selectable="false" dataProvider="{_completeUserVO.educationArray}" borderStyle="none" tabChildren="true">
+				selectable="false" dataProvider="{_completeUserVO.educationArray}" borderStyle="none">
 			<mx:itemRenderer>
 			<mx:Component>
-				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset" tabChildren="true">
+				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset" implements="mx.managers.IFocusManagerComponent">
 					<mx:Script>
 						<![CDATA[
-							import mx.managers.FocusManager;
 							import mx.collections.ArrayCollection;
 							
 							private function moveItemToTop(item:Object):void {
@@ -180,7 +178,6 @@
 								ArrayCollection(parentDocument.educationArray).removeItemAt(fromIndex);
 								parentDocument.educationList.height -= 235;
 							}
-							
 						]]>
 					</mx:Script>
 					<mx:Form>
@@ -189,10 +186,10 @@
 										prompt="Escolha" tabIndex="6"/>
 						</mx:FormItem>
 						<mx:FormItem label="Instituição">
-							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text" tabIndex="15"/>
+							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text" tabIndex="1"/>
 						</mx:FormItem>
 						<mx:FormItem label="Conclusão">
-							<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text" tabIndex="16"/>
+							<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text" tabIndex="2"/>
 						</mx:FormItem>
 						<mx:FormItem label="Situação">
 							<mx:ComboBox id="statusComboBox"  tabIndex="3"/>
