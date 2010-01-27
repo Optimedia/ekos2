@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" verticalAlign="middle">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" verticalAlign="middle" paddingRight="5">
 
 	<mx:Script>
 		<![CDATA[
@@ -43,13 +43,18 @@
 		<mx:Button id="deleteBtn" label="Deletar" click="deleteMessage()" width="100%" height="100%"/>
 	</mx:VBox>
 	
-	<mx:Image source="{CompleteUserVO(data.completeUserVO).small_avatar}" width="100" height="100"/>
-
-	<mx:VBox width="150">
-		<mx:Text text="{CompleteUserVO(data.completeUserVO).first_name} {CompleteUserVO(data.completeUserVO).last_name}" fontWeight="bold"/>
-		<mx:Text text="{MessageVO(data.messageVO).sent_date}"/>
-	</mx:VBox>
-
-	<mx:TextArea text="{MessageVO(data.messageVO).text}" width="100%" borderStyle="none" editable="false" backgroundAlpha="0"/>
+	<mx:Canvas width="100%" height="100%">
+		<mx:Button enabled="false" width="100%" height="100%"/>
+		<mx:HBox width="100%" height="100%" verticalAlign="middle" paddingLeft="5">
+			<mx:Image source="{CompleteUserVO(data.completeUserVO).small_avatar}" width="100" height="100"/>
+		
+			<mx:VBox width="150">
+				<mx:Text text="{CompleteUserVO(data.completeUserVO).first_name} {CompleteUserVO(data.completeUserVO).last_name}" fontWeight="bold"/>
+				<mx:Text text="{MessageVO(data.messageVO).sent_date}"/>
+			</mx:VBox>
+		
+			<mx:TextArea text="{MessageVO(data.messageVO).text}" width="100%" borderStyle="none" editable="false" backgroundAlpha="0"/>
+		</mx:HBox>
+	</mx:Canvas>
 
 </mx:HBox>

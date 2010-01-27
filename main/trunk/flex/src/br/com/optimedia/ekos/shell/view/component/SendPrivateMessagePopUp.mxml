@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
-	width="400" height="300" showCloseButton="true"
+	width="500" height="400" showCloseButton="true"
 	creationComplete="init()" title="Menssagem privada para {receiverUserVO.first_name} {receiverUserVO.last_name}">
 	
 	<mx:Script>
@@ -27,6 +27,9 @@
 	</mx:Script>
 	
 	<mx:Form width="100%">
+		<mx:FormItem label="Para:" width="100%">
+			<mx:TextInput id="toTextInput" width="100%" text="{receiverUserVO.first_name} {receiverUserVO.last_name}"/>
+		</mx:FormItem>
 		<mx:FormItem label="Título" width="100%">
 			<mx:TextInput id="subjectTextInput" width="100%"/>
 		</mx:FormItem>

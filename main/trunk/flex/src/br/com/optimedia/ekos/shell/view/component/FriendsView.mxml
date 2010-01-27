@@ -5,6 +5,10 @@
 		
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CollectionEvent;
+			import br.com.optimedia.assets.vo.AddressVO;
+			import mx.controls.CheckBox;
+			import mx.controls.Text;
 			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import br.com.optimedia.ekos.MainAppFacade;
 			import mx.collections.ArrayCollection;
@@ -46,6 +50,26 @@
 				
 				return found;
 			}
+			
+			//cria o array de checkbox para filtro por cidades
+			/* public function buildCityFilter(event:CollectionEvent):void {
+				if(usersArrayCollection && usersArrayCollection.length > 0) {
+					cityCanvas.removeAllChildren();
+					var cityLabel:Text = new Text();
+					cityLabel.text = "Cidade";
+					cityCanvas.addChild(cityLabel);
+					for each(var user:CompleteUserVO in usersArrayCollection) {
+						if(CompleteUserVO(user).addressArray && CompleteUserVO(user).addressArray > 0) {
+							for each(var address:AddressVO in CompleteUserVO(user).addressArray) {
+								var checkBox:CheckBox = new CheckBox();
+								checkBox.label = AddressVO(address).city_name;
+								cityCanvas.addChild(checkBox);
+							}
+						}
+					}
+				}
+			} */
+			
 		]]>
 	</mx:Script>
 	
@@ -79,6 +103,8 @@
 	<mx:Panel title="Filtro" width="150" height="100%" paddingLeft="3" paddingRight="3" paddingTop="3" paddingBottom="3">
 		
 		<mx:TextInput id="filterTextInput" change="onFilterChange()" width="100%"/>
+		
+		<!--<mx:Canvas id="cityCanvas" width="100%"/>-->
 		
 	</mx:Panel>
 	

@@ -4,6 +4,10 @@ package br.com.optimedia.ekos.shell.model
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.assets.generalcomponents.FaultHandler;
 	import br.com.optimedia.assets.vo.CompleteUserVO;
+	import br.com.optimedia.assets.vo.AddressVO;
+	import br.com.optimedia.assets.vo.LanguageVO;
+	import br.com.optimedia.assets.vo.ProfessionVO;
+	import br.com.optimedia.assets.vo.EducationVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;

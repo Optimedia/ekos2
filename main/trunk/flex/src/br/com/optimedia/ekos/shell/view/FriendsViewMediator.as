@@ -67,6 +67,7 @@ package br.com.optimedia.ekos.shell.view
 			{
 				case NotificationConstants.GET_ALL_FRIENDS_RESULT:
 					view.usersArrayCollection = new ArrayCollection(note.getBody() as Array);
+					//view.buildCityFilter(null);
 					break;
 				case NotificationConstants.FIND_FRIEND_RESULT_ARRAY:
 					view.usersArrayCollection = new ArrayCollection(note.getBody() as Array);
