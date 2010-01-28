@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
-	width="500" height="400" showCloseButton="true"
-	creationComplete="init()" title="Menssagem privada para {receiverUserVO.first_name} {receiverUserVO.last_name}">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	width="700" height="320" showCloseButton="true"
+	creationComplete="init()" title="Menssagem privada" xmlns:component="br.com.optimedia.ekos.shell.view.component.*">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			import mx.collections.ArrayCollection;
 			import br.com.optimedia.assets.vo.CompleteUserVO;
 			import br.com.optimedia.ekos.MainAppFacade;
 			import mx.managers.PopUpManager;
@@ -14,8 +17,16 @@
 			[Bindable]
 			public var receiverUserVO:CompleteUserVO;
 			
+			[Bindable]
+			public var receiversArray:Array = [];
+			
+			[Bindable]
+			public var allFriendsArrayCollection:ArrayCollection;
+			
 			private function init():void {
 				facade.startup( this );
+				if(receiverUserVO) receiversArray.push(receiverUserVO);
+				updateTextInputText();
 			}
 			
 			public function removePopup():void {
@@ -23,22 +34,79 @@
 				System.gc();
 			}
 			
+			private function updateTextInputText():void {
+				var result:String = "";
+				for each( var user:CompleteUserVO in receiversArray ) {
+					result = result + user.first_name + ' ' + user.last_name + ', ';
+				}
+				toTextInput.text = result;
+			}
+			
+			private function dragEnterHandler(event:DragEvent):void
+            {
+            	if (event.dragSource.hasFormat("items"))
+            	DragManager.acceptDragDrop(TextInput(event.currentTarget));	
+            }
+            private function dragOverHandler(event:DragEvent):void
+            {
+            	if (event.dragSource.hasFormat("items"))
+            	DragManager.showFeedback(DragManager.MOVE);
+            }
+            private function dragDropHandler(event:DragEvent):void
+            {
+          		//event.preventDefault();
+          		var itemsArray:Array = event.dragSource.dataForFormat("items") as Array;
+          		//var user:CompleteUserVO = itemsArray[0];
+                //TextInput(event.currentTarget).text = user.first_name + " " + user.last_name + ", ";
+                receiversArray.push(itemsArray[0]);
+                updateTextInputText();
+                allFriendsArrayCollection.filterFunction = allFriendsFilterFunction;
+                allFriendsArrayCollection.refresh();
+            }
+			
+			private function allFriendsFilterFunction(item:Object):Boolean {
+				var result:Boolean = true;
+				for each(var user:CompleteUserVO in receiversArray) {
+					if(item is CompleteUserVO && item == user) result = false;
+				}
+				return result;
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:Form width="100%">
-		<mx:FormItem label="Para:" width="100%">
-			<mx:TextInput id="toTextInput" width="100%" text="{receiverUserVO.first_name} {receiverUserVO.last_name}"/>
+		<mx:FormItem label="Para" width="100%">
+			<mx:TextInput id="toTextInput" width="100%" editable="false"
+							dragEnter="dragEnterHandler(event);" 
+							dragOver="dragOverHandler(event);"
+							dragDrop="dragDropHandler(event);"/>
 		</mx:FormItem>
-		<mx:FormItem label="Título" width="100%">
+		<mx:FormItem label="Título" width="45%">
 			<mx:TextInput id="subjectTextInput" width="100%"/>
 		</mx:FormItem>
-		<mx:FormItem label="Menssagem" width="100%">
+		<mx:FormItem label="Menssagem" width="45%">
 			<mx:TextArea id="messageTextArea" width="100%" height="150"/>
 		</mx:FormItem>
 	</mx:Form>
 	
-	<mx:HBox width="100%" paddingRight="15" paddingLeft="15">
+	<mx:TileList id="tileList" width="50%" height="85%" dataProvider="{allFriendsArrayCollection}" selectable="true"
+				backgroundColor="#111111" right="0" bottom="0" dragEnabled="true">
+		<mx:itemRenderer>
+		<mx:Component>
+			<component:AvatarBox completeUserVO="{data as CompleteUserVO}" paddingRight="5" paddingLeft="5" currentState="{AvatarBox.SELECT_VIEW_STATE}"
+								width="100" height="100">
+				<mx:Script>
+					<![CDATA[
+						import br.com.optimedia.assets.vo.CompleteUserVO;
+					]]>
+				</mx:Script>
+			</component:AvatarBox>
+		</mx:Component>
+		</mx:itemRenderer>
+	</mx:TileList>
+	
+	<mx:HBox width="50%" paddingRight="15" paddingLeft="15" bottom="10">
 		<mx:Button id="cancelBtn" label="Cancelar"/>
 		<mx:Spacer width="100%"/>
 		<mx:Button id="sendBtn" label="Enviar"/>

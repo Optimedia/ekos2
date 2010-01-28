@@ -16,6 +16,7 @@
 			public static const FRIENDS_VIEW_STATE:String = "friendView";
 			public static const IGNORE_VIEW_STATE:String = "ignoreView";
 			public static const SEARCH_VIEW_STATE:String = "searchView";
+			public static const SELECT_VIEW_STATE:String = "selectView";
 			
 			private var facade:MainAppFacade = MainAppFacade.getInstance();
 			
@@ -60,6 +61,14 @@
 		<mx:State name="searchView">
 			<mx:RemoveChild target="{removeFromIgnoreBtn}"/>
 			<mx:RemoveChild target="{removeFriendBtn}"/>
+		</mx:State>
+		<mx:State name="selectView">
+			<mx:RemoveChild target="{buttonsHBox}"/>
+			<mx:RemoveChild target="{completeName}"/>
+			<mx:SetProperty name="width" value="100"/>
+			<mx:SetProperty name="height" value="100"/>
+			<mx:SetProperty target="{avatarPanel}" name="width" value="90"/>
+			<mx:SetProperty target="{avatarPanel}" name="height" value="90"/>
 		</mx:State>
 	</mx:states>
 
