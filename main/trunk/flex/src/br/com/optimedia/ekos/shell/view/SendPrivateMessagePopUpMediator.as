@@ -66,7 +66,8 @@ package br.com.optimedia.ekos.shell.view
 					removePopUp( null );
 					break;
 				case NotificationConstants.GET_ALL_FRIENDS_RESULT:
-					view.allFriendsArrayCollection = new ArrayCollection( note.getBody() as Array );
+					view.allFriendsArrayCollection = new ArrayCollection(note.getBody() as Array);
+					view.applyFilters(null);
 					break;
 				default:
 					break;

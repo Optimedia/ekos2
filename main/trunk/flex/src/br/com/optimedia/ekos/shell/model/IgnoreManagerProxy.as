@@ -8,6 +8,7 @@ package br.com.optimedia.ekos.shell.model
 	import mx.rpc.events.ResultEvent;
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import mx.rpc.Responder;
+	import flash.sampler.getInvocationCount;
 
 	public class IgnoreManagerProxy extends Proxy
 	{
@@ -38,6 +39,14 @@ package br.com.optimedia.ekos.shell.model
 		}
 		private function addIgnoreResult(event:ResultEvent):void {
 			if(event.result == true) sendNotification( NotificationConstants.ADD_IGNORE_OK, event.result );
+		}
+		
+		public function removeIgnore(userID:uint):void {
+			var asynkToken:AsyncToken = remoteService.removeIgnore(userID);
+			asynkToken.addResponder( new Responder(removeIgnoreIgnoreResult, generalFault) );
+		}
+		private function removeIgnoreIgnoreResult(event:ResultEvent):void {
+			if(event.result == true) sendNotification( NotificationConstants.REMOVE_IGNORE_OK, event.result );
 		}
 	}
 }

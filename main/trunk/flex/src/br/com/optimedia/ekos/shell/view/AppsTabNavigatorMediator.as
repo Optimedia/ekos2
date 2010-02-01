@@ -1,27 +1,25 @@
 package br.com.optimedia.ekos.shell.view
 {
-	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
-	import br.com.optimedia.ekos.shell.model.SsoConnectProxy;
+	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.AppsTabNavigator;
+	import br.com.optimedia.ekos.shell.view.component.EditProfile;
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
 	
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	
-	import mx.events.FlexEvent;
 	import mx.events.IndexChangedEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
+	import br.com.optimedia.ekos.shell.view.component.MailBoxView;
+	import br.com.optimedia.ekos.shell.model.MessageManagerProxy;
 
 	public class AppsTabNavigatorMediator extends Mediator
 	{
 		public static const NAME:String = 'AppsTabNavigatorMediator';
 		
-		private var friendManagerProxy:FriendManagerProxy;
+		//private var friendManagerProxy:FriendManagerProxy;
 		private var profileManagerProxy:ProfileManagerProxy;
+		private var messageManagerProxy:MessageManagerProxy;
 		
 		public function AppsTabNavigatorMediator(viewComponent:Object=null)
 		{
@@ -31,8 +29,9 @@ package br.com.optimedia.ekos.shell.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
+			//friendManagerProxy = facade.retrieveProxy( FriendManagerProxy.NAME ) as FriendManagerProxy;
 			profileManagerProxy = facade.retrieveProxy( ProfileManagerProxy.NAME ) as ProfileManagerProxy;
+			messageManagerProxy = facade.retrieveProxy( MessageManagerProxy.NAME ) as MessageManagerProxy;
 			
 			view.addEventListener(IndexChangedEvent.CHANGE, onSelectedItemChange);
 		}
@@ -66,7 +65,9 @@ package br.com.optimedia.ekos.shell.view
 		}
 		
 		private function onSelectedItemChange(event:IndexChangedEvent):void {
+			if(view.selectedChild is EditProfile) profileManagerProxy.getProfile();
 			if(view.selectedChild is FriendsView) profileManagerProxy.getAllFriends();
+			if(view.selectedChild is MailBoxView) messageManagerProxy.getAllMessages();
 		}
 		
 		/* private function onSearchBtnClick(event:Event):void {

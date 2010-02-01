@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
 	width="700" height="320" showCloseButton="true"
-	creationComplete="init()" title="Menssagem privada" xmlns:component="br.com.optimedia.ekos.shell.view.component.*">
+	creationComplete="init()" title="Menssagem privada" xmlns:component="br.com.optimedia.ekos.shell.view.component.*" xmlns:generalcomponents="br.com.optimedia.assets.generalcomponents.*">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.Text;
+			import mx.containers.HBox;
+			import mx.events.CollectionEvent;
+			import mx.controls.HorizontalList;
 			import mx.managers.DragManager;
 			import mx.events.DragEvent;
 			import mx.collections.ArrayCollection;
@@ -18,15 +22,30 @@
 			public var receiverUserVO:CompleteUserVO;
 			
 			[Bindable]
-			public var receiversArray:Array = [];
+			public var receiversArrayCollection:ArrayCollection = new ArrayCollection();
 			
+			private var _allFriendsArrayCollection:ArrayCollection = new ArrayCollection();
 			[Bindable]
-			public var allFriendsArrayCollection:ArrayCollection;
+			public function get allFriendsArrayCollection():ArrayCollection {
+				return _allFriendsArrayCollection;
+			}
+			public function set allFriendsArrayCollection(value:ArrayCollection):void {
+				_allFriendsArrayCollection = value;
+				if(receiverUserVO && receiversArrayCollection.getItemIndex(receiverUserVO) == -1) {
+					//adiciona o receiverUserVO à lista de destinatários e remove da lista de amigos
+					for each(var user:CompleteUserVO in allFriendsArrayCollection) {
+						if(user.account_id == receiverUserVO.account_id) receiversArrayCollection.addItem(user);
+					}
+					//se não estiver na lista de amigos, adiciona na lista de destinatários
+					if(receiversArrayCollection.length == 0) receiversArrayCollection.addItem(receiverUserVO);
+				}
+				applyFilters(null);
+			}
+			
 			
 			private function init():void {
 				facade.startup( this );
-				if(receiverUserVO) receiversArray.push(receiverUserVO);
-				updateTextInputText();
+				receiversArrayCollection.addEventListener(CollectionEvent.COLLECTION_CHANGE, applyFilters);
 			}
 			
 			public function removePopup():void {
@@ -34,18 +53,10 @@
 				System.gc();
 			}
 			
-			private function updateTextInputText():void {
-				var result:String = "";
-				for each( var user:CompleteUserVO in receiversArray ) {
-					result = result + user.first_name + ' ' + user.last_name + ', ';
-				}
-				toTextInput.text = result;
-			}
-			
 			private function dragEnterHandler(event:DragEvent):void
             {
             	if (event.dragSource.hasFormat("items"))
-            	DragManager.acceptDragDrop(TextInput(event.currentTarget));	
+            	DragManager.acceptDragDrop(TileList(event.currentTarget));	
             }
             private function dragOverHandler(event:DragEvent):void
             {
@@ -54,44 +65,98 @@
             }
             private function dragDropHandler(event:DragEvent):void
             {
-          		//event.preventDefault();
+          		event.preventDefault();
           		var itemsArray:Array = event.dragSource.dataForFormat("items") as Array;
-          		//var user:CompleteUserVO = itemsArray[0];
-                //TextInput(event.currentTarget).text = user.first_name + " " + user.last_name + ", ";
-                receiversArray.push(itemsArray[0]);
-                updateTextInputText();
+                receiversArrayCollection.addItem(itemsArray[0]);
+                //createReceiverItems();
+            }
+            
+            public function applyFilters(event:Event):void {
                 allFriendsArrayCollection.filterFunction = allFriendsFilterFunction;
                 allFriendsArrayCollection.refresh();
             }
 			
 			private function allFriendsFilterFunction(item:Object):Boolean {
 				var result:Boolean = true;
-				for each(var user:CompleteUserVO in receiversArray) {
+				for each(var user:CompleteUserVO in receiversArrayCollection) {
 					if(item is CompleteUserVO && item == user) result = false;
 				}
 				return result;
 			}
 			
+			private function showCanvas(event:Event):void {
+				event.stopPropagation();
+				if(this.currentState == "chooseFriends") this.currentState="";
+			}
+			
+			private function hideCanvas(event:Event):void {
+				event.stopPropagation();
+				if(this.currentState != "chooseFriends") this.currentState="chooseFriends";
+			}
+			
+			private function killEvent(event:Event):void {
+				event.stopPropagation();
+			}
+			
+ 			public function removeReceiver(user:CompleteUserVO):void {
+				receiversArrayCollection.removeItemAt(receiversArrayCollection.getItemIndex(user));
+			}
+			
+			/* private function createReceiverItems():void {
+				receiversHBox.removeAllChildren();
+				for each(var user:CompleteUserVO in receiversArrayCollection) {
+					var btn:Button = new Button();
+					btn.label = "remover";
+					btn.addEventListener(MouseEvent.CLICK, removeReceiver);
+					var text:Text = new Text();
+					text.text = user.first_name + " " + user.last_name + ", ";
+					var hbox:HBox = new HBox();
+					hbox.data = user;
+					hbox.addChild(btn);
+					hbox.addChild(text);
+					receiversHBox.addChild(hbox);
+				}
+			} */
 		]]>
 	</mx:Script>
 	
-	<mx:Form width="100%">
-		<mx:FormItem label="Para" width="100%">
-			<mx:TextInput id="toTextInput" width="100%" editable="false"
-							dragEnter="dragEnterHandler(event);" 
-							dragOver="dragOverHandler(event);"
-							dragDrop="dragDropHandler(event);"/>
-		</mx:FormItem>
-		<mx:FormItem label="Título" width="45%">
-			<mx:TextInput id="subjectTextInput" width="100%"/>
-		</mx:FormItem>
-		<mx:FormItem label="Menssagem" width="45%">
-			<mx:TextArea id="messageTextArea" width="100%" height="150"/>
-		</mx:FormItem>
-	</mx:Form>
+	<mx:states>
+		<mx:State name="chooseFriends">
+			<mx:SetProperty target="{canvas}" name="includeInLayout" value="false"/>
+			<mx:SetProperty target="{canvas}" name="visible" value="false"/>
+		</mx:State>
+	</mx:states>
+	
+	<mx:Text text="Para" x="52" y="13"/>
+	<!--<mx:HBox id="receiversHBox" width="580" height="24" x="90" y="10" borderStyle="solid"
+			dragDrop="dragDropHandler(event)" dragEnter="dragEnterHandler(event)" dragOver="dragOverHandler(event)">
+		
+	</mx:HBox>-->
+	<mx:TileList width="580" height="24" direction="horizontal" x="90" y="10"
+			borderStyle="solid" dataProvider="{receiversArrayCollection}" dragEnabled="true"
+			dragDrop="dragDropHandler(event)" dragEnter="dragEnterHandler(event)" dragOver="dragOverHandler(event)"
+			columnWidth="130" selectable="false">
+		<mx:itemRenderer>
+		<mx:Component>
+			<mx:HBox horizontalScrollPolicy="off" backgroundAlpha="0.5" backgroundColor="#666666" horizontalGap="0"
+					paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" verticalAlign="middle">
+				<mx:Button label="X" width="15" height="15" click="parentDocument.removeReceiver(data)"
+					paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"/>
+				<mx:Text text="{data.first_name} {data.last_name},"
+					paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"/>
+			</mx:HBox>
+		</mx:Component>
+		</mx:itemRenderer>
+	</mx:TileList>
+	<mx:Text text="Título" y="45" x="46"/>
+	<mx:TextInput id="subjectTextInput" y="43" x="90" width="242"/>
+	<mx:Text text="Menssagem" y="74" x="10"/>
+	<mx:TextArea id="messageTextArea" y="73" x="90" width="242" height="167"/>
 	
 	<mx:TileList id="tileList" width="50%" height="85%" dataProvider="{allFriendsArrayCollection}" selectable="true"
-				backgroundColor="#111111" right="0" bottom="0" dragEnabled="true">
+				backgroundColor="#111111" right="0" bottom="0" dragEnabled="true" dropEnabled="true"
+				dragOver="hideCanvas(event)"
+				mouseOver="hideCanvas(event)" itemRollOver="hideCanvas(event)" mouseOut="showCanvas(event)">
 		<mx:itemRenderer>
 		<mx:Component>
 			<component:AvatarBox completeUserVO="{data as CompleteUserVO}" paddingRight="5" paddingLeft="5" currentState="{AvatarBox.SELECT_VIEW_STATE}"
@@ -111,5 +176,10 @@
 		<mx:Spacer width="100%"/>
 		<mx:Button id="sendBtn" label="Enviar"/>
 	</mx:HBox>
+		
+	<mx:Canvas id="canvas" backgroundColor="#ffffff" backgroundAlpha="0.2" width="50%" height="85%" right="0" bottom="0"
+		mouseOver="hideCanvas(event)" >
+		<mx:Button label="Arraste os usuários" horizontalCenter="0" verticalCenter="0" cornerRadius="20"/>
+	</mx:Canvas>
 	
 </mx:TitleWindow>

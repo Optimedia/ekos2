@@ -35,6 +35,7 @@ package br.com.optimedia.ekos.shell.view
 			view.addFriendBtn.addEventListener(MouseEvent.CLICK, addFriendBtnClick);
 			view.removeFriendBtn.addEventListener(MouseEvent.CLICK, removeFriendBtnClick);
 			view.ignoreUserBtn.addEventListener(MouseEvent.CLICK, ignoreUser);
+			view.removeFromIgnoreBtn.addEventListener(MouseEvent.CLICK, removeIgnoreClick);
 
 		}
 		
@@ -75,6 +76,10 @@ package br.com.optimedia.ekos.shell.view
 		
 		private function ignoreUser(event:MouseEvent):void {
 			ignoreManagerProxy.addIgnore( view.completeUserVO.account_id );
+		}
+		
+		private function removeIgnoreClick(event:MouseEvent):void {
+			ignoreManagerProxy.removeIgnore( view.completeUserVO.account_id );
 		}
 	}
 }
