@@ -64,7 +64,16 @@
 			
 			while($completeUser = mysql_fetch_object($result, "CompleteUserVO")) {
 				if($completeUser->account_id != $_SESSION['account_id']) {
-					$arrayCompleteUser[] = $completeUser;
+					
+					// verificar se o usuario está ignorado
+					// $completeUser -> account_id login do CompleteUserVO;
+					$sql = "SELECT profile_id_you FROM eko_ignore WHERE profile_id_i=".$_SESSION['account_id']." AND profile_id_you=".$completeUser->account_id;
+					$result = parent::doSelect($sql);					
+					
+					if(mysql_num_rows($result) == 0) {
+						$arrayCompleteUser[] = $completeUser;
+					}
+					
 				}
 			}
 			
