@@ -43,6 +43,11 @@ package br.com.optimedia.ekos.shell.model
 			sendNotification( NotificationConstants.SEND_PRIVATE_MESSAGE_OK, event.result );
 		}
 		
+		public function getAllMessages():void {
+			getInBoxMessages();
+			getOutBoxMessages();
+		}
+		
 		public function getInBoxMessages():void {
 			var asynkToken:AsyncToken = remoteService.getInBoxMessages();
 			asynkToken.addResponder( new Responder(getInBoxMessagesResult, generalFault) );

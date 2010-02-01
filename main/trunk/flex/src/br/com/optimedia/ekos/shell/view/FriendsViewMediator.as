@@ -2,6 +2,8 @@ package br.com.optimedia.ekos.shell.view
 {
 	import br.com.optimedia.assets.constants.NotificationConstants;
 	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
+	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
+	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
 	
 	import flash.events.Event;
@@ -13,8 +15,6 @@ package br.com.optimedia.ekos.shell.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
-	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 
 	public class FriendsViewMediator extends Mediator
 	{
@@ -58,7 +58,9 @@ package br.com.optimedia.ekos.shell.view
 					NotificationConstants.GET_ALL_FRIENDS_RESULT,
 					NotificationConstants.FIND_FRIEND_RESULT_ARRAY,
 					NotificationConstants.REMOVE_FRIEND_OK,
-					NotificationConstants.GET_ALL_IGNORES];
+					NotificationConstants.GET_ALL_IGNORES,
+					NotificationConstants.ADD_IGNORE_OK,
+					NotificationConstants.REMOVE_IGNORE_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -86,6 +88,10 @@ package br.com.optimedia.ekos.shell.view
 				case NotificationConstants.ADD_IGNORE_OK:
 					Alert.show("O usuário foi ignorado com sucesso", "OK!");
 					profileManagerProxy.getAllFriends();
+					break;
+				case NotificationConstants.REMOVE_IGNORE_OK:
+					Alert.show("O usuário não será mais ignorado", "OK!");
+					profileManagerProxy.getAllIgnores();
 					break;
 				default:
 					break;

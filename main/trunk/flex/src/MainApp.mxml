@@ -72,7 +72,9 @@
 					<mx:ButtonBar width="100%" />
 					<mx:Button id="logoutBtn" label="Sair" />
 				</mx:HBox>
-				<component:AppsTabNavigator id="appsTabNavigator" />
+				
+				<component:AppsTabNavigator id="appsTabNavigator"/>
+				
 			</mx:VBox>
 		</mx:HBox>
 		<!--/Cockpit-->
