@@ -42,5 +42,3 @@
 		public $_explicitType = "br.com.optimedia.assets.vo.CompleteUserVO";
 		
 	}
-	
-?>
