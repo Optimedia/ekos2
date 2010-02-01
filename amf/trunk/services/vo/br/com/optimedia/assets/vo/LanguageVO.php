@@ -2,7 +2,7 @@
 
 	class LanguageVO {
 		
-		public $language;
+		public $detail_language_option_id;
 		public $speech;
 		public $writing;
 		public $reading;
