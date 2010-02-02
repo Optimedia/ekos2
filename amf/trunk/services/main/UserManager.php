@@ -123,7 +123,7 @@
 			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois el� a refer�ncia para os IDs das outras tabelas.
 			
 			//*
-			$handler_names = array ('Account', 'Profile', 'User', 'Address', 'Education', 'Language');
+			$handler_names = array ('Account', 'Profile', 'User', 'Address'); //, 'Education', 'Language'
 			
 			$error = 0;
 			
