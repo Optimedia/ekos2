@@ -38,7 +38,15 @@
 			$arrayCompleteUser = array();
 			
 			while($completeUser = mysql_fetch_object($result, "CompleteUserVO")) {
-				$arrayCompleteUser[] = $completeUser;
+				
+				// verificar se o usuario está ignorado
+				// $completeUser -> account_id login do CompleteUserVO;
+				$sqlIgnore = "SELECT profile_id_you FROM eko_ignore WHERE profile_id_i=".$_SESSION['account_id']." AND profile_id_you=".$completeUser->account_id;
+				$resultIgnore = parent::doSelect($sqlIgnore);					
+				
+				if(mysql_num_rows($resultIgnore) == 0) {
+					$arrayCompleteUser[] = $completeUser;
+				}
 			}
 			
 			return $arrayCompleteUser;
@@ -67,10 +75,10 @@
 					
 					// verificar se o usuario está ignorado
 					// $completeUser -> account_id login do CompleteUserVO;
-					$sql = "SELECT profile_id_you FROM eko_ignore WHERE profile_id_i=".$_SESSION['account_id']." AND profile_id_you=".$completeUser->account_id;
-					$result = parent::doSelect($sql);					
+					$sqlIgnore = "SELECT profile_id_you FROM eko_ignore WHERE profile_id_i=".$_SESSION['account_id']." AND profile_id_you=".$completeUser->account_id;
+					$resultIgnore = parent::doSelect($sqlIgnore);					
 					
-					if(mysql_num_rows($result) == 0) {
+					if(mysql_num_rows($resultIgnore) == 0) {
 						$arrayCompleteUser[] = $completeUser;
 					}
 					
