@@ -2,6 +2,9 @@
 	
 	require_once "AddressVO.php";
 	require_once "EducationVO.php";
+	require_once "ProfessionVO.php";
+	require_once "LanguageVO.php";
+	
 	
 	/**
 	 * Classe que re�ne todos os dados do usu�rio no ekos.
