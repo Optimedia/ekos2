@@ -66,7 +66,7 @@
 		 * @param uint
 		 * @param uint
 		 */
-		public function removeIgnore($i, $you) {
+		public function removeIgnore($you) {
 			$where = "profile_id_i=".$_SESSION['account_id']." AND profile_id_you=$you";
 			
 			return parent::doDelete($where, $this -> _table);
