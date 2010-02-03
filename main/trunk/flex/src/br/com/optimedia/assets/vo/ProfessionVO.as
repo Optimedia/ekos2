@@ -1,6 +1,6 @@
 package br.com.optimedia.assets.vo
 {
-	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.ProfessionalVO")]
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.ProfessionVO")]
 	
 	// PROFESSIONAL DETAILS
 	public class ProfessionVO
