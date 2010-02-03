@@ -146,8 +146,14 @@
 				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset" tabChildren="true">
 					<mx:Script>
 						<![CDATA[
+							import br.com.optimedia.assets.vo.EducationVO;
 							import mx.managers.FocusManager;
 							import mx.collections.ArrayCollection;
+							
+							private var educationStatus:ArrayCollection = new ArrayCollection ([
+																			{value:1, name:"Concluído"},
+																			{value:2, name:"Não comcluído"}
+																			]);
 							
 							private function moveItemToTop(item:Object):void {
 								var fromIndex:int = ArrayCollection(parentDocument.educationArray).getItemIndex(item);
@@ -188,7 +194,7 @@
 					<mx:Form>
 						<mx:FormItem label="Nível">
 							<mx:ComboBox id="levelComboBox" dataProvider="{parentDocument.educationLevelsAC}" labelField="name"
-										prompt="Escolha" tabIndex="6"/>
+										prompt="Escolha" tabIndex="6" change="data.detail_education_level_id = levelComboBox.selectedItem.detail_education_level_id"/>
 						</mx:FormItem>
 						<mx:FormItem label="Instituição">
 							<mx:TextInput id="institutionTextInput" text="{data.institution}" change="data.institution=institutionTextInput.text" tabIndex="15"/>
@@ -197,7 +203,7 @@
 							<mx:TextInput id="conclusionTextInput" text="{data.year}" change="data.year=conclusionTextInput.text" tabIndex="16"/>
 						</mx:FormItem>
 						<mx:FormItem label="Situação">
-							<mx:ComboBox id="statusComboBox"  tabIndex="3"/>
+							<mx:ComboBox id="statusComboBox" dataProvider="{educationStatus}" labelField="name" prompt=" " change="data.status = statusComboBox.selectedItem.value"/>
 						</mx:FormItem>
 						<mx:FormItem label="Curso">
 							<mx:TextInput id="courseTextInput" text="{data.course}" change="data.course=courseTextInput.text" tabIndex="4"/>
@@ -405,14 +411,29 @@
 				<mx:VBox width="100%" horizontalAlign="center" borderStyle="outset">
 					<mx:Script>
 						<![CDATA[
+							import br.com.optimedia.assets.vo.LanguageVO;
 							import mx.collections.ArrayCollection;
 							
-							private var levels:Array = ["Muito bom", "Bom", "Normal", "Ruim", "Muito ruim"];
+							private var levels:ArrayCollection = new ArrayCollection ([
+																	{value:1, name:"Muito Ruim"},
+																	{value:2, name:"Ruim"},
+																	{value:3, name:"Mediano"},
+																	{value:4, name:"Bom"},
+																	{value:5, name:"Muito bom"}
+																	]);
 							
 							private function onLanguageSelection():void {
+								data.detail_language_option_id = languageComboBox.selectedItem.detail_language_option_id;
 								speechComboBox.selectedIndex = 2;
 								writingComboBox.selectedIndex = 2;
 								readingComboBox.selectedIndex = 2;
+								setLanguageLevel();
+							}
+							
+							private function setLanguageLevel():void {
+								data.speech = speechComboBox.selectedItem.value;
+								data.reading = readingComboBox.selectedItem.value;
+								data.writing = writingComboBox.selectedItem.value;
 							}
 							
 							private function moveItemToTop(item:Object):void {
@@ -450,19 +471,20 @@
 							}
 						]]>
 					</mx:Script>
+					
 					<mx:Form>
 						<mx:FormItem label="Lingua">
 							<mx:ComboBox id="languageComboBox" dataProvider="{parentDocument.languagesAC}"
-									change="onLanguageSelection()" prompt="Escolha" labelField="name" tabIndex="1"/>
+									change="onLanguageSelection()" prompt="Escolha" labelField="name" />
 						</mx:FormItem>
 						<mx:FormItem label="Fala">
-							<mx:ComboBox id="speechComboBox" dataProvider="{levels}" prompt=" " tabIndex="2"/>
+							<mx:ComboBox id="speechComboBox" dataProvider="{levels}" labelField="name" prompt=" " change="setLanguageLevel()"/>
 						</mx:FormItem>
 						<mx:FormItem label="Escrita">
-							<mx:ComboBox id="writingComboBox" dataProvider="{levels}" prompt=" " tabIndex="3"/>
+							<mx:ComboBox id="writingComboBox" dataProvider="{levels}" labelField="name" prompt=" " change="setLanguageLevel()"/>
 						</mx:FormItem>
 						<mx:FormItem label="Leitura">
-							<mx:ComboBox id="readingComboBox" dataProvider="{levels}" prompt=" " tabIndex="4"/>
+							<mx:ComboBox id="readingComboBox" dataProvider="{levels}" labelField="name" prompt=" " change="setLanguageLevel()"/>
 						</mx:FormItem>
 					</mx:Form>
 					<mx:HBox width="100%" horizontalGap="0" paddingRight="5">

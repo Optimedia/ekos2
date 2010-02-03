@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TabNavigator xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
-				styleName="appsTabNavigator" creationPolicy="all"
+				styleName="appsTabNavigator"
 				paddingTop="10" paddingLeft="10" paddingBottom="10" paddingRight="10"
 				xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
 				creationComplete="init()">

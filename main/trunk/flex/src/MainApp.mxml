@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-				layout="horizontal" height="100%" width="100%"
+				layout="vertical" height="100%" width="100%" paddingRight="5"
 				xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
 				initialize="preInit()" creationComplete="init()"
 				horizontalScrollPolicy="off" verticalScrollPolicy="off"
@@ -17,6 +17,8 @@
 			
 			[Bindable]
 			public var completeUserVO:CompleteUserVO = new CompleteUserVO();
+			[Bindable]
+			public var userCompleteUserVO:CompleteUserVO = new CompleteUserVO();
 			
 			private function preInit():void {
 				facade.startup( "model" );
@@ -34,7 +36,6 @@
 			}
 			
 			public function showCockpit():void {
-				//myAvatar.completeUserVO = completeUserVO;
 				this.visible = true;
 			}
 			
@@ -45,13 +46,16 @@
 	
 	<mx:Fade id="fadeEffect"/>
 	
+	<mx:HBox width="100%" height="32" verticalAlign="middle" backgroundColor="#888888" >
+		<mx:ButtonBar width="100%" />
+		<mx:Button id="logoutBtn" label="Sair" />
+	</mx:HBox>
+	
 	<mx:ViewStack id="mainViewStack" width="100%" height="100%">
 		<!--Cockpit-->
-		<mx:HBox width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		<mx:HBox width="100%" height="100%" verticalScrollPolicy="auto" horizontalScrollPolicy="off">
 			<mx:VBox id="letfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
-				<mx:Image maxWidth="180" height="32"/>
 				
-				<!--<component:AvatarBox id="myAvatar" width="180" currentState="myProfileAvatar"/>-->
 				<mx:Panel id="avatarPanel" styleName="avatarPanel" width="180" horizontalAlign="center">
 					<mx:Image id="avatarImage" source="{completeUserVO.small_avatar}" maxHeight="100" maxWidth="100"/>
 					<mx:Text id="completeName" text="{completeUserVO.first_name + ' ' + completeUserVO.last_name}" />
@@ -67,17 +71,42 @@
 				</mx:Panel>
 			</mx:VBox>
 			
-			<mx:VBox id="mainColumn" width="100%" height="100%" backgroundColor="#555555">
+			<!--<mx:VBox id="mainColumn" width="100%" height="100%" backgroundColor="#555555">
 				<mx:HBox width="100%" height="32" verticalAlign="middle" backgroundColor="#888888" >
 					<mx:ButtonBar width="100%" />
 					<mx:Button id="logoutBtn" label="Sair" />
-				</mx:HBox>
+				</mx:HBox>-->
 				
 				<component:AppsTabNavigator id="appsTabNavigator"/>
 				
-			</mx:VBox>
+			<!--</mx:VBox>-->
 		</mx:HBox>
 		<!--/Cockpit-->
+		
+		<!--User Profile View-->
+		<mx:HBox width="100%" height="100%" verticalScrollPolicy="auto" horizontalScrollPolicy="off">
+			<mx:VBox id="userLetfColumn" width="180" height="100%" horizontalAlign="center" paddingLeft="0" paddingRight="0">
+				<mx:Image maxWidth="180" height="32"/>
+				
+				<mx:Panel id="userAvatarPanel" styleName="avatarPanel" width="180" horizontalAlign="center">
+					<mx:Image id="userAvatarImage" source="{userCompleteUserVO.small_avatar}" maxHeight="100" maxWidth="100"/>
+					<mx:Text id="userCompleteName" text="{userCompleteUserVO.first_name + ' ' + userCompleteUserVO.last_name}" />
+					<mx:Text id="userNickName" text="{userCompleteUserVO.nickname}" />
+				</mx:Panel>
+		
+				<mx:Panel id="userAppPanel" styleName="appPanel" title="Aplicações do camarada" width="100%" height="150">
+		
+				</mx:Panel>
+				<mx:Panel id="userContactsPanel" styleName="contactsPanel" width="100%" minHeight="224"
+					title="Contatos do camarada">
+					<mx:ControlBar />
+				</mx:Panel>
+			</mx:VBox>
+			
+			<component:AppsTabNavigator id="userAppsTabNavigator"/>
+				
+		</mx:HBox>
+		<!--/User Profile View-->
 	</mx:ViewStack>
 	
 </mx:Application>
