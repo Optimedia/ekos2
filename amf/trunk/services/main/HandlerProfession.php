@@ -3,11 +3,11 @@
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 	
-	class HandlerAddress extends SqlManager {
+	class HandlerProfession extends SqlManager {
 		
-		private $_table = "eko_detail_address";
+		private $_table = "eko_detail_language";
 		
-		public function HandlerAddress() {
+		public function HandlerProfession() {
 			$host = "10.1.1.10";
 			$user = "opti";
 			$pass = "opti";
@@ -39,7 +39,6 @@
 			
 		}
 		
-		
 		/**
 		 * Fun��o para atualizar um cadastro na tabela 'eko_profile'
 		 * 
@@ -49,22 +48,22 @@
 		 */
 		public function doUpdate(CompleteUserVO $value) {
 			
-			$address = new AddressVO();
-			$addressArray = $value -> addressArray;
+			$profession = new ProfessionVO();
+			$professionArray = $value -> professionArray;
 
-			foreach($addressArray as $address) {
-				$addressFinalArray = array ('profile_id' => $_SESSION['account_id'],
-									   		'detail_address_type_id' => $address -> detail_address_type_id,
-									   		'country_name' => $address -> country_name,
-									   		'state_name' => $address -> state_name,
-									   		'city_name' => $address -> city_name,
-							    	   		'town_name' => $address -> town_name,
-									   		'address_part1' => $address -> address_part1,
-									   		'address_part2' => $address -> address_part2,
-									   		'zipcode' => $address -> zipcode);
+			foreach($professionArray as $profession) {
+				$professionFinalArray = array ('profile_id' => $_SESSION['account_id'],
+									   		   'company' => $profession -> company,
+									   		   'position' => $profession -> position,
+									   		   'description' => $profession -> description,
+									   		   'country_name' => $profession -> country_name,
+									   		   'state_name' => $profession -> state_name,
+									   		   'city_name' => $profession -> city_name,
+									   		   'begin_date' => $profession -> begin_date,
+									   		   'end_date' => $profession -> end_date);
 				
 				// Verificando se já está cadastrado.
-				$condition = "profile_id=".$_SESSION['account_id']." AND detail_address_type_id=".$address -> detail_address_type_id;
+				$condition = "profile_id=".$_SESSION['account_id']." AND detail_professional_id=".$profession -> detail_professional_id;
 				
 				$sqlCheck = "SELECT * FROM ". $this -> _table ." WHERE ".$condition;
 				$resultCheck = parent::doSelect($sqlCheck);
@@ -76,7 +75,7 @@
 				}
 				
 				if($resultDelete) {
-					$resultUpdate = parent::doInsert($addressFinalArray, $this -> _table);
+					$resultUpdate = parent::doInsert($professionFinalArray, $this -> _table);
 				}
 				
 			}
