@@ -35,7 +35,13 @@
 			$sql = "SELECT * FROM ".$this -> _table." WHERE profile_id="$_SESSION['account_id'];
 			$result = parent::doSelect($sql);
 			
-			return $result;
+			$arrayEducation = array();
+			
+			while($education = mysql_fetch_object($result, "EducationVO")) {
+				$arrayEducation[] = $education;
+			}
+			
+			return $arrayEducation;
 			
 		}
 		
