@@ -1,26 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" showCloseButton="true" title="Novo Amigo" implements="br.com.optimedia.xmppfc.view.api.components.ISubscriptionView">
-
-
-	<mx:Label text="Label" width="100%" textAlign="center" fontWeight="bold"/>
-	<mx:Form width="100%" height="100%">
-		<mx:FormItem width="100%">
-			<mx:CheckBox label="adicionar a lista de amigos"/>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	showCloseButton="true" 
+	title="Novo Amigo" 
+	implements="br.com.optimedia.xmppfc.view.api.components.ISubscriptionView">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import org.jivesoftware.xiff.im.Roster;
+			import mx.controls.Alert;
+			import org.jivesoftware.xiff.core.JID;
+			
+			public var jid:JID;
+			
+			public function setJID(jid:JID): void {
+				this.jid = jid;
+				var txt:* = ""+jid as String;
+				var results:Array = txt.split("@");
+				this.lblName.text = "Voce deseja ser amigo de "+results[0] +"?";
+				this.lblEndereco.text = txt;
+				this.btAccept.data = this;
+				this.btDeny.data = this;
+			}
+			
+			public function getJID():JID {
+				return jid;
+			}
+			public function jidExists (jid:JID):void {
+				this.jid = jid;
+				var txt:* = ""+jid as String;
+				var results:Array = txt.split("@");
+				this.lblName.text = "Voce deseja adicionar " +results[0] +" a sua lista de amigos ?";
+				
+				this.formIntens.visible=false;
+				this.formIntens.height=0;
+			}
+			public function close ():void {
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</mx:Script>
+	<mx:Label id="lblName" text="Label" width="100%" textAlign="center" fontWeight="bold"/>
+	<mx:Form  id="formIntens" width="100%" height="100%">
+		<mx:FormItem id="formCheckBox" width="100%">
+			<mx:CheckBox id="addListaCheckBox" label="adicionar a lista de amigos" selected="true"/>
 		</mx:FormItem>
-		<mx:FormItem label="Enderço:" width="100%">
-			<mx:Label text="Label" width="100%"/>
+		<mx:FormItem id="formEnd" label="Enderço:" width="100%">
+			<mx:Label id="lblEndereco" text="" width="100%"/>
 		</mx:FormItem>
-		<mx:FormItem label="Nick name:" width="100%">
-			<mx:TextInput width="100%"/>
+		<mx:FormItem id="formNick" label="Nick name:" width="100%">
+			<mx:TextInput id="nicknameTextInput" width="100%"/>
 		</mx:FormItem>
-		<mx:FormItem label="Grupos:">
-			<mx:ComboBox id="listGrup"></mx:ComboBox>
+		<mx:FormItem id="formList" label="Grupos:">
+			<mx:ComboBox id="listGrupComboBox"></mx:ComboBox>
 		</mx:FormItem>
 
 	</mx:Form>
-<mx:HBox width="100%" horizontalAlign="right">
-	<mx:Button label="Negar" id="btDeny"/>
-	<mx:Button label="aceitar" id="btAccept"/>
-</mx:HBox>	
+	<mx:HBox width="100%" horizontalAlign="right">
+		<mx:Button label="Negar" id="btDeny" click="close()"/>
+		<mx:Button label="aceitar" id="btAccept" click="close()"/>
+	</mx:HBox>	
 </mx:TitleWindow>
 
