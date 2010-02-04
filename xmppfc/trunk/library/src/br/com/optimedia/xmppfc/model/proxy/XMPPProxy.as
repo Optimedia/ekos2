@@ -62,8 +62,8 @@
 			roster.addEventListener(RosterEvent.SUBSCRIPTION_DENIAL, 		subscriptionDenial);
 			roster.addEventListener(RosterEvent.SUBSCRIPTION_REQUEST, 		subscriptionRequest);
 			roster.addEventListener(RosterEvent.SUBSCRIPTION_REVOCATION, 	subscriptionRevocation);
-			//roster.addEventListener(RosterEvent.USER_AVAILABLE, 			rosterHandler);
-			//roster.addEventListener(RosterEvent.USER_UNAVAILABLE, 			rosterHandler);
+			//	roster.addEventListener(RosterEvent.USER_AVAILABLE, 			userAvailable);
+			//	roster.addEventListener(RosterEvent.USER_UNAVAILABLE, 			userUnavailable);
 			
 			// Add event listeners related to presence
 			//xmppSocketConnection.addEventListener(PresenceEvent.PRESENCE, presenceHandler);
@@ -168,15 +168,42 @@
 		public function removeContact(vo:RosterItemVO):void {
 			roster.removeContact(vo);
 		}
+		public function grantSubscription(jid:JID):void {
+			roster.grantSubscription(jid);
+		}
+		public function denySubscription(jid:JID):void {
+			roster.denySubscription(jid);
+		}
+		
+		
 		public function subscriptionDenial(event:RosterEvent):void {
+			sendNotification(XmppfcFacade.SUBSCRIPTION_DENIAL, event.jid);
 			
 		}		
 		public function subscriptionRequest(event:RosterEvent):void {
-			sendNotification(XmppfcFacade.SUBSCRIPTION_REQUEST, event.data);
+			sendNotification(XmppfcFacade.SUBSCRIPTION_REQUEST, event.jid);
 			
 		}
 		public function subscriptionRevocation (event:RosterEvent):void {
+			sendNotification(XmppfcFacade.SUBSCRIPTION_REVOCATION, event.data);
 			
 		}
+		public function jidExists (jid:JID):Boolean{
+			//return true;
+			return roster.contains(RosterItemVO.get(jid, false));
+		}
+		/*
+		public function invite(event:InviteEvent):void {
+			Alert.show("teste invide");
+		}
+		
+		public function userAvailable(event:RosterEvent):void {
+			sendNotification(XmppfcFacade.USER_AVAILABLE, event.jid);	
+		}
+		public function userUnavailable(event:RosterEvent):void {
+			sendNotification(XmppfcFacade.USER_UNAVAILABLE, event.jid);
+			
+		}
+		*/
 	}
 }

@@ -67,8 +67,6 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		public function onStartChat(chatEvent: ChatEvent): void {
 			sendNotification(XmppfcFacade.OPEN_CHAT_WINDOW, chatEvent.getJID());
 		}
-		//public function onAddContactChat(addContato:String): void {
-		//	Alert.show("teste");
-		//}
+
 	}
 }

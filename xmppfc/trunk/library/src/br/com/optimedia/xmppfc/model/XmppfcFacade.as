@@ -9,7 +9,6 @@
 	import org.jivesoftware.xiff.core.JID;
 	import org.jivesoftware.xiff.data.Message;
 	import org.jivesoftware.xiff.data.im.RosterItemVO;
-	import org.jivesoftware.xiff.im.Roster;
 	import org.puremvc.as3.multicore.interfaces.IFacade;
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -37,9 +36,11 @@
 		
 		public static const OPEN_CHAT_WINDOW:String = "open_chat_window";
 		
-		public static const SUBSCRIPTION_DENIAL:String = "subscripyin_denial";
-		public static const SUBSCRIPTION_REQUEST:String = "subscripyin_request";
-		public static const SUBSCRIPTION_REVOCATION:String = "subscripyin_revocation";
+		public static const SUBSCRIPTION_DENIAL:String = "subscription_denial";
+		public static const SUBSCRIPTION_REQUEST:String = "subscription_request";
+		public static const SUBSCRIPTION_REVOCATION:String = "subscription_revocation";
+		public static const USER_AVAILABLE:String = "user_available";
+		public static const USER_UNAVAILABLE:String = "user_unavailable";
 		
 		private static var instanceXmppfcFacade: XmppfcFacade;
 		
@@ -72,7 +73,6 @@
 			/*
 			registerCommand(LOGIN, LoginCommand);
 			registerCommand(LOGOUT, LogoutCommand);
-			
 			registerCommand(SEND_MESSAGE, SendMessageCommand);
 			*/
 		}
@@ -100,11 +100,20 @@
 		}
 		public function addContact (contactTxt: String, nickname: String = null, group: String = null):void {
 			xmppProxy.addContact(contactTxt,nickname,group);
-
 		}
 		public function removeContact (vo:RosterItemVO):void{
 			xmppProxy.removeContact(vo);
 		}
+		public function grantSubscription(jid:JID):void {				
+			xmppProxy.grantSubscription(jid);
+		}
+		public function denySubscription(jid:JID):void {
+			xmppProxy.denySubscription(jid);
+		}
+		public function jidExists(jid:JID):Boolean {
+			return xmppProxy.jidExists(jid);
+		}
+		
 	}
 	
 }

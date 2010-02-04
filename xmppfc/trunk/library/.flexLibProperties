@@ -2,18 +2,28 @@
 <flexLibProperties version="1">
 <includeClasses>
 <classEntry path="br.com.optimedia.xmppfc.events.ChatEvent"/>
-<classEntry path="br.com.optimedia.xmppfc.view.api.mediators.ISubscriptionMediator"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseChatMediator"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseXmppFcMediator"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseLoginMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.events.LoginViewEvent"/>
 <classEntry path="br.com.optimedia.xmppfc.model.proxy.XMPPProxy"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseSubscriptionMediator"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.components.BaseChatView"/>
-<classEntry path="xmppfc"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseRosterMediator"/>
-<classEntry path="br.com.optimedia.xmppfc.view.base.components.BaseLoginView"/>
 <classEntry path="br.com.optimedia.xmppfc.model.XmppfcFacade"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.components.IChatView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.components.ILoginView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.components.IRosterView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.components.ISubscriptionView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.mediators.IChatMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.mediators.ILoginMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.mediators.IRosterMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.mediators.ISubscriptionMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.api.mediators.IXmppFcMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.components.BaseChatView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.components.BaseLoginView"/>
 <classEntry path="br.com.optimedia.xmppfc.view.base.components.BaseRosterView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.components.BaseSubscriptionView"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseChatMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseLoginMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseRosterMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseSubscriptionMediator"/>
+<classEntry path="br.com.optimedia.xmppfc.view.base.mediators.BaseXmppFcMediator"/>
 </includeClasses>
 <includeResources/>
 <namespaceManifests/>

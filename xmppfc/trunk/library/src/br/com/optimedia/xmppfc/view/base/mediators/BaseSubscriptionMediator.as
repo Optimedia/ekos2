@@ -6,10 +6,16 @@ package br.com.optimedia.xmppfc.view.base.mediators
 	import br.com.optimedia.xmppfc.view.base.components.BaseSubscriptionView;
 	
 	import flash.display.DisplayObject;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import mx.controls.Alert;
+	import mx.controls.Button;
+	import mx.events.CloseEvent;
+	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 	
+	import org.jivesoftware.xiff.core.JID;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	
 	public class BaseSubscriptionMediator extends BaseMediator implements ISubscriptionMediator
@@ -24,71 +30,85 @@ package br.com.optimedia.xmppfc.view.base.mediators
 		// overrides
 		override public function listNotificationInterests():Array {
 			return [
-						XmppfcFacade.SUBSCRIPTION_DENIAL,
 						XmppfcFacade.SUBSCRIPTION_REQUEST,
-						XmppfcFacade.SUBSCRIPTION_REVOCATION/*,
-						XmppfcFacade.USER_AVAILABLE,
-						XmppfcFacade.USER_UNAVAILABLE*/
+						XmppfcFacade.SUBSCRIPTION_DENIAL,
+						XmppfcFacade.SUBSCRIPTION_REVOCATION
 					];
 		}
 						
 		override public function handleNotification(note:INotification):void {
 			switch (note.getName()) {
 				case XmppfcFacade.SUBSCRIPTION_DENIAL:
-				
 					subscriptionDenial(note);
 					break;
 				case XmppfcFacade.SUBSCRIPTION_REQUEST:
-					Alert.show("SUBSCRIPTION_REQUEST");
 					subscriptionRequest(note);
 					break;
 				case XmppfcFacade.SUBSCRIPTION_REVOCATION:
 					subscriptionRevocation(note);
 					break;
-/*
+				/*
 				case XmppfcFacade.USER_AVAILABLE:
-					subscriptionAvailable(node);
+				//	userAavailable(note);
 					break;
 				case XmppfcFacade.USER_UNAVAILABLE:
-					subscriptionUnAvailable(node);
+				//	userUnavailable(note);
 					break;
-*/
+				*/
 				default:
 					break;		
 			}
 		}
-		public function subscriptionDenial(note:INotification):void {
-			xmppfcFacade.removeContact(null);
+	
+		public function newSubscriptionView(): ISubscriptionView {
+			var sv:BaseSubscriptionView = new BaseSubscriptionView();
+			sv.addEventListener(FlexEvent.CREATION_COMPLETE, registerEvent);
+			return sv;
 		}
+		public function registerEvent(event:Event):void {
+			(event.target as BaseSubscriptionView).btDeny.addEventListener(MouseEvent.CLICK,userDeny);
+			(event.target as BaseSubscriptionView).btAccept.addEventListener(MouseEvent.CLICK, userAceept);
+			(event.target as BaseSubscriptionView).addEventListener(CloseEvent.CLOSE, close);
+		}
+	
 		public function subscriptionRequest(note:INotification):void  {
-			//Alert.show("notify");
-			newSubscriptionView().visible = true;
-			
-			var subscriptionView:ISubscriptionView = newSubscriptionView();
+			var jid: JID = note.getBody() as JID;
+			var subscriptionView:ISubscriptionView = newSubscriptionView();	
 				
 			PopUpManager.addPopUp(subscriptionView, (viewComponent as DisplayObject), false);
 			PopUpManager.bringToFront(subscriptionView);
 			PopUpManager.centerPopUp(subscriptionView);
-				
-			//subscriptionView.addEventListener(Event.CLOSE, onChatViewClose);
-			//subscriptionView.addEventListener(ChatEvent.SEND_MESSAGE, onSendMessage);
-			//subscriptionView.setJID(jid);
-				
-			// Add the chat view to the associative array
-			//chatViews[jid.toBareJID()] = subscriptionView;
+			            
+			subscriptionView.setJID(jid);		
+			
+			if (xmppfcFacade.jidExists(jid)){
+            	subscriptionView.jidExists(jid);
+           	}
+		}
+		
+		public function subscriptionDenial(note:INotification):void {
+			var jid: JID = note.getBody() as JID;
+			Alert.show(jid+ "Negou se pedido ou \n excluido da lista dele");
+		}
+		
+		public function subscriptionRevocation(note:INotification):void  {
+		}
+		
+		public function userDeny (event:Event):void {
+			var jid:JID = ((event.target as Button).data as ISubscriptionView).getJID();
+			XmppfcFacade.getInstance().denySubscription(jid);
+			PopUpManager.removePopUp(event.target as BaseSubscriptionView);		
+		}
+		public function userAceept (event:Event):void {
+			var jid:JID = ((event.target as Button).data as ISubscriptionView).getJID();
+			XmppfcFacade.getInstance().grantSubscription(jid);
+			PopUpManager.removePopUp(event.target as BaseSubscriptionView);
 
 		}
-		public function subscriptionRevocation(note:INotification):void  {
+		
+		public function close(event:Event) :void {
+			PopUpManager.removePopUp(event.target as BaseSubscriptionView);
 			
-		}
-		public function subscriptionAvailable(note:INotification):void  {
-			
-		}
-		public function subscriptionUnAvailable(note:INotification):void  {
-			
-		}
-		public function newSubscriptionView(): ISubscriptionView {
-			return new BaseSubscriptionView();
 		}
 	}
 }
