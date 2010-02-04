@@ -56,6 +56,43 @@
 			
 			$completeUser = mysql_fetch_object($result, "CompleteUserVO");
 			
+			
+			// pegando o array - Address Education Language Profession
+			$handler_names = array ('Address', 'Education', 'Language', 'Profession');
+			
+			foreach($handler_names as $value) {
+			
+				$handlerName = 'Handler' . $value;
+				
+				require "$handlerName.php";
+				$handler = new $handlerName();
+				
+				// Chamando o m�todo para inserir os dados no bd, todos os m�todos esperam um CompleteUserVO e utiliza somente
+				// os dados que s�o da tabela.
+	      		$result = $handler->getBySessionId($completeUser);
+				if($result != false) {
+					switch($value) {
+						case "Address" :
+							$completeUser -> addressArray = $result;
+							break;
+						case "Education" :
+							$completeUser -> educationArray = $result;
+							break;
+						case "Language" :
+							$completeUser -> languageArray = $result;
+							break;
+						case "Profession" :
+							$compelteUser -> professionArray = $result;
+							break;
+						default:
+							break;
+					}
+				} else {
+					return "erro ao pegar os arrays";
+				}
+			}
+			
+			
 			return $completeUser;
 		}
 		
@@ -123,7 +160,7 @@
 			// Tabelas a serem inseridas - o Account DEVE ser o primeiro, pois el� a refer�ncia para os IDs das outras tabelas.
 			
 			//*
-			$handler_names = array ('Account', 'Profile', 'User', 'Address'); //, 'Education', 'Language'
+			$handler_names = array ('Account', 'Profile', 'User', 'Address', 'Education', 'Language', 'Profession'); //, 'Language'
 			
 			$error = 0;
 			

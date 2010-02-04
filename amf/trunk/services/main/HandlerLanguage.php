@@ -30,6 +30,15 @@
 			return parent::doInsert($arrayProfile, "eko_profile");
 		}*/
 		
+		public function getBySessionId() {
+			
+			$sql = "SELECT * FROM ".$this -> _table." WHERE profile_id="$_SESSION['account_id'];
+			$result = parent::doSelect($sql);
+			
+			return $result;
+			
+		}
+		
 		/**
 		 * Fun��o para atualizar um cadastro na tabela 'eko_profile'
 		 * 
