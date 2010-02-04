@@ -32,7 +32,7 @@
 		
 		public function getBySessionId() {
 			
-			$sql = "SELECT * FROM ".$this -> _table." WHERE profile_id="$_SESSION['account_id'];
+			$sql = "SELECT * FROM ".$this -> _table." WHERE profile_id=".$_SESSION['account_id'];
 			$result = parent::doSelect($sql);
 			
 			$arrayAddress = array();
