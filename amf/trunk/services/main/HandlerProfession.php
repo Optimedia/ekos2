@@ -5,7 +5,7 @@
 	
 	class HandlerProfession extends SqlManager {
 		
-		private $_table = "eko_detail_language";
+		private $_table = "eko_detail_professional";
 		
 		public function HandlerProfession() {
 			$host = "10.1.1.10";
@@ -56,7 +56,19 @@
 			
 			$profession = new ProfessionVO();
 			$professionArray = $value -> professionArray;
-
+			
+			// Verificando se já está cadastrado.
+			$condition = "profile_id=".$_SESSION['account_id'];
+			
+			$sqlCheck = "SELECT * FROM ". $this -> _table ." WHERE ".$condition;
+			$resultCheck = parent::doSelect($sqlCheck);
+			
+			if(mysql_num_rows($resultCheck) > 0) {
+				parent::doDelete($condition, $this -> _table);
+			} else {
+				return false;
+			}
+			
 			foreach($professionArray as $profession) {
 				$professionFinalArray = array ('profile_id' => $_SESSION['account_id'],
 									   		   'company' => $profession -> company,
@@ -68,21 +80,7 @@
 									   		   'begin_date' => $profession -> begin_date,
 									   		   'end_date' => $profession -> end_date);
 				
-				// Verificando se já está cadastrado.
-				$condition = "profile_id=".$_SESSION['account_id']." AND detail_professional_id=".$profession -> detail_professional_id;
-				
-				$sqlCheck = "SELECT * FROM ". $this -> _table ." WHERE ".$condition;
-				$resultCheck = parent::doSelect($sqlCheck);
-				
-				if(mysql_num_rows($resultCheck) > 0) {
-					$resultDelete = parent::doDelete($condition, $this -> _table);
-				} else {
-					$resultDelete = true;
-				}
-				
-				if($resultDelete) {
-					$resultUpdate = parent::doInsert($professionFinalArray, $this -> _table);
-				}
+				$resultUpdate = parent::doInsert($professionFinalArray, $this -> _table);
 				
 			}
 			
