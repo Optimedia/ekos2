@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:components="br.com.optimedia.ekos.contentcontainer.view.components.*" xmlns:vo="br.com.optimedia.assets.vo.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.assets.vo.ContentContainerVO;
+			import mx.collections.ArrayCollection;
+			
+			public function clear():void {
+				obj1.title = "paaa";
+				obj1.description = "kdsjflakdjsf";
+				obj2.title = "iooiiioer";
+				obj2.description = "jkhlj";
+				bla.addItem(obj1);
+				bla.addItem(obj2);
+				list.dataProvider = bla;
+			}
+			
+			private var bla:ArrayCollection = new ArrayCollection();
+			private var obj1:ContentContainerVO = new ContentContainerVO();
+			private var obj2:ContentContainerVO = new ContentContainerVO();
+			
+			
+			public function showEvent(event:Event):void {
+				trace(event);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:List id="list">
+		<mx:dataProvider>
+			<vo:ContentContainerVO title="titulo" description="adsfalkdj falskj fasd"/>
+			<vo:ContentContainerVO title="titulo1" description="adsfasdfalkdj falsadfkj fasd"/>
+		</mx:dataProvider>
+		<mx:itemRenderer>
+		<mx:Component>
+			<components:ContentContainer dataProvider="{data}" hide="parentDocument.showEvent(event)">
+				<mx:Script>
+					<![CDATA[
+						import flash.profiler.showRedrawRegions;
+					]]>
+				</mx:Script>
+			</components:ContentContainer>
+		</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
+	<mx:Button click="clear()"/>
+	
+</mx:HBox>

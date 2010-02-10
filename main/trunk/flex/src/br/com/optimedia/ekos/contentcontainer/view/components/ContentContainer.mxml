@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 	backgroundAlpha="0.2" borderStyle="solid" backgroundColor="#666666" currentState="max"
-	>
+	creationComplete="init()">
 	<mx:states>
 		<mx:State name="max"/>
 		<mx:State name="half">
@@ -24,11 +24,18 @@
 
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.ekos.MainAppFacade;
 		import br.com.optimedia.assets.vo.ContentContainerVO;
 		import mx.core.IContainer;
 		
+		private var mainAppFacade:MainAppFacade = MainAppFacade.getInstance();
+		
 		[Bindable]
 		private var _dataProvider:ContentContainerVO = new ContentContainerVO();
+		
+		private function init():void {
+			mainAppFacade.startup( this );
+		}
 		
 		public function set dataProvider(object:Object):void {
 			if (object is ContentContainerVO) _dataProvider = object as ContentContainerVO;

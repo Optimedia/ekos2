@@ -53,10 +53,8 @@ package br.com.optimedia.ekos.shell.view
 					view.showCockpit();
 					break;
 				case NotificationConstants.LOGOUT_OK:
-					//view.visible = false;
-					//view.showLoginPanel();
-					var urlReq:URLRequest = new URLRequest("file:///D:/Dev/Workspace/main/bin-debug/MainApp.html");
-					navigateToURL(urlReq, "_self");
+					view.visible = false;
+					view.showLoginPanel();
 					break;
 				case NotificationConstants.USER_UPDATE_AVAILABLE:
 					view.completeUserVO = CompleteUserVO( note.getBody() ).clone();

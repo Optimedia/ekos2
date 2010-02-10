@@ -4,7 +4,8 @@
 				xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
 				initialize="preInit()" creationComplete="init()"
 				horizontalScrollPolicy="off" verticalScrollPolicy="off"
-				visible="false" showEffect="{fadeEffect}"  hideEffect="{fadeEffect}">
+				visible="false" showEffect="{fadeEffect}"  hideEffect="{fadeEffect}"
+				historyManagementEnabled="false">
 	
 	<mx:Script>
 		<![CDATA[

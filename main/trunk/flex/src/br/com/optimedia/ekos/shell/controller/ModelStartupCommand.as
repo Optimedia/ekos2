@@ -1,4 +1,4 @@
-package br.com.optimedia.ekos.shell.controler
+package br.com.optimedia.ekos.shell.controller
 {
 	import br.com.optimedia.ekos.contentcontainer.model.ContentContainerProxy;
 	import br.com.optimedia.ekos.shell.model.AvatarManagerProxy;

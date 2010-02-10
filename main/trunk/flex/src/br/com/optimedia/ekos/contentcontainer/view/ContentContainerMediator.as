@@ -2,6 +2,8 @@ package br.com.optimedia.ekos.contentcontainer.view
 {
 	import br.com.optimedia.ekos.contentcontainer.view.components.ContentContainer;
 	
+	import flash.system.System;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
@@ -11,9 +13,9 @@ package br.com.optimedia.ekos.contentcontainer.view
 		
 		//private var friendManagerProxy:FriendManagerProxy;
 		
-		public function ContentContainerMediator(viewComponent:Object=null)
+		public function ContentContainerMediator(viewComponent:ContentContainer=null)
 		{
-			super(NAME+view.uid, viewComponent);
+			super(NAME+viewComponent.uid, viewComponent);
 		}
 		
 		override public function onRegister():void
@@ -24,6 +26,7 @@ package br.com.optimedia.ekos.contentcontainer.view
 		
 		override public function onRemove():void {
 			trace(super.getMediatorName()+".onRemove()");
+			System.gc();
 		}
 		
 		public function get view():ContentContainer

@@ -2,19 +2,22 @@ package br.com.optimedia.ekos
 {
 	
 	import br.com.optimedia.assets.constants.CommandConstants;
-	import br.com.optimedia.ekos.shell.controler.AvatarBoxDisposeCommand;
-	import br.com.optimedia.ekos.shell.controler.AvatarBoxStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.ChangeAvatarPopUpDisposeCommand;
-	import br.com.optimedia.ekos.shell.controler.ChangeAvatarPopUpStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.EditProfileStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.FriendsViewStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.LoginPanelDisposeCommand;
-	import br.com.optimedia.ekos.shell.controler.LoginPanelStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.MailBoxViewStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.ModelStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.SendPrivateMessagePopUpDisposeCommand;
-	import br.com.optimedia.ekos.shell.controler.SendPrivateMessagePopUpStartupCommand;
-	import br.com.optimedia.ekos.shell.controler.StartupCommand;
+	import br.com.optimedia.ekos.contentcontainer.controller.ContentContainerDisposeCommand;
+	import br.com.optimedia.ekos.contentcontainer.controller.ContentContainerStartupCommand;
+	import br.com.optimedia.ekos.contentcontainer.view.components.ContentContainer;
+	import br.com.optimedia.ekos.shell.controller.AvatarBoxDisposeCommand;
+	import br.com.optimedia.ekos.shell.controller.AvatarBoxStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.ChangeAvatarPopUpDisposeCommand;
+	import br.com.optimedia.ekos.shell.controller.ChangeAvatarPopUpStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.EditProfileStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.FriendsViewStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.LoginPanelDisposeCommand;
+	import br.com.optimedia.ekos.shell.controller.LoginPanelStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.MailBoxViewStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.ModelStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.SendPrivateMessagePopUpDisposeCommand;
+	import br.com.optimedia.ekos.shell.controller.SendPrivateMessagePopUpStartupCommand;
+	import br.com.optimedia.ekos.shell.controller.StartupCommand;
 	import br.com.optimedia.ekos.shell.view.component.AvatarBox;
 	import br.com.optimedia.ekos.shell.view.component.ChangeAvatarPopUp;
 	import br.com.optimedia.ekos.shell.view.component.EditProfile;
@@ -65,12 +68,14 @@ package br.com.optimedia.ekos
             registerCommand( CommandConstants.STARTUP_FRIENDS_VIEW, FriendsViewStartupCommand );
             registerCommand( CommandConstants.STARTUP_SEND_PRIVATE_MESSAGE_POPUP, SendPrivateMessagePopUpStartupCommand );
             registerCommand( CommandConstants.STARTUP_MAIL_BOX_VIEW, MailBoxViewStartupCommand );
+            registerCommand( CommandConstants.STARTUP_CONTENT_CONTAINER, ContentContainerStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.DISPOSE_LOGIN_PANEL, LoginPanelDisposeCommand );
             registerCommand( CommandConstants.DISPOSE_AVATAR_BOX, AvatarBoxDisposeCommand );
             registerCommand( CommandConstants.DISPOSE_CHANGE_AVATAR_POPUP, ChangeAvatarPopUpDisposeCommand );
             registerCommand( CommandConstants.DISPOSE_SEND_PRIVATE_MESSAGE_POPUP, SendPrivateMessagePopUpDisposeCommand );
+            registerCommand( CommandConstants.DISPOSE_CONTENT_CONTAINER, ContentContainerDisposeCommand );
         }
         
         /**
@@ -89,6 +94,7 @@ package br.com.optimedia.ekos
         	if (app is FriendsView) sendNotification( CommandConstants.STARTUP_FRIENDS_VIEW, app );
         	if (app is SendPrivateMessagePopUp) sendNotification( CommandConstants.STARTUP_SEND_PRIVATE_MESSAGE_POPUP, app );
         	if (app is MailBoxView) sendNotification( CommandConstants.STARTUP_MAIL_BOX_VIEW, app );
+        	if (app is ContentContainer) sendNotification( CommandConstants.STARTUP_CONTENT_CONTAINER, app );
         }
 	}
 }

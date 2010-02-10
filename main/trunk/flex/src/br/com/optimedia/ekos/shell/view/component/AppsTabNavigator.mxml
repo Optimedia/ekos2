@@ -3,7 +3,7 @@
 				styleName="appsTabNavigator"
 				paddingTop="10" paddingLeft="10" paddingBottom="10" paddingRight="10"
 				xmlns:component="br.com.optimedia.ekos.shell.view.component.*"
-				creationComplete="init()">
+				creationComplete="init()" xmlns:components="br.com.optimedia.ekos.contentcontainer.view.components.*" xmlns:components1="br.com.optimedia.ekos.blog.view.components.*">
 	<mx:Script>
 		<![CDATA[
 			private function init():void {
@@ -17,5 +17,7 @@
 	<component:FriendsView id="friendsView" label="Amigos"/>
 	
 	<component:MailBoxView id="mailBoxView" label="Mail Box" width="100%" height="100%"/>
+	
+	<components1:BlogView id="blogView" label="Blog" width="100%" height="100%"/>
 	
 </mx:TabNavigator>

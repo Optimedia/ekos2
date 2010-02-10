@@ -12,12 +12,14 @@ package br.com.optimedia.assets.constants
 		public static const STARTUP_FRIENDS_VIEW:String = 'STARTUP_FRIENDS_VIEW';
 		public static const STARTUP_SEND_PRIVATE_MESSAGE_POPUP:String = 'STARTUP_SEND_PRIVATE_MESSAGE_POPUP';
 		public static const STARTUP_MAIL_BOX_VIEW:String = 'STARTUP_MAIL_BOX_VIEW';
+		public static const STARTUP_CONTENT_CONTAINER:String = 'STARTUP_CONTENT_CONTAINER';
 		
 		// DISPOSE COMMANDS
 		public static const DISPOSE_LOGIN_PANEL:String = 'DISPOSE_LOGIN_PANEL';
 		public static const DISPOSE_AVATAR_BOX:String = 'DISPOSE_AVATAR_BOX';
 		public static const DISPOSE_CHANGE_AVATAR_POPUP:String = 'DISPOSE_CHANGE_AVATAR_POPUP';
 		public static const DISPOSE_SEND_PRIVATE_MESSAGE_POPUP:String = 'DISPOSE_SEND_PRIVATE_MESSAGE_POPUP';
+		public static const DISPOSE_CONTENT_CONTAINER:String = 'DISPOSE_CONTENT_CONTAINER';
 		
 	}
 }
