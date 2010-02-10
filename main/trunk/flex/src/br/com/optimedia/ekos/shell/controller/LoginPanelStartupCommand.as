@@ -1,4 +1,4 @@
-package br.com.optimedia.ekos.shell.controler
+package br.com.optimedia.ekos.shell.controller
 {
 	import br.com.optimedia.ekos.shell.view.LoginPanelMediator;
 	import br.com.optimedia.ekos.shell.view.component.LoginPanel;

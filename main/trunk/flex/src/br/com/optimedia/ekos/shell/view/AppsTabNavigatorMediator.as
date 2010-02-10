@@ -1,17 +1,18 @@
 package br.com.optimedia.ekos.shell.view
 {
-	import br.com.optimedia.ekos.shell.model.FriendManagerProxy;
+	import br.com.optimedia.ekos.blog.view.components.BlogView;
+	import br.com.optimedia.ekos.shell.model.MessageManagerProxy;
 	import br.com.optimedia.ekos.shell.model.ProfileManagerProxy;
 	import br.com.optimedia.ekos.shell.view.component.AppsTabNavigator;
 	import br.com.optimedia.ekos.shell.view.component.EditProfile;
 	import br.com.optimedia.ekos.shell.view.component.FriendsView;
+	import br.com.optimedia.ekos.shell.view.component.MailBoxView;
 	
 	import mx.events.IndexChangedEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.ekos.shell.view.component.MailBoxView;
-	import br.com.optimedia.ekos.shell.model.MessageManagerProxy;
+	import mx.controls.Alert;
 
 	public class AppsTabNavigatorMediator extends Mediator
 	{
@@ -68,6 +69,7 @@ package br.com.optimedia.ekos.shell.view
 			if(view.selectedChild is EditProfile) profileManagerProxy.getProfile();
 			if(view.selectedChild is FriendsView) profileManagerProxy.getAllFriends();
 			if(view.selectedChild is MailBoxView) messageManagerProxy.getAllMessages();
+			if(view.selectedChild is BlogView) Alert.show("finish me");
 		}
 		
 		/* private function onSearchBtnClick(event:Event):void {
