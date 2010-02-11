@@ -2,9 +2,9 @@
 	
 	require_once '../includes/SqlManager.php';
 
-	class FileManager extends SqlManager {
+	class RepositoryManager extends SqlManager {
 		
-		public function FileManager() {
+		public function RepositoryManager() {
 			$host = "10.1.1.10";
 			$user = "opti";
 			$pass = "opti";
