@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.interactive.model.vo.SlideVO;
+
+			[Bindable]
+			public var slideVO: SlideVO;
+		]]>
+	</mx:Script>
+
+	<mx:Text id="textTitle" htmlText="{slideVO.title}" />
+	<mx:Text id="textContent" htmlText="{slideVO.body}" />
+</mx:Canvas>

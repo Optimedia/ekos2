@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute" 
+	width="780"
+	height="600" 
+	creationComplete="init();">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			import flash.display.MovieClip;
+			import flash.display.Sprite;
+			
+			//import br.com.optimedia.interactive.controller.SlideMediator;
+		
+			//public var slideMediator: SlideMediator = new SlideMediator(); 
+			private function init(): void {
+				var obj:Sprite = new Sprite();
+				obj.graphics.lineStyle(1,0x000000);
+           		obj.graphics.beginFill(0xCCCCCC,1);
+            	obj.graphics.drawRoundRect(0, 0, 200, 40,20,20);
+            	obj.graphics.endFill();
+            	obj.x=100;
+            	obj.y=100;
+            	this.rawChildren.addChild(obj);
+			}
+
+
+		]]>
+	</mx:Script>
+</mx:Application>
