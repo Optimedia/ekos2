@@ -8,6 +8,51 @@
 			mysql_select_db($db);
 		}
 
+		/**
+		 * Fun‹o para executar um SQL, retornando uma linha do banco de dados. Para receber mais de uma linha como resultado, 
+		 * utilize o $return como null e faa o tratamento.
+		 * 
+		 * @param $fields String
+		 * @param $table String
+		 * @param $where String [optional]
+		 * @param $order String [optional]
+		 * @param $return String [optional]
+		 * @param $complement String [optional]
+		 * @return Array || Object || Resource
+		 */
+		protected function doSingleSelect($fields, $table, $where = null, $order = null, $return = null, $complement = null) {
+			
+			// Montando o SQL.
+			$sql = "SELECT $fields FROM $table ";
+			
+			// WHERE
+			if($where != null) {
+				$sql .= "WHERE $where ";
+			}
+			
+			// ORDER BY
+			if($order != null) {
+				$sql .= "ORDER BY $order";
+			}
+			
+			$result = mysql_query($sql);
+			
+			switch($return) {
+				case "array":
+					return mysql_fetch_array($result, $complement);
+					break;
+				
+				case "object":
+					return mysql_fetch_object($result ,$complement);
+					break;
+					
+				default:
+					return $result;
+					break;
+			}
+			
+			
+		}
 		
 		//-----------------------------------------------
 		//
