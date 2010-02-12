@@ -10,6 +10,8 @@
 		]]>
 	</mx:Script>
 
-	<mx:Text id="textTitle" htmlText="{slideVO.title}" />
-	<mx:Text id="textContent" htmlText="{slideVO.body}" />
+	<mx:TextArea id="textTitle" htmlText="{slideVO.title}"  width="740" selectable="false" 
+		wordWrap="true"  backgroundAlpha="0" borderThickness="0" editable="false"/>
+	<mx:TextArea id="textContent" htmlText="{slideVO.body}"  width="760" selectable="false" 
+		wordWrap="true" backgroundAlpha="0"  borderThickness="0" editable="false"/>
 </mx:Canvas>
