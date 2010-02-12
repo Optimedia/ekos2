@@ -34,7 +34,7 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.AUTOR_STARTUP, AutorStartupCommand );
             
             //DISPOSE COMMANDS
-            //registerCommand( CommandConstants.DISPOSE_LOGIN_PANEL, LoginPanelDisposeCommand );
+            //registerCommand( CommandConstants.LOGIN_WINDOW_DISPOSE, LoginWindowDisposeCommand );
         }
         
         /**
@@ -46,6 +46,11 @@ package br.com.optimedia.autor
         {
         	if (app == "model") sendNotification( CommandConstants.MODEL_STARTUP, null );
         	else if (app is Autor) sendNotification( CommandConstants.AUTOR_STARTUP, app );
+        }
+        
+        public function dispose( app:Object ):void
+        {
+        	//if (app == LoginWindow) sendNotification( CommandConstants.LOGIN_WINDOW_DISPOSE, app );
         }
 	}
 }
