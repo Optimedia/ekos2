@@ -4,6 +4,9 @@ package br.com.optimedia.autor.assets.vo
 	
 	public class SlideVO
 	{
+		public static const TYPE_TITLE:uint = 1;
+		public static const TYPE_PAGE:uint = 2;
+		
 		public var slide_id:uint;
 		public var type_slide_id:uint;
 		public var presentation_id:uint;
