@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:v="br.com.optimedia.interactive.view.*"
 	layout="absolute"
 	width="780"
 	height="600" 
-	creationComplete="init();">
+	creationComplete="init();" xmlns:v="br.com.optimedia.interactive.view.components.*">
 	
 	<mx:Script>
 		<![CDATA[
-			import br.com.optimedia.interactive.model.vo.SlideVO;
-			import br.com.optimedia.interactive.model.InteractiveFacade;
-			import br.com.optimedia.interactive.controller.SlideMediator;
+			import br.com.optimedia.interactive.InteractiveFacade;
 		
-			public var interactiveFacade: InteractiveFacade = new InteractiveFacade();
+			public var interactiveFacade: InteractiveFacade = InteractiveFacade.getInstance();
+			
 			private function init(): void {
-				var slideVO: SlideVO = new SlideVO(1,SlideVO.TYPE_PAGE,"title of algo", "body do corpo");
-				interactiveFacade.show(slideVO);
+				interactiveFacade.startup( this );
+				
+				
+				/* var slideVO: SlideVO = new SlideVO();
+				slideVO.type = slide1,SlideVO.TYPE_PAGE,"title of algo", "body do corpo");
+				interactiveFacade.show(slideVO); */
 			}
+			
+			
 		]]>
 	</mx:Script>
+	
 	<v:SlideView id="slideView" width="100%" height="560" />
+	
 	<v:NavigatorView id="navigatorView" width="100%" y="568"/>
+	
 </mx:Application>
