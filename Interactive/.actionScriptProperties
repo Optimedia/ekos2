@@ -10,7 +10,6 @@
 </compiler>
 <applications>
 <application path="Interactive.mxml"/>
-<application path="teste.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>
