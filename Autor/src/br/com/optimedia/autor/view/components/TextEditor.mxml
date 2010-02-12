@@ -560,18 +560,18 @@
 								  { trace('not committed'); setTextStyles('url', linkTextInput.text); linkTextInput.text=defaultLinkProtocol;}"
 						enter="setTextStyles('url', linkTextInput.text); linkTextInput.text = defaultLinkProtocol; linkTextCommitted = true;" width="16"/>
 					<mx:VRule height="10"/>
-					<mx:Button label="Button"/>
-					<mx:Button label="Button"/>
-					<mx:Button label="Button"/>
-				
+					
+					<mx:Button label="Adicionar"/>
+					<mx:Button label="Editar"/>
+					<mx:Button label="Ordenar"/>
+					<mx:Button label="Remover"/>
+					
 				</mx:ToolBar>	
 						
 			</mx:ControlBar>
 		</mx:Panel>
 		
 		<mx:Panel width="200" height="100%" title="Repositório" cornerRadius="0">
-			<mx:RichTextEditor title="Title">
-			</mx:RichTextEditor>
 		</mx:Panel>
 	</mx:HBox>
 	
