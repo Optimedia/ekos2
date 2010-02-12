@@ -9,6 +9,8 @@ package br.com.optimedia.interactive.model.vo
 		public var link:String;
 		
 		public function ComplementVO(type:String = null, link:String = null) {
+			this.type = type;
+			this.link = link;
 		}
 
 	}
