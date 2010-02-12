@@ -1,4 +1,4 @@
-package br.com.optimedia.interactive.controller
+package br.com.optimedia.interactive.view
 {
 	import br.com.optimedia.interactive.model.vo.SlideVO;
 	

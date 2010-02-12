@@ -1,7 +1,5 @@
-package br.com.optimedia.interactive.model
+package br.com.optimedia.interactive
 {
-	import br.com.optimedia.interactive.controller.SlideMediator;
-	import br.com.optimedia.interactive.model.vo.SlideVO;
 	
 	public class InteractiveFacade {
 		
