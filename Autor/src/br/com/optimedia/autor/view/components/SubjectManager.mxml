@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+	
+	<mx:VBox>
+		<mx:Button label="Novo Módulo" />
+
+		<mx:DataGrid id="moduleGrid">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Módulo" />
+				<mx:DataGridColumn headerText="Descrição" />
+				<mx:DataGridColumn headerText="Status" />
+				<mx:DataGridColumn headerText="Opções" />
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:VBox>
+	<mx:VBox>
+		<mx:Button label="Novo Tema" />
+		<mx:DataGrid id="themeGrid">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Tema" />
+				<mx:DataGridColumn headerText="Descrição" />
+				<mx:DataGridColumn headerText="Status" />
+				<mx:DataGridColumn headerText="Opções" />
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:VBox>
+		
+</mx:HDividedBox>

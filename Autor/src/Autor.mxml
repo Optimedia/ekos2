@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+	initialize="preInit()" creationComplete="init()">
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.autor.view.components.SubjectManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.soap.LoadEvent;
 			import br.com.optimedia.autor.AutorFacade;
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
@@ -15,7 +19,13 @@
 				autorFacade.startup( this );
 			}
 			
+			public function showModuleManager():void {
+				this.addChild( new SubjectManager );
+			}
+			
 		]]>
 	</mx:Script>
+	
+	<mx:Label id="te"/>
 	
 </mx:Application>

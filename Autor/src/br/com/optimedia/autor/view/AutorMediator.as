@@ -17,6 +17,7 @@ package br.com.optimedia.autor.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
+			view.showModuleManager();
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
