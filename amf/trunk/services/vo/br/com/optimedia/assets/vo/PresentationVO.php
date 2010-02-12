@@ -2,9 +2,11 @@
 
 	class PresentationVO {
 		
-		public $theme_id;
-		public $module_id;
-		public $name;
+		public $presentation_id;
+		public $subject_id;
+		public $skin_id;
+		public $locked_at;
+		public $title;
 		public $description;
 		public $status;
 		public $slidesArray;
