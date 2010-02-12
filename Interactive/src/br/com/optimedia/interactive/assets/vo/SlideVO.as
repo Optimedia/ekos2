@@ -1,38 +1,30 @@
-package br.com.optimedia.interactive.model.vo
+package br.com.optimedia.interactive.assets.vo
 {
-	import mx.collections.ArrayCollection;
+	import flash.utils.ByteArray;
 	
-	public class SlideVO {
-		
+	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.SlideVO")]
+	
+	public class SlideVO
+	{
 		public static const TYPE_TITLE:uint = 1;
 		public static const TYPE_PAGE:uint = 2;
 		
-		[Bindable]
-		public var id: uint;
+		public var slide_id:uint;
+		public var type_slide_id:uint;
+		public var presentation_id:uint;
+		public var header_id:uint;
+		public var page_order:uint;
+		public var title:String;
+		public var title_menu:String;
+		public var text_body:String;
+		public var status:uint;
 		
-		[Bindable]
-		public var type: uint;
-		
-		[Bindable]
-		public var title: String;
-		
-		[Bindable]
-		public var body: String;
-		
-		[Bindable]
-		public var complements: ArrayCollection;
-		
-		[Bindable]
-		public var question: ArrayCollection;
-		 
-		public function SlideVO(id: uint = 0, type: uint = 0, title: String = null, body: String = null, 
-		complements: ArrayCollection = null,question: ArrayCollection = null) {
-			this.id = id;
-			this.type = type; 
-			this.title = title;
-			this.body = body;
-			this.complements = complements; 
-			this.question = question; 
+		public function clone():* {
+			var copier:ByteArray = new ByteArray();
+			copier.writeObject(this);
+			copier.position = 0;
+			return copier.readObject() as SlideVO;
 		}
+		
 	}
 }

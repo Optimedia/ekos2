@@ -1,29 +1,71 @@
 package br.com.optimedia.interactive.view
 {
-	import br.com.optimedia.interactive.model.vo.SlideVO;
+	import br.com.optimedia.interactive.assets.ApplicationConstants;
+	import br.com.optimedia.interactive.assets.vo.SlideVO;
+	import br.com.optimedia.interactive.view.components.SlideView;
 	
 	import flash.display.Sprite;
 	
 	import mx.controls.Alert;
 	import mx.core.Application;
 	
-	public class SlideMediator {
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	
+	public class SlideMediator extends Mediator{
+		
+		public static const NAME:String = 'SlideMediator';
 		
 		public var lineTitle:uint = 0x000000;
 		public var bgTitle:uint = 0xFFFFFF;
+		//private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
 		
-		public function SlideMediator() {
+		public function SlideMediator(viewComponent:Object=null)
+		{
+			super(NAME, viewComponent);
+		}
+		
+		override public function onRegister():void
+		{
+			trace(NAME+".onRegister()");
+			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
+		}
+		
+		override public function onRemove():void {
+			trace(NAME+".onRemove()");
+		}
+		
+		public function get view():SlideView
+		{
+			return viewComponent as SlideView;
+		}
+		
+		override public function listNotificationInterests():Array
+		{
+			return [ApplicationConstants.GET_SLIDE_OK];
+		}
+		
+		override public function handleNotification(note:INotification):void
+		{
+			switch (note.getName())
+			{
+				case ApplicationConstants.GET_SLIDE_OK:
+					show( note.getBody() as SlideVO );
+					break;
+				default:
+					break;
+			}
 		}
 		
 		public function show(vo: SlideVO): void {
 			Application.application.slideView.textTitle.visible=false;
 			Application.application.slideView.textContent.visible=false;
-			if (vo.type == SlideVO.TYPE_PAGE) {
+			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {
 				Application.application.slideView.slideVO = vo;
-				layout(vo.type,20,"titleTYPEPAGE","contentTYPEPAGE");
-			} else if (vo.type == SlideVO.TYPE_TITLE) {
+				layout(vo.type_slide_id,20,"titleTYPEPAGE","contentTYPEPAGE");
+			} else if (vo.type_slide_id == SlideVO.TYPE_TITLE) {
 				Application.application.slideView.slideVO = vo;
-				layout(vo.type, 140,"titleTITLE","contentTITLE");
+				layout(vo.type_slide_id, 140,"titleTITLE","contentTITLE");
 			} else {
 				Alert.show("Erro!");
 			}

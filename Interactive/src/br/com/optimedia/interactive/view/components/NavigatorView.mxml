@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()">
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.interactive.InteractiveFacade;
+			
+			private var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();
+			
+			private function init():void {
+				interactiveFacade.startup( this );
+			}
+			
+		]]>
+	</mx:Script>
+
 	<mx:Button label="&lt;"  x="10"/>
 	<mx:Button label="&gt;"  x="60"/>
 </mx:Canvas>

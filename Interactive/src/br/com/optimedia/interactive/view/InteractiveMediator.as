@@ -1,16 +1,17 @@
 package br.com.optimedia.interactive.view
 {
-	import br.com.optimedia.interactive.view.components.NavigatorView;
+	import br.com.optimedia.interactive.model.InteractiveProxy;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
-	
-	public class NavigatorMediator {
+	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+
+	public class InteractiveMediator extends Mediator
+	{
+		public static const NAME:String = 'InteractiveMediator';
 		
-		public static const NAME:String = 'NavigatorMediator';
+		private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
 		
-		//private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
-		
-		public function NavigatorMediator(viewComponent:Object=null)
+		public function InteractiveMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
 		}
@@ -18,6 +19,8 @@ package br.com.optimedia.interactive.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
+			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
+			interactiveProxy.getSlide();
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
@@ -25,9 +28,9 @@ package br.com.optimedia.interactive.view
 			trace(NAME+".onRemove()");
 		}
 		
-		public function get view():NavigatorView
+		public function get view():Interactive
 		{
-			return viewComponent as NavigatorView;
+			return viewComponent as Interactive;
 		}
 		
 		override public function listNotificationInterests():Array
@@ -40,7 +43,7 @@ package br.com.optimedia.interactive.view
 			switch (note.getName())
 			{
 				/* case ApplicationConstants.GET_SLIDE_OK:
-					show( note.getBody() as SlideVO );
+					view.show(note.getBody() as SlideVO);
 					break; */
 				default:
 					break;

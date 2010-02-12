@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()">
 
 	<mx:Script>
 		<![CDATA[
-			import br.com.optimedia.interactive.model.vo.SlideVO;
+			import br.com.optimedia.interactive.assets.vo.SlideVO;
+			import br.com.optimedia.interactive.InteractiveFacade;
 
 			[Bindable]
 			public var slideVO: SlideVO;
+			
+			private var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();
+			
+			private function init():void {
+				interactiveFacade.startup( this );
+			}
+			
 		]]>
 	</mx:Script>
 
 	<mx:TextArea id="textTitle" htmlText="{slideVO.title}"  width="740" selectable="false" 
 		wordWrap="true"  backgroundAlpha="0" borderThickness="0" editable="false"/>
-	<mx:TextArea id="textContent" htmlText="{slideVO.body}"  width="760" selectable="false" 
+	<mx:TextArea id="textContent" htmlText="{slideVO.text_body}"  width="760" selectable="false" 
 		wordWrap="true" backgroundAlpha="0"  borderThickness="0" editable="false"/>
 </mx:Canvas>
