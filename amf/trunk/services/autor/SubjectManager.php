@@ -96,11 +96,25 @@
 		 */
 		public function saveSubject(SubjectVO $subject) {
 			
-			$arraySubject = array	('title' => $subject -> title,
-								  	 'description' => $subject -> description,
-									 'status' => $subject -> status);
-							  
-			return parent::doInsert($arraySubject, $this -> _table);
+			if($subject -> subject_id == null) {
+			
+				$arraySubject = array	('title' => $subject -> title,
+									  	 'description' => $subject -> description,
+										 'status' => $subject -> status);
+								  
+				return parent::doInsert($arraySubject, $this -> _table);
+				
+			} else {
+				
+				$arrayPresentation = array	('title' => $subject -> title,
+									  		 'description' => $subject -> description,
+											 'status' => $subject -> status);
+					
+				$condition = "subject_id = ".$subject -> subject_id;
+				
+				return parent::doUpdate($arrayPresentation, $condition, $table);
+				
+			}
 			
 		}
 		
