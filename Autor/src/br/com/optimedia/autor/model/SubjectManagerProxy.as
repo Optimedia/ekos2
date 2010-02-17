@@ -36,27 +36,27 @@ package br.com.optimedia.autor.model
 			FaultHandler.handleFault(event);
 		}
 		
-		public function getModules():void {
-			var asynkToken:AsyncToken = remoteService.getModules();
-			asynkToken.addResponder( new Responder(getAllResult, generalFault) );
+		public function getSubjects():void {
+			var asynkToken:AsyncToken = remoteService.getSubjects();
+			asynkToken.addResponder( new Responder(getSubjectsResult, generalFault) );
 		}
-		private function getModulesResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.GET_MODULES_OK, event.result );
+		private function getSubjectsResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.GET_SUBJECTS_OK, event.result );
 		}
 		
-		public function newModule(moduleVO:SubjectVO):void {
-			var asynkToken:AsyncToken = remoteService.newModule(moduleVO);
-			asynkToken.addResponder( new Responder(newModuleResult, generalFault) );
+		public function newSubject(subjectVO:SubjectVO):void {
+			var asynkToken:AsyncToken = remoteService.newSubject(subjectVO);
+			asynkToken.addResponder( new Responder(newSubjectResult, generalFault) );
 		}
-		private function newModuleResult(event:ResultEvent):void {
+		private function newSubjectResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.NEW_SUBJECT_OK, event.result );
 		}
 		
-		public function newTheme(themeVO:PresentationVO):void {
-			var asynkToken:AsyncToken = remoteService.newModule(themeVO);
-			asynkToken.addResponder( new Responder(newThemeResult, generalFault) );
+		public function newPresentation(presentationVO:PresentationVO):void {
+			var asynkToken:AsyncToken = remoteService.newPresentation(presentationVO);
+			asynkToken.addResponder( new Responder(newPresentationResult, generalFault) );
 		}
-		private function newThemeResult(event:ResultEvent):void {
+		private function newPresentationResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.NEW_PRESENTATION_OK, event.result );
 		}
 	}
