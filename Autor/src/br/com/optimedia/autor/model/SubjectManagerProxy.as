@@ -61,14 +61,32 @@ package br.com.optimedia.autor.model
 		}
 		private function savePresentationResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result );
+			getSubjects();
 		}
 		
-		public function newSlide(slideVO:SlideVO):void {
+		/* public function newSlide(slideVO:SlideVO):void {
 			var asynkToken:AsyncToken = remoteService.newSlide(slideVO);
 			asynkToken.addResponder( new Responder(newSlideResult, generalFault) );
 		}
 		private function newSlideResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.NEW_SLIDE_OK, event.result );
+		} */
+		
+		public function deleteSubject(subjectVO:SubjectVO):void {
+			var asynkToken:AsyncToken = remoteService.deleteSubject(subjectVO);
+			asynkToken.addResponder( new Responder(deleteSubjectResult, generalFault) );
+		}
+		private function deleteSubjectResult(event:ResultEvent):void {
+			/* sendNotification( NotificationConstants.SAVE_SUBJECT_OK, event.result );
+			getSubjects(); */
+		}
+		
+		public function deletePresentation(presentationVO:PresentationVO):void {
+			var asynkToken:AsyncToken = remoteService.deletePresentation(presentationVO);
+			asynkToken.addResponder( new Responder(deletePresentationResult, generalFault) );
+		}
+		private function deletePresentationResult(event:ResultEvent):void {
+			/* sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result ); */
 		}
 	}
 }

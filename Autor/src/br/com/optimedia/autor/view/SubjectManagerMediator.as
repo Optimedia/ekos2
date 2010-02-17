@@ -1,18 +1,18 @@
 package br.com.optimedia.autor.view
 {
+	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.SubjectVO;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
+	import flash.events.Event;
+	
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.autor.assets.NotificationConstants;
-	import br.com.optimedia.autor.assets.vo.SubjectVO;
-	import mx.collections.ArrayCollection;
-	import flash.events.MouseEvent;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
-	import br.com.optimedia.autor.view.components.NewSubjectPopUp;
-	import mx.managers.PopUpManager;
-	import flash.display.DisplayObject;
 
 	public class SubjectManagerMediator extends Mediator
 	{
@@ -29,7 +29,10 @@ package br.com.optimedia.autor.view
 		{
 			trace(NAME+".onRegister()");
 			
-			view.newSubjectBtn.addEventListener(MouseEvent.CLICK, newSubjectClick);
+			view.addEventListener( SubjectManager.SAVE_SUBJECT_EVENT, saveSubject );
+			view.addEventListener( SubjectManager.SAVE_PRESENTATION_EVENT, savePresentation );
+			view.addEventListener( SubjectManager.DELETE_SUBJECT_EVENT, deleteSubject );
+			view.addEventListener( SubjectManager.DELETE_PRESENTATION_EVENT, deletePresentation );
 			
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			subjectManagerProxy.getSubjects();
@@ -47,7 +50,8 @@ package br.com.optimedia.autor.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.GET_SUBJECTS_OK,
-					NotificationConstants.SAVE_SUBJECT_OK];
+					NotificationConstants.SAVE_SUBJECT_OK,
+					NotificationConstants.SAVE_PRESENTATION_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -58,23 +62,32 @@ package br.com.optimedia.autor.view
 					view.subjectArray = new ArrayCollection(note.getBody() as Array);
 					break;
 				case NotificationConstants.SAVE_SUBJECT_OK:
-					newSubjectPopUp.closeMe();
+					Alert.show("Módulo salvo com sucesso.", "OK");
+					view.newSubjectPopUp.closeMe();
+					break;
+				case NotificationConstants.SAVE_PRESENTATION_OK:
+					Alert.show("Tema salvo com sucesso.", "OK");
+					view.newPresentationPopUp.closeMe();
 					break;
 				default:
 					break;
 			}
 		}
 		
-		public var newSubjectPopUp:NewSubjectPopUp;
-		private function newSubjectClick(event:MouseEvent):void {
-			newSubjectPopUp = new NewSubjectPopUp();
-			PopUpManager.addPopUp( newSubjectPopUp, view, true );
-			PopUpManager.centerPopUp( newSubjectPopUp );
-			newSubjectPopUp.saveBtn.addEventListener(MouseEvent.CLICK, saveSubject);
+		private function saveSubject(event:Event):void {
+			subjectManagerProxy.saveSubject( view.newSubjectPopUp.subjectVO );
 		}
 		
-		private function saveSubject(event:MouseEvent):void {
-			subjectManagerProxy.saveSubject( newSubjectPopUp.subjectVO );
+		private function savePresentation(event:Event):void {
+			subjectManagerProxy.savePresentation( view.newPresentationPopUp.presentationVO );
+		}
+		
+		private function deleteSubject(event:Event):void {
+			subjectManagerProxy.deleteSubject( view.subjectGrid.selectedItem as SubjectVO );
+		}
+		
+		private function deletePresentation(event:Event):void {
+			subjectManagerProxy.deletePresentation( view.presentationGrid.selectedItem as PresentationVO );
 		}
 	}
 }
