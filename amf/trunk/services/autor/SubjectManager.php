@@ -89,8 +89,10 @@
 		}
 		
 		/**
-		 * Função que retorna 
-		 *
+		 * Função para inserir ou atualizar uma subject 
+		 * 
+		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
+		 * .
 		 */
 		public function saveSubject(SubjectVO $subject) {
 			
@@ -102,20 +104,66 @@
 			
 		}
 		
+		/**
+		 * Função para inserir ou atualizar uma presentation
+		 * 
+		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
+		 * .
+		 */
 		public function savePresentation(PresentationVO $presentation) {
+			
+			if($presentation -> presentation_id == null) {
+				
+				// Adicionar presentation no bd;
+				$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
+											 'skin_id' => $presentation -> skin_id,
+											 'title' => $presentation -> title,
+											 'description' => $presentation -> description,
+										 	 'status' => $presentation -> status);
+							  
+				return parent::doInsert($arraySubject, $this -> _table);
+				
+			} else {
+				
+				// Verificar se a presentation está liberada, se sim, atualizar os dados, se não retornar false;
+				$tempPresentation = new Presentation();
+				
+				$fields = "locked_by, locked_at";
+				$table = "ath_presentation";
+				$where = "presentation_id = ".$presentation -> presentation_id;
+				$return = "object";
+				$complement = "PresentationVO"; 
+				
+				$tempPresentation = parent::doSingleSelect($fields, $table, $where, null, $return, $complement);
+				
+				// Verificando se a presentation está liberada.
+				if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
+					
+					$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
+												 'skin_id' => $presentation -> skin_id,
+												 'title' => $presentation -> title,
+												 'description' => $presentation -> description,
+												 'status' => $presentation -> status);
+					
+					$condition = "presentation_id = ".$presentation -> presentation_id;
+					
+					return parent::doUpdate($arrayPresentation, $condition, $table);
+					
+				} else {
+					return false;
+				}
+				
+			}
 			
 			public $subject_id;
 			public $skin_id;
-			public $user_id;
+			//public $locked_by;
+			//public $locked_at;
 			public $title;
 			public $description;
 			public $status;
 			
-			$arraySubject = array	('title' => $presentation -> title,
-								  	 'description' => $presentation -> description,
-									 'status' => $presentation -> status);
-							  
-			return parent::doInsert($arraySubject, $this -> _table);
+			
 			
 		}
 		
