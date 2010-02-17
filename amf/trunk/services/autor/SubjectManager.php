@@ -6,6 +6,8 @@
 
 	class SubjectManager extends SqlManager {
 		
+		private $_table = "ath_subject";
+		
 		public function SubjectManager() {
 			$host = "10.1.1.10";
 			$user = "opti";
@@ -16,7 +18,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos os módulos
+		 * Funï¿½ï¿½o que retorna todos os mï¿½dulos
 		 *  
 		 * - Retorna: Array - SubjectVO
 		 * .
@@ -41,7 +43,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos as presentation
+		 * Funï¿½ï¿½o que retorna todos as presentation
 		 *  
 		 * - Retorna: Array - PresentationVO
 		 * .
@@ -66,7 +68,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos os slides
+		 * Funï¿½ï¿½o que retorna todos os slides
 		 *  
 		 * - Retorna: Array - SlideVO
 		 * .
@@ -84,6 +86,37 @@
 			}
 			
 			return $slideArray;
+		}
+		
+		/**
+		 * FunÃ§Ã£o que retorna 
+		 *
+		 */
+		public function saveSubject(SubjectVO $subject) {
+			
+			$arraySubject = array	('title' => $subject -> title,
+								  	 'description' => $subject -> description,
+									 'status' => $subject -> status);
+							  
+			return parent::doInsert($arraySubject, $this -> _table);
+			
+		}
+		
+		public function savePresentation(PresentationVO $presentation) {
+			
+			public $subject_id;
+			public $skin_id;
+			public $user_id;
+			public $title;
+			public $description;
+			public $status;
+			
+			$arraySubject = array	('title' => $presentation -> title,
+								  	 'description' => $presentation -> description,
+									 'status' => $presentation -> status);
+							  
+			return parent::doInsert($arraySubject, $this -> _table);
+			
 		}
 		
 	}
