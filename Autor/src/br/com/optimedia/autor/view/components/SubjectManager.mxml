@@ -39,7 +39,7 @@
 	</mx:Script>
 	
 	<mx:VBox width="100%">
-		<mx:Button label="Novo Módulo" />
+		<mx:Button id="newSubjectBtn" label="Novo Módulo"/>
 
 		<mx:DataGrid id="subjectGrid" dataProvider="{subjectArray}" change="onSubjectSelectionChange()" width="100%">
 			<mx:columns>
@@ -60,7 +60,7 @@
 		</mx:DataGrid>
 	</mx:VBox>
 	<mx:VBox width="100%">
-		<mx:Button label="Novo Tema" />
+		<mx:Button id="newPresentationBtn" label="Novo Tema" />
 		
 		<mx:DataGrid id="presentationGrid" dataProvider="{presentationArray}" width="100%">
 			<mx:columns>
