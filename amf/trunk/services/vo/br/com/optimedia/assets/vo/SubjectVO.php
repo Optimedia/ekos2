@@ -2,7 +2,7 @@
 
 	class SubjectVO {
 		
-		public $module_id;
+		public $subject_id;
 		public $title;
 		public $description;
 		public $status;
