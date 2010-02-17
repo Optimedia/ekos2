@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
-	initialize="preInit()" creationComplete="init()">
+	initialize="preInit()" creationComplete="init()" historyManagementEnabled="false">
 	
 	<mx:Script>
 		<![CDATA[
@@ -26,6 +26,6 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Label id="te"/>
+	
 	
 </mx:Application>

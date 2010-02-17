@@ -8,7 +8,7 @@ package br.com.optimedia.autor.assets.vo
 	
 	public class SubjectVO
 	{
-		public var module_id:uint;
+		public var subject_id:uint;
 		public var title:String;
 		public var description:String;
 		public var status:uint;

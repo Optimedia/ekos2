@@ -6,6 +6,7 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
+	import br.com.optimedia.autor.controller.SubjectManagerStartupCommand;
 
 	public class AutorFacade extends Facade
 	{
@@ -33,6 +34,7 @@ package br.com.optimedia.autor
             //STARTUP COMMANDS
             registerCommand( CommandConstants.MODEL_STARTUP, ModelStartupCommand );
             registerCommand( CommandConstants.AUTOR_STARTUP, AutorStartupCommand );
+            registerCommand( CommandConstants.SUBJECT_MANAGER_STARTUP, SubjectManagerStartupCommand );
             
             //DISPOSE COMMANDS
             //registerCommand( CommandConstants.LOGIN_WINDOW_DISPOSE, LoginWindowDisposeCommand );

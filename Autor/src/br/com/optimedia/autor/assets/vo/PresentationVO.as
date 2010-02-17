@@ -11,6 +11,7 @@ package br.com.optimedia.autor.assets.vo
 		public var presentation_id:uint;
 		public var subject_id:uint;
 		public var skin_id:uint;
+		public var user_id:uint;
 		public var locked_at:String;
 		public var title:String;
 		public var description:String;

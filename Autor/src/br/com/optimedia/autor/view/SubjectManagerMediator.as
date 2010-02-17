@@ -6,6 +6,8 @@ package br.com.optimedia.autor.view
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.SubjectVO;
+	import mx.collections.ArrayCollection;
 
 	public class SubjectManagerMediator extends Mediator
 	{
@@ -44,7 +46,8 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_SUBJECTS_OK:
-					
+					view.subjectArray = new ArrayCollection(note.getBody() as Array);
+					break;
 				default:
 					break;
 			}

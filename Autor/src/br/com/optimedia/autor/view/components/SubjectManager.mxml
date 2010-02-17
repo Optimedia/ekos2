@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" creationComplete="init()">
+<mx:VDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%" creationComplete="init()">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import br.com.optimedia.autor.assets.vo.SlideVO;
+			import mx.events.DataGridEvent;
+			import mx.collections.ArrayCollection;
 			import mx.controls.Button;
 			import mx.containers.HBox;
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
@@ -12,57 +16,70 @@
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			
 			[Bindable]
-			public var subjectVO:SubjectVO = new SubjectVO();
+			public var subjectArray:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var presentationArray:ArrayCollection =  new ArrayCollection();
 			
 			private function init():void {
 				autorFacade.startup( this );
 			}
 			
-			private function editField(subject:Object):HBox {
-				if( subject is SubjectVO ) {
-					
-				}
-				else if( subject is PresentationVO ) {
-					
-				}
-				var editBtn:Button =  new Button();
-				editBtn.label = "Editar";
-				
-				var deleteBtn:Button =  new Button();
-				editBtn.label = "Excluir";
-				
-				var hBox:HBox = new HBox();
-				hBox.addChild( editBtn );
-				hBox.addChild( deleteBtn );
-				
-				return hBox;
+			private function onSubjectSelectionChange():void {
+				presentationArray = SubjectVO(subjectGrid.selectedItem).presentationArray;
+			}
+			
+			private function slidesNumLabelFunction(item:Object, column:DataGridColumn):String {
+				var counter:uint = 0;
+				for each( var slide:SlideVO in item.slidesArray ) counter++;
+				return counter.toString();
 			}
 			
 		]]>
 	</mx:Script>
 	
-	<mx:VBox>
+	<mx:VBox width="100%">
 		<mx:Button label="Novo Módulo" />
 
-		<mx:DataGrid id="subjectGrid" dataProvider="{subjectVO}">
+		<mx:DataGrid id="subjectGrid" dataProvider="{subjectArray}" change="onSubjectSelectionChange()" width="100%">
 			<mx:columns>
-				<mx:DataGridColumn headerText="Módulo" dataField="{SubjectVO(data).title}"/>
-				<mx:DataGridColumn headerText="Descrição" dataField="{SubjectVO(data).description}"/>
-				<mx:DataGridColumn headerText="Status" dataField="{SubjectVO(data).status}"/>
-				<mx:DataGridColumn headerText="Opções" dataField="{editField(data)}"/>
+				<mx:DataGridColumn headerText="Módulo" dataField="title"/>
+				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
+				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
+				<mx:DataGridColumn headerText="Opções" width="100" >
+					<mx:itemRenderer>
+					<mx:Component>
+						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" />
+							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" />
+						</mx:HBox>
+					</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
 			</mx:columns>
 		</mx:DataGrid>
 	</mx:VBox>
-	<mx:VBox>
+	<mx:VBox width="100%">
 		<mx:Button label="Novo Tema" />
-		<mx:DataGrid id="presentationGrid">
+		
+		<mx:DataGrid id="presentationGrid" dataProvider="{presentationArray}" width="100%">
 			<mx:columns>
-				<mx:DataGridColumn headerText="Tema" dataField="{PresentationVO(data).title}"/>
-				<mx:DataGridColumn headerText="Descrição" dataField="{SubjectVO(data).description}"/>
-				<mx:DataGridColumn headerText="Status" dataField="{SubjectVO(data).status}"/>
-				<mx:DataGridColumn headerText="Opções" dataField="{editField(data)}"/>
+				<mx:DataGridColumn headerText="Tema" dataField="title"/>
+				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
+				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
+				<mx:DataGridColumn headerText="Slides" labelFunction="{slidesNumLabelFunction}" width="50" textAlign="center" />
+				<mx:DataGridColumn headerText="Opções" width="100" >
+					<mx:itemRenderer>
+					<mx:Component>
+						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" />
+							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" />
+						</mx:HBox>
+					</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
 			</mx:columns>
 		</mx:DataGrid>
 	</mx:VBox>
 		
-</mx:HDividedBox>
+</mx:VDividedBox>
