@@ -507,7 +507,7 @@
 			
 			<mx:ControlBar>
 				
-				<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">
+				<!--<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
 				
 					<mx:HBox horizontalGap="0">
 						<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal"/>
@@ -531,11 +531,13 @@
 								   	click="setTextStyles('underline', event.currentTarget.selected);" /> 
 					
 					</mx:HBox>
+					
 					<mx:Button id="bulletButton" width="20" toggle="true"
 						   icon="@Embed('../../assets/img/icon_bullet.png')"
 						   click="setTextStyles('bullet', event.currentTarget.selected);" />
+						   
 					<mx:ColorPicker id="colorPicker" width="22" height="22"
-								close="setTextStyles('color');"/>
+								close="setTextStyles('color');" selectedColor="#000000"/>
 					
 					<mx:VRule height="10"/>
 					
@@ -566,7 +568,7 @@
 					<mx:Button label="Ordenar"/>
 					<mx:Button label="Remover"/>
 					
-				</mx:ToolBar>	
+				<!--</mx:ToolBar>-->	
 						
 			</mx:ControlBar>
 		</mx:Panel>
