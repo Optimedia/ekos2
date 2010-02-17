@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+	title="Novo módulo">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.autor.assets.vo.SubjectVO;
+			
+			[Bindable]
+			public var subjectVO:SubjectVO = new SubjectVO();
+			
+			public function closeMe():void {
+				Alert.show("Módulo salvo com sucesso.", "OK");
+				PopUpManager.removePopUp( this );
+			}
+			
+		]]>
+	</mx:Script>
+
+	<mx:Form width="100%">
+		<mx:FormItem label="Título">
+			<mx:TextInput id="titleTextInput" />
+		</mx:FormItem>
+		<mx:FormItem label="Descrição">
+			<mx:TextInput id="descriptionTextInput" />
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:HBox width="100%">
+		<mx:Button label="Cancelar" click="closeMe()" />
+		<mx:Spacer width="100%" />
+		<mx:Button id="saveBtn" label="Salvar" />
+	</mx:HBox>
+	
+</mx:TitleWindow>

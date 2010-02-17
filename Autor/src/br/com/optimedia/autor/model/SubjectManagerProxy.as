@@ -46,20 +46,21 @@ package br.com.optimedia.autor.model
 			sendNotification( NotificationConstants.GET_SUBJECTS_OK, event.result );
 		}
 		
-		public function newSubject(subjectVO:SubjectVO):void {
-			var asynkToken:AsyncToken = remoteService.newSubject(subjectVO);
-			asynkToken.addResponder( new Responder(newSubjectResult, generalFault) );
+		public function saveSubject(subjectVO:SubjectVO):void {
+			var asynkToken:AsyncToken = remoteService.saveSubject(subjectVO);
+			asynkToken.addResponder( new Responder(saveSubjectResult, generalFault) );
 		}
-		private function newSubjectResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.NEW_SUBJECT_OK, event.result );
+		private function saveSubjectResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.SAVE_SUBJECT_OK, event.result );
+			getSubjects();
 		}
 		
-		public function newPresentation(presentationVO:PresentationVO):void {
-			var asynkToken:AsyncToken = remoteService.newPresentation(presentationVO);
-			asynkToken.addResponder( new Responder(newPresentationResult, generalFault) );
+		public function savePresentation(presentationVO:PresentationVO):void {
+			var asynkToken:AsyncToken = remoteService.savePresentation(presentationVO);
+			asynkToken.addResponder( new Responder(savePresentationResult, generalFault) );
 		}
-		private function newPresentationResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.NEW_PRESENTATION_OK, event.result );
+		private function savePresentationResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result );
 		}
 		
 		public function newSlide(slideVO:SlideVO):void {
@@ -68,14 +69,6 @@ package br.com.optimedia.autor.model
 		}
 		private function newSlideResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.NEW_SLIDE_OK, event.result );
-		}
-		
-		public function getUser(user:CompleteUserVO):void {
-			var asynkToken:AsyncToken = remoteService.getUser(user);
-			asynkToken.addResponder( new Responder(getUserResult, generalFault) );
-		}
-		private function getUserResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.GET_USER_OK, event.result );
 		}
 	}
 }
