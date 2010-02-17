@@ -5,7 +5,7 @@
 		public $presentation_id;
 		public $subject_id;
 		public $skin_id;
-		public $user_id;
+		public $locked_by;
 		public $locked_at;
 		public $title;
 		public $description;
