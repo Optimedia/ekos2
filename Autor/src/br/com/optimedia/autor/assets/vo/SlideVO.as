@@ -1,11 +1,11 @@
 package br.com.optimedia.autor.assets.vo
 {
+	import flash.utils.ByteArray;
+	
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.SlideVO")]
 	
 	public class SlideVO
 	{
-		public static const TYPE_TITLE:uint = 1;
-		public static const TYPE_PAGE:uint = 2;
 		
 		public var slide_id:uint;
 		public var type_slide_id:uint;
