@@ -168,17 +168,7 @@
 				}
 				
 			}
-			
-			public $subject_id;
-			public $skin_id;
-			//public $locked_by;
-			//public $locked_at;
-			public $title;
-			public $description;
-			public $status;
-			
-			
-			
+						
 		}
 		
 	}
