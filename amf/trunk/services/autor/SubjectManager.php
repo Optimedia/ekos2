@@ -106,13 +106,13 @@
 				
 			} else {
 				
-				$arrayPresentation = array	('title' => $subject -> title,
-									  		 'description' => $subject -> description,
-											 'status' => $subject -> status);
+				$arraySubject = array	('title' => $subject -> title,
+									  	 'description' => $subject -> description,
+										 'status' => $subject -> status);
 					
 				$condition = "subject_id = ".$subject -> subject_id;
 				
-				return parent::doUpdate($arrayPresentation, $condition, $table);
+				return parent::doUpdate($arraySubject, $condition, $this -> _table);
 				
 			}
 			
