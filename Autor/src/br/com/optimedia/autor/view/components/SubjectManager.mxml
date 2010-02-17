@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Button;
+			import mx.containers.HBox;
+			import br.com.optimedia.autor.assets.vo.PresentationVO;
+			import br.com.optimedia.autor.assets.vo.SubjectVO;
+			import br.com.optimedia.autor.AutorFacade;
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			[Bindable]
+			public var subjectVO:SubjectVO = new SubjectVO();
+			
+			private function init():void {
+				autorFacade.startup( this );
+			}
+			
+			private function editField(subject:Object):HBox {
+				if( subject is SubjectVO ) {
+					
+				}
+				else if( subject is PresentationVO ) {
+					
+				}
+				var editBtn:Button =  new Button();
+				editBtn.label = "Editar";
+				
+				var deleteBtn:Button =  new Button();
+				editBtn.label = "Excluir";
+				
+				var hBox:HBox = new HBox();
+				hBox.addChild( editBtn );
+				hBox.addChild( deleteBtn );
+				
+				return hBox;
+			}
+			
+		]]>
+	</mx:Script>
 	
 	<mx:VBox>
 		<mx:Button label="Novo Módulo" />
 
-		<mx:DataGrid id="moduleGrid">
+		<mx:DataGrid id="subjectGrid" dataProvider="{subjectVO}">
 			<mx:columns>
-				<mx:DataGridColumn headerText="Módulo" />
-				<mx:DataGridColumn headerText="Descrição" />
-				<mx:DataGridColumn headerText="Status" />
-				<mx:DataGridColumn headerText="Opções" />
+				<mx:DataGridColumn headerText="Módulo" dataField="{SubjectVO(data).title}"/>
+				<mx:DataGridColumn headerText="Descrição" dataField="{SubjectVO(data).description}"/>
+				<mx:DataGridColumn headerText="Status" dataField="{SubjectVO(data).status}"/>
+				<mx:DataGridColumn headerText="Opções" dataField="{editField(data)}"/>
 			</mx:columns>
 		</mx:DataGrid>
 	</mx:VBox>
 	<mx:VBox>
 		<mx:Button label="Novo Tema" />
-		<mx:DataGrid id="themeGrid">
+		<mx:DataGrid id="presentationGrid">
 			<mx:columns>
-				<mx:DataGridColumn headerText="Tema" />
-				<mx:DataGridColumn headerText="Descrição" />
-				<mx:DataGridColumn headerText="Status" />
-				<mx:DataGridColumn headerText="Opções" />
+				<mx:DataGridColumn headerText="Tema" dataField="{PresentationVO(data).title}"/>
+				<mx:DataGridColumn headerText="Descrição" dataField="{SubjectVO(data).description}"/>
+				<mx:DataGridColumn headerText="Status" dataField="{SubjectVO(data).status}"/>
+				<mx:DataGridColumn headerText="Opções" dataField="{editField(data)}"/>
 			</mx:columns>
 		</mx:DataGrid>
 	</mx:VBox>

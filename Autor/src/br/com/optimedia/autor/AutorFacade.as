@@ -3,6 +3,7 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.assets.CommandConstants;
 	import br.com.optimedia.autor.controller.AutorStartupCommand;
 	import br.com.optimedia.autor.controller.ModelStartupCommand;
+	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 
@@ -46,6 +47,7 @@ package br.com.optimedia.autor
         {
         	if (app == "model") sendNotification( CommandConstants.MODEL_STARTUP, null );
         	else if (app is Autor) sendNotification( CommandConstants.AUTOR_STARTUP, app );
+        	else if (app is SubjectManager) sendNotification( CommandConstants.SUBJECT_MANAGER_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
