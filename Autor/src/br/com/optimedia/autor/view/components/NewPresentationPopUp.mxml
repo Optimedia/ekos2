@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
-	title="Novo módulo">
+	title="Novo Tema">
 	
 	<mx:Script>
 		<![CDATA[
 			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
-			import br.com.optimedia.autor.assets.vo.SubjectVO;
+			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			
 			[Bindable]
-			public var subjectVO:SubjectVO = new SubjectVO();
+			public var presentationVO:PresentationVO = new PresentationVO();
 			
 			public function closeMe():void {
 				PopUpManager.removePopUp( this );

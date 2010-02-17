@@ -3,6 +3,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.PopUpManager;
 			import mx.controls.dataGridClasses.DataGridColumn;
 			import br.com.optimedia.autor.assets.vo.SlideVO;
 			import mx.events.DataGridEvent;
@@ -12,6 +13,11 @@
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			import br.com.optimedia.autor.assets.vo.SubjectVO;
 			import br.com.optimedia.autor.AutorFacade;
+			
+			public static const SAVE_SUBJECT_EVENT:String = "SAVE_SUBJECT";
+			public static const SAVE_PRESENTATION_EVENT:String = "SAVE_PRESENTATION";
+			public static const DELETE_SUBJECT_EVENT:String = "DELETE_SUBJECT_EVENT";
+			public static const DELETE_PRESENTATION_EVENT:String = "DELETE_PRESENTATION_EVENT";
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			
@@ -35,11 +41,56 @@
 				return counter.toString();
 			}
 			
+			public var newSubjectPopUp:NewSubjectPopUp;
+			private function subjectEdit(subject:SubjectVO):void {
+				newSubjectPopUp = new NewSubjectPopUp();
+				PopUpManager.addPopUp( newSubjectPopUp, this, true );
+				PopUpManager.centerPopUp( newSubjectPopUp );
+				newSubjectPopUp.subjectVO = subject;
+				newSubjectPopUp.saveBtn.addEventListener(MouseEvent.CLICK, saveSubject);
+			}
+			
+			private function saveSubject(event:MouseEvent):void {
+				this.dispatchEvent( new Event(SAVE_SUBJECT_EVENT) );
+			}
+			
+			public var newPresentationPopUp:NewPresentationPopUp;
+			private function presentationEdit(presentation:PresentationVO):void {
+				newPresentationPopUp = new NewPresentationPopUp();
+				PopUpManager.addPopUp( newPresentationPopUp, this, true );
+				PopUpManager.centerPopUp( newPresentationPopUp );
+				newPresentationPopUp.presentationVO = presentation;
+				newPresentationPopUp.saveBtn.addEventListener(MouseEvent.CLICK, savePresentation);
+			}
+			
+			private function savePresentation(event:MouseEvent):void {
+				this.dispatchEvent( new Event(SAVE_PRESENTATION_EVENT) );
+			}
+			
+			public function editItem(data:*):void {
+				if( data is SubjectVO ) {
+					subjectEdit( data );
+				}
+				else if( data is PresentationVO ) {
+					presentationEdit( data );
+				}
+			}
+			
+			public function deleteItem(data:Object):void {
+				//FINISH ME
+				//CRIAR POPUP PARA CONFIRMAR
+				if( data is SubjectVO ) {
+					this.dispatchEvent( new Event(DELETE_SUBJECT_EVENT) );
+				}
+				else if( data is PresentationVO ) {
+					this.dispatchEvent( new Event(DELETE_PRESENTATION_EVENT) );
+				}
+			}
 		]]>
 	</mx:Script>
 	
 	<mx:VBox width="100%">
-		<mx:Button id="newSubjectBtn" label="Novo Módulo"/>
+		<mx:Button id="newSubjectBtn" label="Novo Módulo" click="subjectEdit( new SubjectVO() )"/>
 
 		<mx:DataGrid id="subjectGrid" dataProvider="{subjectArray}" change="onSubjectSelectionChange()" width="100%">
 			<mx:columns>
@@ -50,8 +101,8 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" />
-							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" />
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" click="parentDocument.editItem(data)"/>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.deleteItem(data)" />
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -60,7 +111,7 @@
 		</mx:DataGrid>
 	</mx:VBox>
 	<mx:VBox width="100%">
-		<mx:Button id="newPresentationBtn" label="Novo Tema" />
+		<mx:Button id="newPresentationBtn" label="Novo Tema" click="presentationEdit( new PresentationVO() )" />
 		
 		<mx:DataGrid id="presentationGrid" dataProvider="{presentationArray}" width="100%">
 			<mx:columns>
@@ -72,8 +123,8 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" />
-							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" />
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" click="parentDocument.editItem(data)" />
+							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.deleteItem(data)" />
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
