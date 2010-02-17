@@ -21,7 +21,7 @@
 		 * - Retorna: Array - SubjectVO
 		 * .
 		 */
-		public function getModules() {
+		public function getSubjects() {
 			
 			$sql = "SELECT * FROM ath_subject";
 			$query = parent::doSelect($sql);
@@ -65,7 +65,7 @@
 			return $presentationArray;
 		}
 		
-	/**
+		/**
 		 * Função que retorna todos os slides
 		 *  
 		 * - Retorna: Array - SlideVO
