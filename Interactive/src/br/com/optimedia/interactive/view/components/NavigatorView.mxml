@@ -14,7 +14,9 @@
 			
 		]]>
 	</mx:Script>
-
-	<mx:Button label="&lt;"  x="10"/>
-	<mx:Button label="&gt;"  x="60"/>
+	<mx:HBox>
+		<mx:Button id="btMenu" label="Índice"/>
+		<mx:Button id="btBack" label="&lt;"/>
+		<mx:Button id="btNext"  label="&gt;"/>
+	</mx:HBox>
 </mx:Canvas>
