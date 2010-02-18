@@ -96,7 +96,7 @@
 		 */
 		public function saveSubject(SubjectVO $subject) {
 			
-			if($subject -> subject_id == null) {
+			if($subject -> subject_id == 0) {
 			
 				$arraySubject = array	('title' => $subject -> title,
 									  	 'description' => $subject -> description,
@@ -126,7 +126,7 @@
 		 */
 		public function savePresentation(PresentationVO $presentation) {
 			
-			if($presentation -> presentation_id == null) {
+			if($presentation -> presentation_id == 0) {
 				
 				// Adicionar presentation no bd;
 				$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
