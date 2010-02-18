@@ -117,10 +117,10 @@
 		]]>
 	</mx:Script>
 	
-	<mx:VBox width="100%">
+	<mx:VBox width="100%" height="50%">
 		<mx:Button id="newSubjectBtn" label="Novo Módulo" click="subjectEdit( new SubjectVO() )"/>
 
-		<mx:DataGrid id="subjectGrid" dataProvider="{subjectArray}" change="onSubjectSelectionChange()" width="100%">
+		<mx:DataGrid id="subjectGrid" dataProvider="{subjectArray}" change="onSubjectSelectionChange()" width="100%" height="100%">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Módulo" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
@@ -138,10 +138,10 @@
 			</mx:columns>
 		</mx:DataGrid>
 	</mx:VBox>
-	<mx:VBox width="100%">
+	<mx:VBox width="100%" height="50%">
 		<mx:Button id="newPresentationBtn" label="Novo Tema" click="presentationEdit( new PresentationVO() )" enabled="{subjectGrid.selectedIndex!=-1}"/>
 		
-		<mx:DataGrid id="presentationGrid" dataProvider="{SubjectVO(subjectGrid.selectedItem).presentationArray}" width="100%">
+		<mx:DataGrid id="presentationGrid" dataProvider="{SubjectVO(subjectGrid.selectedItem).presentationArray}" width="100%" height="100%">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Tema" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
