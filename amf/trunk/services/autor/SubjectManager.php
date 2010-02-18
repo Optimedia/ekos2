@@ -25,7 +25,7 @@
 		 */
 		public function getSubjects() {
 			
-			$sql = "SELECT * FROM ath_subject";
+			$sql = "SELECT * FROM ath_subject ORDER BY subject_id";
 			$query = parent::doSelect($sql);
 			
 			$subject = new SubjectVO();
@@ -50,7 +50,7 @@
 		 */
 		public function getPresentation($subjectID) {
 			
-			$sql = "SELECT * FROM ath_presentation WHERE subject_id = $subjectID";
+			$sql = "SELECT * FROM ath_presentation WHERE subject_id = $subjectID ORDER BY presentation_id";
 			$query = parent::doSelect($sql);
 			
 			$presentation = new PresentationVO();
@@ -75,7 +75,7 @@
 		 */
 		public function getSlides($presentationID) {
 			
-			$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID";
+			$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY slide_id";
 			$query = parent::doSelect($sql);
 			
 			$slide = new SlideVO();
