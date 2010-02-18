@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     11/02/2010 14:51:04                          */
+/* Created on:     18/02/2010 16:08:17                          */
 /*==============================================================*/
 
 
@@ -9,11 +9,11 @@
 /*==============================================================*/
 create table ath_header
 (
-   id_header            int not null auto_increment,
+   header_id            int not null auto_increment,
    title                varchar(140) not null,
    fg_image             varchar(250) not null,
    status               tinyint,
-   primary key (id_header)
+   primary key (header_id)
 );
 
 /*==============================================================*/
@@ -21,9 +21,9 @@ create table ath_header
 /*==============================================================*/
 create table ath_link
 (
-   id_page              int not null,
-   id_media             int not null,
-   primary key (id_page, id_media)
+   slide_id             int not null,
+   media_id             int not null,
+   primary key (slide_id, media_id)
 );
 
 /*==============================================================*/
@@ -31,14 +31,14 @@ create table ath_link
 /*==============================================================*/
 create table ath_log_header
 (
-   id_user              int,
+   user_id              int,
    date_event           datetime,
    version              tinyint not null,
-   id_header            int not null,
+   header_id            int not null,
    title                varchar(140) not null,
    fg_image             varchar(250) not null,
    status               tinyint,
-   primary key (version, id_header)
+   primary key (version, header_id)
 );
 
 /*==============================================================*/
@@ -46,16 +46,16 @@ create table ath_log_header
 /*==============================================================*/
 create table ath_log_presentation
 (
-   id_user              int,
+   user_id              int,
    date_event           datetime,
    version              tinyint not null,
-   id_presentation      int not null,
-   id_subject           int not null,
-   id_skin              int not null,
+   presentation_id      int not null,
+   subject_id           int not null,
+   skin_id              int not null,
    title                varchar(140) not null,
    description          text,
    status               tinyint not null,
-   primary key (id_presentation, version)
+   primary key (presentation_id, version)
 );
 
 /*==============================================================*/
@@ -63,16 +63,16 @@ create table ath_log_presentation
 /*==============================================================*/
 create table ath_log_skin
 (
-   id_user              int,
+   user_id              int,
    date_event           datetime,
    version              tinyint not null,
-   id_skin              int not null,
+   skin_id              int not null,
    title                varchar(140) not null,
    bg_image             varchar(250) not null,
    fg_title             varchar(8) not null,
    fg_text              varchar(8) not null,
    status               tinyint not null,
-   primary key (version, id_skin)
+   primary key (version, skin_id)
 );
 
 /*==============================================================*/
@@ -80,19 +80,19 @@ create table ath_log_skin
 /*==============================================================*/
 create table ath_log_slide
 (
-   id_user              int,
+   user_id              int,
    date_event           datetime,
    version              tinyint not null,
-   id_page              int not null,
-   id_type_slide        int not null,
-   id_header            int not null,
-   id_presentation      int not null,
+   slide_id             int not null,
+   type_slide_id        int not null,
+   header_id            int not null,
+   presentation_id      int not null,
    page_order           smallint not null,
    title                varchar(140) not null,
    title_menu           varchar(140) not null,
    text_body            text,
    status               tinyint not null,
-   primary key (version, id_page)
+   primary key (version, slide_id)
 );
 
 /*==============================================================*/
@@ -100,14 +100,24 @@ create table ath_log_slide
 /*==============================================================*/
 create table ath_log_subject
 (
-   id_user              int,
+   user_id              int,
    date_event           datetime,
    version              tinyint not null,
-   id_subject           int not null,
+   subject_id           int not null,
    title                varchar(140) not null,
    description          text,
    status               tinyint not null,
-   primary key (id_subject, version)
+   primary key (subject_id, version)
+);
+
+/*==============================================================*/
+/* Table: ath_media                                             */
+/*==============================================================*/
+create table ath_media
+(
+   media_id             int not null,
+   presentation_id      int not null,
+   primary key (media_id)
 );
 
 /*==============================================================*/
@@ -115,15 +125,15 @@ create table ath_log_subject
 /*==============================================================*/
 create table ath_presentation
 (
-   id_presentation      int not null auto_increment,
-   id_subject           int not null,
-   id_skin              int not null,
-   user_id              int8,
+   presentation_id      int not null auto_increment,
+   subject_id           int not null,
+   skin_id              int not null,
+   locked_by            int8,
    locked_at            datetime,
    title                varchar(140) not null,
    description          text,
    status               tinyint not null,
-   primary key (id_presentation)
+   primary key (presentation_id)
 );
 
 /*==============================================================*/
@@ -131,13 +141,13 @@ create table ath_presentation
 /*==============================================================*/
 create table ath_skin
 (
-   id_skin              int not null auto_increment,
+   skin_id              int not null auto_increment,
    title                varchar(140) not null,
    bg_image             varchar(250) not null,
    fg_title             varchar(8) not null,
    fg_text              varchar(8) not null,
    status               tinyint not null,
-   primary key (id_skin)
+   primary key (skin_id)
 );
 
 /*==============================================================*/
@@ -145,16 +155,16 @@ create table ath_skin
 /*==============================================================*/
 create table ath_slide
 (
-   id_page              int not null auto_increment,
-   id_type_slide        int not null,
-   id_presentation      int not null,
-   id_header            int not null,
+   slide_id             int not null auto_increment,
+   type_slide_id        int not null,
+   presentation_id      int not null,
+   header_id            int not null,
    page_order           smallint not null,
    title                varchar(140) not null,
    title_menu           varchar(140) not null,
    text_body            text,
    status               tinyint not null,
-   primary key (id_page)
+   primary key (slide_id)
 );
 
 /*==============================================================*/
@@ -162,11 +172,11 @@ create table ath_slide
 /*==============================================================*/
 create table ath_subject
 (
-   id_subject           int not null auto_increment,
+   subject_id           int not null auto_increment,
    title                varchar(140) not null,
    description          text,
    status               tinyint not null,
-   primary key (id_subject)
+   primary key (subject_id)
 );
 
 /*==============================================================*/
@@ -174,10 +184,10 @@ create table ath_subject
 /*==============================================================*/
 create table ath_type_slide
 (
-   id_type_slide        int not null auto_increment,
+   type_slide_id        int not null auto_increment,
    title                varchar(140) not null,
    status               tinyint,
-   primary key (id_type_slide)
+   primary key (type_slide_id)
 );
 
 /*==============================================================*/
@@ -186,37 +196,43 @@ create table ath_type_slide
 create table ath_user_subject
 (
    user_id              int not null,
-   id_subject           int not null,
-   primary key (user_id, id_subject)
+   subject_id           int not null,
+   primary key (user_id, subject_id)
 );
 
-alter table ath_link add constraint fk_reference_10 foreign key (id_media)
-      references mda_media (id_media) on delete restrict on update restrict;
+alter table ath_link add constraint fk_reference_14 foreign key (media_id)
+      references ath_media (media_id) on delete restrict on update restrict;
 
-alter table ath_link add constraint fk_reference_9 foreign key (id_page)
-      references ath_slide (id_page) on delete restrict on update restrict;
+alter table ath_link add constraint fk_reference_9 foreign key (slide_id)
+      references ath_slide (slide_id) on delete restrict on update restrict;
 
-alter table ath_presentation add constraint fk_reference_1 foreign key (id_subject)
-      references ath_subject (id_subject) on delete restrict on update restrict;
+alter table ath_media add constraint fk_reference_11 foreign key (presentation_id)
+      references ath_presentation (presentation_id) on delete restrict on update restrict;
 
-alter table ath_presentation add constraint fk_reference_3 foreign key (id_skin)
-      references ath_skin (id_skin) on delete restrict on update restrict;
+alter table ath_media add constraint fk_reference_13 foreign key (media_id)
+      references mda_media (media_id) on delete restrict on update restrict;
 
-alter table ath_presentation add constraint fk_reference_7 foreign key (user_id)
-      references eko_user (user_id) on delete restrict on update restrict;
+alter table ath_presentation add constraint fk_reference_1 foreign key (subject_id)
+      references ath_subject (subject_id) on delete restrict on update restrict;
 
-alter table ath_slide add constraint fk_reference_2 foreign key (id_presentation)
-      references ath_presentation (id_presentation) on delete restrict on update restrict;
+alter table ath_presentation add constraint fk_reference_3 foreign key (skin_id)
+      references ath_skin (skin_id) on delete restrict on update restrict;
 
-alter table ath_slide add constraint fk_reference_4 foreign key (id_header)
-      references ath_header (id_header) on delete restrict on update restrict;
+alter table ath_presentation add constraint fk_reference_7 foreign key (locked_by)
+      references eko_user on delete restrict on update restrict;
 
-alter table ath_slide add constraint fk_reference_5 foreign key (id_type_slide)
-      references ath_type_slide (id_type_slide) on delete restrict on update restrict;
+alter table ath_slide add constraint fk_reference_2 foreign key (presentation_id)
+      references ath_presentation (presentation_id) on delete restrict on update restrict;
 
-alter table ath_user_subject add constraint fk_reference_12 foreign key (id_subject)
-      references ath_subject (id_subject) on delete restrict on update restrict;
+alter table ath_slide add constraint fk_reference_4 foreign key (header_id)
+      references ath_header (header_id) on delete restrict on update restrict;
+
+alter table ath_slide add constraint fk_reference_5 foreign key (type_slide_id)
+      references ath_type_slide (type_slide_id) on delete restrict on update restrict;
+
+alter table ath_user_subject add constraint fk_reference_12 foreign key (subject_id)
+      references ath_subject (subject_id) on delete restrict on update restrict;
 
 alter table ath_user_subject add constraint fk_reference_8 foreign key (user_id)
-      references eko_user (user_id) on delete restrict on update restrict;
+      references eko_user on delete restrict on update restrict;
 

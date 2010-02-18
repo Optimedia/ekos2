@@ -1,0 +1,10 @@
+Category    Type    Extentions
+Table       Image   JPG, PNG, SWF
+Chart       Image   JPG, PNG, SWF
+Image       Image   JPG, PNG, SWF
+Movie       Movie   FLV
+Web Link    Link    URL
+Notes       Object  
+Poll        Object  
+Survey      Object  
+Download    File    DOC, XLS, PPT, PPS,  PDF, ZIP, ODT, ODS, ODP
