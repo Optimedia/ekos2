@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" xmlns="*" width="100%" height="100%">
+	
+	
+	
+	<mx:HBox width="100%" height="100%">
+		
+		<mx:Panel layout="vertical" width="100%" height="100%" cornerRadius="0" minWidth="680" minHeight="450"
+			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" title="Título do Tema">					 
+			<mx:Label text="O Slide Pronto"/>
+					
+			<mx:ControlBar>
+				
+				<mx:VBox width="100%">
+					
+					<mx:HBox width="100%"  horizontalAlign="center" backgroundColor="#999999" borderStyle="solid" borderColor="#FFFFFF" borderThickness="2">
+						<mx:Text text="Slide criado por Fulano de Tal em 31/12/2009 22:13&#xa;última alteração por Beltrano dos Hamburgueres em 01/01/2010 14:00" color="#FFFFFF" textAlign="center" fontWeight="bold"/>
+					</mx:HBox>
+					<!--
+					<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
+											
+					<mx:HBox width="100%" horizontalGap="7" verticalAlign="middle">
+						
+						<!-- Seletor de slide -->
+						
+						<mx:HBox horizontalGap="0">
+							<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal"/>
+							<mx:TextInput width="33" text="1" textAlign="center" restrict="0-9"/>
+							<mx:Button label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal"/>
+						</mx:HBox>
+						
+						<mx:VRule height="10"/>
+						
+						<mx:HBox id="toolBar2" horizontalGap="0">
+						
+							<mx:Button id="boldButton" width="20" toggle="true" enabled="false"
+										icon="@Embed('../../assets/img/icon_style_bold.png')"/> 
+							
+							<mx:Button id="italicButton" width="20" toggle="true" enabled="false"
+										icon="@Embed('../../assets/img/icon_style_italic.png')"/> 
+							
+							<mx:Button id="underlineButton" width="20" toggle="true" enabled="false"
+										icon="@Embed('../../assets/img/icon_style_underline.png')"/> 
+						
+						</mx:HBox>
+						
+						<mx:Button id="bulletButton" width="20" toggle="true" enabled="false"
+							   icon="@Embed('../../assets/img/icon_bullet.png')"/>
+							   
+						<mx:ColorPicker id="colorPicker" width="22" height="22" selectedColor="#000000" enabled="false"/>
+						
+						<mx:VRule height="10"/>
+						
+						<mx:ToggleButtonBar id="alignButtons" buttonWidth="20" enabled="false">
+							<mx:dataProvider>
+								<mx:Array> 
+									<mx:Object icon="@Embed('../../assets/img/icon_align_left.png')" action="left"/>
+									<mx:Object icon="@Embed('../../assets/img/icon_align_center.png')" action="center"/>
+									<mx:Object icon="@Embed('../../assets/img/icon_align_right.png')" action="right"/>
+									<mx:Object icon="@Embed('../../assets/img/icon_align_justify.png')" action="justify"/>
+								</mx:Array>
+							</mx:dataProvider>
+						</mx:ToggleButtonBar>
+						
+						<mx:VRule height="10"/>
+						
+						<mx:TextInput width="10"/>
+						
+						<mx:Spacer width="100%"/>
+						<mx:VRule height="10"/>
+						
+						<mx:Button label="Adicionar"/>
+						<mx:Button label="Editar"/>
+						<mx:Button label="Ordenar"/>
+						<mx:Button label="Remover"/>
+						
+					<!--</mx:ToolBar>-->
+						
+					</mx:HBox>
+							
+				</mx:VBox>
+				
+			</mx:ControlBar>
+		</mx:Panel>
+		
+		<mx:Panel width="200" height="100%" title="Repositório" cornerRadius="0">
+		</mx:Panel>
+	</mx:HBox>
+	
+</mx:VBox>
