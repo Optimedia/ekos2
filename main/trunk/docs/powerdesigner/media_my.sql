@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     11/02/2010 14:48:45                          */
+/* Created on:     18/02/2010 16:08:25                          */
 /*==============================================================*/
 
 
@@ -9,71 +9,49 @@
 /*==============================================================*/
 create table mda_category
 (
-   id_category          int not null auto_increment,
+   category_id          int not null auto_increment,
    title                varchar(140) not null,
    status               tinyint not null,
-   primary key (id_category)
+   primary key (category_id)
 );
 
-alter table mda_category comment 'Internal File
-  Flash paper
-  Flash Movie
-';
-
-/*==============================================================*/
-/* Table: mda_file                                              */
-/*==============================================================*/
-create table mda_file
-(
-   id_file              int not null,
-   location             varchar(250) not null,
-   primary key (id_file)
-);
-
-/*==============================================================*/
-/* Table: mda_link                                              */
-/*==============================================================*/
-create table mda_link
-(
-   id_link              int not null,
-   url                  varchar(200) not null,
-   primary key (id_link)
-);
+alter table mda_category comment 'Table
+Chart
+Image
+Movie
+Web Link
+                                 -&';
 
 /*==============================================================*/
 /* Table: mda_media                                             */
 /*==============================================================*/
 create table mda_media
 (
-   id_media             int not null auto_increment,
-   id_type_media        int,
-   id_category          int,
+   media_id             int not null auto_increment,
+   type_media_id        int,
+   category_id          int,
    title                varchar(140) not null,
    description          text,
    creation             datetime,
    last_change          datetime,
+   location             varchar(250),
+   url                  varchar(200),
+   full_text            text,
    status               tinyint not null,
-   primary key (id_media)
+   primary key (media_id)
 );
 
-/*==============================================================*/
-/* Table: mda_object                                            */
-/*==============================================================*/
-create table mda_object
-(
-   id_object            int not null,
-   primary key (id_object)
-);
+alter table mda_media comment 'Category				Type		Extentions
+Table				Internal File (I';
 
 /*==============================================================*/
 /* Table: mda_poll                                              */
 /*==============================================================*/
 create table mda_poll
 (
-   id_object            int not null,
    poll_id              int not null,
-   status               tinyint not null,
-   primary key (id_object, poll_id)
+   media_id             int not null,
+   primary key (poll_id, media_id)
 );
 
 /*==============================================================*/
@@ -81,20 +59,9 @@ create table mda_poll
 /*==============================================================*/
 create table mda_survey
 (
-   id_object            int not null,
    survey_id            int not null,
-   status               tinyint not null,
-   primary key (id_object, survey_id)
-);
-
-/*==============================================================*/
-/* Table: mda_text                                              */
-/*==============================================================*/
-create table mda_text
-(
-   id_text              int not null,
-   full_text            text not null,
-   primary key (id_text)
+   media_id             int not null,
+   primary key (survey_id, media_id)
 );
 
 /*==============================================================*/
@@ -102,44 +69,33 @@ create table mda_text
 /*==============================================================*/
 create table mda_type_media
 (
-   id_type_media        int not null auto_increment,
+   type_media_id        int not null auto_increment,
    title                varchar(140) not null,
    status               tinyint not null,
-   primary key (id_type_media)
+   primary key (type_media_id)
 );
 
-alter table mda_type_media comment 'Internal File
-  Flash paper
-  Flash Movie
-';
+alter table mda_type_media comment 'Link
+Image
+Movie
+File
+Object';
 
-alter table mda_file add constraint fk_reference_2 foreign key (id_file)
-      references mda_media (id_media) on delete restrict on update restrict;
+alter table mda_media add constraint fk_reference_1 foreign key (type_media_id)
+      references mda_type_media (type_media_id) on delete restrict on update restrict;
 
-alter table mda_link add constraint fk_reference_3 foreign key (id_link)
-      references mda_media (id_media) on delete restrict on update restrict;
-
-alter table mda_media add constraint fk_reference_1 foreign key (id_type_media)
-      references mda_type_media (id_type_media) on delete restrict on update restrict;
-
-alter table mda_media add constraint fk_reference_6 foreign key (id_category)
-      references mda_category (id_category) on delete restrict on update restrict;
-
-alter table mda_object add constraint fk_reference_5 foreign key (id_object)
-      references mda_media (id_media) on delete restrict on update restrict;
+alter table mda_media add constraint fk_reference_6 foreign key (category_id)
+      references mda_category (category_id) on delete restrict on update restrict;
 
 alter table mda_poll add constraint fk_reference_10 foreign key (poll_id)
-      references eko_poll (poll_id) on delete restrict on update restrict;
+      references eko_poll on delete restrict on update restrict;
 
-alter table mda_poll add constraint fk_reference_8 foreign key (id_object)
-      references mda_object (id_object) on delete restrict on update restrict;
+alter table mda_poll add constraint fk_reference_7 foreign key (media_id)
+      references mda_media (media_id) on delete restrict on update restrict;
 
-alter table mda_survey add constraint fk_reference_7 foreign key (id_object)
-      references mda_object (id_object) on delete restrict on update restrict;
+alter table mda_survey add constraint fk_reference_5 foreign key (media_id)
+      references mda_media (media_id) on delete restrict on update restrict;
 
 alter table mda_survey add constraint fk_reference_9 foreign key (survey_id)
-      references eko_survey (survey_id) on delete restrict on update restrict;
-
-alter table mda_text add constraint fk_reference_4 foreign key (id_text)
-      references mda_media (id_media) on delete restrict on update restrict;
+      references eko_survey on delete restrict on update restrict;
 
