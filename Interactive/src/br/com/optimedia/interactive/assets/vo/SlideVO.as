@@ -8,6 +8,7 @@ package br.com.optimedia.interactive.assets.vo
 	{
 		public static const TYPE_TITLE:uint = 1;
 		public static const TYPE_PAGE:uint = 2;
+		public static const TYPE_IMG:uint = 3;
 		
 		public var slide_id:uint;
 		public var type_slide_id:uint;
