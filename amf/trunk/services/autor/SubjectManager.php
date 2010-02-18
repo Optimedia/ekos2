@@ -75,7 +75,7 @@
 		 */
 		public function getSlides($presentationID) {
 			
-			$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY slide_id";
+			$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY page_order";
 			$query = parent::doSelect($sql);
 			
 			$slide = new SlideVO();
