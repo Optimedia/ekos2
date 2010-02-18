@@ -96,26 +96,27 @@
 		 */
 		public function saveSubject(SubjectVO $subject) {
 			
-			if($subject -> subject_id == 0) {
-			
-				$arraySubject = array	('title' => $subject -> title,
-									  	 'description' => $subject -> description,
-										 'status' => $subject -> status);
-								  
-				return parent::doInsert($arraySubject, $this -> _table);
+			if($subject -> title != "" && $subject -> description != "") {
+				if($subject -> subject_id == 0) {
 				
-			} else {
-				
-				$arraySubject = array	('title' => $subject -> title,
-									  	 'description' => $subject -> description,
-										 'status' => $subject -> status);
+					$arraySubject = array	('title' => $subject -> title,
+										  	 'description' => $subject -> description,
+											 'status' => $subject -> status);
+									  
+					return parent::doInsert($arraySubject, $this -> _table);
 					
-				$condition = "subject_id = ".$subject -> subject_id;
-				
-				return parent::doUpdate($arraySubject, $condition, $this -> _table);
-				
+				} else {
+					
+					$arraySubject = array	('title' => $subject -> title,
+										  	 'description' => $subject -> description,
+											 'status' => $subject -> status);
+						
+					$condition = "subject_id = ".$subject -> subject_id;
+					
+					return parent::doUpdate($arraySubject, $condition, $this -> _table);
+					
+				}
 			}
-			
 		}
 		
 		/**
@@ -126,49 +127,48 @@
 		 */
 		public function savePresentation(PresentationVO $presentation) {
 			
-			if($presentation -> presentation_id == 0) {
-				
-				// Adicionar presentation no bd;
-				$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
-											 'skin_id' => $presentation -> skin_id,
-											 'title' => $presentation -> title,
-											 'description' => $presentation -> description,
-										 	 'status' => $presentation -> status);
-							  
-				return parent::doInsert($arraySubject, $this -> _table);
-				
-			} else {
-				
-				// Verificar se a presentation está liberada, se sim, atualizar os dados, se não retornar false;
-				$tempPresentation = new Presentation();
-				
-				$fields = "locked_by, locked_at";
-				$table = "ath_presentation";
-				$where = "presentation_id = ".$presentation -> presentation_id;
-				$return = "object";
-				$complement = "PresentationVO"; 
-				
-				$tempPresentation = parent::doSingleSelect($fields, $table, $where, null, $return, $complement);
-				
-				// Verificando se a presentation está liberada.
-				if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
+			if($presentation -> title != "" && $presentation -> description != "") {
+				if($presentation -> presentation_id == 0) {
 					
+					// Adicionar presentation no bd;
 					$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
 												 'skin_id' => $presentation -> skin_id,
 												 'title' => $presentation -> title,
 												 'description' => $presentation -> description,
-												 'status' => $presentation -> status);
-					
-					$condition = "presentation_id = ".$presentation -> presentation_id;
-					
-					return parent::doUpdate($arrayPresentation, $condition, $table);
+											 	 'status' => $presentation -> status);
+								  
+					return parent::doInsert($arraySubject, $this -> _table);
 					
 				} else {
-					return false;
-				}
-				
-			}
+					
+					// Verificar se a presentation está liberada, se sim, atualizar os dados, se não retornar false;
+					$tempPresentation = new Presentation();
+					
+					$fields = "locked_by, locked_at";
+					$table = "ath_presentation";
+					$where = "presentation_id = ".$presentation -> presentation_id;
+					$return = "object";
+					$complement = "PresentationVO"; 
+					
+					$tempPresentation = parent::doSingleSelect($fields, $table, $where, null, $return, $complement);
+					
+					// Verificando se a presentation está liberada.
+					if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
 						
+						$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
+													 'skin_id' => $presentation -> skin_id,
+													 'title' => $presentation -> title,
+													 'description' => $presentation -> description,
+													 'status' => $presentation -> status);
+						
+						$condition = "presentation_id = ".$presentation -> presentation_id;
+						
+						return parent::doUpdate($arrayPresentation, $condition, $table);
+						
+					} else {
+						return false;
+					}
+				}
+			}
 		}
-		
 	}
