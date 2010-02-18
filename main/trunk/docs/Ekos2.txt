@@ -1,0 +1,199 @@
+Messages types
+	Publics(Orkut's Scraps)
+	Privates(Orkut's Message)
+	IM (Instant Messages)
+	Twitter
+
+Persons types
+	Followers
+	Friends
+	Chat'ers
+	Followeds
+
+Start
+    Widgets
+        Last updates (LU)
+        Friendship request
+        Followers list
+        Followeds list
+        Friends list
+        Recent messages(by types)
+        New profile's content
+        Observeds contents
+        Updates contents
+        My contents
+        My contents incrementeds
+        Replies
+        My contents votes
+        A poll result
+        Polls openeds
+        My best comments
+        My bad comments
+        My contents recommendateds
+        My surveys
+        My openeds surveys
+        My contents relatads
+        Files
+        Calendar
+        Events
+        Exams
+        
+        
+        
+Relationship                        = Ñ
+    Avatar                          = LU
+        Nick Name                   = LU
+        Image                       = LU
+        Actions                     = Ñ
+            Add Friend              = Friendship request
+            Ignore                  = Ñ
+            View Profile            = Ñ
+            Send Message            = LU
+            Follow/Unfollow         = LU, Followers list
+    Profile                         = LU
+    Friend                          = Friends list
+        Group                       = LU?
+    Message                         = LU, Recent messages(by types)
+    Scrap                           = Recent messages(by types)
+Content                             = New profile's content, Observeds contents, Updates contents, My contents
+    Increment                       = My contents incrementeds, My increments
+        Comment                     = Replies, My best comments, My bad comments
+            User Voting             = My contents votes, 
+        Poll                        = A poll result, Polls openeds
+            Período                 = Ñ
+            Momento do resultado    = Ñ
+            Publicado               = Ñ
+        Recommendation              = My contents recommendateds
+        Survey                      = My surveys, My openeds surveys
+        Related                     = My contents relatads
+        Calendar Link               = Calendar
+        Event                       = Events
+        Exam                        = Exams
+    Field                           = X
+        Language                    = X
+        User Ranking                = X
+        Multi Author                = X
+        Multi Increment             = X
+        Multi Node                  = X
+        Multi Tag                   = X
+    Container                       = X
+    Search                          = X
+        Filter                      = X
+        Advanced                    = X
+        Simple                      = X
+        Result                      = X
+            Grouping                = X
+            Order                   = X
+            View model              = X
+    History                         = X
+    Types                           = X
+        Blog                        = X
+        Bookmark                    = X
+        Comment                     = X
+        Wiki                        = X
+        Course                      = X
+        Interativo                  = X
+        File                        = Files
+Context                             = X
+    Calendar                        = X
+    Content                         = X
+    Node                            = X
+    Profile                         = X
+Design Project                      = X
+    DB Agnostic                     = X
+        Persistence                 = X
+            Doctrine                = X
+            Zend                    = X
+            DB Abstraction          = X
+                PDO                 = X
+                ADOdb               = X
+                PEAR_DB             = X
+                ZEND_DB             = X
+        Dialects                    = X
+            PostgreSQL              = X
+            MySQL                   = X
+    Internacionalization            = X
+        XML                         = X
+        Locale changer              = X
+    PureMVC                         = X
+    WebService                      = X
+        amfphp                      = X
+            JSON                    = X
+            AMF                     = X
+    Server Framework                = X
+        None                        = X
+        Zend                        = X
+        Symfony                     = X
+        CodeIgniter                 = X
+        CakePHP                     = X
+Features                            = X
+    Tag                             = X
+    Node                            = X
+    Localization                    = X
+    Search                          = X
+        Specific                    = X
+        General                     = X
+    Notifier                        = X
+    Theme                           = X
+    SSO                             = X
+    Avatar                          = X
+    Increment                       = X
+    Content Fields                  = X
+        Title                       = X
+        URI                         = X
+        Tags                        = X
+        Authors                     = X
+        Text content                = X
+        Date                        = X
+            Creation                = X
+            Last change             = X
+Applicaton                          = X
+    File manager                    = X
+    Microblog                       = X
+    Note                            = X
+    Integration                     = X
+        Wiki                        = X
+        Moodle                      = X
+        Calendar                    = X
+    IDM                             = X
+        Disable                     = X
+        SSO                         = X
+            OpenId                  = X
+            SAML                    = X
+        Self-Service                = X
+    IDA                             = X
+        CRUD                        = X
+        Bulk                        = X
+        Disable                     = X
+    Future                          = X
+        Issue Tracker               = X
+        News reader                 = X
+        Project Manager             = X
+Service                             = X
+    Conference                      = X
+    Instant Message                 = X
+    Notification                    = X
+        Sindication                 = X
+        Contexts                    = X
+    Search                          = X
+        Lucene                      = X
+        Zend Search                 = X
+Design                              = X
+    Cockpit                         = X
+        Widget                      = X
+            Avatar
+            Applications
+            Chat
+            News reader
+            Change Language
+            Node avatar/change
+            Log off
+            Search
+            Preferences
+            Content área
+                Tabs
+        Perspective                 = X
+            General                 = X
+            Manager                 = X
+            Administrator           = X
+    Theme                           = X
