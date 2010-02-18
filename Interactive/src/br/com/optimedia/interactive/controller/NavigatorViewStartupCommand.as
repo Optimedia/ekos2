@@ -10,7 +10,7 @@ package br.com.optimedia.interactive.controller
 	{
 		override public function execute(notification:INotification):void {
 			
-			var instace:Interactive = notification.getBody() as NavigatorView;
+			var instance:NavigatorView = notification.getBody() as NavigatorView;
 			
 			facade.registerMediator( new NavigatorMediator( instance ) );
 			

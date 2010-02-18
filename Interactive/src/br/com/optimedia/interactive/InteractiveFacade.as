@@ -2,9 +2,17 @@ package br.com.optimedia.interactive
 {
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
 	import br.com.optimedia.interactive.controller.InteractiveStartupCommand;
+	import br.com.optimedia.interactive.controller.MenuViewStartupCommand;
+	import br.com.optimedia.interactive.controller.NavigatorViewStartupCommand;
 	import br.com.optimedia.interactive.controller.SlideViewStartupCommand;
+	import br.com.optimedia.interactive.model.InteractiveProxy;
+	import br.com.optimedia.interactive.view.InteractiveMediator;
+	import br.com.optimedia.interactive.view.SlideMediator;
+	import br.com.optimedia.interactive.view.components.MenuView;
 	import br.com.optimedia.interactive.view.components.NavigatorView;
 	import br.com.optimedia.interactive.view.components.SlideView;
+	
+	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	
@@ -31,10 +39,19 @@ package br.com.optimedia.interactive
         override protected function initializeController( ) : void 
         {
             super.initializeController();
+
+			// PROXY
+			this.registerProxy(new InteractiveProxy());
+			
+			// MEDIATOR
+			this.registerMediator(new InteractiveMediator(Application.application));
+			this.registerMediator(new SlideMediator(Application.application.slideView));
+
             //STARTUP COMMANDS
-            registerCommand( ApplicationConstants.APPLICATION_STARTUP, InteractiveStartupCommand );
-            registerCommand( ApplicationConstants.SLIDE_VIEW_STARTUP, SlideViewStartupCommand );
-            registerCommand( ApplicationConstants.NAVIGATOR_VIEW_STARTUP, SlideViewStartupCommand );
+            this.registerCommand( ApplicationConstants.APPLICATION_STARTUP, InteractiveStartupCommand );
+            this.registerCommand( ApplicationConstants.SLIDE_VIEW_STARTUP, SlideViewStartupCommand );
+            this.registerCommand( ApplicationConstants.NAVIGATOR_VIEW_STARTUP, NavigatorViewStartupCommand );
+            this.registerCommand( ApplicationConstants.MENU_VIEW_STARTUP, MenuViewStartupCommand );
             
             //DISPOSE COMMANDS
             //registerCommand( CommandConstants.LOGIN_WINDOW_DISPOSE, LoginWindowDisposeCommand );
@@ -50,6 +67,7 @@ package br.com.optimedia.interactive
         	if (app is Interactive) sendNotification( ApplicationConstants.APPLICATION_STARTUP, app );
         	else if (app is SlideView) sendNotification( ApplicationConstants.SLIDE_VIEW_STARTUP, app );
         	else if (app is NavigatorView) sendNotification( ApplicationConstants.NAVIGATOR_VIEW_STARTUP, app );
+        	else if (app is MenuView) sendNotification( ApplicationConstants.MENU_VIEW_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
