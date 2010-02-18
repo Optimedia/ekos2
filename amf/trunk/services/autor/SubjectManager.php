@@ -98,7 +98,15 @@
 			
 			if($subject -> title != "" && $subject -> description != "") {
 				if($subject -> subject_id == 0) {
-				
+					
+					// Verificar labels
+					$sql = "SELECT subject_id FROM ".$this -> _table." WHERE subject_id=".$subject -> subject_id;
+					$resultTemp = parent::doSelect($sql);
+					
+					if(mysql_num_rows($resultTemp) > 0) {
+						return false;
+					}
+					
 					$arraySubject = array	('title' => $subject -> title,
 										  	 'description' => $subject -> description,
 											 'status' => $subject -> status);
@@ -138,6 +146,14 @@
 			
 			if($presentation -> title != "" && $presentation -> description != "") {
 				if($presentation -> presentation_id == 0) {
+					
+					// Verificar labels
+					$sql = "SELECT subject_id FROM ath_presentation WHERE subject_id=".$presentation -> subject_id." AND title!='".$presentation -> title."'";
+					$resultTemp = parent::doSelect($sql);
+					
+					if(mysql_num_rows($resultTemp) > 0) {
+						return false;
+					}
 					
 					// Adicionar presentation no bd;
 					$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
