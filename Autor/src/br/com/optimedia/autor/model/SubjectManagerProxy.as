@@ -14,6 +14,7 @@ package br.com.optimedia.autor.model
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 	import br.com.optimedia.autor.assets.vo.CompleteUserVO;
+	import mx.controls.Alert;
 
 	public class SubjectManagerProxy extends Proxy
 	{
@@ -51,8 +52,11 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(saveSubjectResult, generalFault) );
 		}
 		private function saveSubjectResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.SAVE_SUBJECT_OK, event.result );
-			getSubjects();
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.SAVE_SUBJECT_OK, event.result );
+				getSubjects();
+			}
+			else Alert.show("Não foi possível salvar, verifique os campos e tente novamente", "Erro");
 		}
 		
 		public function savePresentation(presentationVO:PresentationVO):void {
@@ -60,8 +64,11 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(savePresentationResult, generalFault) );
 		}
 		private function savePresentationResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result );
-			getSubjects();
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result );
+				getSubjects();
+			}
+			else Alert.show("Não foi possível salvar, verifique os campos e tente novamente", "Erro");
 		}
 		
 		/* public function newSlide(slideVO:SlideVO):void {
@@ -73,20 +80,27 @@ package br.com.optimedia.autor.model
 		} */
 		
 		public function deleteSubject(subjectVO:SubjectVO):void {
-			var asynkToken:AsyncToken = remoteService.deleteSubject(subjectVO);
+			var asynkToken:AsyncToken = remoteService.deleteSubject(subjectVO.subject_id);
 			asynkToken.addResponder( new Responder(deleteSubjectResult, generalFault) );
 		}
 		private function deleteSubjectResult(event:ResultEvent):void {
-			/* sendNotification( NotificationConstants.SAVE_SUBJECT_OK, event.result );
-			getSubjects(); */
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.DELETE_SUBJECT_OK );
+				getSubjects();
+			}
+			else Alert.show("Não foi possível excluir, verifique se este módulo não possui temas", "Erro");
 		}
 		
 		public function deletePresentation(presentationVO:PresentationVO):void {
-			var asynkToken:AsyncToken = remoteService.deletePresentation(presentationVO);
+			var asynkToken:AsyncToken = remoteService.deletePresentation(presentationVO.presentation_id);
 			asynkToken.addResponder( new Responder(deletePresentationResult, generalFault) );
 		}
 		private function deletePresentationResult(event:ResultEvent):void {
-			/* sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result ); */
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.DELETE_PRESENTATION_OK );
+				getSubjects();
+			}
+			else Alert.show("Não foi possível excluir.", "Erro");
 		}
 	}
 }
