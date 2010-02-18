@@ -116,6 +116,8 @@
 					return parent::doUpdate($arraySubject, $condition, $this -> _table);
 					
 				}
+			} else {
+				return false;
 			}
 		}
 		
@@ -169,6 +171,8 @@
 						return false;
 					}
 				}
+			} else {
+				return false;
 			}
 		}
 	}
