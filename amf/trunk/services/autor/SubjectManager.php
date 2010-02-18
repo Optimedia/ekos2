@@ -150,8 +150,10 @@
 					
 				} else {
 					
+					
+					
 					// Verificar se a presentation está liberada, se sim, atualizar os dados, se não retornar false;
-					$tempPresentation = new Presentation();
+					$tempPresentation = new PresentationVO();
 					
 					$fields = "locked_by, locked_at";
 					$table = "ath_presentation";
