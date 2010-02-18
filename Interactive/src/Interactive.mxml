@@ -8,24 +8,24 @@
 	<mx:Script>
 		<![CDATA[
 			import br.com.optimedia.interactive.InteractiveFacade;
+			import mx.styles.StyleManager;
 		
-			public var interactiveFacade: InteractiveFacade = InteractiveFacade.getInstance();
+			public var interactiveFacade: InteractiveFacade;
 			
 			private function init(): void {
-				interactiveFacade.startup( this );
+				StyleManager.loadStyleDeclarations("br/com/optimedia/interactive/css/style.swf", true);
+				this.interactiveFacade = InteractiveFacade.getInstance();
+				this.interactiveFacade.startup( this );
+				this.menuView.visible=false;
 				
-				
-				/* var slideVO: SlideVO = new SlideVO();
-				slideVO.type = slide1,SlideVO.TYPE_PAGE,"title of algo", "body do corpo");
-				interactiveFacade.show(slideVO); */
 			}
 			
 			
 		]]>
 	</mx:Script>
 	
-	<v:SlideView id="slideView" width="100%" height="560" />
-	
-	<v:NavigatorView id="navigatorView" width="100%" y="568"/>
+	<v:SlideView id="slideView" width="100%" height="560"  visible="false"/>
+	<v:MenuView id="menuView" width="200" height="200"   visible="false" y="10" x="10"/>
+	<v:NavigatorView id="navigatorView" width="100%" y="568"   visible="false"/>
 	
 </mx:Application>

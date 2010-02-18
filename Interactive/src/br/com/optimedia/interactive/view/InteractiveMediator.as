@@ -1,6 +1,10 @@
 package br.com.optimedia.interactive.view
 {
+	import br.com.optimedia.interactive.assets.ApplicationConstants;
+	import br.com.optimedia.interactive.assets.vo.SlideVO;
 	import br.com.optimedia.interactive.model.InteractiveProxy;
+	
+	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -9,7 +13,7 @@ package br.com.optimedia.interactive.view
 	{
 		public static const NAME:String = 'InteractiveMediator';
 		
-		private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
+		private var interactiveProxy:InteractiveProxy;
 		
 		public function InteractiveMediator(viewComponent:Object=null)
 		{
@@ -20,7 +24,9 @@ package br.com.optimedia.interactive.view
 		{
 			trace(NAME+".onRegister()");
 			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
-			interactiveProxy.getSlide();
+			//interactiveProxy.getSlide();
+			startUp(1);
+			
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
@@ -35,19 +41,35 @@ package br.com.optimedia.interactive.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [ApplicationConstants.GET_SLIDES_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				/* case ApplicationConstants.GET_SLIDE_OK:
-					view.show(note.getBody() as SlideVO);
-					break; */
+				case ApplicationConstants.GET_SLIDES_OK:
+					creatSlides(note.getBody() as Array);
+					break; 
 				default:
 					break;
 			}
+		}
+		public function startUp(presentationID:uint):void {
+			interactiveProxy.getSlides(presentationID);
+		}
+		
+		public function creatSlides(slides:Array) :void {
+			
+			var slide:SlideVO= slides[0] as SlideVO; 
+			
+			//interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
+			interactiveProxy.getSlide(slide);			
+			
+			sendNotification(ApplicationConstants.CONTRUCT_MENU,slides);
+			
+			Application.application.navigatorView.visible = true;
+			Application.application.slideView.visible = true;
 		}
 	}
 }
