@@ -3,6 +3,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
 			import mx.controls.dataGridClasses.DataGridColumn;
 			import br.com.optimedia.autor.assets.vo.SlideVO;
@@ -46,7 +48,7 @@
 				newSubjectPopUp = new NewSubjectPopUp();
 				PopUpManager.addPopUp( newSubjectPopUp, this, true );
 				PopUpManager.centerPopUp( newSubjectPopUp );
-				newSubjectPopUp.subjectVO = subject;
+				newSubjectPopUp.subjectVO = subject.clone();
 				newSubjectPopUp.saveBtn.addEventListener(MouseEvent.CLICK, saveSubject);
 			}
 			
@@ -59,7 +61,16 @@
 				newPresentationPopUp = new NewPresentationPopUp();
 				PopUpManager.addPopUp( newPresentationPopUp, this, true );
 				PopUpManager.centerPopUp( newPresentationPopUp );
-				newPresentationPopUp.presentationVO = presentation;
+				newPresentationPopUp.presentationVO = presentation.clone();
+				/* newPresentationPopUp.presentationVO.title = presentation.title;
+				newPresentationPopUp.presentationVO.description = presentation.description;
+				newPresentationPopUp.presentationVO.locked_at = presentation.locked_at;
+				newPresentationPopUp.presentationVO.locked_by = presentation.locked_by;
+				newPresentationPopUp.presentationVO.presentation_id = presentation.presentation_id;
+				newPresentationPopUp.presentationVO.skin_id = presentation.skin_id;
+				newPresentationPopUp.presentationVO.status = presentation.status;
+				newPresentationPopUp.presentationVO.slidesArray = presentation.slidesArray; */
+				newPresentationPopUp.presentationVO.subject_id = SubjectVO(subjectGrid.selectedItem).subject_id;
 				newPresentationPopUp.saveBtn.addEventListener(MouseEvent.CLICK, savePresentation);
 			}
 			
@@ -77,14 +88,31 @@
 			}
 			
 			public function deleteItem(data:Object):void {
-				//FINISH ME
-				//CRIAR POPUP PARA CONFIRMAR
+				Alert.noLabel = "Não";
+				Alert.yesLabel = "Sim";
 				if( data is SubjectVO ) {
-					this.dispatchEvent( new Event(DELETE_SUBJECT_EVENT) );
+					Alert.show("Tem certeza que deseja apagar o módulo "+subjectGrid.selectedItem.title+"?", "Atenção",Alert.YES|Alert.NO, null, deleteSubject, null, Alert.NO);
+					function deleteSubject(event:CloseEvent):void {
+						if(event.detail == Alert.YES) {
+							dispatchDeleteSubjectEvent();
+						}
+					}
 				}
 				else if( data is PresentationVO ) {
-					this.dispatchEvent( new Event(DELETE_PRESENTATION_EVENT) );
+					Alert.show("Tem certeza que deseja apagar o tema "+presentationGrid.selectedItem.title+"?", "Atenção",Alert.YES|Alert.NO, null, deletePresentation, null, Alert.NO);
+					function deletePresentation(event:CloseEvent):void {
+						if(event.detail == Alert.YES) {
+							dispatchDeletePresentationEvent();
+						}
+					}
 				}
+				
+			}
+			private function dispatchDeleteSubjectEvent():void {
+				this.dispatchEvent( new Event(DELETE_SUBJECT_EVENT) );
+			}
+			private function dispatchDeletePresentationEvent():void {
+				this.dispatchEvent( new Event(DELETE_PRESENTATION_EVENT) );
 			}
 		]]>
 	</mx:Script>
@@ -111,9 +139,9 @@
 		</mx:DataGrid>
 	</mx:VBox>
 	<mx:VBox width="100%">
-		<mx:Button id="newPresentationBtn" label="Novo Tema" click="presentationEdit( new PresentationVO() )" />
+		<mx:Button id="newPresentationBtn" label="Novo Tema" click="presentationEdit( new PresentationVO() )" enabled="{subjectGrid.selectedIndex!=-1}"/>
 		
-		<mx:DataGrid id="presentationGrid" dataProvider="{presentationArray}" width="100%">
+		<mx:DataGrid id="presentationGrid" dataProvider="{SubjectVO(subjectGrid.selectedItem).presentationArray}" width="100%">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Tema" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>

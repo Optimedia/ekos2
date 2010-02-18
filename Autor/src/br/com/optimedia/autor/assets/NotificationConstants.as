@@ -8,5 +8,7 @@ package br.com.optimedia.autor.assets
 		public static const SAVE_PRESENTATION_OK:String = "SAVE_PRESENTATION_OK";
 		public static const NEW_SLIDE_OK:String = "NEW_SLIDE_OK";
 		public static const GET_USER_OK:String = "GET_USER_OK";
+		public static const DELETE_SUBJECT_OK:String = "DELETE_SUBJECT_OK";
+		public static const DELETE_PRESENTATION_OK:String = "DELETE_PRESENTATION_OK";
 	}
 }

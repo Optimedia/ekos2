@@ -59,7 +59,11 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_SUBJECTS_OK:
+					var subjectSelectedIndex:int = view.subjectGrid.selectedIndex;
+					var presentationSelectedIndex:int = view.presentationGrid.selectedIndex;
 					view.subjectArray = new ArrayCollection(note.getBody() as Array);
+					view.subjectGrid.selectedIndex = subjectSelectedIndex;
+					view.presentationGrid.selectedIndex = presentationSelectedIndex;
 					break;
 				case NotificationConstants.SAVE_SUBJECT_OK:
 					Alert.show("Módulo salvo com sucesso.", "OK");

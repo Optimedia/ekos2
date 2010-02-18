@@ -20,10 +20,10 @@
 
 	<mx:Form width="100%">
 		<mx:FormItem label="Título">
-			<mx:TextInput id="titleTextInput" />
+			<mx:TextInput id="titleTextInput" text="{subjectVO.title}" change="subjectVO.title=titleTextInput.text"/>
 		</mx:FormItem>
 		<mx:FormItem label="Descrição">
-			<mx:TextInput id="descriptionTextInput" />
+			<mx:TextInput id="descriptionTextInput" text="{subjectVO.description}" change="subjectVO.description=descriptionTextInput.text" />
 		</mx:FormItem>
 	</mx:Form>
 	
