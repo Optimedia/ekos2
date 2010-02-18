@@ -175,4 +175,40 @@
 				return false;
 			}
 		}
+		
+		/**
+		 * Função para deletar um Subject somente quando não houver mais Presentations
+		 * 
+		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
+		 */
+		public function deleteSubject($subject_id) {
+			
+			// Verificar se há presentations ligadas a esse subject
+			$sql = "SELECT subject_id FROM ath_presentation WHERE subject_id=$subject_id";
+			
+			$query = mysql_query($sql);
+			
+			$fields = "subject_id";
+			$table = "ath_presentation";
+			$where = "subject_id = ".$subject_id; 
+				
+			$result = parent::doSingleSelect($fields, $table, $where);
+			
+			
+			if(mysql_num_rows($result) > 0) {
+				return false;
+			} else {
+				
+				// Deletar subject
+				$condition = "subject_id=$subject_id";
+				
+				return parent::doDelete($condition, $this -> _table);
+				
+			}
+			
+		}
+		
+		public function deletePresentation($subject_id) {
+			
+		}
 	}
