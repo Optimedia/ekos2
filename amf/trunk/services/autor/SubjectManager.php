@@ -129,6 +129,13 @@
 		 */
 		public function savePresentation(PresentationVO $presentation) {
 			
+			/*$presentation = new PresentationVO();
+			
+			$presentation -> subject_id = 1;
+			$presentation -> skin_id = 1;
+			$presentation -> title = "teste";
+			$presentation -> description = "teste";*/
+			
 			if($presentation -> title != "" && $presentation -> description != "") {
 				if($presentation -> presentation_id == 0) {
 					
@@ -139,7 +146,7 @@
 												 'description' => $presentation -> description,
 											 	 'status' => $presentation -> status);
 								  
-					return parent::doInsert($arraySubject, $this -> _table);
+					return parent::doInsert($arrayPresentation, "ath_presentation");
 					
 				} else {
 					
@@ -208,7 +215,9 @@
 			
 		}
 		
-		public function deletePresentation($subject_id) {
-			
+		public function deletePresentation($presentation_id) {
+			$condition = "presentation_id=$presentation_id";
+				
+			return parent::doDelete($condition, "ath_presentation");
 		}
 	}
