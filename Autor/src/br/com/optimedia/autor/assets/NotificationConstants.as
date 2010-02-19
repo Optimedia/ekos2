@@ -12,5 +12,6 @@ package br.com.optimedia.autor.assets
 		public static const DELETE_PRESENTATION_OK:String = "DELETE_PRESENTATION_OK";
 		public static const GET_MEDIAS_RESULT:String = "GET_MEDIAS_RESULT";
 		public static const GET_SKINS_RESULT:String = "GET_SKINS_RESULT";
+		public static const UPLOAD_PRESENTATION_FILE_RESULT:String = "UPLOAD_PRESENTATION_FILE_RESULT";
 	}
 }

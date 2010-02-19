@@ -66,6 +66,7 @@
 				PopUpManager.centerPopUp( newPresentationPopUp );
 				newPresentationPopUp.presentationSkins = presentationSkins;
 				newPresentationPopUp.presentationVO = presentation.clone();
+				newPresentationPopUp.selectedSkin();
 				newPresentationPopUp.presentationVO.subject_id = SubjectVO(subjectGrid.selectedItem).subject_id;
 				newPresentationPopUp.saveBtn.addEventListener(MouseEvent.CLICK, savePresentation);
 			}
@@ -110,6 +111,14 @@
 			private function dispatchDeletePresentationEvent():void {
 				this.dispatchEvent( new Event(DELETE_PRESENTATION_EVENT) );
 			}
+			
+			public function openSendFilePopUp(presentationID:uint, fileType:String):void {
+				var popUp:SendFilePopUp = new SendFilePopUp();
+				popUp.presentationID = presentationID;
+				popUp.fileType = fileType;
+				PopUpManager.addPopUp( popUp, this, true );
+				PopUpManager.centerPopUp( popUp );
+			}
 		]]>
 	</mx:Script>
 	
@@ -121,7 +130,7 @@
 				<mx:DataGridColumn headerText="Módulo" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
 				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
-				<mx:DataGridColumn headerText="Opções" width="100" >
+				<mx:DataGridColumn headerText="Opções" width="100" textAlign="center">
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
@@ -141,9 +150,42 @@
 			<mx:columns>
 				<mx:DataGridColumn headerText="Tema" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
+				<mx:DataGridColumn headerText="Créditos" width="100">
+					<mx:itemRenderer>
+					<mx:Component>
+						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Label text="{data.img_credit}" verticalCenter="0"/>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
+									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_credit')"/>
+						</mx:Canvas>
+					</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="Introdução" width="100">
+					<mx:itemRenderer>
+					<mx:Component>
+						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Label text="{data.img_intro}" verticalCenter="0"/>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
+									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_intro')"/>
+						</mx:Canvas>
+					</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="Conclusão" width="100">
+					<mx:itemRenderer>
+					<mx:Component>
+						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Label text="{data.img_conclusion}" verticalCenter="0"/>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
+									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_conclusion')"/>
+						</mx:Canvas>
+					</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
 				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
 				<mx:DataGridColumn headerText="Slides" labelFunction="{slidesNumLabelFunction}" width="50" textAlign="center" />
-				<mx:DataGridColumn headerText="Opções" width="100" >
+				<mx:DataGridColumn headerText="Opções" width="100" textAlign="center">
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
