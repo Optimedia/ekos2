@@ -1,9 +1,10 @@
 package br.com.optimedia.autor.controller
 {
-	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import org.puremvc.as3.multicore.interfaces.INotification;
+	import br.com.optimedia.autor.view.SendFilePopUpMediator;
 	import br.com.optimedia.autor.view.components.SendFilePopUp;
-	import br.com.optimedia.autor.view.components.SendFilePopUpMediator;
+	
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
 	public class SendFilePopUpStartupCommand extends SimpleCommand
 	{
