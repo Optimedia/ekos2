@@ -170,7 +170,7 @@
 				if($presentation -> presentation_id == 0) {
 					
 					// Verificar labels
-					$sql = "SELECT subject_id FROM ath_presentation WHERE subject_id=".$presentation -> subject_id." AND title!='".$presentation -> title."'";
+					$sql = "SELECT subject_id FROM ath_presentation WHERE subject_id=".$presentation -> subject_id." AND title='".$presentation -> title."'";
 					$resultTemp = parent::doSelect($sql);
 					
 					if(mysql_num_rows($resultTemp) > 0) {
