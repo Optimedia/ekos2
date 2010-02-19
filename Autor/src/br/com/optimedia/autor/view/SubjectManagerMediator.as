@@ -36,6 +36,7 @@ package br.com.optimedia.autor.view
 			
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			subjectManagerProxy.getSubjects();
+			view.presentationSkins = subjectManagerProxy.presentationSkins;
 		}
 		
 		override public function onRemove():void {

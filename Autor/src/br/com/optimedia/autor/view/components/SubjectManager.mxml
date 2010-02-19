@@ -29,12 +29,15 @@
 			[Bindable]
 			public var presentationArray:ArrayCollection =  new ArrayCollection();
 			
+			[Bindable]
+			public var presentationSkins:ArrayCollection;
+			
 			private function init():void {
 				autorFacade.startup( this );
 			}
 			
 			private function onSubjectSelectionChange():void {
-				presentationArray = SubjectVO(subjectGrid.selectedItem).presentationArray;
+				if( subjectGrid.selectedIndex != -1 ) presentationArray = SubjectVO(subjectGrid.selectedItem).presentationArray;
 			}
 			
 			private function slidesNumLabelFunction(item:Object, column:DataGridColumn):String {
@@ -61,15 +64,8 @@
 				newPresentationPopUp = new NewPresentationPopUp();
 				PopUpManager.addPopUp( newPresentationPopUp, this, true );
 				PopUpManager.centerPopUp( newPresentationPopUp );
+				newPresentationPopUp.presentationSkins = presentationSkins;
 				newPresentationPopUp.presentationVO = presentation.clone();
-				/* newPresentationPopUp.presentationVO.title = presentation.title;
-				newPresentationPopUp.presentationVO.description = presentation.description;
-				newPresentationPopUp.presentationVO.locked_at = presentation.locked_at;
-				newPresentationPopUp.presentationVO.locked_by = presentation.locked_by;
-				newPresentationPopUp.presentationVO.presentation_id = presentation.presentation_id;
-				newPresentationPopUp.presentationVO.skin_id = presentation.skin_id;
-				newPresentationPopUp.presentationVO.status = presentation.status;
-				newPresentationPopUp.presentationVO.slidesArray = presentation.slidesArray; */
 				newPresentationPopUp.presentationVO.subject_id = SubjectVO(subjectGrid.selectedItem).subject_id;
 				newPresentationPopUp.saveBtn.addEventListener(MouseEvent.CLICK, savePresentation);
 			}

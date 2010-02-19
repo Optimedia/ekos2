@@ -7,6 +7,8 @@ package br.com.optimedia.autor
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	import br.com.optimedia.autor.controller.SubjectManagerStartupCommand;
+	import br.com.optimedia.autor.view.components.RepositoryPanel;
+	import br.com.optimedia.autor.controller.RepositoryPanelStartupCommand;
 
 	public class AutorFacade extends Facade
 	{
@@ -35,6 +37,7 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.MODEL_STARTUP, ModelStartupCommand );
             registerCommand( CommandConstants.AUTOR_STARTUP, AutorStartupCommand );
             registerCommand( CommandConstants.SUBJECT_MANAGER_STARTUP, SubjectManagerStartupCommand );
+            registerCommand( CommandConstants.REPOSITORY_PANEL_STARTUP, RepositoryPanelStartupCommand );
             
             //DISPOSE COMMANDS
             //registerCommand( CommandConstants.LOGIN_WINDOW_DISPOSE, LoginWindowDisposeCommand );
@@ -50,6 +53,7 @@ package br.com.optimedia.autor
         	if (app == "model") sendNotification( CommandConstants.MODEL_STARTUP, null );
         	else if (app is Autor) sendNotification( CommandConstants.AUTOR_STARTUP, app );
         	else if (app is SubjectManager) sendNotification( CommandConstants.SUBJECT_MANAGER_STARTUP, app );
+        	else if (app is RepositoryPanel) sendNotification( CommandConstants.REPOSITORY_PANEL_STARTUP, app );
         }
         
         public function dispose( app:Object ):void

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="100%"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			import mx.collections.ArrayCollection;
+			
+			import br.com.optimedia.autor.AutorFacade;
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			public var presentationID:uint;
+			
+			[Bindable]
+	        [Embed("../../assets/img/deleteIcon.png")]
+	        private var deleteIcon:Class;
+	        
+	        [Bindable]
+	        [Embed(source="Assets.swf",symbol="TreeFolderClosed")]
+			private var iconMinimised:Class;
+			
+		    [Bindable]
+		    [Embed(source="Assets.swf",symbol="TreeFolderOpen")]
+			private var iconMaximised:Class;
+			
+			[Bindable]
+			public var mediaXml:XML = new XML();
+			
+			private function init():void {
+				autorFacade.startup( this );
+			}
+			
+			private function setIcon(item:Object):Class {
+				var iconClass:Class;
+				var iconType:String = item.@icon;
+				switch( iconType ) {
+					case "table":
+						iconClass = deleteIcon;
+						break;
+					default:
+						iconClass = iconMinimised;
+						for each( var openItem:XML in mediaTree.openItems ) {
+							if(item == openItem) iconClass = iconMaximised;
+						}
+						break;
+				}
+				return iconClass;
+			}
+			
+			private function treeItemClick(event:ListEvent):void {
+				var item:Object = mediaTree.selectedItem;
+                if (mediaTree.dataDescriptor.isBranch(item)) {
+                    mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
+                }
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox width="100%">
+		<mx:Button id="addBtn" label="Add" />
+		<mx:Spacer width="100%" />
+		<mx:Button id="deleteBtn" label="Del" />
+	</mx:HBox>
+	
+	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="@name" showRoot="false" itemClick="treeItemClick(event)"
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}"/>
+	
+</mx:Panel>

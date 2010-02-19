@@ -15,6 +15,7 @@ package br.com.optimedia.autor.model
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 	import br.com.optimedia.autor.assets.vo.CompleteUserVO;
 	import mx.controls.Alert;
+	import mx.collections.ArrayCollection;
 
 	public class SubjectManagerProxy extends Proxy
 	{
@@ -71,13 +72,18 @@ package br.com.optimedia.autor.model
 			else Alert.show("Não foi possível salvar, verifique os campos e tente novamente", "Erro");
 		}
 		
-		/* public function newSlide(slideVO:SlideVO):void {
-			var asynkToken:AsyncToken = remoteService.newSlide(slideVO);
-			asynkToken.addResponder( new Responder(newSlideResult, generalFault) );
+		private var _presentationSkins:ArrayCollection; 
+		public function get presentationSkins():ArrayCollection {
+			if(!_presentationSkins) getSkins();
+			return _presentationSkins;
 		}
-		private function newSlideResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.NEW_SLIDE_OK, event.result );
-		} */
+		private function getSkins():void {
+			var asynkToken:AsyncToken = remoteService.getSkins();
+			asynkToken.addResponder( new Responder(getSkinsResult, generalFault) );
+		}
+		private function getSkinsResult(event:ResultEvent):void {
+			if(event.result is Array) _presentationSkins = new ArrayCollection(event.result as Array);
+		}
 		
 		public function deleteSubject(subjectVO:SubjectVO):void {
 			var asynkToken:AsyncToken = remoteService.deleteSubject(subjectVO.subject_id);
