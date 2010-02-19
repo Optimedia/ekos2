@@ -18,6 +18,7 @@ package br.com.optimedia.autor.view
 		{
 			trace(NAME+".onRegister()");
 			view.showModuleManager();
+			//view.showSlideEditor();
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		

@@ -4,12 +4,16 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			
 			[Bindable]
 			public var presentationVO:PresentationVO = new PresentationVO();
+			
+			[Bindable]
+			public var presentationSkins:ArrayCollection = new ArrayCollection();
 			
 			public function closeMe():void {
 				PopUpManager.removePopUp( this );
@@ -24,6 +28,21 @@
 		</mx:FormItem>
 		<mx:FormItem label="Descrição">
 			<mx:TextInput id="descriptionTextInput" text="{presentationVO.description}" change="presentationVO.description=descriptionTextInput.text" />
+		</mx:FormItem>
+		<mx:FormItem label="Skin">
+			<mx:ComboBox id="skinComboBox" dataProvider="{presentationSkins}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Créditos">
+			<mx:TextInput id="creditTextInput" />
+			<mx:Button label="Buscar" />
+		</mx:FormItem>
+		<mx:FormItem label="Introdução">
+			<mx:TextInput id="introTextInput" />
+			<mx:Button label="Buscar" />
+		</mx:FormItem>
+		<mx:FormItem label="Conclusão">
+			<mx:TextInput id="concTextInput" />
+			<mx:Button label="Buscar" />
 		</mx:FormItem>
 	</mx:Form>
 	

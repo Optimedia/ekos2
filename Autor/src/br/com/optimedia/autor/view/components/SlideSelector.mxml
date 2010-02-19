@@ -83,8 +83,6 @@
 			</mx:ControlBar>
 		</mx:Panel>
 		
-		<mx:Panel width="200" height="100%" title="Repositório" cornerRadius="0">
-		</mx:Panel>
 	</mx:HBox>
 	
 </mx:VBox>

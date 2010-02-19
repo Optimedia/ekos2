@@ -10,5 +10,7 @@ package br.com.optimedia.autor.assets
 		public static const GET_USER_OK:String = "GET_USER_OK";
 		public static const DELETE_SUBJECT_OK:String = "DELETE_SUBJECT_OK";
 		public static const DELETE_PRESENTATION_OK:String = "DELETE_PRESENTATION_OK";
+		public static const GET_MEDIAS_RESULT:String = "GET_MEDIAS_RESULT";
+		public static const GET_SKINS_RESULT:String = "GET_SKINS_RESULT";
 	}
 }

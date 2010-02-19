@@ -18,8 +18,8 @@ package br.com.optimedia.autor.assets.vo
 		//ProfileVO
 		public var profile_id:uint;
 		public var nickname:String;
-		public var small_avatar:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
-		public var large_avatar:String = "br/com/optimedia/assets/imgs/defaultAvatar.png";
+		public var small_avatar:String;
+		public var large_avatar:String;
 		public var sex:int;
 		public var birthday:String;
 		
