@@ -3,6 +3,7 @@
 	require_once '../vo/br/com/optimedia/assets/vo/SubjectVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/PresentationVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/SlideVO.php';
+	require_once '../vo/br/com/optimedia/assets/vo/SkinVO.php';
 
 	class SubjectManager extends SqlManager {
 		
@@ -18,7 +19,7 @@
 		}
 		
 		/**
-		 * Funï¿½ï¿½o que retorna todos os mï¿½dulos
+		 * Função que retorna todos os módulos
 		 *  
 		 * - Retorna: Array - SubjectVO
 		 * .
@@ -43,7 +44,7 @@
 		}
 		
 		/**
-		 * Funï¿½ï¿½o que retorna todos as presentation
+		 * Função que retorna todos as presentation
 		 *  
 		 * - Retorna: Array - PresentationVO
 		 * .
@@ -68,7 +69,7 @@
 		}
 		
 		/**
-		 * Funï¿½ï¿½o que retorna todos os slides
+		 * Função que retorna todos os slides
 		 *  
 		 * - Retorna: Array - SlideVO
 		 * .
@@ -89,9 +90,30 @@
 		}
 		
 		/**
-		 * FunÃ§Ã£o para inserir ou atualizar uma subject 
+		 * Função que retorna todos os skins
+		 *  
+		 * - Retorna: Array - SkinVO
+		 * .
+		 */
+		public function getSkins() {
+			
+			$sql = "SELECT * FROM ath_skin ORDER BY title";
+			$query = parent::doSelect($sql);
+			
+			$skin = new SkinVO();
+			$skinArray = array();
+			
+			while($skin = mysql_fetch_object($query, "SkinVO")) {
+				$skinArray[] = $skin;
+			}
+			
+			return $skinArray;
+		}
+		
+		/**
+		 * Função para inserir ou atualizar uma subject 
 		 * 
-		 * - Retorna: Boolean // Verificar se Ã© igual a true | false = mysql_error();
+		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
 		 * .
 		 */
 		public function saveSubject(SubjectVO $subject) {
@@ -130,7 +152,7 @@
 		}
 		
 		/**
-		 * FunÃ§Ã£o para inserir ou atualizar uma presentation
+		 * Função para inserir ou atualizar uma presentation
 		 * 
 		 * - Retorna: Boolean // Verificar se Ã© igual a true | false = mysql_error();
 		 * .
@@ -202,9 +224,9 @@
 		}
 		
 		/**
-		 * FunÃ§Ã£o para deletar um Subject somente quando nÃ£o houver mais Presentations
+		 * Função para deletar um Subject somente quando não houver mais Presentations
 		 * 
-		 * - Retorna: Boolean // Verificar se Ã© igual a true | false = mysql_error();
+		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
 		 */
 		public function deleteSubject($subject_id) {
 			
