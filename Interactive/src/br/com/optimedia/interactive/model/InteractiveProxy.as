@@ -1,6 +1,7 @@
 package br.com.optimedia.interactive.model
 {
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
+	import br.com.optimedia.interactive.assets.vo.LinkVO;
 	import br.com.optimedia.interactive.assets.vo.SlideVO;
 	
 	import mx.controls.Alert;
@@ -46,6 +47,8 @@ package br.com.optimedia.interactive.model
 			slideVO.text_body = "texto";
 			*/
 			getSlideResult(slide);
+			getLinks(slide.slide_id);
+			
 		}
 		private function getSlideResult(slideVO:SlideVO ):void {
 			sendNotification( ApplicationConstants.GET_SLIDE_OK, slideVO );
@@ -57,6 +60,31 @@ package br.com.optimedia.interactive.model
 		}
 		private function getSlidesResult(event:ResultEvent ):void {
 			sendNotification( ApplicationConstants.GET_SLIDES_OK, event.result );
+		}
+		public function getLinks(id:uint):void {
+			var link1:LinkVO = new LinkVO();
+			link1.media_id = 1
+			link1.category_id = 6
+			link1.category_title= "Text";
+			link1.title_id = 1;
+			link1.title_midia = "";
+			link1.description_midia = "description_midia";
+			link1.body_midia = "texto do link 1";
+			link1.status_midia = 1;
+			
+			var link2:LinkVO = new LinkVO();
+			link2.media_id = 1
+			link2.category_id = 6
+			link2.category_title= "Text";
+			link2.title_id = 1;
+			link2.title_midia = "";
+			link2.description_midia = "description_midia";
+			link2.body_midia = "texto do link 2";
+			link2.status_midia = 1;
+			
+			var links:Array = new Array (link1,link2);
+			
+			sendNotification(ApplicationConstants.CONTRUCT_LINKS,links)			
 		}
 	}
 }

@@ -5,18 +5,23 @@
 	<mx:Script>
 		<![CDATA[
 			import br.com.optimedia.interactive.InteractiveFacade;
+			import mx.styles.StyleManager;
 			
-			private var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();
+			private var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();	
 			
 			private function init():void {
+				StyleManager.loadStyleDeclarations("../../br/com/optimedia/interactive/css/style.swf", true);
 				interactiveFacade.startup( this );
 			}
-			
 		]]>
 	</mx:Script>
-	<mx:HBox>
-		<mx:Button id="btMenu" label="Índice"/>
-		<mx:Button id="btBack" label="&lt;"/>
-		<mx:Button id="btNext"  label="&gt;"/>
+	<mx:Image source="@Embed(source='../../assets/layout/skin.swf', symbol='taskbar')" width="790" height="32" x="5"/>
+	<mx:HBox x="10" y="5">
+		<mx:Image id="btMenu" source="@Embed(source='../../assets/layout/skin.swf', symbol='btIndice')" width="192" height="24"/>
+		<mx:Image id="btBack"  source="@Embed(source='../../assets/layout/skin.swf', symbol='btPrev')" width="48" height="24"/>
+		<mx:Label id="display"  text="" styleName="display"/>
+		<mx:Image id="btNext"  source="@Embed(source='../../assets/layout/skin.swf', symbol='btNext')" width="48" height="24"/>
+		<mx:Image id="fullscreen" source="@Embed(source='../../assets/layout/skin.swf', symbol='btRef_fullscreen')" width="24" height="24"/>
+		
 	</mx:HBox>
 </mx:Canvas>

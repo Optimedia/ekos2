@@ -16,6 +16,9 @@ package br.com.optimedia.interactive.view
 		
 		private var interactiveProxy:InteractiveProxy;
 		
+		public var numberTela:Number = 1;
+		public var totalTela:Number
+		
 		public function MenuMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
@@ -41,7 +44,9 @@ package br.com.optimedia.interactive.view
 		override public function listNotificationInterests():Array
 		{
 			return [
-					ApplicationConstants.CONTRUCT_MENU
+					ApplicationConstants.CONTRUCT_MENU,
+					ApplicationConstants.BACK_PAGE, 
+					ApplicationConstants.NEXT_PAGE
 					 ];
 		}
 		
@@ -51,6 +56,12 @@ package br.com.optimedia.interactive.view
 			{
 				case ApplicationConstants.CONTRUCT_MENU:
 						constructMenu (note.getBody() as Array);
+					break;
+				case ApplicationConstants.BACK_PAGE:
+						backPage();
+					break;  
+				case ApplicationConstants.NEXT_PAGE:
+						nextPage ();
 					break; 
 				default:
 					break;
@@ -59,13 +70,38 @@ package br.com.optimedia.interactive.view
 		public function itemMenu (event:MouseEvent) :void {
 			var vo:SlideVO = view.menuList.selectedItem as SlideVO;
 			
-			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
-			interactiveProxy.getSlide(vo);
-			view.visible=false;
+			dumbSlide(vo);
 		}
 		public function constructMenu(slides:Array):void {
+			totalTela=slides.length;
 		 	view.menuList.dataProvider = slides;
+		 	
+		 	view.menuList.selectedIndex = 0;
+		 	var vo:SlideVO = view.menuList.selectedItem as SlideVO;
+		 	dumbSlide(vo);
+		 	
 		 	view.visible = false;
+		 }
+		 
+		 public function backPage ():void {
+		 	view.menuList.selectedIndex = view.menuList.selectedIndex-1;
+		 	var vo:SlideVO = view.menuList.selectedItem as SlideVO;
+		 	dumbSlide(vo);
+		 }
+		 public function nextPage():void {
+		 	view.menuList.selectedIndex = view.menuList.selectedIndex+1;
+		 	var vo:SlideVO = view.menuList.selectedItem as SlideVO;
+		 	dumbSlide(vo);
+		 }
+		 public function dumbSlide (vo:SlideVO):void {
+		 	numberTela = view.menuList.selectedIndex + 1;
+		 	
+		 	interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
+			interactiveProxy.getSlide(vo);
+			view.visible=false;
+			
+		 	var display:Array = new Array (numberTela,totalTela)
+		 	sendNotification(ApplicationConstants.PAGE,display);
 		 }
 	}
 }
