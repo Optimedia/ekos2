@@ -53,6 +53,10 @@
 				var item:Object = mediaTree.selectedItem;
                 if (mediaTree.dataDescriptor.isBranch(item)) {
                     mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
+                    deleteBtn.enabled = false;
+                }
+                else {
+                	deleteBtn.enabled = true;
                 }
 			}
 			
