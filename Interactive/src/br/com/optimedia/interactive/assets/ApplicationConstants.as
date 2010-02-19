@@ -13,6 +13,8 @@ package br.com.optimedia.interactive.assets
 		
 		
 		//NOTIFICATIONS
+		public static const PAGE:String = "PAGE";
+		public static const CONTRUCT_LINKS:String = "CONTRUCT_LINKS";
 		public static const CONTRUCT_MENU:String = "CONTRUCT_MENU";
 		public static const MENU_PAGES:String = "MENU_PAGES";
 		public static const BACK_PAGE:String = "BACK_PAGE";

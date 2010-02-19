@@ -17,7 +17,6 @@ package br.com.optimedia.interactive.view
 		
 		public var lastBg:Sprite;
 		public var pag:Number;
-		public var idSlide:unit;
 		
 		public var lineTitle:uint = 0x000000;
 		public var bgTitle:uint = 0xFFFFFF;
@@ -64,7 +63,6 @@ package br.com.optimedia.interactive.view
 			
 			//Application.application.slideView.textTitle.visible=false;
 			//Application.application.slideView.textContent.visible=false;
-			idSlide = vo.type_slide_id;
 			
 			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {
 				Application.application.slideView.slideVO = vo;

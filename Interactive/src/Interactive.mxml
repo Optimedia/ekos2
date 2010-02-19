@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
 	layout="absolute"
-	width="780"
-	height="600" 
+	width="800"
+	height="512" 
 	creationComplete="init();" xmlns:v="br.com.optimedia.interactive.view.components.*">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
 			import br.com.optimedia.interactive.InteractiveFacade;
+			
 			import mx.styles.StyleManager;
 		
 			public var interactiveFacade: InteractiveFacade;
 			
+			[Bindable]
+    		public var idPresentation:Number;
+			
 			private function init(): void {
 				StyleManager.loadStyleDeclarations("br/com/optimedia/interactive/css/style.swf", true);
+				
+				idPresentation = this.parameters._presentation;
+				 
 				this.interactiveFacade = InteractiveFacade.getInstance();
 				this.interactiveFacade.startup( this );
 				this.menuView.visible=false;
 				
 			}
 			
-			
 		]]>
 	</mx:Script>
 	
-	<v:SlideView id="slideView" width="100%" height="560"  visible="false"/>
+	<v:SlideView id="slideView" width="100%" height="100%"  visible="false"/>
 	<v:MenuView id="menuView" width="200" height="200"   visible="false" y="10" x="10"/>
-	<v:NavigatorView id="navigatorView" width="100%" y="568"   visible="false"/>
+	<v:NavigatorView id="navigatorView" width="100%" visible="false" bottom="0"/>
 	
 </mx:Application>

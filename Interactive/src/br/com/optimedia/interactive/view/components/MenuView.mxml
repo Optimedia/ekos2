@@ -11,6 +11,7 @@
 			
 		private function init():void {
 				interactiveFacade.startup( this );
+				this.menuList.selectedIndex = 0;
 		}
 			
 		public function set dataProvider(value:Array): void {
