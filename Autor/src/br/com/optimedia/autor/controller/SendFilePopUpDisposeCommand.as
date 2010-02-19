@@ -1,7 +1,7 @@
 package br.com.optimedia.autor.controller
 {
+	import br.com.optimedia.autor.view.SendFilePopUpMediator;
 	import br.com.optimedia.autor.view.components.SendFilePopUp;
-	import br.com.optimedia.autor.view.components.SendFilePopUpMediator;
 	
 	import flash.system.System;
 	

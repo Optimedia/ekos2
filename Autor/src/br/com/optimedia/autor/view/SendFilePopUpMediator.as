@@ -1,9 +1,10 @@
-package br.com.optimedia.autor.view.components
+package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.CommandConstants;
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import br.com.optimedia.autor.model.FileManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
+	import br.com.optimedia.autor.view.components.SendFilePopUp;
 	
 	import flash.events.Event;
 	
