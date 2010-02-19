@@ -19,7 +19,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos os módulos
+		 * FunÃ§Ã£o que retorna todos os mï¿½dulos
 		 *  
 		 * - Retorna: Array - SubjectVO
 		 * .
@@ -44,7 +44,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos as presentation
+		 * FunÃ§Ã£o que retorna todos as presentation
 		 *  
 		 * - Retorna: Array - PresentationVO
 		 * .
@@ -69,7 +69,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos os slides
+		 * FunÃ§Ã£o que retorna todos os slides
 		 *  
 		 * - Retorna: Array - SlideVO
 		 * .
@@ -90,7 +90,7 @@
 		}
 		
 		/**
-		 * Função que retorna todos os skins
+		 * FunÃ§Ã£o que retorna todos os skins
 		 *  
 		 * - Retorna: Array - SkinVO
 		 * .
@@ -111,9 +111,9 @@
 		}
 		
 		/**
-		 * Função para inserir ou atualizar uma subject 
+		 * FunÃ§Ã£o para inserir ou atualizar uma subject 
 		 * 
-		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
+		 * - Retorna: Boolean // Verificar se Ã© igual a true | false = mysql_error();
 		 * .
 		 */
 		public function saveSubject(SubjectVO $subject) {
@@ -152,7 +152,7 @@
 		}
 		
 		/**
-		 * Função para inserir ou atualizar uma presentation
+		 * FunÃ§Ã£o para inserir ou atualizar uma presentation
 		 * 
 		 * - Retorna: Boolean // Verificar se Ã© igual a true | false = mysql_error();
 		 * .
@@ -224,9 +224,9 @@
 		}
 		
 		/**
-		 * Função para deletar um Subject somente quando não houver mais Presentations
+		 * FunÃ§Ã£o para deletar um Subject somente quando nï¿½o houver mais Presentations
 		 * 
-		 * - Retorna: Boolean // Verificar se é igual a true | false = mysql_error();
+		 * - Retorna: Boolean // Verificar se Ã© igual a true | false = mysql_error();
 		 */
 		public function deleteSubject($subject_id) {
 			
