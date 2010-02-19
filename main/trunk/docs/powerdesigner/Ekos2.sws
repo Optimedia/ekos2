@@ -7,9 +7,9 @@
 		<Model ID="{C376904C-4900-4964-B422-32CFC6FC0587}" Loaded="No" Name="Ekos2" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Ekos2.prj"/>
 		<Model ID="{BFE93F0A-68CD-485F-9AEF-DE483146716C}" Loaded="No" Name="OCMDB_MY" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="/Projetos/sts/pd/OCMDB_MY.pdm"/>
 		<Model ID="{95ED9731-6909-447D-B0BC-9895CE34954F}" Loaded="No" Name="OCMDB_PG" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="/Projetos/sts/pd/OCMDB_PG.pdm"/>
-		<Model Expanded="Yes" ID="{588328F3-ECDC-4C41-A437-B061CDB23519}" Name="AuthorPhysical" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="AuthorPhysical.pdm"/>
+		<Model Expanded="Yes" ID="{588328F3-ECDC-4C41-A437-B061CDB23519}" Loaded="No" Name="AuthorPhysical" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="AuthorPhysical.pdm"/>
 		<Model ID="{39D1BB05-48D6-412D-B356-EF034FE15954}" Loaded="No" Name="AuthorConceptual" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="Author.cdm"/>
-		<Model ID="{3B851E85-093F-4E0E-B162-9125DA6E1D44}" Name="MediaRepositoryPhysical_MY" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="MediaRepositoryPhysical_MY.pdm"/>
+		<Model ID="{3B851E85-093F-4E0E-B162-9125DA6E1D44}" Name="MediaRepositoryPhysical_MY" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="MediaRepositoryPhysical_MY.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
