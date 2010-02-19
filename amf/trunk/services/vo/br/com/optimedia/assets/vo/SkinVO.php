@@ -1,5 +1,5 @@
 <?php
-	class SlideVO {
+	class SkinVO {
 		
 		public $skin_id;
 		public $title;
