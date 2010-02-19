@@ -5,6 +5,7 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.autor.assets.vo.SubjectVO;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.assets.vo.SlideVO;
+	import br.com.optimedia.autor.assets.vo.SkinVO;
 	
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -34,6 +35,7 @@ package br.com.optimedia.autor.model
 			remoteService.destination = "amfphp";
 			remoteService.source = "autor.SubjectManager";
 			remoteService.showBusyCursor = true;
+			getSkins();
 		}
 		
 		private function generalFault(event:FaultEvent):void {
@@ -72,17 +74,15 @@ package br.com.optimedia.autor.model
 			else Alert.show("Não foi possível salvar, verifique os campos e tente novamente", "Erro");
 		}
 		
-		private var _presentationSkins:ArrayCollection; 
-		public function get presentationSkins():ArrayCollection {
-			if(!_presentationSkins) getSkins();
-			return _presentationSkins;
-		}
+		[Bindable]
+		public var presentationSkins:ArrayCollection; 
+		
 		private function getSkins():void {
 			var asynkToken:AsyncToken = remoteService.getSkins();
 			asynkToken.addResponder( new Responder(getSkinsResult, generalFault) );
 		}
 		private function getSkinsResult(event:ResultEvent):void {
-			if(event.result is Array) _presentationSkins = new ArrayCollection(event.result as Array);
+			if(event.result is Array) presentationSkins = new ArrayCollection(event.result as Array);
 		}
 		
 		public function deleteSubject(subjectVO:SubjectVO):void {

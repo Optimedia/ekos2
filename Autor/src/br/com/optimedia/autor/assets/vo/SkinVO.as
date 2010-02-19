@@ -4,7 +4,7 @@ package br.com.optimedia.autor.assets.vo
 	
 	public class SkinVO
 	{
-		public var skin_id:uint;
+		public var skin_id:uint = 1;
 		public var title:String;
 		public var bg_image:String;
 		public var title_color:String;

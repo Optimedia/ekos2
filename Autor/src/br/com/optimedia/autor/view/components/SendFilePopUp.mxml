@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-		layout="vertical" width="350" height="100"
-		showCloseButton="true" creationComplete="init()">
+		layout="vertical" width="350"
+		showCloseButton="true" creationComplete="init()" horizontalAlign="center">
 	
 	
 	<mx:Script>
@@ -16,9 +16,12 @@
 			
             [Bindable]
 			private var fr:FileReference;
-            private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.swf, *.png, *.flv)", "*.jpg; *.jpeg; *.swf; *.png; *.flv");
+            private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.png)", "*.jpg; *.jpeg; *.png");
             private var allTypes:Array = new Array(imageTypes);
             public var fileVO:FileVO;
+            
+            public var fileType:String;
+            public var presentationID:uint;
             
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
             
@@ -38,11 +41,12 @@
             
             private function onComplete(e:Event):void {
                 saveBtn.enabled = true;
+            	preview.source = fr.data;
             }
             
             private function onSelect(e:Event):void {
-            	fileTextInput.text = fr.name;
                 fr.load();
+            	fileTextInput.text = fr.name;
             }
 			
 			private function save():void {
@@ -73,11 +77,16 @@
 	
 	<mx:HBox width="100%">
 		<mx:FormItem id="fileFormItem" label="Imagem">
-			<mx:TextInput id="fileTextInput" />
+			<mx:TextInput id="fileTextInput" editable="false" click="browse()"/>
 		</mx:FormItem>
 		<mx:Button id="fileBtn" label="Procurar" click="browse()"/>
 	</mx:HBox>
 	
-	<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
+	<mx:Image id="preview" maxHeight="200" maxWidth="250"/>
+	
+	<mx:HBox width="100%">
+		<mx:Spacer width="100%"/>
+		<mx:Button id="saveBtn" label="Salvar" click="save()" enabled="false"/>
+	</mx:HBox>
 	
 </mx:TitleWindow>

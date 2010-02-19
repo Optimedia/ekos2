@@ -10,13 +10,16 @@ package br.com.optimedia.autor.assets.vo
 	{
 		public var presentation_id:uint;
 		public var subject_id:uint;
-		public var skin_id:uint;
+		public var skin_id:uint = 1;
 		public var locked_by:uint;
 		public var locked_at:String;
 		public var title:String;
 		public var description:String;
 		public var status:uint;
 		private var _slidesArray:ArrayCollection;
+		public var img_credit:String;
+		public var img_intro:String;
+		public var img_conclusion:String;
 		
 		public function clone():* {
 			var copier:ByteArray = new ByteArray();

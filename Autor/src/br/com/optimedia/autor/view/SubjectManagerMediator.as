@@ -1,6 +1,7 @@
 package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.assets.vo.SubjectVO;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SubjectManager;
@@ -12,7 +13,6 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.autor.assets.vo.PresentationVO;
 
 	public class SubjectManagerMediator extends Mediator
 	{

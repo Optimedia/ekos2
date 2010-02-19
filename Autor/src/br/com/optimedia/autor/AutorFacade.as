@@ -3,12 +3,15 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.assets.CommandConstants;
 	import br.com.optimedia.autor.controller.AutorStartupCommand;
 	import br.com.optimedia.autor.controller.ModelStartupCommand;
+	import br.com.optimedia.autor.controller.RepositoryPanelStartupCommand;
+	import br.com.optimedia.autor.controller.SendFilePopUpDisposeCommand;
+	import br.com.optimedia.autor.controller.SendFilePopUpStartupCommand;
+	import br.com.optimedia.autor.controller.SubjectManagerStartupCommand;
+	import br.com.optimedia.autor.view.components.RepositoryPanel;
+	import br.com.optimedia.autor.view.components.SendFilePopUp;
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
-	import br.com.optimedia.autor.controller.SubjectManagerStartupCommand;
-	import br.com.optimedia.autor.view.components.RepositoryPanel;
-	import br.com.optimedia.autor.controller.RepositoryPanelStartupCommand;
 
 	public class AutorFacade extends Facade
 	{
@@ -38,9 +41,10 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.AUTOR_STARTUP, AutorStartupCommand );
             registerCommand( CommandConstants.SUBJECT_MANAGER_STARTUP, SubjectManagerStartupCommand );
             registerCommand( CommandConstants.REPOSITORY_PANEL_STARTUP, RepositoryPanelStartupCommand );
+            registerCommand( CommandConstants.SEND_FILE_POPUP_STARTUP, SendFilePopUpStartupCommand );
             
             //DISPOSE COMMANDS
-            //registerCommand( CommandConstants.LOGIN_WINDOW_DISPOSE, LoginWindowDisposeCommand );
+            registerCommand( CommandConstants.SEND_FILE_POPUP_DISPOSE, SendFilePopUpDisposeCommand );
         }
         
         /**
@@ -54,11 +58,12 @@ package br.com.optimedia.autor
         	else if (app is Autor) sendNotification( CommandConstants.AUTOR_STARTUP, app );
         	else if (app is SubjectManager) sendNotification( CommandConstants.SUBJECT_MANAGER_STARTUP, app );
         	else if (app is RepositoryPanel) sendNotification( CommandConstants.REPOSITORY_PANEL_STARTUP, app );
+        	else if (app is SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
         {
-        	//if (app == LoginWindow) sendNotification( CommandConstants.LOGIN_WINDOW_DISPOSE, app );
+        	if (app == SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_DISPOSE, app );
         }
 	}
 }
