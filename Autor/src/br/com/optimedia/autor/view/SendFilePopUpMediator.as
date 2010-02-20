@@ -2,7 +2,7 @@ package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.CommandConstants;
 	import br.com.optimedia.autor.assets.NotificationConstants;
-	import br.com.optimedia.autor.model.FileManagerProxy;
+	import br.com.optimedia.autor.model.RepositoryManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SendFilePopUp;
 	
@@ -18,7 +18,7 @@ package br.com.optimedia.autor.view
 	{
 		public static const NAME:String = 'SendFilePopUpMediator';
 		
-		private var proxy:FileManagerProxy;
+		private var proxy:RepositoryManagerProxy;
 		private var subjectManagerProxy:SubjectManagerProxy;
 		
 		public function SendFilePopUpMediator(viewComponent:Object=null)
@@ -31,7 +31,7 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.addEventListener(SendFilePopUp.UPLOAD_FILE_EVENT, sendFile);
 			view.addEventListener(CloseEvent.CLOSE, closeMe);
-			proxy = facade.retrieveProxy( FileManagerProxy.NAME ) as FileManagerProxy;
+			proxy = facade.retrieveProxy( RepositoryManagerProxy.NAME ) as RepositoryManagerProxy;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 		}
 		

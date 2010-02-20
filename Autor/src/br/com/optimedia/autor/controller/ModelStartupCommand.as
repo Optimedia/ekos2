@@ -1,6 +1,5 @@
 package br.com.optimedia.autor.controller
 {
-	import br.com.optimedia.autor.model.FileManagerProxy;
 	import br.com.optimedia.autor.model.RepositoryManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	
@@ -14,7 +13,6 @@ package br.com.optimedia.autor.controller
 			//registra os proxys
 			facade.registerProxy( new RepositoryManagerProxy() );
 			facade.registerProxy( new SubjectManagerProxy() );
-			facade.registerProxy( new FileManagerProxy() );
 			
 		}
 	}

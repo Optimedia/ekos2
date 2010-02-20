@@ -13,5 +13,8 @@ package br.com.optimedia.autor.assets
 		public static const GET_MEDIAS_RESULT:String = "GET_MEDIAS_RESULT";
 		public static const GET_SKINS_RESULT:String = "GET_SKINS_RESULT";
 		public static const UPLOAD_PRESENTATION_FILE_RESULT:String = "UPLOAD_PRESENTATION_FILE_RESULT";
+		public static const GET_MEDIA_CATEGORIES_RESULT:String = "GET_MEDIA_CATEGORIES_RESULT";
+		public static const UPLOAD_MEDIA_FILE_RESULT:String = "UPLOAD_MEDIA_FILE_RESULT";
+		public static const UPLOAD_MEDIA_TEXT_RESULT:String = "UPLOAD_MEDIA_TEXT_RESULT";
 	}
 }

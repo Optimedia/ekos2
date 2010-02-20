@@ -6,9 +6,12 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.controller.RepositoryPanelStartupCommand;
 	import br.com.optimedia.autor.controller.SendFilePopUpDisposeCommand;
 	import br.com.optimedia.autor.controller.SendFilePopUpStartupCommand;
+	import br.com.optimedia.autor.controller.SendMediaDisposeCommand;
+	import br.com.optimedia.autor.controller.SendMediaStartupCommand;
 	import br.com.optimedia.autor.controller.SubjectManagerStartupCommand;
 	import br.com.optimedia.autor.view.components.RepositoryPanel;
 	import br.com.optimedia.autor.view.components.SendFilePopUp;
+	import br.com.optimedia.autor.view.components.SendMediaPopUp;
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
@@ -42,9 +45,11 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.SUBJECT_MANAGER_STARTUP, SubjectManagerStartupCommand );
             registerCommand( CommandConstants.REPOSITORY_PANEL_STARTUP, RepositoryPanelStartupCommand );
             registerCommand( CommandConstants.SEND_FILE_POPUP_STARTUP, SendFilePopUpStartupCommand );
+            registerCommand( CommandConstants.SEND_MEDIA_POPUP_STARTUP, SendMediaStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.SEND_FILE_POPUP_DISPOSE, SendFilePopUpDisposeCommand );
+            registerCommand( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, SendMediaDisposeCommand );
         }
         
         /**
@@ -59,11 +64,13 @@ package br.com.optimedia.autor
         	else if (app is SubjectManager) sendNotification( CommandConstants.SUBJECT_MANAGER_STARTUP, app );
         	else if (app is RepositoryPanel) sendNotification( CommandConstants.REPOSITORY_PANEL_STARTUP, app );
         	else if (app is SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_STARTUP, app );
+        	else if (app is SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
         {
         	if (app == SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_DISPOSE, app );
+        	if (app == SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, app );
         }
 	}
 }
