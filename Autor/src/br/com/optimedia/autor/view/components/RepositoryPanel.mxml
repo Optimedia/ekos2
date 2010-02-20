@@ -4,6 +4,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
 			import mx.events.ListEvent;
 			import mx.collections.ArrayCollection;
 			
@@ -60,11 +62,17 @@
                 }
 			}
 			
+			private function openPopUp():void {
+				var popUp:SendMediaPopUp = new SendMediaPopUp();
+				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+				PopUpManager.centerPopUp( popUp );
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:HBox width="100%">
-		<mx:Button id="addBtn" label="Add" />
+		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
 		<mx:Spacer width="100%" />
 		<mx:Button id="deleteBtn" label="Del" />
 	</mx:HBox>

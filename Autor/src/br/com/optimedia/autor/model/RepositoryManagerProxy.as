@@ -3,14 +3,15 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.autor.assets.FaultHandler;
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import br.com.optimedia.autor.assets.vo.FileVO;
+	import br.com.optimedia.autor.assets.vo.MediaVO;
 	
+	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
-	import mx.rpc.AsyncToken;
 
 	public class RepositoryManagerProxy extends Proxy
 	{
@@ -64,6 +65,11 @@ package br.com.optimedia.autor.model
 			                        <item name="bla2" ref="referencia1" icon=""/>
 			                        <item name="bla3" ref="referencia1" icon=""/>
 			                    </cat>
+								<cat name="Texto">
+			                        <item name="bla1" ref="referencia1" icon=""/>
+			                        <item name="bla2" ref="referencia1" icon=""/>
+			                        <item name="bla3" ref="referencia1" icon=""/>
+			                    </cat>
 							</medias>;
 			var event:ResultEvent = new ResultEvent(ResultEvent.RESULT, false, true, xml);
 			getMediasResult( event );
@@ -72,12 +78,28 @@ package br.com.optimedia.autor.model
 			sendNotification( NotificationConstants.GET_MEDIAS_RESULT, event.result );
 		}
 		
-		public function uploadFile(fileVO:FileVO):void {
-			var asynkToken:AsyncToken = remoteService.uploadFile(fileVO);
-			asynkToken.addResponder( new Responder(uploadFileResult, generalFault) );
+		public function uploadPresentationFile(fileVO:FileVO, presentationID:uint, type:String):void {
+			var asynkToken:AsyncToken = remoteService.uploadPresentationFile(fileVO, presentationID, type);
+			asynkToken.addResponder( new Responder(uploadPresentationFileResult, generalFault) );
 		}
-		private function uploadFileResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.FILE_UPLOAD_COMPLETE, event.result );
+		private function uploadPresentationFileResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.UPLOAD_PRESENTATION_FILE_RESULT, event.result );
+		}
+		
+		public function uploadMediaFile(fileVO:FileVO, mediaVO:MediaVO):void {
+			var asynkToken:AsyncToken = remoteService.uploadMediaFile(fileVO, mediaVO);
+			asynkToken.addResponder( new Responder(uploadMediaFileResult, generalFault) );
+		}
+		private function uploadMediaFileResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.UPLOAD_MEDIA_FILE_RESULT, event.result );
+		}
+		
+		public function uploadMediaText(mediaVO:MediaVO):void {
+			var asynkToken:AsyncToken = remoteService.uploadMediaText(mediaVO);
+			asynkToken.addResponder( new Responder(uploadMediaTextResult, generalFault) );
+		}
+		private function uploadMediaTextResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT, event.result );
 		}
 	}
 }
