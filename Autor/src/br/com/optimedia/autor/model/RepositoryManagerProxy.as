@@ -41,34 +41,34 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(getMediasResult, generalFault) ); */
 			var xml:XML = 	<medias>
 								<cat name="Tabelas">
-			                        <item name="bla1" ref="referencia1" icon="table"/>
-			                        <item name="bla2" ref="referencia1" icon="table"/>
-			                        <item name="bla3" ref="referencia1" icon="table"/>
+			                        <item name="bla1" ref="referencia1" icon="table" id=""/>
+			                        <item name="bla2" ref="referencia1" icon="table" id=""/>
+			                        <item name="bla3" ref="referencia1" icon="table" id=""/>
 			                    </cat>
 								<cat name="Gráficos">
-			                        <item name="bla1" ref="referencia1" icon=""/>
-			                        <item name="bla2" ref="referencia1" icon=""/>
-			                        <item name="bla3" ref="referencia1" icon=""/>
+			                        <item name="bla1" ref="referencia1" icon="" id=""/>
+			                        <item name="bla2" ref="referencia1" icon="" id=""/>
+			                        <item name="bla3" ref="referencia1" icon="" id=""/>
 			                    </cat>
 								<cat name="Imagens">
-			                        <item name="bla1" ref="referencia1" icon=""/>
-			                        <item name="bla2" ref="referencia1" icon=""/>
-			                        <item name="bla3" ref="referencia1" icon=""/>
+			                        <item name="bla1" ref="referencia1" icon="" id=""/>
+			                        <item name="bla2" ref="referencia1" icon="" id=""/>
+			                        <item name="bla3" ref="referencia1" icon="" id=""/>
 			                    </cat>
 								<cat name="Links">
-			                        <item name="bla1" ref="referencia1" icon=""/>
-			                        <item name="bla2" ref="referencia1" icon=""/>
-			                        <item name="bla3" ref="referencia1" icon=""/>
+			                        <item name="bla1" ref="referencia1" icon="" id=""/>
+			                        <item name="bla2" ref="referencia1" icon="" id=""/>
+			                        <item name="bla3" ref="referencia1" icon="" id=""/>
 			                    </cat>
 								<cat name="Vídeos">
-			                        <item name="bla1" ref="referencia1" icon=""/>
-			                        <item name="bla2" ref="referencia1" icon=""/>
-			                        <item name="bla3" ref="referencia1" icon=""/>
+			                        <item name="bla1" ref="referencia1" icon="" id=""/>
+			                        <item name="bla2" ref="referencia1" icon="" id=""/>
+			                        <item name="bla3" ref="referencia1" icon="" id=""/>
 			                    </cat>
 								<cat name="Texto">
-			                        <item name="bla1" ref="referencia1" icon=""/>
-			                        <item name="bla2" ref="referencia1" icon=""/>
-			                        <item name="bla3" ref="referencia1" icon=""/>
+			                        <item name="bla1" ref="referencia1" icon="" id=""/>
+			                        <item name="bla2" ref="referencia1" icon="" id=""/>
+			                        <item name="bla3" ref="referencia1" icon="" id=""/>
 			                    </cat>
 							</medias>;
 			var event:ResultEvent = new ResultEvent(ResultEvent.RESULT, false, true, xml);
