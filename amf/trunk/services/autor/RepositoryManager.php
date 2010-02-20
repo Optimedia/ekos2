@@ -15,6 +15,10 @@
 			parent::SqlManager($host, $user, $pass, $db);
 		}
 		
+		public function getMedias() {
+			
+		}
+		
 		public function uploadPresentationFile(FileVO $file, $presentationID, $type) {
 			
 			$data = $file->filedata->data;
