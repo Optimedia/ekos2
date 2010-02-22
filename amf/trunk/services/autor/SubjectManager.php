@@ -69,27 +69,6 @@
 		}
 		
 		/**
-		 * Função que retorna todos os slides
-		 *  
-		 * - Retorna: Array - SlideVO
-		 * .
-		 */
-		public function getSlides($presentationID) {
-			
-			$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY page_order";
-			$query = parent::doSelect($sql);
-			
-			$slide = new SlideVO();
-			$slideArray = array();
-			
-			while($slide = mysql_fetch_object($query, "SlideVO")) {
-				$slideArray[] = $slide;
-			}
-			
-			return $slideArray;
-		}
-		
-		/**
 		 * Função que retorna todos os skins
 		 *  
 		 * - Retorna: Array - SkinVO
