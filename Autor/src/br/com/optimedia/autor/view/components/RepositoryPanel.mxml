@@ -28,7 +28,7 @@
 			private var iconMaximised:Class;
 			
 			[Bindable]
-			public var mediaXml:XML = new XML();
+			public var mediaXml:ArrayCollection = new ArrayCollection();
 			
 			private function init():void {
 				autorFacade.startup( this );
@@ -36,16 +36,34 @@
 			
 			private function setIcon(item:Object):Class {
 				var iconClass:Class;
-				var iconType:String = item.@icon;
-				switch( iconType ) {
-					case "table":
+				if( mediaTree.dataDescriptor.isBranch(item) ) {
+					iconClass = iconMinimised;
+					for each( var openItem:Object in mediaTree.openItems ) {
+						if(item == openItem) iconClass = iconMaximised;
+					}
+					return iconClass;
+				}
+				var categoryID:uint= item.category_id;
+				switch( categoryID ) {
+					case 1:
+						iconClass = deleteIcon;
+						break;
+					case 2:
+						iconClass = deleteIcon;
+						break;
+					case 3:
+						iconClass = deleteIcon;
+						break;
+					case 4:
+						iconClass = deleteIcon;
+						break;
+					case 5:
+						iconClass = deleteIcon;
+						break;
+					case 6:
 						iconClass = deleteIcon;
 						break;
 					default:
-						iconClass = iconMinimised;
-						for each( var openItem:XML in mediaTree.openItems ) {
-							if(item == openItem) iconClass = iconMaximised;
-						}
 						break;
 				}
 				return iconClass;
@@ -77,7 +95,27 @@
 		<mx:Button id="deleteBtn" label="Del" />
 	</mx:HBox>
 	
-	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="@name" showRoot="false" itemClick="treeItemClick(event)"
-		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}"/>
+	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" >
+	</mx:Tree>
+	<!--<mx:Tree id="mediaTree" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" >
+		<mx:dataProvider>
+			<mx:GroupingCollection id="gc">
+				<mx:grouping>
+					<mx:Grouping>
+						<mx:HierarchicalData id="hd" childrenField="mediaArray"/>
+						<mx:GroupingField name="category_id"/>
+					</mx:Grouping>
+				</mx:grouping>
+			</mx:GroupingCollection>
+		</mx:dataProvider>-->
+		
+		<!--<mx:HierarchicalCollectionView>
+		
+		</mx:HierarchicalCollectionView>
+		
+		
+	</mx:Tree>-->
 	
 </mx:Panel>

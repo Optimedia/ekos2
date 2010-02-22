@@ -214,7 +214,7 @@
 								"textAreaStyleName");
 			if (textAreaStyleName)
 				textArea.styleName = textAreaStyleName;
-			textArea.getTextField().alwaysShowSelection = true;
+			if(textArea) textArea.getTextField().alwaysShowSelection = true;
 		}
 					
 		if (showToolTipsChanged)

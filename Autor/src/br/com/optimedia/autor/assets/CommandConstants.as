@@ -9,6 +9,7 @@ package br.com.optimedia.autor.assets
 		public static const REPOSITORY_PANEL_STARTUP:String = 'REPOSITORY_PANEL_STARTUP';
 		public static const SEND_FILE_POPUP_STARTUP:String = 'SEND_FILE_POPUP_STARTUP';
 		public static const SEND_MEDIA_POPUP_STARTUP:String = 'SEND_MEDIA_POPUP_STARTUP';
+		public static const SLIDE_EDITOR_STARTUP:String = 'SLIDE_EDITOR_STARTUP';
 		
 		//dispose commands
 		public static const SEND_FILE_POPUP_DISPOSE:String = 'SEND_FILE_POPUP_DISPOSE';

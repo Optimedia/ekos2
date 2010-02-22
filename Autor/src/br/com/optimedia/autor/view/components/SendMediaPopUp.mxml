@@ -46,7 +46,7 @@
 			
             [Bindable]
 			private var fr:FileReference;
-            private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.png)", "*.jpg; *.jpeg; *.png");
+            private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.png, *.swf)", "*.jpg; *.jpeg; *.png, *.swf");
             private var allTypes:Array = new Array(imageTypes);
             public var fileVO:FileVO;
             
