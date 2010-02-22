@@ -18,7 +18,7 @@ package br.com.optimedia.autor.assets.vo
 		public var title_menu:String;
 		public var text_body:String;
 		public var status:uint;
-		private var _mediaArray = new ArrayCollection();
+		private var _mediaArray:ArrayCollection = new ArrayCollection();
 		
 		public function clone():* {
 			var copier:ByteArray = new ByteArray();
