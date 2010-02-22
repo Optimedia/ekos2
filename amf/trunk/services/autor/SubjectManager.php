@@ -119,6 +119,12 @@
 		public function saveSubject(SubjectVO $subject) {
 			
 			if($subject -> title != "" && $subject -> description != "") {
+				
+				// Montando array para inserir ou atualizar.
+				$arraySubject = array ('title' 		 => $subject -> title,
+									   'description' => $subject -> description,
+									   'status' 	 => $subject -> status);
+				
 				if($subject -> subject_id == 0) {
 					
 					// Verificar labels
@@ -128,18 +134,10 @@
 					if(mysql_num_rows($resultTemp) > 0) {
 						return false;
 					}
-					
-					$arraySubject = array	('title' => $subject -> title,
-										  	 'description' => $subject -> description,
-											 'status' => $subject -> status);
-									  
+														  
 					return parent::doInsert($arraySubject, $this -> _table);
 					
 				} else {
-					
-					$arraySubject = array	('title' => $subject -> title,
-										  	 'description' => $subject -> description,
-											 'status' => $subject -> status);
 						
 					$condition = "subject_id = ".$subject -> subject_id;
 					
@@ -167,6 +165,14 @@
 			$presentation -> description = "teste";*/
 			
 			if($presentation -> title != "" && $presentation -> description != "") {
+				
+				// Montando array para inserir ou atualizar.
+				$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
+											 'skin_id' => $presentation -> skin_id,
+											 'title' => $presentation -> title,
+											 'description' => $presentation -> description,
+										 	 'status' => $presentation -> status);
+				
 				if($presentation -> presentation_id == 0) {
 					
 					// Verificar labels
@@ -177,13 +183,7 @@
 						return false;
 					}
 					
-					// Adicionar presentation no bd;
-					$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
-												 'skin_id' => $presentation -> skin_id,
-												 'title' => $presentation -> title,
-												 'description' => $presentation -> description,
-											 	 'status' => $presentation -> status);
-								  
+					// Adicionar presentation no bd;								  
 					return parent::doInsert($arrayPresentation, "ath_presentation");
 					
 				} else {
@@ -204,14 +204,9 @@
 					// Verificando se a presentation está liberada.
 					if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
 						
-						$arrayPresentation = array	('subject_id' => $presentation -> subject_id,
-													 'skin_id' => $presentation -> skin_id,
-													 'title' => $presentation -> title,
-													 'description' => $presentation -> description,
-													 'status' => $presentation -> status);
-						
 						$condition = "presentation_id = ".$presentation -> presentation_id;
 						
+						// Atualizar presentation no bd;
 						return parent::doUpdate($arrayPresentation, $condition, $table);
 						
 					} else {
