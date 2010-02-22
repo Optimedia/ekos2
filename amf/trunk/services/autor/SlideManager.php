@@ -38,25 +38,23 @@
 		
 		public function saveSlide(SlideVO $slide) {
 			
-			/*public $slide_id;
-			public $type_slide_id;
-			public $presentation_id;
-			public $header_id;
-			public $page_order;
-			public $title;
-			public $title_menu;
-			public $text_body;
-			public $status;*/
+			$arrayTemp = array("type_slide_id" => $slide -> type_slide_id,
+							   "presentation_id" => $slide -> presentation_id,
+							   "header_id" => $slide -> header_id,
+							   "page_order" => $slide -> page_order,
+							   "title" => $slide -> title,
+							   "title_menu" => $slide -> title_menu,
+							   "text_body" => $slide -> text_body,
+							   "status" => $slide -> status);
 			
-			if($slide_id == 0) {
-				$arrayTemp = array("type_slide_id" => $slide -> type_slide_id,
-								   "presentation_id" => $slide -> presentation_id,
-								   "header_id" => $slide -> $header_id,
-								   "page_order" => $slide -> $page_order,
-								   "title" => $slide -> $title,
-								   "title_menu" => $slide -> $title_menu,
-								   "text_body" => $slide -> $text_body,
-								   "status" => $slide -> status);
+			if($slide -> slide_id == 0) {
+				return parent::doInsert($arrayTemp, $this -> _table);
+			} else {
+				
+				$condition = "slide_id=".$slide -> slide_id;
+				
+				return parent::doUpdate($arrayTemp, $condition, $this -> _table);
+				
 			}
 		}
 		
