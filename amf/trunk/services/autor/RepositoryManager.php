@@ -6,6 +6,8 @@
 
 	class RepositoryManager extends SqlManager {
 		
+		private $_table = "mda_media";
+		
 		public function RepositoryManager() {
 			$host = "10.1.1.10";
 			$user = "opti";
@@ -16,6 +18,17 @@
 		}
 		
 		public function getMedias() {
+			
+			$result = parent::doSingleSelect("*", $this -> _table);
+			
+			$arrayMedia = array();
+			$media = new MediaVO();
+			
+			while($media = mysql_fetch_object($result)) {
+				$arrayMedia[] = $media;
+			}
+			
+			return $arrayMedia;
 			
 		}
 		
@@ -47,7 +60,7 @@
 							  	 'body' => $filename,
 								 'status' => 1);
 							  
-			return parent::doInsert($arrayMedia, "mda_media");
+			return parent::doInsert($arrayMedia, $this -> _table);
 			
 			//return $filename;
 		}
@@ -59,7 +72,7 @@
 							  	 'body' => $media -> body,
 								 'status' => 1);
 							  
-			return parent::doInsert($arrayMedia, "mda_media");
+			return parent::doInsert($arrayMedia, $this -> _table);
 			
 			//return $filename;
 		}
