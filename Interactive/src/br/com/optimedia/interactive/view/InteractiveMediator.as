@@ -3,6 +3,8 @@ package br.com.optimedia.interactive.view
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
 	import br.com.optimedia.interactive.model.InteractiveProxy;
 	
+	import flash.events.TextEvent;
+	
 	import mx.controls.Alert;
 	import mx.core.Application;
 	
@@ -43,7 +45,10 @@ package br.com.optimedia.interactive.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ApplicationConstants.GET_SLIDES_OK];
+			return [
+					ApplicationConstants.GET_SLIDES_OK,
+					ApplicationConstants.OPEN_MIDIA_VIEW
+					];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -52,7 +57,10 @@ package br.com.optimedia.interactive.view
 			{
 				case ApplicationConstants.GET_SLIDES_OK:
 					creatSlides(note.getBody() as Array);
-					break; 
+					break;
+				case ApplicationConstants.OPEN_MIDIA_VIEW:
+					openMidia();
+					break;
 				default:
 					break;
 			}
@@ -72,5 +80,10 @@ package br.com.optimedia.interactive.view
 			Application.application.navigatorView.visible = true;
 			Application.application.slideView.visible = true;
 		}
+		public function openMidia():void {
+			view.midiaViewObj.visible = true;
+			view.midiaViewObj.titleWindow.visible = true;
+		}
+		
 	}
 }

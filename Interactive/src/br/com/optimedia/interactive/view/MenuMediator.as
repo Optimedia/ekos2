@@ -18,6 +18,7 @@ package br.com.optimedia.interactive.view
 		
 		public var numberTela:Number = 1;
 		public var totalTela:Number
+		public var slidesPresentation:Array;
 		
 		public function MenuMediator(viewComponent:Object=null)
 		{
@@ -73,6 +74,7 @@ package br.com.optimedia.interactive.view
 			dumbSlide(vo);
 		}
 		public function constructMenu(slides:Array):void {
+			//slidesPresentation=slides; 
 			totalTela=slides.length;
 		 	view.menuList.dataProvider = slides;
 		 	
@@ -94,14 +96,18 @@ package br.com.optimedia.interactive.view
 		 	dumbSlide(vo);
 		 }
 		 public function dumbSlide (vo:SlideVO):void {
-		 	numberTela = view.menuList.selectedIndex + 1;
+		 	sendNotification(ApplicationConstants.CLOSE_MIDIA);
 		 	
+		 	numberTela = view.menuList.selectedIndex + 1;
+		 	sendNotification(ApplicationConstants.REMOVE_LINKS)
+		 			 	
 		 	interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
 			interactiveProxy.getSlide(vo);
-			view.visible=false;
 			
 		 	var display:Array = new Array (numberTela,totalTela)
 		 	sendNotification(ApplicationConstants.PAGE,display);
+
+		 	view.visible=false;
 		 }
 	}
 }

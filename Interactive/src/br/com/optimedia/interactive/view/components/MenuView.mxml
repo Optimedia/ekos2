@@ -3,8 +3,6 @@
 
 <mx:Script>
 	<![CDATA[
-		import mx.controls.Alert;
-	
 		import br.com.optimedia.interactive.InteractiveFacade;
 		
 		private var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();
@@ -15,7 +13,6 @@
 		}
 			
 		public function set dataProvider(value:Array): void {
-			Alert.show("ok");
 			this.menuList.dataProvider = value;
 		}
 	]]>

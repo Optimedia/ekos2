@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.interactive.assets.ApplicationConstants;
+			import flash.net.sendToURL;
+			import br.com.optimedia.interactive.InteractiveFacade;
+			
+			private var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();
+			
+			private function init():void {
+				interactiveFacade.startup( this );
+
+			}
+			
+			private function closepop():void {
+				this.visible=false;
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:TitleWindow id="titleWindow"  showCloseButton="true" 
+		width="100%" height="100%" close="closepop()" layout="horizontal" 
+		alpha="1" backgroundAlpha="1" borderAlpha="1">
+</mx:TitleWindow>
+</mx:Canvas>

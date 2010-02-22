@@ -9,6 +9,7 @@ package br.com.optimedia.interactive.assets
 		public static const SLIDE_VIEW_STARTUP:String = "SLIDE_VIEW_STARTUP";
 		public static const NAVIGATOR_VIEW_STARTUP:String = "NAVIGATOR_VIEW_STARTUP";
 		public static const MENU_VIEW_STARTUP:String = "MENU_VIEW_STARTUP";
+		public static const MIDIA_VIEW_STARTUP:String = "MIDIA_VIEW_STARTUP";
 		
 		
 		
@@ -21,5 +22,13 @@ package br.com.optimedia.interactive.assets
 		public static const NEXT_PAGE:String = "NEXT_PAGE";
 		public static const GET_SLIDE_OK:String = "GET_SLIDE_OK";
 		public static const GET_SLIDES_OK:String = "GET_SLIDES_OK";
+		public static const REMOVE_LINKS:String = "REMOVE_LINKS";
+		
+		public static const CREAT_MIDIA:String = "CREAT_MIDIA";
+		public static const OPEN_MIDIA_VIEW:String = "OPEN_MIDIA_VIEW";
+		public static const OPEN_MIDIA:String = "OPEN_MIDIA";
+		public static const CLOSE_MIDIA:String = "CLOSE_MIDIA";
+		
+		
 	}
 }
