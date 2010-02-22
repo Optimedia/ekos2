@@ -16,6 +16,27 @@
 			parent::SqlManager($host, $user, $pass, $db);
 		}
 		
+		/**
+		 * Função que retorna todos os slides
+		 *  
+		 * - Retorna: Array - SlideVO
+		 * .
+		 */
+		public function getSlides($presentationID) {
+			
+			$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY page_order";
+			$query = parent::doSelect($sql);
+			
+			$slide = new SlideVO();
+			$slideArray = array();
+			
+			while($slide = mysql_fetch_object($query, "SlideVO")) {
+				$slideArray[] = $slide;
+			}
+			
+			return $slideArray;
+		}
+		
 		public function setOrder($allSlides) {
 			
 			foreach($allSlides as $value) {
