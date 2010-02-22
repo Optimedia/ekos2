@@ -11,6 +11,7 @@
 		public $title_menu;
 		public $text_body;
 		public $status;
+		public $mediaArray;
 		
 		public $_explicitType = "br.com.optimedia.assets.vo.SlideVO";
 		
