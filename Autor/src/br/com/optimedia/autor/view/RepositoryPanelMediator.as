@@ -1,18 +1,19 @@
 package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.MediaVO;
+	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.model.RepositoryManagerProxy;
 	import br.com.optimedia.autor.view.components.RepositoryPanel;
 	
 	import flash.events.MouseEvent;
 	
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	import mx.events.CloseEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.autor.assets.vo.MediaVO;
-	import mx.controls.Alert;
-	import mx.events.CloseEvent;
 
 	public class RepositoryPanelMediator extends Mediator
 	{
@@ -54,7 +55,7 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
-					presentationID = note.getBody() as int;
+					presentationID = PresentationVO( note.getBody() ).presentation_id;
 					proxy.getMedias( presentationID );
 					break;
 				case NotificationConstants.GET_MEDIAS_RESULT:

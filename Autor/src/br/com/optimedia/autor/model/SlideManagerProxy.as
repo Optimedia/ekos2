@@ -8,6 +8,9 @@ package br.com.optimedia.autor.model
 	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+	import br.com.optimedia.autor.assets.NotificationConstants;
+	import mx.rpc.AsyncToken;
+	import mx.rpc.Responder;
 
 	public class SlideManagerProxy extends Proxy
 	{
@@ -32,12 +35,14 @@ package br.com.optimedia.autor.model
 			FaultHandler.handleFault(event);
 		}
 		
-		public function getSubjects():void {
-			//var asynkToken:AsyncToken = remoteService.getSubjects();
-			//asynkToken.addResponder( new Responder(getSubjectsResult, generalFault) );
+		public function getSlides(presentationID:uint):void {
+			var asynkToken:AsyncToken = remoteService.getSlides(presentationID);
+			asynkToken.addResponder( new Responder(getSlidesResult, generalFault) );
 		}
-		private function getSubjectsResult(event:ResultEvent):void {
-			//sendNotification( NotificationConstants.GET_SUBJECTS_OK, event.result );
+		private function getSlidesResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
+			}
 		}
 	}
 }
