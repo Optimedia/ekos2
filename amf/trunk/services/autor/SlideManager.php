@@ -19,7 +19,7 @@
 		 * - Retorna: Array - MediaVO
 		 * .
 		 */
-		public function getMedias($presentationID) {
+		public function getSlides($presentationID) {
 			
 			$sql = "SELECT * FROM ath_subject ORDER BY subject_id";
 			$query = parent::doSelect($sql);
