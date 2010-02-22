@@ -91,12 +91,15 @@
 							   "text_body" => $slide -> text_body,
 							   "status" => $slide -> status);
 
-			// TO DO SALVAR mediaArray
+			// TO FINISH SALVAR mediaArray
+			foreach($slide->mediaArray as $media) {
+				$this->saveMediaLink( $media, $slide->slide_id );
+			}
 			
 			if($slide -> slide_id == 0) {
 				return parent::doInsert($arrayTemp, $this -> _table);
 			} else {
-				
+
 				$condition = "slide_id=".$slide -> slide_id;
 				
 				return parent::doUpdate($arrayTemp, $condition, $this -> _table);
@@ -104,32 +107,21 @@
 			}
 		}
 		
-		public function saveMedia(MediaVO $media) {
+		public function saveMediaLink(MediaVO $media, $slideID) {
 			
-			$arrayTempMDA = array("media_id" => $media -> media_id,
-							   "category_id" => $media -> category_id,
-							   "title" => $media -> title,
-							   "description" => $media -> description,
-							   "creation" => $media -> creation,
-							   "last_change" => $media -> last_change,
-							   "body" => $media -> body,
-							   "status" => $media -> status);
-			
-			$arrayTempATH = array("media_id" => $media -> media_id,
-							   "slide_id" => $media -> slide_id);
+			$arrayTemp = array("media_id" => $media -> media_id,
+							   "slide_id" => $slideID);
 			
 
-			if($media -> media_id == 0) {
-				if( parent::doInsert($arrayTempMDA, "mda_media") == true ) {
-					return parent::doInsert($arrayTempATH, "ath_link");
-				}
+			if($slideID == 0) {
+
+				return parent::doInsert($arrayTemp, "ath_link");
+
 			} else {
 				
-				$condition = "slide_id=".$slide -> slide_id;
+				$condition = "slide_id=".$slideID;
 				
-				if( parent::doUpdate($arrayTempMDA, $condition, "mda_media") == true ) {
-					return parent::doUpdate($arrayTempATH, $condition, "ath_link");
-				}
+				return parent::doUpdate($arrayTemp, $condition, "ath_link");
 				
 			}
 		}
