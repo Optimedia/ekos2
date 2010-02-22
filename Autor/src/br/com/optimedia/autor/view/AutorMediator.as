@@ -2,6 +2,7 @@ package br.com.optimedia.autor.view
 {
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.autor.assets.NotificationConstants;
 
 	public class AutorMediator extends Mediator
 	{
@@ -18,7 +19,7 @@ package br.com.optimedia.autor.view
 		{
 			trace(NAME+".onRegister()");
 			view.showModuleManager();
-			//view.showSlideEditor();
+			view.showSlideEditor();
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
@@ -33,13 +34,20 @@ package br.com.optimedia.autor.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
+					NotificationConstants.BACK_TO_SUBJECT_MANAGER];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
+					view.viewStack.selectedIndex++;
+					break;
+				case NotificationConstants.BACK_TO_SUBJECT_MANAGER:
+					view.viewStack.selectedIndex--;
+					break;
 				default:
 					break;
 			}

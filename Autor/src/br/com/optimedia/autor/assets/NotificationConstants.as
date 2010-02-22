@@ -16,5 +16,8 @@ package br.com.optimedia.autor.assets
 		public static const GET_MEDIA_CATEGORIES_RESULT:String = "GET_MEDIA_CATEGORIES_RESULT";
 		public static const UPLOAD_MEDIA_FILE_RESULT:String = "UPLOAD_MEDIA_FILE_RESULT";
 		public static const UPLOAD_MEDIA_TEXT_RESULT:String = "UPLOAD_MEDIA_TEXT_RESULT";
+		public static const BEGIN_PRESENTATION_EDIT:String = "BEGIN_PRESENTATION_EDIT";
+		public static const BACK_TO_SUBJECT_MANAGER:String = "BACK_TO_SUBJECT_MANAGER";
+		public static const DELETE_MEDIA_OK:String = "DELETE_MEDIA_OK";
 	}
 }

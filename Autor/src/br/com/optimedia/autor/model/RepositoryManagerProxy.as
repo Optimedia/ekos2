@@ -37,18 +37,18 @@ package br.com.optimedia.autor.model
 		}
 		
 		public function getMedias( presentationID:uint ):void {
-			/* var asynkToken:AsyncToken = remoteService.getMedias( presentationID );
-			asynkToken.addResponder( new Responder(getMediasResult, generalFault) ); */
-			var xml:XML = 	<medias>
+			var asynkToken:AsyncToken = remoteService.getMedias( presentationID );
+			asynkToken.addResponder( new Responder(getMediasResult, generalFault) );
+			/* var xml:XML = 	<medias>
 								<cat name="Tabelas">
-			                        <item name="bla1" ref="referencia1" icon="table" id=""/>
-			                        <item name="bla2" ref="referencia1" icon="table" id=""/>
-			                        <item name="bla3" ref="referencia1" icon="table" id=""/>
+			                        <item name="bla1" ref="referencia1" icon="table" category_id="1"/>
+			                        <item name="bla2" ref="referencia1" icon="table" category_id="1"/>
+			                        <item name="bla3" ref="referencia1" icon="table" category_id="1"/>
 			                    </cat>
 								<cat name="Gráficos">
-			                        <item name="bla1" ref="referencia1" icon="" id=""/>
-			                        <item name="bla2" ref="referencia1" icon="" id=""/>
-			                        <item name="bla3" ref="referencia1" icon="" id=""/>
+			                        <item name="bla1" ref="referencia1" category_id="1"/>
+			                        <item name="bla2" ref="referencia1" category_id="1"/>
+			                        <item name="bla3" ref="referencia1" category_id="1"/>
 			                    </cat>
 								<cat name="Imagens">
 			                        <item name="bla1" ref="referencia1" icon="" id=""/>
@@ -72,7 +72,7 @@ package br.com.optimedia.autor.model
 			                    </cat>
 							</medias>;
 			var event:ResultEvent = new ResultEvent(ResultEvent.RESULT, false, true, xml);
-			getMediasResult( event );
+			getMediasResult( event ); */
 		}
 		private function getMediasResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.GET_MEDIAS_RESULT, event.result );
@@ -100,6 +100,14 @@ package br.com.optimedia.autor.model
 		}
 		private function uploadMediaTextResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT, event.result );
+		}
+		
+		public function deleteMedia(mediaID:uint):void {
+			var asynkToken:AsyncToken = remoteService.deleteMedia(mediaID);
+			asynkToken.addResponder( new Responder(deleteMediaResult, generalFault) );
+		}
+		private function deleteMediaResult(event:ResultEvent):void {
+			sendNotification( NotificationConstants.DELETE_MEDIA_OK );
 		}
 	}
 }

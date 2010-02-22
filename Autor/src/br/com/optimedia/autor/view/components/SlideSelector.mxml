@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" xmlns="*" width="100%" height="100%">
-	
-	
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%">
 	
 	<mx:HBox width="100%" height="100%">
 		
@@ -85,4 +83,4 @@
 		
 	</mx:HBox>
 	
-</mx:VBox>
+</mx:HBox>
