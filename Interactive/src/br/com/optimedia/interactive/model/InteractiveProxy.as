@@ -19,6 +19,8 @@ package br.com.optimedia.interactive.model
 		
 		private var remoteService:RemoteObject;
 		
+		public var links:Array;
+		
 		public function InteractiveProxy(data:Object=null)
 		{
 			super(NAME, data);
@@ -37,15 +39,6 @@ package br.com.optimedia.interactive.model
 		}
 		
 		public function getSlide(slide:SlideVO):void {
-			/* var asynkToken:AsyncToken = remoteService.getSlide();
-			asynkToken.addResponder( new Responder(getSlideResult, generalFault) ); */
-			/*
-			var slideVO:SlideVO = new SlideVO();
-			slideVO.slide_id = 1;
-			slideVO.type_slide_id = SlideVO.TYPE_TITLE;
-			slideVO.title = "titulo";
-			slideVO.text_body = "texto";
-			*/
 			getSlideResult(slide);
 			getLinks(slide.slide_id);
 			
@@ -63,28 +56,48 @@ package br.com.optimedia.interactive.model
 		}
 		public function getLinks(id:uint):void {
 			var link1:LinkVO = new LinkVO();
-			link1.media_id = 1
-			link1.category_id = 6
+			link1.media_id = 1;
+			link1.category_id = 6;
 			link1.category_title= "Text";
 			link1.title_id = 1;
 			link1.title_midia = "";
-			link1.description_midia = "description_midia";
-			link1.body_midia = "texto do link 1";
+			link1.description_midia = "";
+			link1.body_midia = "description_midia";
 			link1.status_midia = 1;
 			
 			var link2:LinkVO = new LinkVO();
-			link2.media_id = 1
-			link2.category_id = 6
-			link2.category_title= "Text";
+			link2.media_id = 2;
+			link2.category_id = 3;
+			link2.category_title= "Chart";
 			link2.title_id = 1;
-			link2.title_midia = "";
-			link2.description_midia = "description_midia";
-			link2.body_midia = "texto do link 2";
+			link2.title_midia = "titulo midia";
+			link2.description_midia = "http://www.carrosnitrados.net/";
+			link2.body_midia = "blog/wp-content/uploads/2008/04/carros.jpg";
 			link2.status_midia = 1;
 			
-			var links:Array = new Array (link1,link2);
+			var link3:LinkVO = new LinkVO();
+			link3.media_id = 3;
+			link3.category_id = 5;
+			link3.category_title= "link";
+			link3.title_id = 1;
+			link3.title_midia = "titulo midia";
+			link3.description_midia = "";
+			link3.body_midia = "http://www.uol.com.br";
+			link3.status_midia = 1;
+			
+			links = [link1, link2, link3];
+			
 			
 			sendNotification(ApplicationConstants.CONTRUCT_LINKS,links)			
+		}
+		public function getMidia(id:*):void {
+			var id:Number = id as Number;
+			for (var i:uint = 0 ; i<links.length; i++) {
+				if (id==links[i].media_id) {
+					var midia:LinkVO = links[i] as LinkVO;
+				}
+			}
+			sendNotification(ApplicationConstants.OPEN_MIDIA,midia);
 		}
 	}
 }

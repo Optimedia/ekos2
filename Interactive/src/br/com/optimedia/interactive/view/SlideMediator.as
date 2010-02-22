@@ -2,10 +2,13 @@ package br.com.optimedia.interactive.view
 {
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
 	import br.com.optimedia.interactive.assets.vo.SlideVO;
+	import br.com.optimedia.interactive.model.InteractiveProxy;
 	import br.com.optimedia.interactive.view.components.SlideView;
 	
 	import flash.display.Sprite;
+	import flash.events.TextEvent;
 	
+	import mx.controls.Alert;
 	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -20,7 +23,9 @@ package br.com.optimedia.interactive.view
 		
 		public var lineTitle:uint = 0x000000;
 		public var bgTitle:uint = 0xFFFFFF;
-		//private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
+		
+		private var interactiveProxy:InteractiveProxy;
+		
 		
 		public function SlideMediator(viewComponent:Object=null)
 		{
@@ -30,6 +35,9 @@ package br.com.optimedia.interactive.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
+			view.textContent.addEventListener(TextEvent.LINK,openlink);
+			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
+			
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
@@ -60,10 +68,6 @@ package br.com.optimedia.interactive.view
 		}
 		
 		public function show(vo: SlideVO): void {
-			
-			//Application.application.slideView.textTitle.visible=false;
-			//Application.application.slideView.textContent.visible=false;
-			
 			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {
 				Application.application.slideView.slideVO = vo;
 				layout(vo.type_slide_id,20,"titleTYPEPAGE","contentTYPEPAGE");
@@ -119,6 +123,12 @@ package br.com.optimedia.interactive.view
 		}
 		public function setBgTitle (bgTitle:uint):void {
 			this.bgTitle = bgTitle;
+		}
+		
+		public function openlink(e:TextEvent):void {
+			
+			var id:* = e.text as String;
+			interactiveProxy.getMidia(id);
 		}
 	}
 }

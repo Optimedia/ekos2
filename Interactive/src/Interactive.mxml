@@ -30,9 +30,9 @@
 			
 		]]>
 	</mx:Script>
-	
+		
 	<v:SlideView id="slideView" width="100%" height="100%"  visible="false"/>
-	<v:MenuView id="menuView" width="200" height="200"   visible="false" y="10" x="10"/>
 	<v:NavigatorView id="navigatorView" width="100%" visible="false" bottom="0"/>
-	
+	<v:MidiaView id="midiaViewObj" width="98%"  height="93%" y="0" visible="false" horizontalCenter="0"/>
+	<v:MenuView id="menuView" width="200" height="200"   visible="false" y="10" x="10"/>
 </mx:Application>

@@ -12,7 +12,7 @@ package br.com.optimedia.interactive.controller
 			
 			var instance:MenuView = notification.getBody() as MenuView;
 			
-			facade.registerMediator( new MenuMediator( instance) );
+			facade.registerMediator( new MenuMediator( instance ) );
 			
 		}
 		

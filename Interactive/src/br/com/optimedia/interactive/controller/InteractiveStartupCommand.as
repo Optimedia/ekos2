@@ -13,7 +13,7 @@ package br.com.optimedia.interactive.controller
 			
 			var instance:Interactive = notification.getBody() as Interactive;
 			
-			facade.registerProxy( new InteractiveProxy() );
+			//facade.registerProxy( new InteractiveProxy() );
 			
 			facade.registerMediator( new InteractiveMediator( instance ) );
 			
