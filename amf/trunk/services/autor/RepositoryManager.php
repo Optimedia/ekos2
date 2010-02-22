@@ -26,7 +26,7 @@
 			$arrayMedia = array();
 			$media = new MediaVO();
 			
-			while($media = mysql_fetch_object($result)) {
+			while($media = mysql_fetch_object($result, "MediaVO")) {
 				$arrayMedia[] = $media;
 			}
 			
