@@ -19,7 +19,7 @@
 		
 		public function getMedias($presentation_id) {
 			
-			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND m.presentation_id=$presentation_id";
+			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND a.presentation_id=$presentation_id";
 			
 			$result = parent::doSelect($sql);
 			
