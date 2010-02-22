@@ -19,19 +19,40 @@
 		
 		public function getMedias($presentation_id) {
 			
-			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND a.presentation_id=$presentation_id";
+//			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND a.presentation_id=$presentation_id";
+//			
+//			$result = parent::doSelect($sql);
+//			
+//			$arrayMedia = array();
+//			$media = new MediaVO();
+//			
+//			while($media = mysql_fetch_object($result, "MediaVO")) {
+//				$arrayMedia[] = $media;
+//			}
+//			
+//			return $arrayMedia;
 			
+			
+			$sql = "SELECT * FROM mda_category";
 			$result = parent::doSelect($sql);
 			
 			$arrayMedia = array();
-			$media = new MediaVO();
+			$categoryArray = array();
 			
-			while($media = mysql_fetch_object($result, "MediaVO")) {
-				$arrayMedia[] = $media;
+			while($category = mysql_fetch_object($result)) {
+				$sql1 = "SELECT m.* FROM mda_media m, ath_media a WHERE m.category_id=". $category->category_id ." AND a.media_id=m.media_id AND a.presentation_id=$presentation_id";
+				
+				$result1 = parent::doSelect($sql1);
+				$array = array();
+				$media = new MediaVO();
+				
+				while($media = mysql_fetch_object($result1, "MediaVO")) {
+					$array[] = $media;
+				}	
+				$category->children = $array;
+				$categoryArray[] = $category;
 			}
-			
-			return $arrayMedia;
-			
+			return $categoryArray;
 		}
 		
 		public function uploadPresentationFile(FileVO $file, $presentationID, $type) {
@@ -77,5 +98,15 @@
 			return parent::doInsert($arrayMedia, $this -> _table);
 			
 			//return $filename;
+		}
+		
+		/**
+		 * Fun��o para deletar uma media.
+		 * 
+		 * - Retorna: Boolean 
+		 * .
+		 */
+		public function deleteMedia($mediaID) {
+			
 		}
 	}
