@@ -32,7 +32,7 @@
 			$slideArray = array();
 			
 			while($slide = mysql_fetch_object($query, "SlideVO")) {
-				$slide->slideArray = $this->getMedias($slide->slide_id);
+				$slide->mediaArray = $this->getMedias($slide->slide_id);
 				$slideArray[] = $slide;
 			}
 			
