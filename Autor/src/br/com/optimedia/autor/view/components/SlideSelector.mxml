@@ -1,5 +1,15 @@
 <?xml version="1.0"?>
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%">
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.autor.assets.vo.PresentationVO;
+			
+			[Bindable]
+			public var presentationVO:PresentationVO;
+			
+		]]>
+	</mx:Script>
 	
 	<mx:HBox width="100%" height="100%">
 		

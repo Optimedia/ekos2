@@ -98,7 +98,7 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function slideEditBtnClick(event:MouseEvent):void {
-			sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem).presentation_id );
+			sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
 		}
 	}
 }

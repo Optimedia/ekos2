@@ -19,5 +19,6 @@ package br.com.optimedia.autor.assets
 		public static const BEGIN_PRESENTATION_EDIT:String = "BEGIN_PRESENTATION_EDIT";
 		public static const BACK_TO_SUBJECT_MANAGER:String = "BACK_TO_SUBJECT_MANAGER";
 		public static const DELETE_MEDIA_OK:String = "DELETE_MEDIA_OK";
+		public static const GET_SLIDES_OK:String = "GET_SLIDES_OK";
 	}
 }

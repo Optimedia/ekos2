@@ -1,6 +1,8 @@
 package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.PresentationVO;
+	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.view.components.SlideEditor;
 	
 	import flash.events.MouseEvent;
@@ -12,7 +14,9 @@ package br.com.optimedia.autor.view
 	{
 		public static const NAME:String = 'SlideEditorMediator';
 		
-		//private var repositoryProxy:RepositoryManagerProxy;
+		private var presentationVO:PresentationVO = new PresentationVO();
+		
+		private var proxy:SlideManagerProxy;
 		
 		public function SlideEditorMediator(viewComponent:Object=null)
 		{
@@ -24,7 +28,7 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.backBtn.addEventListener( MouseEvent.CLICK, backBtnClick );
 			
-			//repositoryProxy = facade.retrieveProxy( RepositoryManagerProxy.NAME ) as RepositoryManagerProxy;
+			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 		}
 		
 		override public function onRemove():void {
@@ -38,13 +42,21 @@ package br.com.optimedia.autor.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [];
+			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
+					NotificationConstants.GET_SLIDES_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
+				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
+					presentationVO = PresentationVO( note.getBody() );
+					proxy.getSlides( presentationVO.presentation_id );
+					break;
+				case NotificationConstants.GET_SLIDES_OK:
+					presentationVO.slidesArray = note.getBody() as Array;
+					break;
 				default:
 					break;
 			}

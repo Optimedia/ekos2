@@ -37,6 +37,7 @@
 
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.autor.assets.vo.PresentationVO;
 	
 	import mx.controls.textClasses.TextRange;
 	import mx.core.mx_internal;
@@ -480,6 +481,8 @@
 			MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);		
 	}
 	
+	[Bindable]
+	public var presentationVO:PresentationVO;
 	
 	
 	]]>
