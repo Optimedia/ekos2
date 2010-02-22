@@ -61,13 +61,17 @@
 				$presentationArray[] = $presentation;
 			}
 			
-			require_once "SlideManager.php";
-			$slideManager = new SlideManager();
 			foreach($presentationArray as $presentation) {
-				$presentation->slidesArray = $slideManager->getSlides($presentation->presentation_id);
+				$presentation->slidesArray = $this->getSlides($presentation->presentation_id);
 			}
 			
 			return $presentationArray;
+		}
+		
+		public function getSlides($presentationID) {
+			require_once "SlideManager.php";
+			$slideManager = new SlideManager();
+			return $slideManager->getSlides($presentationID);
 		}
 		
 		/**
