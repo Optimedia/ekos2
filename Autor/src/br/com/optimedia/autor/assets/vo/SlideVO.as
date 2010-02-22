@@ -2,6 +2,8 @@ package br.com.optimedia.autor.assets.vo
 {
 	import flash.utils.ByteArray;
 	
+	import mx.collections.ArrayCollection;
+	
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.SlideVO")]
 	
 	public class SlideVO
@@ -16,6 +18,7 @@ package br.com.optimedia.autor.assets.vo
 		public var title_menu:String;
 		public var text_body:String;
 		public var status:uint;
+		private var _mediaArray = new ArrayCollection();
 		
 		public function clone():* {
 			var copier:ByteArray = new ByteArray();
@@ -24,5 +27,12 @@ package br.com.optimedia.autor.assets.vo
 			return copier.readObject() as SlideVO;
 		}
 		
+		public function set mediaArray(value:*):void {
+			if( value is ArrayCollection) _mediaArray = value;
+			else _mediaArray = new ArrayCollection( value );
+		}
+		public function get mediaArray():* {
+			return _mediaArray;
+		}
 	}
 }
