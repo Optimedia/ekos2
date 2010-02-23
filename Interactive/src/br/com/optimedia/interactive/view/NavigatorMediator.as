@@ -1,7 +1,7 @@
 package br.com.optimedia.interactive.view
 {
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
-	import br.com.optimedia.interactive.assets.vo.LinkVO;
+	import br.com.optimedia.interactive.assets.vo.MediaVO;
 	import br.com.optimedia.interactive.view.components.NavigatorView;
 	
 	import flash.events.MouseEvent;
@@ -17,7 +17,7 @@ package br.com.optimedia.interactive.view
 		public static const NAME:String = 'NavigatorMediator';
 		
 		public var btn:Button;
-		public var links:Array;
+		public var medias:Array;
 		
 		
 	//	private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
@@ -51,9 +51,7 @@ package br.com.optimedia.interactive.view
 		{
 			return [
 					ApplicationConstants.PAGE,
-					ApplicationConstants.CONTRUCT_LINKS,
-					ApplicationConstants.REMOVE_LINKS
-				//	ApplicationConstants.BACK_PAGE, 
+					ApplicationConstants.CONTRUCT_LINKS
 					];
 		}
 		
@@ -68,9 +66,6 @@ package br.com.optimedia.interactive.view
 				case ApplicationConstants.CONTRUCT_LINKS:
 						constructionLink (note.getBody() as Array);
 					break;
-				case ApplicationConstants.REMOVE_LINKS:
-						removeMidia ();
-					break;	
 				default:
 					break;
 			}
@@ -107,27 +102,28 @@ package br.com.optimedia.interactive.view
 		 	view.display.text = note[0] + " / " +  note[1];
 		 }
 		 public function constructionLink(note:Array):void {
-		 	links = note;
+		 	
+		 	view.links.removeAllChildren();
+		 	
+		 	medias = note;
 		 	for (var i:int=0 ; i<note.length; i++) {
-		 		var link:LinkVO = note[i] as LinkVO;
-		 		
+		 		var media:MediaVO = note[i] as MediaVO;
+//		 		var btn:Button = new Button();
 		 		btn = new Button();
 		 		btn.width = 40;
 		 		btn.height = 24;
-		 		btn.label = link.category_title;
-		 		btn.data = link;
+		 		btn.label = media.category_id.toString();
+		 		btn.data = media;
 		 		btn.addEventListener(MouseEvent.CLICK,clickLink);
 		 		view.links.addChild(btn);
 		 	}
 		 }
 		public function clickLink(event:MouseEvent):void {
-		 	var link:LinkVO = event.target.data as LinkVO;
-		 	sendNotification(ApplicationConstants.CREAT_MIDIA,link);
+		 	var media:MediaVO = event.target.data as MediaVO;
+		 	sendNotification(ApplicationConstants.CREAT_MIDIA,media);
 		 	
 		 }
-		 public function removeMidia ():void {
-		 	view.links.removeAllChildren();
-		 }
+
 		 
 	}
 }

@@ -96,14 +96,12 @@ package br.com.optimedia.interactive.view
 		 	dumbSlide(vo);
 		 }
 		 public function dumbSlide (vo:SlideVO):void {
-		 	sendNotification(ApplicationConstants.CLOSE_MIDIA);
+		 	sendNotification(ApplicationConstants.GET_SLIDE_OK,vo);
 		 	
+		 	sendNotification(ApplicationConstants.CLOSE_MIDIA);
+		 		
 		 	numberTela = view.menuList.selectedIndex + 1;
-		 	sendNotification(ApplicationConstants.REMOVE_LINKS)
-		 			 	
-		 	interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
-			interactiveProxy.getSlide(vo);
-			
+		 	
 		 	var display:Array = new Array (numberTela,totalTela)
 		 	sendNotification(ApplicationConstants.PAGE,display);
 

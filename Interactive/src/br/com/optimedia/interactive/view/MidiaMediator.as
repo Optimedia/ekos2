@@ -1,7 +1,7 @@
 package br.com.optimedia.interactive.view {
 	
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
-	import br.com.optimedia.interactive.assets.vo.LinkVO;
+	import br.com.optimedia.interactive.assets.vo.MediaVO;
 	import br.com.optimedia.interactive.view.components.MidiaView;
 	
 	import flash.net.URLRequest;
@@ -58,10 +58,10 @@ package br.com.optimedia.interactive.view {
 			switch (note.getName())
 			{
 				case ApplicationConstants.CREAT_MIDIA:
-						openMidia (note.getBody() as LinkVO);
+						openMidia (note.getBody() as MediaVO);
 					break;
 				case ApplicationConstants.OPEN_MIDIA:
-						openMidia (note.getBody() as LinkVO);
+						openMidia (note.getBody() as MediaVO);
 					break;
 				case ApplicationConstants.CLOSE_MIDIA:
 						closeMidia ();
@@ -73,7 +73,7 @@ package br.com.optimedia.interactive.view {
 		public function closeMidia():void {
 			view.visible = false;
 		}
-		public function openMidia(midia:LinkVO):void {
+		public function openMidia(media:MediaVO):void {
 			if (text) {
 				try{
 					view.titleWindow.removeChild(text);	
@@ -99,41 +99,41 @@ package br.com.optimedia.interactive.view {
 					
 				}
 			}
-			var midia:LinkVO = midia;
-			if (midia.category_id==6){
+			var media:MediaVO = media;
+			if (media.category_id==6){
 				text = new TextArea();
 				text.setStyle("backgroundAlpha", 0);
 				text.setStyle("borderSides",0);
-				text.htmlText = midia.body_midia;
+				text.htmlText = media.body;
 				text.wordWrap = true;
 				text.editable=false;
 				text.enabled=true;
 				//text.addEventListener(TextEvent.LINK, teste);				
 				view.titleWindow.addChild(text);
 				
-			}else if (midia.category_id<=3) {
-				var arq:Array = midia.body_midia.split(".");
+			}else if (media.category_id<=3) {
+				var arq:Array = media.body.split(".");
 				if (arq[1]=="swf") {
 					swfLoad = new SWFLoader();
-					swfLoad.source = midia.body_midia;
+					swfLoad.source = media.body;
 					swfLoad.autoLoad = true;
 					swfLoad.scaleContent = true;
 					view.titleWindow.addChild(swfLoad);
 				}else {
 					imagem = new Image();
-					imagem.source = midia.body_midia;
+					imagem.source = media.body;
 					imagem.autoLoad = true;
 					imagem.scaleContent = true;
 					view.titleWindow.addChild(imagem);
 				}
-			}else if (midia.category_id==4){
+			}else if (media.category_id==4){
 					movie = new VideoDisplay();
-					movie.source = midia.body_midia;
+					movie.source = media.body;
 					movie.autoPlay=true;
 					movie.autoRewind = false;
 					view.titleWindow.addChild(movie);
-			}else if (midia.category_id==5) {
-					var url:URLRequest = new URLRequest( midia.body_midia);
+			}else if (media.category_id==5) {
+					var url:URLRequest = new URLRequest( media.body);
 					navigateToURL(url,"_blank");
 				
 			}

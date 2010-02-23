@@ -36,6 +36,7 @@ package br.com.optimedia.interactive.view
 		{
 			trace(NAME+".onRegister()");
 			view.textContent.addEventListener(TextEvent.LINK,openlink);
+			
 			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
 			
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
@@ -68,6 +69,9 @@ package br.com.optimedia.interactive.view
 		}
 		
 		public function show(vo: SlideVO): void {
+	
+			interactiveProxy.getLinks(vo.slide_id);
+			
 			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {
 				Application.application.slideView.slideVO = vo;
 				layout(vo.type_slide_id,20,"titleTYPEPAGE","contentTYPEPAGE");
@@ -83,6 +87,8 @@ package br.com.optimedia.interactive.view
 		}
 		
 		public function layout (type:uint, yTitle:Number ,styleTITLE:String,stlyeText:String):void {
+			
+			
 			view.textTitle.visible=false;
 			view.textTitle.x=20;
 			view.textTitle.y=yTitle;
