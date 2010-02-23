@@ -14,6 +14,7 @@
 		public $img_credit;
 		public $img_intro;
 		public $img_conclusion;
+		public $section_id;
 		
 		public $_explicitType = "br.com.optimedia.assets.vo.PresentationVO";
 		
