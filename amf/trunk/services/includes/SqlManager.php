@@ -2,6 +2,8 @@
 	
 	class SqlManager {
 		
+		protected $insert_id;
+		
 		function SqlManager($host, $user, $pass, $db) {
 			session_start();
 			mysql_connect($host, $user, $pass);
@@ -134,8 +136,10 @@
 			$sql = "UPDATE $table SET $values WHERE $condition";
 			
 			if(mysql_query($sql)) {
+				$this->insert_id = mysql_insert_id();
 				return true;
 			} else {
+				$this->insert_id = "";
 				return mysql_error();
 			}
 			
