@@ -251,4 +251,12 @@
 			
 			return $sectionArray;
 		}
+		
+		public function lockPresentation($presentationID, $userID) {
+			
+		}
+		
+		public function unlockPresentation($presentationID) {
+			
+		}
 	}
