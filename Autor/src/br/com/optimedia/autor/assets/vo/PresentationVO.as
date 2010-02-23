@@ -20,6 +20,7 @@ package br.com.optimedia.autor.assets.vo
 		public var img_credit:String;
 		public var img_intro:String;
 		public var img_conclusion:String;
+		public var section_id:int;
 		
 		public function clone():* {
 			var copier:ByteArray = new ByteArray();

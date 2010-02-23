@@ -10,9 +10,11 @@ package br.com.optimedia.autor.assets
 		public static const SEND_FILE_POPUP_STARTUP:String = 'SEND_FILE_POPUP_STARTUP';
 		public static const SEND_MEDIA_POPUP_STARTUP:String = 'SEND_MEDIA_POPUP_STARTUP';
 		public static const SLIDE_EDITOR_STARTUP:String = 'SLIDE_EDITOR_STARTUP';
+		public static const PUBLISH_PRESENTATION_STARTUP:String = 'PUBLISH_PRESENTATION_STARTUP';
 		
 		//dispose commands
 		public static const SEND_FILE_POPUP_DISPOSE:String = 'SEND_FILE_POPUP_DISPOSE';
 		public static const SEND_MEDIA_POPUP_DISPOSE:String = 'SEND_MEDIA_POPUP_DISPOSE';
+		public static const PUBLISH_PRESENTATION_DISPOSE:String = 'PUBLISH_PRESENTATION_DISPOSE';
 	}
 }

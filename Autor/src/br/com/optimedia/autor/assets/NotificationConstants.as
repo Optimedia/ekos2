@@ -20,5 +20,7 @@ package br.com.optimedia.autor.assets
 		public static const BACK_TO_SUBJECT_MANAGER:String = "BACK_TO_SUBJECT_MANAGER";
 		public static const DELETE_MEDIA_OK:String = "DELETE_MEDIA_OK";
 		public static const GET_SLIDES_OK:String = "GET_SLIDES_OK";
+		public static const PUBLISH_PRESENTATION_OK:String = "PUBLISH_PRESENTATION_OK";
+		public static const GET_SECTIONS_RESULT:String = "GET_SECTIONS_RESULT";
 	}
 }
