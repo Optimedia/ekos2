@@ -72,7 +72,7 @@
 			//return $filename;
 		}
 		
-		public function uploadMediaFile(FileVO $file, MediaVO $media) {
+		public function uploadMediaFile(FileVO $file, MediaVO $media, $presentationID) {
 			
 			$data = $file->filedata->data;
 			$filename = mt_rand() . $file->filename;
@@ -83,9 +83,15 @@
 							  	 'body' => $filename,
 								 'status' => 1);
 							  
-			return parent::doInsert($arrayMedia, $this -> _table);
+			if( parent::doInsert($arrayMedia, $this -> _table) == true ) {
+				$mediaID = mysql_insert_id();
+				$array = array	('media_id' => $mediaID,
+								 'presentation_id' => $presentationID);
+				
+				return parent::doInsert($array, 'ath_media');
+			}
 			
-			//return $filename;
+			return false;
 		}
 		
 		public function uploadMediaText(MediaVO $media) {
