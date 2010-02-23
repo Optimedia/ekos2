@@ -2,16 +2,16 @@ package br.com.optimedia.autor.assets.img
 {
 	public class ImgAssets
 	{
-		[Embed('deleteIcon.png')]
+		[Embed('trashIcon.png')]
 		public static const deleteIcon:Class;
 		
 		[Embed('editIcon.png')]
 		public static const editIcon:Class;
 		
-		[Embed('deleteIcon.png')]
+		[Embed('minusIcon.png')]
 		public static const publishedIcon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('plusIcon.png')]
 		public static const unpublishedIcon:Class;
 		
         [Embed(source="Assets.swf",symbol="TreeFolderClosed")]
@@ -22,23 +22,26 @@ package br.com.optimedia.autor.assets.img
 		
 		
 		
-		[Embed('deleteIcon.png')]
+		[Embed('tableIcon.png')]
 		public static const category1Icon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('chartIcon.png')]
 		public static const category2Icon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('imageIcon.png')]
 		public static const category3Icon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('movieIcon.png')]
 		public static const category4Icon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('urlIcon.png')]
 		public static const category5Icon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('noteIcon.png')]
 		public static const category6Icon:Class;
+		
+		[Embed('editIcon.png')]
+		public static const category7Icon:Class;
 		
 	}
 }

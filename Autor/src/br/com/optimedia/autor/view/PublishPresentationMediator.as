@@ -7,6 +7,8 @@ package br.com.optimedia.autor.view
 	
 	import flash.events.MouseEvent;
 	
+	import mx.controls.Alert;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
@@ -41,7 +43,9 @@ package br.com.optimedia.autor.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.GET_SECTIONS_RESULT];
+			return [NotificationConstants.GET_SECTIONS_RESULT,
+					NotificationConstants.PUBLISH_PRESENTATION_OK,
+					NotificationConstants.UNPUBLISH_PRESENTATION_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -50,6 +54,14 @@ package br.com.optimedia.autor.view
 			{
 				case NotificationConstants.GET_SECTIONS_RESULT:
 					view.sectionsArray = note.getBody() as Array;
+					break;
+				case NotificationConstants.PUBLISH_PRESENTATION_OK:
+					Alert.show("Tema publicado com sucesso", "OK");
+					closeHandler(null);
+					break;
+				case NotificationConstants.UNPUBLISH_PRESENTATION_OK:
+					Alert.show("Tema despublicado com sucesso", "OK");
+					closeHandler(null);
 					break;
 				default:
 					break;
@@ -61,7 +73,12 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function saveHandler(event:MouseEvent):void {
-			proxy.publishPresentation( view.presentationVO.presentation_id, view.sectionComboBox.selectedItem.section_id );
+			if( view.currentState == "unpublish" ) {
+				proxy.unpublishPresentation( view.presentationVO.presentation_id );
+			}
+			else {
+				proxy.publishPresentation( view.presentationVO.presentation_id, view.sectionComboBox.selectedItem.section_id );
+			}
 		}
 	}
 }
