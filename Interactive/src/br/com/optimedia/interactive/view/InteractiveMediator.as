@@ -1,11 +1,9 @@
 package br.com.optimedia.interactive.view
 {
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
+	import br.com.optimedia.interactive.assets.vo.SlideVO;
 	import br.com.optimedia.interactive.model.InteractiveProxy;
 	
-	import flash.events.TextEvent;
-	
-	import mx.controls.Alert;
 	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -71,9 +69,10 @@ package br.com.optimedia.interactive.view
 		
 		public function creatSlides(slides:Array) :void {
 			
-			//var slide:SlideVO= slides[0] as SlideVO; 			
-			//interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
-			//interactiveProxy.getSlide(slide);			
+			var slide:SlideVO= slides[0] as SlideVO; 		
+				
+			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
+			interactiveProxy.getSlide(slide);			
 			
 			sendNotification(ApplicationConstants.CONTRUCT_MENU,slides);
 			
