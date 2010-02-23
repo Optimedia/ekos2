@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.autor.assets.img.ImgAssets;
 			import mx.core.Application;
 			import mx.managers.PopUpManager;
 			import mx.events.ListEvent;
@@ -15,17 +16,17 @@
 			
 			public var presentationID:uint;
 			
-			[Bindable]
+			/* [Bindable]
 	        [Embed("../../assets/img/deleteIcon.png")]
-	        private var deleteIcon:Class;
+	        private var deleteIcon:Class; */
 	        
-	        [Bindable]
+	        /* [Bindable]
 	        [Embed(source="Assets.swf",symbol="TreeFolderClosed")]
 			private var iconMinimised:Class;
 			
 		    [Bindable]
 		    [Embed(source="Assets.swf",symbol="TreeFolderOpen")]
-			private var iconMaximised:Class;
+			private var iconMaximised:Class; */
 			
 			[Bindable]
 			public var mediaXml:ArrayCollection = new ArrayCollection();
@@ -37,31 +38,31 @@
 			private function setIcon(item:Object):Class {
 				var iconClass:Class;
 				if( mediaTree.dataDescriptor.isBranch(item) ) {
-					iconClass = iconMinimised;
+					iconClass = ImgAssets.iconMinimised;
 					for each( var openItem:Object in mediaTree.openItems ) {
-						if(item == openItem) iconClass = iconMaximised;
+						if(item == openItem) iconClass = ImgAssets.iconMaximised;
 					}
 					return iconClass;
 				}
 				var categoryID:uint= item.category_id;
 				switch( categoryID ) {
 					case 1:
-						iconClass = deleteIcon;
+						iconClass = ImgAssets.category1Icon;
 						break;
 					case 2:
-						iconClass = deleteIcon;
+						iconClass = ImgAssets.category2Icon;
 						break;
 					case 3:
-						iconClass = deleteIcon;
+						iconClass = ImgAssets.category3Icon;
 						break;
 					case 4:
-						iconClass = deleteIcon;
+						iconClass = ImgAssets.category4Icon;
 						break;
 					case 5:
-						iconClass = deleteIcon;
+						iconClass = ImgAssets.category5Icon;
 						break;
 					case 6:
-						iconClass = deleteIcon;
+						iconClass = ImgAssets.category6Icon;
 						break;
 					default:
 						break;
@@ -96,26 +97,6 @@
 	</mx:HBox>
 	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
-		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" >
-	</mx:Tree>
-	<!--<mx:Tree id="mediaTree" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
-		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" >
-		<mx:dataProvider>
-			<mx:GroupingCollection id="gc">
-				<mx:grouping>
-					<mx:Grouping>
-						<mx:HierarchicalData id="hd" childrenField="mediaArray"/>
-						<mx:GroupingField name="category_id"/>
-					</mx:Grouping>
-				</mx:grouping>
-			</mx:GroupingCollection>
-		</mx:dataProvider>-->
-		
-		<!--<mx:HierarchicalCollectionView>
-		
-		</mx:HierarchicalCollectionView>
-		
-		
-	</mx:Tree>-->
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" />
 	
 </mx:Panel>

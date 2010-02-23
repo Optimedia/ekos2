@@ -123,7 +123,7 @@ package br.com.optimedia.autor.model
 		}
 		private function getSectionsResult(event:ResultEvent):void {
 			if( event.result is Array ) {
-				sendNotification( NotificationConstants.GET_SECTIONS_RESULT );
+				sendNotification( NotificationConstants.GET_SECTIONS_RESULT, event.result );
 			}
 			else Alert.show("Não foi possível recuperar nenhum setor.", "Erro");
 		}
