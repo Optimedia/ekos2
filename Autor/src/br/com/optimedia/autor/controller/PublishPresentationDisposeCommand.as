@@ -3,6 +3,8 @@ package br.com.optimedia.autor.controller
 	import br.com.optimedia.autor.view.PublishPresentationMediator;
 	import br.com.optimedia.autor.view.components.PublishPresentationPopUp;
 	
+	import flash.system.System;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 

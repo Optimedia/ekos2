@@ -27,6 +27,7 @@ package br.com.optimedia.autor.view
 			view.saveBtn.addEventListener(MouseEvent.CLICK, saveHandler);
 			view.cancelBtn.addEventListener(MouseEvent.CLICK, closeHandler);
 			proxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
+			proxy.getSections();
 		}
 		
 		override public function onRemove():void {
@@ -48,7 +49,7 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_SECTIONS_RESULT:
-					view.sectionComboBox.dataProvider = note.getBody() as Array;
+					view.sectionsArray = note.getBody() as Array;
 					break;
 				default:
 					break;

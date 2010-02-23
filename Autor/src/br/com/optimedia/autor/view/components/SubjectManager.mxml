@@ -3,6 +3,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Application;
+			
 			import mx.events.CloseEvent;
 			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
@@ -103,7 +105,6 @@
 						}
 					}
 				}
-				
 			}
 			private function dispatchDeleteSubjectEvent():void {
 				this.dispatchEvent( new Event(DELETE_SUBJECT_EVENT) );
@@ -119,10 +120,16 @@
 				PopUpManager.addPopUp( popUp, this, true );
 				PopUpManager.centerPopUp( popUp );
 			}
+			
+			public function showPublishPopUp(data:Object):void {
+				var popUp:PublishPresentationPopUp = new PublishPresentationPopUp();
+				popUp.presentationVO = data as PresentationVO;
+				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+				PopUpManager.centerPopUp( popUp );
+			}
 		]]>
 	</mx:Script>
 	
-	<!--<mx:VBox width="100%" height="50%">-->
 		<mx:Button id="newSubjectBtn" label="Novo Módulo" click="subjectEdit( new SubjectVO() )"/>
 
 		<mx:DataGrid id="subjectGrid" dataProvider="{subjectArray}" change="onSubjectSelectionChange()" width="100%" height="100%">
@@ -134,16 +141,20 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" click="parentDocument.editItem(data)"/>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.deleteItem(data)" />
+							<mx:Script>
+								<![CDATA[
+									import br.com.optimedia.autor.assets.img.ImgAssets;
+								]]>
+							</mx:Script>
+							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"/>
+							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)" />
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
 				</mx:DataGridColumn>
 			</mx:columns>
 		</mx:DataGrid>
-	<!--</mx:VBox>-->
-	<!--<mx:VBox width="100%" height="50%">-->
+		
 		<mx:Button id="newPresentationBtn" label="Novo Tema" click="presentationEdit( new PresentationVO() )" enabled="{subjectGrid.selectedIndex!=-1}"/>
 		
 		<mx:DataGrid id="presentationGrid" dataProvider="{SubjectVO(subjectGrid.selectedItem).presentationArray}" width="100%" height="100%">
@@ -154,8 +165,13 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Script>
+								<![CDATA[
+									import br.com.optimedia.autor.assets.img.ImgAssets;
+								]]>
+							</mx:Script>
 							<mx:Label text="{data.img_credit}" verticalCenter="0"/>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
+							<mx:LinkButton icon="{ImgAssets.editIcon}" right="0" verticalCenter="0"
 									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_credit')"
 									toolTip="Editar imagem de Crédito"/>
 						</mx:Canvas>
@@ -166,8 +182,13 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Script>
+								<![CDATA[
+									import br.com.optimedia.autor.assets.img.ImgAssets;
+								]]>
+							</mx:Script>
 							<mx:Label text="{data.img_intro}" verticalCenter="0"/>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
+							<mx:LinkButton icon="{ImgAssets.editIcon}" right="0" verticalCenter="0"
 									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_intro')"
 									toolTip="Editar imagem de Introdução"/>
 						</mx:Canvas>
@@ -178,8 +199,13 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Script>
+								<![CDATA[
+									import br.com.optimedia.autor.assets.img.ImgAssets;
+								]]>
+							</mx:Script>
 							<mx:Label text="{data.img_conclusion}" verticalCenter="0"/>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
+							<mx:LinkButton icon="{ImgAssets.editIcon}" right="0" verticalCenter="0"
 									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_conclusion')"
 									toolTip="Editar imagem de Conclusão"/>
 						</mx:Canvas>
@@ -195,21 +221,30 @@
 							<mx:Script>
 								<![CDATA[
 									import br.com.optimedia.autor.assets.vo.PresentationVO;
+									import br.com.optimedia.autor.assets.img.ImgAssets;
 									
-									private function toolTipFunction(data:PresentationVO):String {
-										
+									private function toolTipFunction(data:Object):String {
+										var resultString:String = "Publicar";
+										if( data.section_id != 0 ) {
+											resultString = "Despublicar";
+										}
+										return resultString;
 									}
 									
-									private function iconFunction(data:PresentationVO):Class {
-										if( data.
+									private function iconFunction(data:Object):Class {
+										var resultIcon:Class = ImgAssets.unpublishedIcon;
+										if( data.section_id != 0 ) {
+											resultIcon = ImgAssets.publishedIcon;
+										}
+										return resultIcon;
 									}
 								]]>
 							</mx:Script>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" click="parentDocument.editItem(data)"
+							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
 									toolTip="Editar Tema"/>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.deleteItem(data)"
+							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
 									toolTip="Apagar Tema"/>
-							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.showPublishPopUp(data)"
+							<mx:LinkButton icon="{iconFunction(data)}" click="parentDocument.showPublishPopUp(data)"
 									toolTip="{toolTipFunction(data)}"/>
 						</mx:HBox>
 					</mx:Component>
@@ -217,7 +252,7 @@
 				</mx:DataGridColumn>
 			</mx:columns>
 		</mx:DataGrid>
-	<!--</mx:VBox>-->
+
 		<mx:HBox width="100%">
 			
 			<mx:Spacer width="100%"/>
