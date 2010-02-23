@@ -243,11 +243,34 @@
 		}
 		
 		public function publishPresentation($presentationID, $sectionID) {
-			return false;
+			
+			$array = array ('section_id' => $sectionID);
+				
+			$condition = "presentation_id = ".$presentationID;
+			
+			return parent::doUpdate($array, $condition, "ath_presentation");
+			
+		}
+		
+		public function unpublishPresentation($presentationID) {
+			$array = array ('section_id' => 0);
+				
+			$condition = "presentation_id = ".$presentationID;
+			
+			return parent::doUpdate($array, $condition, "ath_presentation");
 		}
 		
 		public function getSections() {
-			$sectionArray;
+			
+			$sql = "SELECT * FROM ath_section ORDER BY title";
+			$query = parent::doSelect($sql);
+			
+			$section;
+			$sectionArray = array();
+			
+			while($section = mysql_fetch_object($query)) {
+				$sectionArray[] = $section;
+			}
 			
 			return $sectionArray;
 		}
