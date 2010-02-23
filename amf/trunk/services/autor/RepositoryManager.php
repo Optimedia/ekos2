@@ -84,7 +84,7 @@
 								 'status' => 1);
 							  
 			if( parent::doInsert($arrayMedia, $this -> _table) == true ) {
-				$mediaID = mysql_insert_id();
+				$mediaID = parent::insert_id;
 				$array = array	('media_id' => $mediaID,
 								 'presentation_id' => $presentationID);
 				
