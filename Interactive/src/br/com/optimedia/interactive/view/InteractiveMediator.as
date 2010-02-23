@@ -13,6 +13,7 @@ package br.com.optimedia.interactive.view
 	{
 		public static const NAME:String = 'InteractiveMediator';
 		public var idPresentation:Number;
+		public var idSlide:uint;
 		
 		private var interactiveProxy:InteractiveProxy;
 		
@@ -57,31 +58,27 @@ package br.com.optimedia.interactive.view
 					creatSlides(note.getBody() as Array);
 					break;
 				case ApplicationConstants.OPEN_MIDIA_VIEW:
-					openMidia();
+					openMidia(note.getBody() as uint);
 					break;
 				default:
 					break;
 			}
 		}
 		public function startUp(presentationID:uint):void {
-			interactiveProxy.getSlides(presentationID);
+			interactiveProxy.getSlides(presentationID,view.idSlide);
 		}
 		
-		public function creatSlides(slides:Array) :void {
-			
-			var slide:SlideVO= slides[0] as SlideVO; 		
-				
-			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
-			interactiveProxy.getSlide(slide);			
-			
+		public function creatSlides(slides:Array) :void {		
 			sendNotification(ApplicationConstants.CONTRUCT_MENU,slides);
 			
 			Application.application.navigatorView.visible = true;
 			Application.application.slideView.visible = true;
 		}
-		public function openMidia():void {
-			view.midiaViewObj.visible = true;
-			view.midiaViewObj.titleWindow.visible = true;
+		public function openMidia(tipo:uint):void {
+			if (tipo!=5) {
+				view.midiaViewObj.visible = true;
+				view.midiaViewObj.titleWindow.visible = true;
+			}
 		}
 		
 	}
