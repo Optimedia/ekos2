@@ -27,6 +27,10 @@
 		</mx:State>
 		<mx:State name="video">
 			<mx:RemoveChild target="{preview}"/>
+			<mx:SetProperty target="{fileLabel}" name="text" value="Vídeo"/>
+		</mx:State>
+		<mx:State name="file">
+			<mx:RemoveChild target="{preview}"/>
 		</mx:State>
 	</mx:states>
 	
@@ -83,7 +87,7 @@
             }
 			
 			private function save():void {
-				if( this.currentState == null || this.currentState == 'video' || this.currentState == '' ) {
+				if( this.currentState == null || this.currentState == 'video' || this.currentState == '' || this.currentState == 'file' ) {
 					if( fileTextInput.text != '' && nameTextInput.text != '' ) {
 						var data:ByteArray = new ByteArray(); 
 						fileVO = new FileVO();
@@ -97,19 +101,19 @@
 						
 						dispatchEvent( new Event(UPLOAD_FILE_EVENT) );
 					}
-					else Alert.show("Oa campos de texto não podem estar vazios.", "Atenção");
+					else Alert.show("É necessário escolher um arquivo.", "Atenção");
 				}
 				else if( this.currentState == 'url' ) {
 					if( fileTextInput.text != '' && nameTextInput.text != '' ) {
 						dispatchEvent( new Event(UPLOAD_TEXT_EVENT) );
 					}
-					else Alert.show("Oa campos de texto não podem estar vazios.", "Atenção");
+					else Alert.show("É necessário digitar uma URL.", "Atenção");
 				}
 				else if( this.currentState == 'text' ) {
 					if( textArea.text != '' && nameTextInput.text != '' ) {
 						dispatchEvent( new Event(UPLOAD_TEXT_EVENT) );
 					}
-					else Alert.show("O campo de texto não pode estar vazio.", "Atenção");
+					else Alert.show("Os campos de texto não podem estar vazios.", "Atenção");
 				}
 				
 			}
@@ -145,6 +149,12 @@
 						textArea.text = '';
 						saveBtn.enabled = true;
 						break;
+					case 7:
+						fileTextInput.text = '';
+						imageTypes = new FileFilter("Files (*.doc, *.docx, *.xls, *.xlsx, *.ppt, *.pptx, *.pps, *.ppsx, *.pdf, *.zip, *.odt, *.ods, *.odp)",
+															"*.doc; *.docx; *.xls; *.xlsx; *.ppt; *.pptx; *.pps; *.ppsx; *.pdf; *.zip; *.odt; *.ods; *.odp");
+						allTypes = new Array(imageTypes);
+						break;
 					default:
 						this.currentState = '';
 						fileTextInput.text = '';
@@ -168,6 +178,7 @@
 		<mx:RadioButton id="linkRadio" label="URL" value="5" groupName="radioBtnGroup" />
 		<mx:RadioButton id="videoRadio" label="Video" value="4" groupName="radioBtnGroup" />
 		<mx:RadioButton id="textRadio" label="Texto" value="6" groupName="radioBtnGroup" />
+		<mx:RadioButton id="fileRadio" label="Arquivo" value="6" groupName="radioBtnGroup" />
 	</mx:HBox>
 	
 	<mx:Canvas width="100%">

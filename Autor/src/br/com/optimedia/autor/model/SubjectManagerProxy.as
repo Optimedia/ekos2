@@ -113,8 +113,21 @@ package br.com.optimedia.autor.model
 		private function publishPresentationResult(event:ResultEvent):void {
 			if( event.result == true ) {
 				sendNotification( NotificationConstants.PUBLISH_PRESENTATION_OK );
+				getSubjects();
 			}
 			else Alert.show("Não foi possível publicar.", "Erro");
+		}
+		
+		public function unpublishPresentation(presentationID:uint):void {
+			var asynkToken:AsyncToken = remoteService.unpublishPresentation(presentationID);
+			asynkToken.addResponder( new Responder(unpublishPresentationResult, generalFault) );
+		}
+		private function unpublishPresentationResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.UNPUBLISH_PRESENTATION_OK );
+				getSubjects();
+			}
+			else Alert.show("Não foi possível despublicar.", "Erro");
 		}
 		
 		public function getSections():void {

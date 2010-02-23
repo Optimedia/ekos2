@@ -16,18 +16,6 @@
 			
 			public var presentationID:uint;
 			
-			/* [Bindable]
-	        [Embed("../../assets/img/deleteIcon.png")]
-	        private var deleteIcon:Class; */
-	        
-	        /* [Bindable]
-	        [Embed(source="Assets.swf",symbol="TreeFolderClosed")]
-			private var iconMinimised:Class;
-			
-		    [Bindable]
-		    [Embed(source="Assets.swf",symbol="TreeFolderOpen")]
-			private var iconMaximised:Class; */
-			
 			[Bindable]
 			public var mediaXml:ArrayCollection = new ArrayCollection();
 			
@@ -63,6 +51,9 @@
 						break;
 					case 6:
 						iconClass = ImgAssets.category6Icon;
+						break;
+					case 7:
+						iconClass = ImgAssets.category7Icon;
 						break;
 					default:
 						break;
