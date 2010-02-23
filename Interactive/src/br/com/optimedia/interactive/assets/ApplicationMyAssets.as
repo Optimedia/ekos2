@@ -34,6 +34,14 @@ package br.com.optimedia.interactive.assets
             [Bindable]
             [Embed('br/com/optimedia/interactive/assets/layout/skin.swf', symbol='btRef_fullscreen')]
             public static var btRef_fullscreen:Class;
+            
+            [Bindable]
+            [Embed('br/com/optimedia/interactive/assets/layout/skin.swf', symbol='btRef_file')]
+            public static var btRef_file:Class;
+            
+            [Bindable]
+            [Embed('br/com/optimedia/interactive/assets/layout/skin.swf', symbol='btRef_grafico')]
+            public static var btRef_grafico:Class;
 		}
 
 	}

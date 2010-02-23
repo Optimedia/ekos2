@@ -62,7 +62,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 
 	AC_FL_RunContent(
 		"src", "playerProductInstall",
-		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"?_presentation=1",
+		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"?_presentation=1&_idSlide=0",
 		"width", "${width}",
 		"height", "${height}",
 		"align", "middle",
@@ -78,7 +78,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 	// if we've detected an acceptable version
 	// embed the Flash Content SWF when all tests are passed
 	AC_FL_RunContent(
-			"src", "${swf}?_presentation=1",
+			"src", "${swf}?_presentation=1&_idSlide=0",
 			"width", "${width}",
 			"height", "${height}",
 			"align", "middle",
@@ -106,7 +106,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			<param name="quality" value="high" />
 			<param name="bgcolor" value="${bgcolor}" />
 			<param name="allowScriptAccess" value="sameDomain" />
-            <param name='flashVars' value='_presentation=1&'/> 
+            <param name='flashVars' value='_presentation=1&_idSlide=0'/> 
 			<embed src="${swf}.swf" quality="high" bgcolor="${bgcolor}"
 				width="${width}" height="${height}" name="${application}" align="middle"
 				play="true"

@@ -116,13 +116,14 @@ package br.com.optimedia.interactive.view
 		 		btn.data = media;
 		 		btn.addEventListener(MouseEvent.CLICK,clickLink);
 		 		var categoriaId:uint = media.category_id;
+		 		
 		 		switch (categoriaId)
 				{
 					case 1:
 						btn.source = ApplicationMyAssets.btRef_tabela;
 						break;
 					case 2:
-						btn.source = ApplicationMyAssets.btRef_tabela;
+						btn.source = ApplicationMyAssets.btRef_grafico;
 						break;
 					case 3:
 						btn.source = ApplicationMyAssets.btRef_imagem;
@@ -136,6 +137,9 @@ package br.com.optimedia.interactive.view
 					case 6:
 						btn.source = ApplicationMyAssets.btRef_notas;
 						break;
+					case 7:
+						btn.source = ApplicationMyAssets.btRef_file;
+						break;
 					default:
 						btn.source = ApplicationMyAssets.btRef_imagem;
 						break;
@@ -144,7 +148,7 @@ package br.com.optimedia.interactive.view
 		 	}
 		 }
 		public function clickLink(event:MouseEvent):void {
-		 	var media:MediaVO = event.target.data as MediaVO;
+		 	var media:MediaVO = event.currentTarget.data as MediaVO;
 		 	sendNotification(ApplicationConstants.CREAT_MIDIA,media);
 		 	
 		 }
