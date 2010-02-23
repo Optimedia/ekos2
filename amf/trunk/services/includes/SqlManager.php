@@ -105,6 +105,7 @@
 			$sql = "INSERT INTO ".$table." $fields $values";
 			
 			if(mysql_query($sql)) {
+				$this->insert_id = mysql_insert_id();
 				return true;
 			} else { 
 				return mysql_error();
