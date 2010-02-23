@@ -241,4 +241,8 @@
 				
 			return parent::doDelete($condition, "ath_presentation");
 		}
+		
+		public function publishPresentation($presentationID, $sectionID) {
+			return false;
+		}
 	}
