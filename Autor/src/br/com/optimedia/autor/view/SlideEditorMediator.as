@@ -14,7 +14,7 @@ package br.com.optimedia.autor.view
 	{
 		public static const NAME:String = 'SlideEditorMediator';
 		
-		private var presentationVO:PresentationVO = new PresentationVO();
+		//private var presentationVO:PresentationVO = new PresentationVO();
 		
 		private var proxy:SlideManagerProxy;
 		
@@ -51,11 +51,12 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
-					presentationVO = PresentationVO( note.getBody() );
-					proxy.getSlides( presentationVO.presentation_id );
+					//presentationVO = PresentationVO( note.getBody() );
+					view.presentationVO = PresentationVO( note.getBody() );
+					proxy.getSlides( view.presentationVO.presentation_id );
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
-					presentationVO.slidesArray = note.getBody() as Array;
+					view.presentationVO.slidesArray = note.getBody() as Array;
 					break;
 				default:
 					break;

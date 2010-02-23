@@ -1,12 +1,77 @@
 <?xml version="1.0"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%" creationComplete="init()">
 
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import br.com.optimedia.autor.assets.vo.SlideVO;
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			
 			[Bindable]
-			public var presentationVO:PresentationVO;
+			public var slideVO:SlideVO;
+			
+			[Bindable]
+			private var _presentationVO:PresentationVO;
+			
+			private var maxSlides:int;
+			
+			public function set presentationVO(value:PresentationVO):void {
+				_presentationVO = value;				
+			}
+			
+			private function init():void {
+				
+				// Passar somente o id para o player. 
+				
+			}
+			
+			private function addSlide():void {
+				dispatchEvent(new Event("addSlide", true));
+			}
+			
+			private function editSlide():void {
+				dispatchEvent(new Event("editSlide", true));
+			}
+			
+			private function deleteSlide():void {
+				dispatchEvent(new Event("deleteSlide", true));
+			}
+			
+			private function setOrder():void {
+				dispatchEvent(new Event("setOrder", true));
+			}
+			
+			private function changeSlide(type:String = null):void {
+				
+				maxSlides = _presentationVO.slidesArray.length;
+				
+				var bar:int = int(txtOrder.text);
+				
+				if(type == "minus") {
+					if(bar <= 1) {
+						bar = 1;
+					} else {
+						bar --;
+					}
+					txtOrder.text = String(bar);
+				} else if(type == "plus") {
+					if(bar >= maxSlides) {
+						bar = maxSlides;
+					} else {
+						bar ++;
+					}
+					txtOrder.text = String(bar);
+				} else {
+					bar = int(txtOrder.text);
+				}
+				
+				// Diminuindo o bar, para selecionar o index da array
+				bar --;
+				slideVO = _presentationVO.slidesArray.getItemAt(bar);
+				
+				trace("Enviar ao player este ID: " + slideVO.slide_id); 
+			}
 			
 		]]>
 	</mx:Script>
@@ -32,9 +97,9 @@
 						<!-- Seletor de slide -->
 						
 						<mx:HBox horizontalGap="0">
-							<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal"/>
-							<mx:TextInput width="33" text="1" textAlign="center" restrict="0-9"/>
-							<mx:Button label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal"/>
+							<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('minus')"/>
+							<mx:TextInput id="txtOrder" width="33" text="1" textAlign="center" restrict="0-9" enter="changeSlide()" focusOut="changeSlide()"/>
+							<mx:Button label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('plus')"/>
 						</mx:HBox>
 						
 						<mx:VRule height="10"/>
@@ -77,8 +142,8 @@
 						<mx:Spacer width="100%"/>
 						<mx:VRule height="10"/>
 						
-						<mx:Button label="Adicionar"/>
-						<mx:Button label="Editar"/>
+						<mx:Button label="Adicionar" click="addSlide()"/>
+						<mx:Button label="Editar" click="editSlide()"/>
 						<mx:Button label="Ordenar"/>
 						<mx:Button label="Remover"/>
 						

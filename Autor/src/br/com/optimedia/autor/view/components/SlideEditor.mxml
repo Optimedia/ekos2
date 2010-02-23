@@ -12,9 +12,28 @@
 			[Bindable]
 			public var presentationVO:PresentationVO = new PresentationVO();
 			
+			/* public function set presentationVO(value:PresentationVO):void {
+				_presentationVO = value;
+				
+				slideSelector.presentationVO = _presentationVO;
+			}
+			
+			public function get presentationVO():PresentationVO {
+				return _presentationVO;
+			} */
+			
 			private function init():void {
 				autorFacade.startup( this );
+				
+				slideSelector.addEventListener("editSlide", editSlide);
 			}
+			
+			private function editSlide(e:Event):void {
+				viewStack.selectedIndex = 1;
+				textEditor.slideVO = slideSelector.slideVO;
+			}
+			
+			
 			
 		]]>
 	</mx:Script>
@@ -27,7 +46,7 @@
 		
 			<components:SlideSelector id="slideSelector" presentationVO="{presentationVO}"/>
 			
-			<components:TextEditor id="textEditor" presentationVO="{presentationVO}" />
+			<components:TextEditor id="textEditor"/>
 			
 		</mx:ViewStack>
 		
