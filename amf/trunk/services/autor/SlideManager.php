@@ -91,20 +91,27 @@
 							   "text_body" => $slide -> text_body,
 							   "status" => $slide -> status);
 
-			// TO FINISH SALVAR mediaArray
-			foreach($slide->mediaArray as $media) {
-				$this->saveMediaLink( $media, $slide->slide_id );
-			}
+			
 			
 			if($slide -> slide_id == 0) {
-				return parent::doInsert($arrayTemp, $this -> _table);
+				$result = parent::doInsert($arrayTemp, $this -> _table);
+				$lastId = mysql_insert_id();
 			} else {
-
 				$condition = "slide_id=".$slide -> slide_id;
+				$lastId = $slide->slide_id;
 				
-				return parent::doUpdate($arrayTemp, $condition, $this -> _table);
-				
+				$result = parent::doUpdate($arrayTemp, $condition, $this -> _table);				
 			}
+			
+			if($result != true) {
+				return false;
+			}
+			
+			// TO FINISH SALVAR mediaArray
+			foreach($slide->mediaArray as $media) {
+				return $this->saveMediaLink( $media, $lastId );
+			}
+			
 		}
 		
 		public function saveMediaLink(MediaVO $media, $slideID) {
