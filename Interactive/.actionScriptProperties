@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actionScriptProperties mainApplicationPath="Interactive.mxml" version="3">
-<compiler additionalCompilerArguments="-locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<compiler additionalCompilerArguments="-locale en_US -services services-config.xml" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
 <compilerSourcePath/>
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
@@ -12,5 +12,7 @@
 <application path="Interactive.mxml"/>
 </applications>
 <modules/>
-<buildCSSFiles/>
+<buildCSSFiles>
+<buildCSSFileEntry destPath="bin-debug" sourcePath="src/br/com/optimedia/interactive/css/style.css"/>
+</buildCSSFiles>
 </actionScriptProperties>
