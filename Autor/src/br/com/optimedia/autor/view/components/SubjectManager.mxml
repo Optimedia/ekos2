@@ -156,7 +156,8 @@
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
 							<mx:Label text="{data.img_credit}" verticalCenter="0"/>
 							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
-									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_credit')"/>
+									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_credit')"
+									toolTip="Editar imagem de Crédito"/>
 						</mx:Canvas>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -167,7 +168,8 @@
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
 							<mx:Label text="{data.img_intro}" verticalCenter="0"/>
 							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
-									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_intro')"/>
+									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_intro')"
+									toolTip="Editar imagem de Introdução"/>
 						</mx:Canvas>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -178,7 +180,8 @@
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
 							<mx:Label text="{data.img_conclusion}" verticalCenter="0"/>
 							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" right="0" verticalCenter="0"
-									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_conclusion')"/>
+									click="parentDocument.openSendFilePopUp(data.presentation_id, 'img_conclusion')"
+									toolTip="Editar imagem de Conclusão"/>
 						</mx:Canvas>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -189,8 +192,25 @@
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
-							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" click="parentDocument.editItem(data)" />
-							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.deleteItem(data)" />
+							<mx:Script>
+								<![CDATA[
+									import br.com.optimedia.autor.assets.vo.PresentationVO;
+									
+									private function toolTipFunction(data:PresentationVO):String {
+										
+									}
+									
+									private function iconFunction(data:PresentationVO):Class {
+										if( data.
+									}
+								]]>
+							</mx:Script>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/editIcon.png')" click="parentDocument.editItem(data)"
+									toolTip="Editar Tema"/>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.deleteItem(data)"
+									toolTip="Apagar Tema"/>
+							<mx:LinkButton icon="@Embed(source='../../assets/img/deleteIcon.png')" click="parentDocument.showPublishPopUp(data)"
+									toolTip="{toolTipFunction(data)}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>

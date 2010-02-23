@@ -2,11 +2,11 @@ package br.com.optimedia.autor.model
 {
 	import br.com.optimedia.autor.assets.FaultHandler;
 	import br.com.optimedia.autor.assets.NotificationConstants;
-	import br.com.optimedia.autor.assets.vo.SubjectVO;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
-	import br.com.optimedia.autor.assets.vo.SlideVO;
-	import br.com.optimedia.autor.assets.vo.SkinVO;
+	import br.com.optimedia.autor.assets.vo.SubjectVO;
 	
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
@@ -14,9 +14,6 @@ package br.com.optimedia.autor.model
 	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
-	import br.com.optimedia.autor.assets.vo.CompleteUserVO;
-	import mx.controls.Alert;
-	import mx.collections.ArrayCollection;
 
 	public class SubjectManagerProxy extends Proxy
 	{
@@ -107,6 +104,28 @@ package br.com.optimedia.autor.model
 				getSubjects();
 			}
 			else Alert.show("Não foi possível excluir.", "Erro");
+		}
+		
+		public function publishPresentation(presentationID:uint, sectionID:uint):void {
+			var asynkToken:AsyncToken = remoteService.publishPresentation(presentationID, sectionID);
+			asynkToken.addResponder( new Responder(publishPresentationResult, generalFault) );
+		}
+		private function publishPresentationResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.PUBLISH_PRESENTATION_OK );
+			}
+			else Alert.show("Não foi possível publicar.", "Erro");
+		}
+		
+		public function getSections():void {
+			var asynkToken:AsyncToken = remoteService.getSections();
+			asynkToken.addResponder( new Responder(getSectionsResult, generalFault) );
+		}
+		private function getSectionsResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_SECTIONS_RESULT );
+			}
+			else Alert.show("Não foi possível recuperar nenhum setor.", "Erro");
 		}
 	}
 }

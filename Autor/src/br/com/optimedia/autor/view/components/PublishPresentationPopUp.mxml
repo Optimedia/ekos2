@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="init()"
+	title="Publicar Tema">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.autor.AutorFacade;
+			import br.com.optimedia.autor.assets.vo.PresentationVO;
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			[Bindable]
+			public var presentationVO:PresentationVO;
+			
+			private function init():void {
+				autorFacade.startup( this );
+			}
+			
+			public function removePopup():void {
+				PopUpManager.removePopUp( this );
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Form width="100%">
+		<mx:FormItem label="Tema">
+			<mx:TextInput id="titleTextInput" text="{presentationVO.title}"	editable="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="Setor">
+			<mx:ComboBox id="sectionComboBox" prompt="Escolha" labelField="title"/>
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:HBox width="100%">
+		
+		<mx:Button label="Cancelar" id="cancelBtn"/>
+		
+		<mx:Button label="Salvar" id="saveBtn" enabled="{sectionComboBox.selectedIndex!=-1}"/>
+		
+	</mx:HBox>
+	
+</mx:TitleWindow>
