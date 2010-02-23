@@ -21,7 +21,7 @@
 		<mx:Image id="btBack"  source="@Embed(source='../../assets/layout/skin.swf', symbol='btPrev')" width="48" height="24"/>
 		<mx:Label id="display"  text="" styleName="display"/>
 		<mx:Image id="btNext"  source="@Embed(source='../../assets/layout/skin.swf', symbol='btNext')" width="48" height="24"/>
-		<mx:Image id="fullscreen" source="@Embed(source='../../assets/layout/skin.swf', symbol='btRef_fullscreen')" width="24" height="24"/>
+		<!--<mx:Image id="fullscreen" source="@Embed(source='../../assets/layout/skin.swf', symbol='btRef_fullscreen')" width="24" height="24"/>-->
 		<mx:HBox id="links">
 			
 		</mx:HBox>

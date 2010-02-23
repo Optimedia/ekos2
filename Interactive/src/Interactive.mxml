@@ -16,11 +16,21 @@
 			
 			[Bindable]
     		public var idPresentation:Number;
+    		
+    		[Bindable]
+    		public var idSlide:uint = 2;
+    		
+    		[Bindable]
+    		public var showNavegation:Boolean;
 			
 			private function init(): void {
 				StyleManager.loadStyleDeclarations("br/com/optimedia/interactive/css/style.swf", true);
 				
 				idPresentation = this.parameters._presentation;
+				//if (this.parameters._idSlide) {
+				//	idSlide = this.parameters._idSlide;
+				//}
+				showNavegation = this.parameters._navegation
 				 
 				this.interactiveFacade = InteractiveFacade.getInstance();
 				this.interactiveFacade.startup( this );

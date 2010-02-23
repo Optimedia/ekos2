@@ -29,6 +29,8 @@ package br.com.optimedia.interactive.view
 		{
 			trace(NAME+".onRegister()");
 			view.menuList.addEventListener(MouseEvent.CLICK,itemMenu);
+			
+			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
 	
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
@@ -74,7 +76,7 @@ package br.com.optimedia.interactive.view
 			dumbSlide(vo);
 		}
 		public function constructMenu(slides:Array):void {
-			//slidesPresentation=slides; 
+			slidesPresentation=slides as Array; 
 			totalTela=slides.length;
 		 	view.menuList.dataProvider = slides;
 		 	
@@ -96,9 +98,19 @@ package br.com.optimedia.interactive.view
 		 	dumbSlide(vo);
 		 }
 		 public function dumbSlide (vo:SlideVO):void {
-		 	sendNotification(ApplicationConstants.GET_SLIDE_OK,vo);
-		 	
+			if (interactiveProxy.idSlide>0) {
+				for (var i:uint=0;i<slidesPresentation.length; i++) {
+					if (interactiveProxy.idSlide == slidesPresentation[i].slide_id) {
+						vo= slidesPresentation[i] as SlideVO;
+						view.menuList.selectedIndex = i; 	
+					}
+				}
+				interactiveProxy.idSlide=0;
+				
+			}	
+			
 		 	sendNotification(ApplicationConstants.CLOSE_MIDIA);
+		 	sendNotification(ApplicationConstants.GET_SLIDE_OK,vo);
 		 		
 		 	numberTela = view.menuList.selectedIndex + 1;
 		 	

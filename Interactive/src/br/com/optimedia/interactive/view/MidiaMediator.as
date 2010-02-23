@@ -137,7 +137,7 @@ package br.com.optimedia.interactive.view {
 					navigateToURL(url,"_blank");
 				
 			}
-			sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW);
+			sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
 		}
 	}
 }

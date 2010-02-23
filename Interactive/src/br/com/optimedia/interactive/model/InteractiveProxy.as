@@ -21,6 +21,7 @@ package br.com.optimedia.interactive.model
 		
 		public var midias:Array;
 		public var slidesArray:Array;
+		public var idSlide:uint;
 		
 		public function InteractiveProxy(data:Object=null)
 		{
@@ -41,15 +42,16 @@ package br.com.optimedia.interactive.model
 		
 		public function getSlide(slide:SlideVO):void {
 			getSlideResult(slide);
-			getLinks(slide.slide_id);
 			
 		}
 		private function getSlideResult(slideVO:SlideVO ):void {
 			sendNotification( ApplicationConstants.GET_SLIDE_OK, slideVO );
 		}
 		
-		public function getSlides(presentationID:uint):void {
-			var asynkToken:AsyncToken = remoteService.getSlides(1);
+		public function getSlides(presentationID:uint, idSlideID:uint):void {
+			idSlide = idSlideID as uint;
+			
+			var asynkToken:AsyncToken = remoteService.getSlides(presentationID);
 			asynkToken.addResponder( new Responder(getSlidesResult, generalFault) );
 		}
 		private function getSlidesResult(event:ResultEvent ):void {

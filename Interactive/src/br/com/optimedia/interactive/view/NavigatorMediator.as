@@ -1,12 +1,14 @@
 package br.com.optimedia.interactive.view
 {
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
+	import br.com.optimedia.interactive.assets.ApplicationMyAssets;
 	import br.com.optimedia.interactive.assets.vo.MediaVO;
 	import br.com.optimedia.interactive.view.components.NavigatorView;
 	
 	import flash.events.MouseEvent;
 	
 	import mx.controls.Button;
+	import mx.controls.Image;
 	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -16,9 +18,8 @@ package br.com.optimedia.interactive.view
 		
 		public static const NAME:String = 'NavigatorMediator';
 		
-		public var btn:Button;
+		public var btn:Image;
 		public var medias:Array;
-		
 		
 	//	private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
 		
@@ -105,16 +106,40 @@ package br.com.optimedia.interactive.view
 		 	
 		 	view.links.removeAllChildren();
 		 	
-		 	medias = note;
+		 	medias = note;		 	
 		 	for (var i:int=0 ; i<note.length; i++) {
 		 		var media:MediaVO = note[i] as MediaVO;
-//		 		var btn:Button = new Button();
-		 		btn = new Button();
-		 		btn.width = 40;
+		 		
+		 		btn = new Image();
+		 		btn.width = 24;
 		 		btn.height = 24;
-		 		btn.label = media.category_id.toString();
 		 		btn.data = media;
 		 		btn.addEventListener(MouseEvent.CLICK,clickLink);
+		 		var categoriaId:uint = media.category_id;
+		 		switch (categoriaId)
+				{
+					case 1:
+						btn.source = ApplicationMyAssets.btRef_tabela;
+						break;
+					case 2:
+						btn.source = ApplicationMyAssets.btRef_tabela;
+						break;
+					case 3:
+						btn.source = ApplicationMyAssets.btRef_imagem;
+						break;
+					case 4:
+						btn.source = ApplicationMyAssets.btRef_video;
+						break;
+					case 5:
+						btn.source = ApplicationMyAssets.btRef_hiperlink;
+						break;
+					case 6:
+						btn.source = ApplicationMyAssets.btRef_notas;
+						break;
+					default:
+						btn.source = ApplicationMyAssets.btRef_imagem;
+						break;
+				}
 		 		view.links.addChild(btn);
 		 	}
 		 }
