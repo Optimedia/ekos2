@@ -245,4 +245,10 @@
 		public function publishPresentation($presentationID, $sectionID) {
 			return false;
 		}
+		
+		public function getSections() {
+			$sectionArray;
+			
+			return $sectionArray;
+		}
 	}
