@@ -149,7 +149,12 @@ package br.com.optimedia.autor.model
 			if( event.result == true ) {
 				sendNotification( NotificationConstants.LOCK_PRESENTATION_OK );
 			}
-			else Alert.show("Não foi possível travar a apresentação.", "Erro");
+			else if( event.result is String ) {
+				Alert.show("Esta apresentação está bloqueada por "+event.result, "Erro");
+			}
+			else if( event.result == false ) {
+				Alert.show("Erro ao bloquear apresentação", "Erro");
+			}
 		}
 		
 		public function unlockPresentation(presentationID:uint):void {
