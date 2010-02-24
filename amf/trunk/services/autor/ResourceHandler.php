@@ -46,7 +46,7 @@
 		    $fieldsAndValuesResource= array("course" => "2",
 						                    "module" => "13",
 						                    "instance" => $this->instances,
-						                    "section" => "2",
+						                    "section" => $this->sectionID,
 						                    "idnumber" => "",
 						                    "added" => "1248132589",
 						                    "score" => "0",
@@ -62,6 +62,12 @@
 		    
 		    $this-> instancesModule = $this -> insert_id;
 		    
+		    $fieldsAndValuesPresentation = array("module_id"=> $this-> instancesModule);
+
+            $condition="presentation_id=$this->presentationID";
+            
+            $result = parent::doUpdate($fieldsAndValuesPresentation,$condition,"ekos2.ath_presentation");
+            
 		    $this-> insertContext();
 		    
 		    //return $result;
@@ -114,4 +120,34 @@
 //			
 //		    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "ekos2.ath_presentation" );
 		}
+		function removeResource($sectionID,$presentationID){
+
+            $fieldPresentation="module_id";
+
+            $conditionPresentation= "presentation_id=$presentationID";
+
+            $resultModule = parent::doSingleSelect($fieldPresentation, "ekos2.ath_presentation", $conditionPresentation, null, "array", MYSQL_ASSOC);
+            
+            $fieldsSections ="sequence";
+
+		    $conditionSections = "id=$sectionID";
+
+		    $resultSections = parent::doSingleSelect($fieldsSections, "mdl_course_sections", $conditionSections, null, "array", MYSQL_ASSOC);
+		    
+		    $pieces = explode(",",$resultSections["sequence"]);
+            
+            $indice = array_search($resultModule["module_id"],$pieces);
+            
+            unset($pieces[$indice]);
+            
+            $union = implode(",",$pieces);
+            
+            $fieldsAndValuesSection= array("sequence" => $union);
+            
+            $condition = "id=$sectionID";
+            
+            $result = parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
+
+            return $result;
+        }
 	}
