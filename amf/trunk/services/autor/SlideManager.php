@@ -156,4 +156,13 @@
 				
 			}
 		}
+		
+		public function deleteSlide($slide_id) {
+			
+			$where = "slide_id = $slide_id";
+			$table = "ath_slide";
+			
+			return parent::doDelete($where, $table);
+		}
+		
 	}
