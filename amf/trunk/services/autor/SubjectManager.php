@@ -243,14 +243,17 @@
 			return parent::doDelete($condition, "ath_presentation");
 		}
 		
-		public function publishPresentation($presentationID, $sectionID) {
+		public function publishPresentation($presentationID, $sectionID, $presentationName) {
 			
 			$array = array ('section_id' => $sectionID);
 				
-			$condition = "presentation_id = ".$presentationID;
+			$condition = "presentation_id =".$presentationID;
 			
-			return parent::doUpdate($array, $condition, "ath_presentation");
-			
+			if( parent::doUpdate($array, $condition, "ath_presentation") == true ) {
+				require_once 'ResourceHandler.php';
+				$resourceHandler = new ResourceHandler();
+				return $resourceHandler->insertResource( $presentationID, $sectionID, $presentationName );
+			}
 		}
 		
 		public function unpublishPresentation($presentationID) {
