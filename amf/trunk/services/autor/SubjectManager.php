@@ -298,9 +298,9 @@
 				$presentationVO = mysql_fetch_object($query, "PresentationVO");
 				
 				$sql1 = "SELECT * FROM ekos2_user WHERE user_id=".$presentationVO->locked_by;
-				$query2 = $this->doSelect($sql1);
+				$query1 = $this->doSelect($sql1);
 				
-				$userVO = mysql_fetch_object($query2, "CompleteUserVO");
+				$userVO = mysql_fetch_object($query1, "CompleteUserVO");
 				
 				return $userVO->firstname." ".$userVO->lastname;
 			}
