@@ -297,7 +297,7 @@
 			else {
 				$presentationVO = mysql_fetch_object($query, "PresentationVO");
 				
-				$sql1 = "SELECT * FROM ekos2_user WHERE user_id=".$presentationVO->locked_by;
+				$sql1 = "SELECT * FROM eko_user WHERE user_id=".$presentationVO->locked_by;
 				$query1 = $this->doSelect($sql1);
 				
 				$userVO = mysql_fetch_object($query1, "CompleteUserVO");
