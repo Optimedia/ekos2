@@ -17,6 +17,7 @@
 				autorFacade.startup( this );
 				
 				slideSelector.addEventListener("editSlide", editSlide);
+				repositoryPanel.addEventListener("currentMediaChange", currentMediaChange);
 			}
 			
 			private function editSlide(e:Event):void {
@@ -28,11 +29,14 @@
 				textEditor.slideNum = slideSelector.slideNum;
 			}
 			
+			private function currentMediaChange(e:Event):void {
+				textEditor.currentMedia = repositoryPanel.currentMedia;
+			}
+			
 			private function closeTextEditor(e:Event):void {
 				viewStack.selectedIndex = 0;
 				textEditor.slideVO = new SlideVO();
 			}
-			
 			
 			
 		]]>

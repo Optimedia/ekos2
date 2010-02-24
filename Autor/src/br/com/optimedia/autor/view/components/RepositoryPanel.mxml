@@ -78,6 +78,8 @@
                 	trace("-------------------------------------");
                 	trace("ID da média é - " + currentMedia);
                 	trace("-------------------------------------");
+                	
+                	dispatchEvent(new Event("currentMediaChange", true));
                 }
 			}
 			
