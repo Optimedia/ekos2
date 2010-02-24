@@ -4,6 +4,7 @@
 	require_once '../vo/br/com/optimedia/assets/vo/PresentationVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/SlideVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/SkinVO.php';
+	require_once '../vo/br/com/optimedia/assets/vo/CompleteUserVO.php';
 
 	class SubjectManager extends SqlManager {
 		
@@ -265,7 +266,6 @@
 			$sql = "SELECT * FROM ath_section ORDER BY title";
 			$query = parent::doSelect($sql);
 			
-			$section;
 			$sectionArray = array();
 			
 			while($section = mysql_fetch_object($query)) {
@@ -276,10 +276,42 @@
 		}
 		
 		public function lockPresentation($presentationID, $userID) {
+			$sql = "SELECT * FROM ath_presentation WHERE presentation_id=$presentationID AND locked_by=0";
+			$query = $this->doSelect($sql);
 			
+			if( mysql_num_rows($query) == 1 ) {
+				$locked = false;
+			}
+			else {
+				$locked = true;
+			}
+			
+			if( $locked == false ) {
+				$array = array ('locked_by' => $userID,
+								'locked_at' => 'finishme');
+					
+				$condition = "presentation_id = ".$presentationID;
+				
+				return parent::doUpdate($array, $condition, "ath_presentation");
+			}
+			else {
+				$presentationVO = mysql_fetch_object($query, "PresentationVO");
+				
+				$sql1 = "SELECT * FROM ekos2_user WHERE user_id=".$presentationVO->locked_by;
+				$query2 = $this->doSelect($sql1);
+				
+				$userVO = mysql_fetch_object($query1, "CompleteUserVO");
+				
+				return $userVO->firstname." ".$userVO->lastname;
+			}
 		}
 		
 		public function unlockPresentation($presentationID) {
+			$array = array ('locked_by' => 0,
+							'locked_at' => '');
+				
+			$condition = "presentation_id = ".$presentationID;
 			
+			return parent::doUpdate($array, $condition, "ath_presentation");
 		}
 	}
