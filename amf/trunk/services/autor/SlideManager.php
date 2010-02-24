@@ -90,15 +90,13 @@
 							   "title_menu" => $slide -> title_menu,
 							   "text_body" => $slide -> text_body,
 							   "status" => $slide -> status);
-
-			
 			
 			if($slide -> slide_id == 0) {
 				$result = parent::doInsert($arrayTemp, $this -> _table);
-				$lastId = mysql_insert_id();
+				$lastId = $this -> insert_id;
 			} else {
 				$condition = "slide_id=".$slide -> slide_id;
-				$lastId = $slide->slide_id;
+				$lastId = $slide -> slide_id;
 				
 				$result = parent::doUpdate($arrayTemp, $condition, $this -> _table);				
 			}
@@ -118,7 +116,6 @@
 			
 			$arrayTemp = array("media_id" => $media -> media_id,
 							   "slide_id" => $slideID);
-			
 
 			if($slideID == 0) {
 
