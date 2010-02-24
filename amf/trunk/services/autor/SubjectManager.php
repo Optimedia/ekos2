@@ -261,12 +261,16 @@
 			}
 		}
 		
-		public function unpublishPresentation($presentationID) {
+		public function unpublishPresentation($presentationID, $sectionID) {
 			$array = array ('section_id' => 0);
 				
 			$condition = "presentation_id = ".$presentationID;
 			
-			return parent::doUpdate($array, $condition, "ath_presentation");
+			if( parent::doUpdate($array, $condition, "ath_presentation") == true ) {
+				require_once 'ResourceHandler.php';
+				$resourceHandler = new ResourceHandler();
+				return $resourceHandler->removeResource( $sectionID, $presentationID );
+			}
 		}
 		
 		public function getSections() {
