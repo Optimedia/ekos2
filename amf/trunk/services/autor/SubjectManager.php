@@ -281,7 +281,7 @@
 			
 			$presentationVO = mysql_fetch_object($query, "PresentationVO");
 			
-			if( $presentationVO->locked_by == 0 ) {
+			if( $presentationVO->locked_by == 0 || $presentationVO->locked_by == $userID) {
 				$locked = false;
 			}
 			else {
