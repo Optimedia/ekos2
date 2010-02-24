@@ -37,6 +37,8 @@
 
 	<mx:Script>
 	<![CDATA[
+		import mx.collections.ArrayCollection;
+		import mx.rpc.events.ResultEvent;
 		import mx.controls.Alert;
 		import br.com.optimedia.autor.assets.vo.SlideVO;
 	
@@ -354,6 +356,8 @@
 					tf[type] = value;
 					tf["target"] = "";
 					tf["underline"] = true;
+					
+					mediaArray.push(_currentMedia);
 				}
 				else if (tf[type] != "")
 				{
@@ -511,6 +515,8 @@
 		[Bindable]
 		private var _slideNum:String;
 		
+		private var mediaArray:Array = new Array();
+		
 		public function set slideNum(value:String):void {
 			_slideNum = value;
 		}
@@ -530,7 +536,14 @@
 		
 		private function saveSlide():void {
 			
-			// Update do slide aqui
+			var slide:SlideVO = new SlideVO();
+			
+			slide.text_body = textArea.text;
+			slide.title = txtTitle.text;
+			
+			slide.mediaArray = mediaArray;
+			
+			dispatchEvent(new ResultEvent('saveSlide', true, true, slide));
 			
 		}
 		
@@ -544,7 +557,7 @@
 			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" title="Título do Tema">					 
 					
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle"> 
-				<mx:TextInput themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"/>
+				<mx:TextInput id="txtTitle" themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"/>
 			</mx:HBox>
 				
 			<mx:TextArea id="textArea" height="100%" width="100%" minHeight="0" minWidth="0" htmlText="{_slideVO.text_body}"
@@ -625,7 +638,7 @@
 						<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>
 						<mx:VRule height="10"/>
 						
-						<mx:Button label="Salvar" click="Alert.show('Salvar dados no banco!')"/>
+						<mx:Button label="Salvar" click="saveSlide()"/>
 						<mx:Button label="Fechar" click="dispatchEvent(new Event('closeTextEditor', true))"/>
 						
 					<!--</mx:ToolBar>-->
