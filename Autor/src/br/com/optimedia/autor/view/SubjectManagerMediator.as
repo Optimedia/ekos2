@@ -34,6 +34,7 @@ package br.com.optimedia.autor.view
 			view.addEventListener( SubjectManager.SAVE_PRESENTATION_EVENT, savePresentation );
 			view.addEventListener( SubjectManager.DELETE_SUBJECT_EVENT, deleteSubject );
 			view.addEventListener( SubjectManager.DELETE_PRESENTATION_EVENT, deletePresentation );
+			view.newPresentationBtn.addEventListener(MouseEvent.CLICK, getSkins);
 			view.slideEditBtn.addEventListener( MouseEvent.CLICK, slideEditBtnClick );
 			
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
@@ -55,7 +56,8 @@ package br.com.optimedia.autor.view
 			return [NotificationConstants.GET_SUBJECTS_OK,
 					NotificationConstants.SAVE_SUBJECT_OK,
 					NotificationConstants.SAVE_PRESENTATION_OK,
-					NotificationConstants.LOCK_PRESENTATION_OK];
+					NotificationConstants.LOCK_PRESENTATION_OK,
+					NotificationConstants.GET_SKINS_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -79,6 +81,9 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.LOCK_PRESENTATION_OK:
 					sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+					break;
+				case NotificationConstants.GET_SKINS_RESULT:
+					view.presentationSkins = new ArrayCollection( note.getBody() as Array );
 					break;
 				default:
 					break;
@@ -105,7 +110,10 @@ package br.com.optimedia.autor.view
 			Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
 			// FALTA COLOCAR O USER ID NO lockPresentation
 			subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, 2 );
-			//sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+		}
+		
+		private function getSkins(event:MouseEvent):void {
+			subjectManagerProxy.getSkins();
 		}
 	}
 }

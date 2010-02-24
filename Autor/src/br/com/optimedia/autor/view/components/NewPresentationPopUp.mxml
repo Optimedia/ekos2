@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="360"
-	title="Novo Tema">
+	title="Tema">
 	
 	<mx:Script>
 		<![CDATA[
@@ -44,30 +44,12 @@
 		<mx:FormItem label="Skin" width="100%">
 			<mx:ComboBox id="skinComboBox" dataProvider="{presentationSkins}" width="100%" labelField="title" change="presentationVO.skin_id=SkinVO(skinComboBox.selectedItem).skin_id"/>
 		</mx:FormItem>
-		<!--<mx:FormItem label="Créditos" width="100%">
-			<mx:HBox width="100%">
-				<mx:TextInput id="creditTextInput" width="100%" />
-				<mx:Button label="Buscar" />
-			</mx:HBox>
-		</mx:FormItem>
-		<mx:FormItem label="Introdução" width="100%">
-			<mx:HBox width="100%">
-				<mx:TextInput id="introTextInput" width="100%" />
-				<mx:Button label="Buscar" />
-			</mx:HBox>
-		</mx:FormItem>
-		<mx:FormItem label="Conclusão" width="100%">
-			<mx:HBox width="100%">
-				<mx:TextInput id="concTextInput" width="100%" />
-				<mx:Button label="Buscar" />
-			</mx:HBox>
-		</mx:FormItem>-->
 	</mx:Form>
 	
 	<mx:HBox width="100%">
+		<mx:Button label="Cancelar" click="closeMe()" />
 		<mx:Spacer width="100%" />
 		<mx:Button id="saveBtn" label="Salvar" />
-		<mx:Button label="Cancelar" click="closeMe()" />
 	</mx:HBox>
 	
 </mx:TitleWindow>

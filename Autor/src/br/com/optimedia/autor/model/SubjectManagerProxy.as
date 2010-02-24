@@ -68,18 +68,24 @@ package br.com.optimedia.autor.model
 				sendNotification( NotificationConstants.SAVE_PRESENTATION_OK, event.result );
 				getSubjects();
 			}
+			else if( event.result is String ) {
+				Alert.show("Esta apresentação está bloqueada por "+event.result, "Erro");
+			}
 			else Alert.show("Não foi possível salvar, verifique os campos e tente novamente", "Erro");
 		}
 		
 		[Bindable]
-		public var presentationSkins:ArrayCollection; 
-		
-		private function getSkins():void {
+		public var presentationSkins:ArrayCollection = new ArrayCollection();
+
+		public function getSkins():void {
 			var asynkToken:AsyncToken = remoteService.getSkins();
 			asynkToken.addResponder( new Responder(getSkinsResult, generalFault) );
 		}
 		private function getSkinsResult(event:ResultEvent):void {
-			if(event.result is Array) presentationSkins = new ArrayCollection(event.result as Array);
+			if(event.result is Array) {
+				presentationSkins = new ArrayCollection(event.result as Array);
+				sendNotification( NotificationConstants.GET_SKINS_RESULT, event.result );
+			}
 		}
 		
 		public function deleteSubject(subjectVO:SubjectVO):void {
