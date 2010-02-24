@@ -23,10 +23,14 @@
 				slideSelector.addEventListener("addSlide", addSlide);
 				slideSelector.addEventListener("editSlide", editSlide);
 				slideSelector.addEventListener("deleteSlide", deleteSlide);
-				slideSelector.addEventListener("setOrder", setOrder);
+				slideSelector.addEventListener("setOrder", showSetOrderPopUp);
 				repositoryPanel.addEventListener("currentMediaChange", currentMediaChange);
 			}
 			
+			/**
+			 * Função para editar um slide
+			 * 
+			 */ 
 			private function editSlide(e:Event):void {
 				viewStack.selectedIndex = 1;
 				
@@ -36,16 +40,28 @@
 				textEditor.slideNum = slideSelector.slideNum;
 			}
 			
+			/**
+			 * Função que passa para o textEditor qual a média selecionada no momento.
+			 * 
+			 */ 
 			private function currentMediaChange(e:Event):void {
 				textEditor.currentMedia = repositoryPanel.currentMedia;
 			}
 			
+			/**
+			 * Função que retorna para o SlideSelector.
+			 *
+			 */  
 			private function closeTextEditor(e:Event):void {
 				viewStack.selectedIndex = 0;
 				textEditor.slideVO = new SlideVO();
 			}
 			
-			private function setOrder(e:Event):void {				
+			/**
+			 * Função para chamar o popup
+			 * 
+			 */ 
+			private function showSetOrderPopUp(e:Event):void {				
 				setOrderPopUp = new SetOrderPopUp();
 				
 				setOrderPopUp.slideArray = presentationVO.slidesArray as ArrayCollection;
@@ -55,6 +71,10 @@
 				PopUpManager.addPopUp(setOrderPopUp, this, true);
 			}
 			
+			/**
+			 * Função para adicionar um slide
+			 * 
+			 */ 
 			private function addSlide(e:Event):void {
 				var slide:SlideVO = new SlideVO();
 				
@@ -69,6 +89,10 @@
 				orderChangeHandler();
 			}
 			
+			/**
+			 * Função para deletar um slide
+			 * 
+			 */ 
 			private function deleteSlide(e:Event):void {
 				presentationVO.slidesArray.removeItemAt(int(slideSelector.slideNum) - 1);
 				
@@ -79,6 +103,10 @@
 				orderChangeHandler();
 			}
 			
+			/**
+			 * Função que reorganiza a ordem dos slides vindo do 'addSlide' 'deleteSlide' e 'setOrder'
+			 * 
+			 */ 
 			private function orderChangeHandler(e:Event = null):void {
 				
 				var tempSlideArray:ArrayCollection = new ArrayCollection();
