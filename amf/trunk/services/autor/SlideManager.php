@@ -131,7 +131,15 @@
 			}
 			
 			// TO FINISH SALVAR mediaArray
-			foreach($slide->mediaArray as $media) {
+			foreach($slide->mediaArray as $media_id) {
+				
+				$sql = "SELECT * FROM ath_media WHERE media_id=$media_id";
+				$result = parent::doSelect($sql);
+				
+				$media = new MediaVO();
+				
+				$media = mysql_fetch_object($result, "MediaVO");
+				
 				$this->saveMediaLink( $media, $lastId );
 			}
 			
