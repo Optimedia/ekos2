@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.autor.assets.vo.SlideVO;
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			import br.com.optimedia.autor.AutorFacade;
 			
@@ -30,7 +31,16 @@
 			
 			private function editSlide(e:Event):void {
 				viewStack.selectedIndex = 1;
+				
+				textEditor.addEventListener("closeTextEditor", closeTextEditor);
+				
 				textEditor.slideVO = slideSelector.slideVO;
+				textEditor.slideNum = slideSelector.slideNum;
+			}
+			
+			private function closeTextEditor(e:Event):void {
+				viewStack.selectedIndex = 0;
+				textEditor.slideVO = new SlideVO();
 			}
 			
 			

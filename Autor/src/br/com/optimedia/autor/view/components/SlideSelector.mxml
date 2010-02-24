@@ -16,13 +16,20 @@
 			
 			private var maxSlides:int;
 			
+			public var slideNum:String;
+			
 			public function set presentationVO(value:PresentationVO):void {
-				_presentationVO = value;				
+				_presentationVO = value;
+				
+				slideVO = _presentationVO.slidesArray.getItemAt(0);
+				
+				slideNum = "1";
 			}
 			
 			private function init():void {
 				
-				// Passar somente o id para o player. 
+				// Passar somente o id para o player.
+				//slideVO.slide_id;
 				
 			}
 			
@@ -65,6 +72,8 @@
 				} else {
 					bar = int(txtOrder.text);
 				}
+				
+				slideNum = String(bar);
 				
 				// Diminuindo o bar, para selecionar o index da array
 				bar --;

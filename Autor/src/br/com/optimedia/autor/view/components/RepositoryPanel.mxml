@@ -81,13 +81,15 @@
 		]]>
 	</mx:Script>
 	
-	<mx:HBox width="100%">
-		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
-		<mx:Spacer width="100%" />
-		<mx:Button id="deleteBtn" label="Del" />
-	</mx:HBox>
-	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
 		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" />
+	<mx:ControlBar height="35" paddingTop="5">
+		<mx:Button label="Link"
+			toolTip="Blablablablala"/>
+		<mx:Spacer width="100%" height="10"/>
+		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
+		<mx:VRule height="10"/>
+		<mx:Button id="deleteBtn" label="Del" />
+	</mx:ControlBar>
 	
 </mx:Panel>
