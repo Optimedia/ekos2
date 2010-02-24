@@ -83,7 +83,7 @@
 			private function addSlide(e:Event):void {
 				var slide:SlideVO = new SlideVO();
 				slide.presentation_id = presentationVO.presentation_id;
-				slide.page_order = uint(slideSelector.slideNum) + 1;
+				slide.page_order = uint(slideSelector.slideNum)+ 1;
 				
 				presentationVO.slidesArray.addItemAt(slide, int(slideSelector.slideNum ));
 				
