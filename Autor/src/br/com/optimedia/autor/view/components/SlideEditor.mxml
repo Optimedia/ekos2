@@ -13,16 +13,6 @@
 			[Bindable]
 			public var presentationVO:PresentationVO = new PresentationVO();
 			
-			/* public function set presentationVO(value:PresentationVO):void {
-				_presentationVO = value;
-				
-				slideSelector.presentationVO = _presentationVO;
-			}
-			
-			public function get presentationVO():PresentationVO {
-				return _presentationVO;
-			} */
-			
 			private function init():void {
 				autorFacade.startup( this );
 				

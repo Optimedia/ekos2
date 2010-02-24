@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="100%"
-	creationComplete="init()">
+	creationComplete="init()" title="Repositório de Medias">
 	
 	<mx:Script>
 		<![CDATA[
@@ -84,9 +84,10 @@
 	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
 		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" />
+	
 	<mx:ControlBar height="35" paddingTop="5">
 		<mx:Button label="Link"
-			toolTip="Blablablablala"/>
+			toolTip="Clique para linkar os itens selecionados"/>
 		<mx:Spacer width="100%" height="10"/>
 		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
 		<mx:VRule height="10"/>
