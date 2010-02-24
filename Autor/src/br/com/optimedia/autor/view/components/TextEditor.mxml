@@ -352,7 +352,7 @@
 				if (value != defaultLinkProtocol && value != "")
 				{
 					tf[type] = value;
-					tf["target"] = "_blank";
+					tf["target"] = "";
 					tf["underline"] = true;
 				}
 				else if (tf[type] != "")
@@ -403,10 +403,17 @@
 			var beginIndex:int = textArea.getTextField().selectionBeginIndex;
 			var endIndex:int = textArea.getTextField().selectionEndIndex;
 	
-			if (beginIndex == endIndex)
+			if (beginIndex == endIndex) {
 				linkTextInput.enabled = false;
-			else
-				linkTextInput.enabled = true;	
+				btnLink.enabled = false;
+			} else {
+				linkTextInput.enabled = true;
+				if(_currentMedia != 0) {
+					btnLink.enabled = true;
+				} else {
+					btnLink.enabled = false;
+				}
+			}
 				
 			if (textFormatChanged)
 				previousTextFormat = null;
@@ -472,19 +479,23 @@
 		 *  out of it and releases the mouse button outside the TextArea.
 		 */
 		private function systemManager_mouseUpHandler(event:MouseEvent):void
-		{	
-			
-			txtOne.text = String(textArea.getTextField().selectionBeginIndex);
-			txtTwo.text = String(textArea.getTextField().selectionEndIndex);
+		{
 			
 			if (lastCaretIndex != textArea.getTextField().caretIndex)
 				getTextStyles();
 			else
 			{
-				if (textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex)
+				if (textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
 					linkTextInput.enabled = false;
-				else
-					linkTextInput.enabled = true;	
+					btnLink.enabled = false;
+				} else {
+					linkTextInput.enabled = true;
+					if(_currentMedia != 0) {
+						btnLink.enabled = true;
+					} else {
+						btnLink.enabled = false;
+					}
+				}	
 			}
 			systemManager.removeEventListener(
 				MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);		
@@ -504,6 +515,19 @@
 			_slideNum = value;
 		}
 		
+		[Bindable]
+		private var _currentMedia:int;
+		
+		public function set currentMedia(value:int):void {
+			_currentMedia = value;
+			
+			if(textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
+				btnLink.enabled = false;
+			} else {
+				btnLink.enabled = true;
+			}
+		}
+		
 	
 	]]>
 	</mx:Script>
@@ -515,9 +539,6 @@
 					
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle"> 
 				<mx:TextInput width="100%" textAlign="center" text="{_slideVO.title}"/>
-				<mx:Label text="Label" id="txtOne"/>
-				<mx:VRule height="10"/>
-				<mx:Label text="Label" id="txtTwo"/>
 			</mx:HBox>
 				
 			<mx:TextArea id="textArea" height="100%" width="100%" minHeight="0" minWidth="0" htmlText="{_slideVO.text_body}"
@@ -535,11 +556,6 @@
 			<mx:ControlBar>
 				
 				<mx:VBox width="100%">
-					
-					<mx:HBox width="100%"  horizontalAlign="center" backgroundColor="#D01111" borderStyle="solid" borderColor="#FFFFFF" borderThickness="2">
-						<mx:Label text="Esse slide está sendo editado por Fulano de Tal desde 12/12/2009 14:00" color="#FFFFFF" fontWeight="bold"/>
-						
-					</mx:HBox>
 					
 					<!--<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
 					<mx:HBox width="100%" horizontalGap="7" verticalAlign="middle">
@@ -596,6 +612,8 @@
 									  else 
 									  { trace('not committed'); setTextStyles('url', linkTextInput.text); linkTextInput.text=defaultLinkProtocol;}"
 							enter="setTextStyles('url', linkTextInput.text); linkTextInput.text = defaultLinkProtocol; linkTextCommitted = true;" width="16"/>
+							
+						<mx:Button id="btnLink" label="Link" enabled="false" click="setTextStyles('url', 'event:'+String(_currentMedia))"/>
 						<mx:Spacer width="100%"/>
 						<mx:Button label="Ver CODE" click="textArea.text=textArea.htmlText"/>
 						<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>

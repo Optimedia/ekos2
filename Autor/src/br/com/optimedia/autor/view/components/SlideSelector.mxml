@@ -95,9 +95,6 @@
 				
 				<mx:VBox width="100%">
 					
-					<mx:HBox width="100%"  horizontalAlign="center" backgroundColor="#999999" borderStyle="solid" borderColor="#FFFFFF" borderThickness="2">
-						<mx:Text text="Slide criado por Fulano de Tal em 31/12/2009 22:13&#xa;última alteração por Beltrano dos Hamburgueres em 01/01/2010 14:00" color="#FFFFFF" textAlign="center" fontWeight="bold"/>
-					</mx:HBox>
 					<!--
 					<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
 											
@@ -147,6 +144,7 @@
 						<mx:VRule height="10"/>
 						
 						<mx:TextInput width="10"/>
+						<mx:Button label="Link" id="btnLink" enabled="false"/>
 						
 						<mx:Spacer width="100%"/>
 						<mx:VRule height="10"/>
