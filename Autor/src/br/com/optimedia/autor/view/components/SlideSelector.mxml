@@ -49,7 +49,7 @@
 				dispatchEvent(new Event("setOrder", true));
 			}
 			
-			private function changeSlide(type:String = null):void {
+			public function changeSlide(type:String = null):void {
 				
 				maxSlides = _presentationVO.slidesArray.length;
 				
