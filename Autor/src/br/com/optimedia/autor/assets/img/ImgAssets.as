@@ -40,7 +40,7 @@ package br.com.optimedia.autor.assets.img
 		[Embed('noteIcon.png')]
 		public static const category6Icon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('fileIcon.png')]
 		public static const category7Icon:Class;
 		
 	}

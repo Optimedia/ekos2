@@ -77,7 +77,7 @@ package br.com.optimedia.autor.view
 				proxy.unpublishPresentation( view.presentationVO.presentation_id );
 			}
 			else {
-				proxy.publishPresentation( view.presentationVO.presentation_id, view.sectionComboBox.selectedItem.section_id );
+				proxy.publishPresentation( view.presentationVO, view.sectionComboBox.selectedItem.section_id );
 			}
 		}
 	}

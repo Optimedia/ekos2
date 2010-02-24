@@ -106,8 +106,8 @@ package br.com.optimedia.autor.model
 			else Alert.show("Não foi possível excluir.", "Erro");
 		}
 		
-		public function publishPresentation(presentationID:uint, sectionID:uint):void {
-			var asynkToken:AsyncToken = remoteService.publishPresentation(presentationID, sectionID);
+		public function publishPresentation(presentationVO:PresentationVO, sectionID:uint):void {
+			var asynkToken:AsyncToken = remoteService.publishPresentation(presentationVO.presentation_id, sectionID, presentationVO.title);
 			asynkToken.addResponder( new Responder(publishPresentationResult, generalFault) );
 		}
 		private function publishPresentationResult(event:ResultEvent):void {
