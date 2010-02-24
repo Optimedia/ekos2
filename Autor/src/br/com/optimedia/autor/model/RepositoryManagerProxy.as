@@ -75,7 +75,7 @@ package br.com.optimedia.autor.model
 			getMediasResult( event ); */
 		}
 		private function getMediasResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.GET_MEDIAS_RESULT, event.result );
+			if( event.result is Array )	sendNotification( NotificationConstants.GET_MEDIAS_RESULT, event.result );
 		}
 		
 		public function uploadPresentationFile(fileVO:FileVO, presentationID:uint, type:String):void {
@@ -83,11 +83,11 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(uploadPresentationFileResult, generalFault) );
 		}
 		private function uploadPresentationFileResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.UPLOAD_PRESENTATION_FILE_RESULT, event.result );
+			if( event.result == true ) sendNotification( NotificationConstants.UPLOAD_PRESENTATION_FILE_RESULT, event.result );
 		}
 		
-		public function uploadMediaFile(fileVO:FileVO, mediaVO:MediaVO):void {
-			var asynkToken:AsyncToken = remoteService.uploadMediaFile(fileVO, mediaVO);
+		public function uploadMediaFile(fileVO:FileVO, mediaVO:MediaVO, presentationID:uint):void {
+			var asynkToken:AsyncToken = remoteService.uploadMediaFile(fileVO, mediaVO, presentationID);
 			asynkToken.addResponder( new Responder(uploadMediaFileResult, generalFault) );
 		}
 		private function uploadMediaFileResult(event:ResultEvent):void {

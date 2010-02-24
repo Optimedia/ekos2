@@ -140,5 +140,27 @@ package br.com.optimedia.autor.model
 			}
 			else Alert.show("Não foi possível recuperar nenhum setor.", "Erro");
 		}
+		
+		public function lockPresentation(presentationID:uint, userID:uint):void {
+			var asynkToken:AsyncToken = remoteService.lockPresentation(presentationID, userID);
+			asynkToken.addResponder( new Responder(lockPresentationResult, generalFault) );
+		}
+		private function lockPresentationResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.LOCK_PRESENTATION_OK );
+			}
+			else Alert.show("Não foi possível travar a apresentação.", "Erro");
+		}
+		
+		public function unlockPresentation(presentationID:uint):void {
+			var asynkToken:AsyncToken = remoteService.unlockPresentation(presentationID);
+			asynkToken.addResponder( new Responder(unlockPresentationResult, generalFault) );
+		}
+		private function unlockPresentationResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.UNLOCK_PRESENTATION_OK );
+			}
+			else Alert.show("Não foi possível destravar a apresentação.", "Erro");
+		}
 	}
 }
