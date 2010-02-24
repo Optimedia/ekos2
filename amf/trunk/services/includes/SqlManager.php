@@ -1,13 +1,12 @@
 <?php
 	
 	class SqlManager {
-		
 		protected $insert_id;
-		
 		function SqlManager($host, $user, $pass, $db) {
 			session_start();
 			mysql_connect($host, $user, $pass);
 			mysql_select_db($db);
+			//mysql_set_charset('UTF8_unicode_ci');
 		}
 
 		/**
@@ -89,7 +88,7 @@
 			foreach ($array as $key => $value) {
 				
 				$fields .= $key;
-				$values .= "'$value'";
+				$values .= "\"$value\"";
 				
 				if($j < $i) {
 					$fields .= ",";
@@ -104,10 +103,13 @@
 			
 			$sql = "INSERT INTO ".$table." $fields $values";
 			
+			//return $sql;
+			
 			if(mysql_query($sql)) {
-				$this->insert_id = mysql_insert_id();
-				return true;
-			} else { 
+                $this->insert_id = mysql_insert_id();
+                return true;
+			} else {
+                $this->insert_id = "";
 				return mysql_error();
 			}
 			
@@ -137,10 +139,8 @@
 			$sql = "UPDATE $table SET $values WHERE $condition";
 			
 			if(mysql_query($sql)) {
-				$this->insert_id = mysql_insert_id();
 				return true;
 			} else {
-				$this->insert_id = "";
 				return mysql_error();
 			}
 			
