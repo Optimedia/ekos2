@@ -21,7 +21,7 @@ package br.com.optimedia.autor.view
 		
 		private var proxy:RepositoryManagerProxy;
 		
-		private var presentationID:uint;
+		//private var presentationID:uint;
 		
 		public function RepositoryPanelMediator(viewComponent:Object=null)
 		{
@@ -55,15 +55,15 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
-					presentationID = PresentationVO( note.getBody() ).presentation_id;
-					proxy.getMedias( presentationID );
+					view.presentationID = PresentationVO( note.getBody() ).presentation_id;
+					proxy.getMedias( view.presentationID );
 					break;
 				case NotificationConstants.GET_MEDIAS_RESULT:
 					//view.hd.source = note.getBody() as Array;
 					view.mediaXml = new ArrayCollection(note.getBody() as Array);
 					break;
 				case NotificationConstants.DELETE_MEDIA_OK:
-					proxy.getMedias( presentationID );
+					proxy.getMedias( view.presentationID );
 					Alert.show("Media removida com sucesso", "OK");
 					break;
 				default:
