@@ -102,8 +102,6 @@
 		change="checkChange(event)"/>
 	
 	<mx:ControlBar height="35" paddingTop="5">
-		<mx:Button label="Link"
-			toolTip="Clique para linkar os itens selecionados"/>
 		<mx:Spacer width="100%" height="10"/>
 		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
 		<mx:VRule height="10"/>
