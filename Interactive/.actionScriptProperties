@@ -14,5 +14,6 @@
 <modules/>
 <buildCSSFiles>
 <buildCSSFileEntry destPath="bin-debug" sourcePath="src/br/com/optimedia/interactive/css/style.css"/>
+<buildCSSFileEntry destPath="bin-debug" sourcePath="src/br/com/optimedia/interactive/css/styleMedia.css"/>
 </buildCSSFiles>
 </actionScriptProperties>
