@@ -31,6 +31,8 @@
 		</mx:State>
 		<mx:State name="file">
 			<mx:RemoveChild target="{preview}"/>
+			<mx:SetProperty target="{fileLabel}" name="text" value="Arquivo"/>
+			<mx:SetProperty target="{fileTextInput}" name="width" value="161"/>
 		</mx:State>
 	</mx:states>
 	
@@ -101,7 +103,7 @@
 						
 						dispatchEvent( new Event(UPLOAD_FILE_EVENT) );
 					}
-					else Alert.show("É necessário escolher um arquivo.", "Atenção");
+					else Alert.show("É necessário escolher um arquivo e digitar um nome.", "Atenção");
 				}
 				else if( this.currentState == 'url' ) {
 					if( fileTextInput.text != '' && nameTextInput.text != '' ) {
@@ -150,6 +152,7 @@
 						saveBtn.enabled = true;
 						break;
 					case 7:
+						this.currentState = 'file';
 						fileTextInput.text = '';
 						imageTypes = new FileFilter("Files (*.doc, *.docx, *.xls, *.xlsx, *.ppt, *.pptx, *.pps, *.ppsx, *.pdf, *.zip, *.odt, *.ods, *.odp)",
 															"*.doc; *.docx; *.xls; *.xlsx; *.ppt; *.pptx; *.pps; *.ppsx; *.pdf; *.zip; *.odt; *.ods; *.odp");
@@ -178,7 +181,7 @@
 		<mx:RadioButton id="linkRadio" label="URL" value="5" groupName="radioBtnGroup" />
 		<mx:RadioButton id="videoRadio" label="Video" value="4" groupName="radioBtnGroup" />
 		<mx:RadioButton id="textRadio" label="Texto" value="6" groupName="radioBtnGroup" />
-		<mx:RadioButton id="fileRadio" label="Arquivo" value="6" groupName="radioBtnGroup" />
+		<mx:RadioButton id="fileRadio" label="Arquivo" value="7" groupName="radioBtnGroup" />
 	</mx:HBox>
 	
 	<mx:Canvas width="100%">
@@ -188,7 +191,7 @@
 	
 	<mx:Canvas width="100%" id="hbox1">
 		<mx:Label id="fileLabel" text="Imagem" verticalCenter="0" left="5"/>
-		<mx:TextInput id="fileTextInput" editable="false" x="67" verticalCenter="0"/>
+		<mx:TextInput id="fileTextInput" editable="false" x="67" verticalCenter="0"  width="161"/>
 		<mx:Button id="fileBtn" label="Procurar" click="browse()" x="236"/>
 	</mx:Canvas>
 	
