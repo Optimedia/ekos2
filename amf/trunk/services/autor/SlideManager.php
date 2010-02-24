@@ -63,10 +63,10 @@
 		public function setOrder($allSlides) {
 			
 			foreach($allSlides as $value) {
-				$slide_id = $value['slide_id'];
-				$order = $value['order'];
+				$slide_id = $value -> slide_id;
+				$order = $value -> page_order;
 				
-				$tempArray = array("order" => $order);
+				$tempArray = array("page_order" => page_order);
 				$condition = "slide_id=$slide_id";
 				
 				$result = parent::doUpdate($tempArray, $condition, $this -> _table);
