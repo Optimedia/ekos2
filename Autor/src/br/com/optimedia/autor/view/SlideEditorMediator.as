@@ -75,7 +75,7 @@ package br.com.optimedia.autor.view
 					sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
 					break;
 				case NotificationConstants.ADD_NEW_SLIDE_RESULT:
-					//view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
+					view.orderChangeHandler();
 					break;
 				case NotificationConstants.SET_SLIDE_ORDER_RESULT:
 					view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
