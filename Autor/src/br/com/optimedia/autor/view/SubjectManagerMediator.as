@@ -7,13 +7,13 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import flash.events.MouseEvent;
 
 	public class SubjectManagerMediator extends Mediator
 	{
@@ -54,7 +54,8 @@ package br.com.optimedia.autor.view
 		{
 			return [NotificationConstants.GET_SUBJECTS_OK,
 					NotificationConstants.SAVE_SUBJECT_OK,
-					NotificationConstants.SAVE_PRESENTATION_OK];
+					NotificationConstants.SAVE_PRESENTATION_OK,
+					NotificationConstants.LOCK_PRESENTATION_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -75,6 +76,9 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.SAVE_PRESENTATION_OK:
 					Alert.show("Tema salvo com sucesso.", "OK");
 					view.newPresentationPopUp.closeMe();
+					break;
+				case NotificationConstants.LOCK_PRESENTATION_OK:
+					sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
 					break;
 				default:
 					break;
@@ -98,7 +102,10 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function slideEditBtnClick(event:MouseEvent):void {
-			sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+			Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
+			// FALTA COLOCAR O USER ID NO lockPresentation
+			subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, 1 );
+			//sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
 		}
 	}
 }

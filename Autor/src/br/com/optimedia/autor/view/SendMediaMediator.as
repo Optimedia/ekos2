@@ -3,6 +3,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.assets.CommandConstants;
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import br.com.optimedia.autor.assets.vo.MediaVO;
+	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.model.RepositoryManagerProxy;
 	import br.com.optimedia.autor.view.components.SendMediaPopUp;
 	
@@ -75,7 +76,7 @@ package br.com.optimedia.autor.view
 			var media:MediaVO = new MediaVO();
 			media.category_id = view.category;
 			media.title = view.nameTextInput.text;
-			repositoryProxy.uploadMediaFile(view.fileVO, media);
+			repositoryProxy.uploadMediaFile(view.fileVO, media, view.presentationID);
 		}
 		
 		private function uploadMediaText(event:Event):void {
