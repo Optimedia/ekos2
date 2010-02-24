@@ -544,10 +544,11 @@
 			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" title="Título do Tema">					 
 					
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle"> 
-				<mx:TextInput width="100%" textAlign="center" text="{_slideVO.title}"/>
+				<mx:TextInput themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"/>
 			</mx:HBox>
 				
 			<mx:TextArea id="textArea" height="100%" width="100%" minHeight="0" minWidth="0" htmlText="{_slideVO.text_body}"
+						 themeColor="#FFFFFF"
 						 change="dispatchEvent(event);"
 						 valueCommit="dispatchEvent(event);"
 						 keyUp="getTextStyles()"
@@ -555,7 +556,6 @@
 						 		textArea.getTextField().defaultTextFormat=previousTextFormat;
 						 		textFormatChanged = false;
 						 	}"
-						 link="Alert.show('Link!')"
 						 mouseDown="systemManager.addEventListener(
 							MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);"/>
 			

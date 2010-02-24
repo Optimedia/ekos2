@@ -85,7 +85,7 @@
 				slide.presentation_id = presentationVO.presentation_id;
 				slide.page_order = uint(slideSelector.slideNum) + 1;
 				
-				presentationVO.slidesArray.addItemAt(slide, int(slideSelector.slideNum));
+				presentationVO.slidesArray.addItemAt(slide, int(slideSelector.slideNum ));
 				
 				slideSelector.presentationVO = presentationVO;
 				
