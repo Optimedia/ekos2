@@ -10,6 +10,10 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import flash.events.Event;
+	import mx.rpc.events.ResultEvent;
+	import br.com.optimedia.autor.assets.vo.SlideVO;
+	import mx.collections.ArrayCollection;
 
 	public class SlideEditorMediator extends Mediator
 	{
@@ -17,6 +21,7 @@ package br.com.optimedia.autor.view
 		
 		private var proxy:SlideManagerProxy;
 		private var subjectManagerProxy:SubjectManagerProxy;
+		private var slideManagerProxy:SlideManagerProxy;
 		
 		public function SlideEditorMediator(viewComponent:Object=null)
 		{
@@ -28,8 +33,12 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.backBtn.addEventListener( MouseEvent.CLICK, backBtnClick );
 			
+			view.addEventListener( SlideEditor.NEW_SLIDE_EVENT, addNewSlide );
+			view.addEventListener( SlideEditor.SET_SLIDE_ORDER_EVENT, setOrder );
+			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
+			slideManagerProxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 		}
 		
 		override public function onRemove():void {
@@ -45,7 +54,8 @@ package br.com.optimedia.autor.view
 		{
 			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
 					NotificationConstants.GET_SLIDES_OK,
-					NotificationConstants.UNLOCK_PRESENTATION_OK];
+					NotificationConstants.UNLOCK_PRESENTATION_OK,
+					NotificationConstants.ADD_NEW_SLIDE_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -63,6 +73,9 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.UNLOCK_PRESENTATION_OK:
 					sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
 					break;
+				case NotificationConstants.ADD_NEW_SLIDE_RESULT:
+					view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
+					break;
 				default:
 					break;
 			}
@@ -70,6 +83,14 @@ package br.com.optimedia.autor.view
 		
 		private function backBtnClick(event:MouseEvent):void {
 			subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
+		}
+		
+		private function addNewSlide(event:ResultEvent):void {
+			slideManagerProxy.addNewSlide( event.result as SlideVO );
+		}
+		
+		private function setOrder(event:ResultEvent):void {
+			slideManagerProxy.setOrder( event.result as Array );
 		}
 	}
 }

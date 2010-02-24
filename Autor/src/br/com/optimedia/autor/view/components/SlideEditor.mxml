@@ -4,12 +4,17 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			import mx.collections.ArrayCollection;
 		
 			import br.com.optimedia.autor.assets.vo.SlideVO;
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			import br.com.optimedia.autor.AutorFacade;
+			
+			public static const NEW_SLIDE_EVENT:String = "NEW_SLIDE_EVENT";
+			public static const SET_SLIDE_ORDER_EVENT:String = "SET_SLIDE_ORDER_EVENT";
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			private var setOrderPopUp:SetOrderPopUp;
@@ -77,14 +82,14 @@
 			 */ 
 			private function addSlide(e:Event):void {
 				var slide:SlideVO = new SlideVO();
-				
-				slide.page_order = uint(slideSelector.slideNum + 1);
+				slide.presentation_id = presentationVO.presentation_id;
+				slide.page_order = uint(slideSelector.slideNum) + 1;
 				
 				presentationVO.slidesArray.addItemAt(slide, int(slideSelector.slideNum));
 				
 				slideSelector.presentationVO = presentationVO;
 				
-				// Adicionar o novo slide aqui
+				this.dispatchEvent( new ResultEvent(NEW_SLIDE_EVENT, false, true, slide) );
 				
 				orderChangeHandler();
 			}
@@ -132,7 +137,7 @@
 				
 				slideSelector.presentationVO = presentationVO;
 				
-				// Salvar a ordem nova aqui
+				this.dispatchEvent( new ResultEvent(SET_SLIDE_ORDER_EVENT, false, true, finalSlideArray) );
 				
 				if(e != null) {
 					setOrderPopUp.closePop();

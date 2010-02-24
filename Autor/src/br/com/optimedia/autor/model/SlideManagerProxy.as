@@ -11,6 +11,7 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
+	import br.com.optimedia.autor.assets.vo.SlideVO;
 
 	public class SlideManagerProxy extends Proxy
 	{
@@ -42,6 +43,26 @@ package br.com.optimedia.autor.model
 		private function getSlidesResult(event:ResultEvent):void {
 			if( event.result is Array ) {
 				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
+			}
+		}
+		
+		public function addNewSlide(slideVO:SlideVO):void {
+			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
+			asynkToken.addResponder( new Responder(addNewSlideResult, generalFault) );
+		}
+		private function addNewSlideResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
+			}
+		}
+		
+		public function setOrder(slideArray:Array):void {
+			var asynkToken:AsyncToken = remoteService.setOrder(slideArray);
+			asynkToken.addResponder( new Responder(setOrderResult, generalFault) );
+		}
+		private function setOrderResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.SET_SLIDE_ORDER_RESULT, event.result );
 			}
 		}
 	}
