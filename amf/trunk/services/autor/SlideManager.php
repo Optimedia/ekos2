@@ -62,9 +62,12 @@
 		
 		public function setOrder($allSlides) {
 			
+			$presentation_id = 0;
+			
 			foreach($allSlides as $slide) {
 				$slide_id = $slide -> slide_id;
 				$order = $slide -> page_order;
+				$presentation_id = $slide -> presentation_id;
 				
 				if($slide -> title == "" || $slide -> title == null) {
 					$title = "Título";
@@ -98,7 +101,7 @@
 				}
 			}
 			
-			return true;
+			return $this -> getSlides($presentation_id);
 			
 		}
 		
@@ -132,11 +135,7 @@
 				$this->saveMediaLink( $media, $lastId );
 			}
 			
-			if($slide -> slide_id == 0) {
-				return $this -> getSlides($slide -> presentation_id);
-			} else {
-				return true;
-			}
+			return true;
 			
 		}
 		
