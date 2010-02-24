@@ -3,6 +3,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.model.SlideManagerProxy;
+	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SlideEditor;
 	
 	import flash.events.MouseEvent;
@@ -14,9 +15,8 @@ package br.com.optimedia.autor.view
 	{
 		public static const NAME:String = 'SlideEditorMediator';
 		
-		//private var presentationVO:PresentationVO = new PresentationVO();
-		
 		private var proxy:SlideManagerProxy;
+		private var subjectManagerProxy:SubjectManagerProxy;
 		
 		public function SlideEditorMediator(viewComponent:Object=null)
 		{
@@ -29,6 +29,7 @@ package br.com.optimedia.autor.view
 			view.backBtn.addEventListener( MouseEvent.CLICK, backBtnClick );
 			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
+			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 		}
 		
 		override public function onRemove():void {
@@ -43,7 +44,8 @@ package br.com.optimedia.autor.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
-					NotificationConstants.GET_SLIDES_OK];
+					NotificationConstants.GET_SLIDES_OK,
+					NotificationConstants.UNLOCK_PRESENTATION_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -58,13 +60,16 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
 					break;
+				case NotificationConstants.UNLOCK_PRESENTATION_OK:
+					sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
+					break;
 				default:
 					break;
 			}
 		}
 		
 		private function backBtnClick(event:MouseEvent):void {
-			sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
+			subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
 		}
 	}
 }
