@@ -25,5 +25,7 @@ package br.com.optimedia.autor.assets
 		public static const GET_SECTIONS_RESULT:String = "GET_SECTIONS_RESULT";
 		public static const LOCK_PRESENTATION_OK:String = "LOCK_PRESENTATION_OK";
 		public static const UNLOCK_PRESENTATION_OK:String = "UNLOCK_PRESENTATION_OK";
+		public static const ADD_NEW_SLIDE_RESULT:String = "ADD_NEW_SLIDE_RESULT";
+		public static const SET_SLIDE_ORDER_RESULT:String = "SET_SLIDE_ORDER_RESULT";
 	}
 }
