@@ -55,7 +55,8 @@ package br.com.optimedia.autor.view
 			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
 					NotificationConstants.GET_SLIDES_OK,
 					NotificationConstants.UNLOCK_PRESENTATION_OK,
-					NotificationConstants.ADD_NEW_SLIDE_RESULT];
+					NotificationConstants.ADD_NEW_SLIDE_RESULT,
+					NotificationConstants.SET_SLIDE_ORDER_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -74,6 +75,9 @@ package br.com.optimedia.autor.view
 					sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
 					break;
 				case NotificationConstants.ADD_NEW_SLIDE_RESULT:
+					//view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
+					break;
+				case NotificationConstants.SET_SLIDE_ORDER_RESULT:
 					view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
 					break;
 				default:

@@ -51,7 +51,7 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(addNewSlideResult, generalFault) );
 		}
 		private function addNewSlideResult(event:ResultEvent):void {
-			if( event.result is Array ) {
+			if( event.result == true ) {
 				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
 			}
 		}
@@ -61,7 +61,7 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(setOrderResult, generalFault) );
 		}
 		private function setOrderResult(event:ResultEvent):void {
-			if( event.result == true ) {
+			if( event.result is Array ) {
 				sendNotification( NotificationConstants.SET_SLIDE_ORDER_RESULT, event.result );
 			}
 		}
