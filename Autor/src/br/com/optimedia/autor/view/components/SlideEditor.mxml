@@ -90,8 +90,6 @@
 				slideSelector.presentationVO = presentationVO;
 				
 				this.dispatchEvent( new ResultEvent(NEW_SLIDE_EVENT, false, true, slide) );
-				
-				orderChangeHandler();
 			}
 			
 			/**
