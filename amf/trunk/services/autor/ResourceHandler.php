@@ -1,7 +1,7 @@
 <?php
     require_once '../includes/SqlManager.php';
 
-	class HandlerResource extends SqlManager {
+	class ResourceHandler extends SqlManager {
         
 		protected $db_name = sinasemdl;
         protected $course = 2;
@@ -10,7 +10,7 @@
         protected $sectionID;
         protected $presentationID;
         
-		public function HandlerResource() {
+		public function ResourceHandler() {
 			$host = "10.1.1.10";
 			$user = "opti";
 			$pass = "opti";
@@ -108,10 +108,10 @@
 			
 		    $result = parent::doUpdate($fieldsAndValuesResource,$condition,"mdl_course_sections");
 			
-		    $fieldsAndValuesResource= array( "section_id" => $this->sectionID );
-			
-		    $condition="presentation_id=$this->presentationID";
-			
-		    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "ekos2.ath_presentation" );
+//		    $fieldsAndValuesResource= array( "section_id" => $this->sectionID );
+//			
+//		    $condition="presentation_id=$this->presentationID";
+//			
+//		    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "ekos2.ath_presentation" );
 		}
 	}
