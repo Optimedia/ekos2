@@ -7,8 +7,11 @@ package br.com.optimedia.interactive.view
 	
 	import flash.display.Sprite;
 	import flash.events.TextEvent;
+	import flash.text.StyleSheet;
 	
 	import mx.controls.Alert;
+	import mx.controls.Image;
+	import mx.controls.TextArea;
 	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -23,6 +26,9 @@ package br.com.optimedia.interactive.view
 		
 		public var lineTitle:uint = 0x000000;
 		public var bgTitle:uint = 0xFFFFFF;
+		public var title:TextArea;
+		public var content:TextArea;
+		public var imgContent:Image;
 		
 		private var interactiveProxy:InteractiveProxy;
 		
@@ -35,7 +41,6 @@ package br.com.optimedia.interactive.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			view.textContent.addEventListener(TextEvent.LINK,openlink);
 			
 			interactiveProxy = facade.retrieveProxy( InteractiveProxy.NAME ) as InteractiveProxy;
 			
@@ -69,52 +74,90 @@ package br.com.optimedia.interactive.view
 		}
 		
 		public function show(vo: SlideVO): void {
-	
+			
+			view.slide.removeAllChildren();
+			if (lastBg) {
+				view.slide.rawChildren.removeChild(lastBg);
+			}
 			interactiveProxy.getLinks(vo.slide_id);
 			
-			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {
-				Application.application.slideView.slideVO = vo;
-				layout(vo.type_slide_id,20,"titleTYPEPAGE","contentTYPEPAGE");
+			title = new TextArea();
+			title.x=20;
+			title.width = 740;
+			//title.height
+			title.selectable = false;
+			title.wordWrap = true;
+			title.setStyle("backgroundAlpha",0);
+			title.setStyle("borderThickness",0);
 			
-			} else if (vo.type_slide_id == SlideVO.TYPE_TITLE) {
-				Application.application.slideView.slideVO = vo;
-				layout(vo.type_slide_id, 140,"titleTITLE","contentTITLE");
 			
-			} else {
-				Application.application.slideView.slideVO = vo;
-				layout(vo.type_slide_id, 20,"titleTYPEPAGE","contentTYPEPAGE");
+			content = new TextArea()
+			content.x=20;
+			content.width = 740;
+			content.selectable = false;
+			content.wordWrap = true;
+			content.editable = false;
+			content.setStyle("backgroundAlpha",0);
+			content.setStyle("borderThickness",0);
+		
+			content.addEventListener(TextEvent.LINK,openlink);
+			
+			if (vo.type_slide_id == SlideVO.TYPE_TITLE) {
+				title.htmlText = "<span class='titleTITLE'>"+vo.title + "</span>";
+				content.htmlText = "<span class='contentTITLE'>"+vo.text_body + "</span>";
+			}else {
+				title.htmlText = "<span class='titleTYPEPAGE'>"+vo.title + "</span>";
+				content.htmlText ="<span class='contentTYPEPAGE'>"+ vo.text_body + "</span>";
 			}
+			title.styleSheet = Application.application.styleSh
+			content.styleSheet= Application.application.styleSh;
+			//title.autoSize = "center";
+
+			
+			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {
+				layout(vo.type_slide_id,20);
+			} else if (vo.type_slide_id == SlideVO.TYPE_TITLE) {
+				layout(vo.type_slide_id, 140);
+			} else if (vo.type_slide_id == SlideVO.TYPE_IMG) {
+				lastBg=new Sprite ();
+				lastBg.visible = false;
+				view.slide.rawChildren.addChildAt(lastBg,0);
+				
+				imgContent = new Image();
+				imgContent.source = vo.text_body;
+				imgContent.autoLoad = true;
+				imgContent.setStyle("horizontalCenter",0);
+				imgContent.setStyle("verticalCenter",0);
+				view.slide.addChild(imgContent);
+				
+			} else {
+				layout(vo.type_slide_id, 20);
+			}
+			
 		}
 		
-		public function layout (type:uint, yTitle:Number ,styleTITLE:String,stlyeText:String):void {
+		public function layout (type:uint, yTitle:Number):void {
+			title.y = yTitle;
+			view.slide.addChild(title);
 			
-			
-			view.textTitle.visible=false;
-			view.textTitle.x=20;
-			view.textTitle.y=yTitle;
-			view.textTitle.styleName = styleTITLE;
-			if (lastBg)
-				view.rawChildren.removeChild(lastBg);
-
 			lastBg=new Sprite ();
 			lastBg.graphics.lineStyle(1,lineTitle);
 			lastBg.graphics.beginFill(bgTitle,0.5);
-			lastBg.graphics.drawRoundRect(0,0,760,view.textTitle.height+10,20,20);
+			lastBg.graphics.drawRoundRect(0,0,760,title.textHeight + 37 ,20,20);
 			lastBg.graphics.endFill();
-			lastBg.x=10;
+			lastBg.x=15;
 			lastBg.y=yTitle-10;
-			view.rawChildren.addChildAt(lastBg,0);
+			view.slide.rawChildren.addChildAt(lastBg,0);
 			
-			view.textContent.x=10;
-			view.textContent.y=view.textTitle.y + view.textTitle.height + 10;
 			
+			content.y=title.y + title.textHeight + 37;
 			if (type==SlideVO.TYPE_TITLE) {
-				view.textContent.y+=40;
+				content.y+=30;
+				content.height = 512 - title.y - title.height - 90 - 40 ;
+			}else {
+				content.height = 512 - title.y - title.height - 90;
 			}
-			view.textContent.styleName = stlyeText;
-						
-			view.textTitle.visible=true;
-			view.textContent.visible=true;
+			view.slide.addChild(content);
 		}
 		
 		public function getLineTitle ():uint {
