@@ -276,10 +276,12 @@
 		}
 		
 		public function lockPresentation($presentationID, $userID) {
-			$sql = "SELECT * FROM ath_presentation WHERE presentation_id=$presentationID AND locked_by=0";
+			$sql = "SELECT * FROM ath_presentation WHERE presentation_id=$presentationID";
 			$query = $this->doSelect($sql);
 			
-			if( mysql_num_rows($query) == 1 ) {
+			$presentationVO = mysql_fetch_object($query, "PresentationVO");
+			
+			if( $presentationVO->locked_by == 0 ) {
 				$locked = false;
 			}
 			else {
@@ -295,14 +297,13 @@
 				return parent::doUpdate($array, $condition, "ath_presentation");
 			}
 			else {
-				$presentationVO = mysql_fetch_object($query, "PresentationVO");
 				
 				$sql1 = "SELECT * FROM eko_user WHERE user_id=".$presentationVO->locked_by;
 				$query1 = $this->doSelect($sql1);
 				
 				$userVO = mysql_fetch_object($query1, "CompleteUserVO");
 				
-				return $userVO->firstname." ".$userVO->lastname;
+				return $userVO->first_name." ".$userVO->last_name;
 			}
 		}
 		
