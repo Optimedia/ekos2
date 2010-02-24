@@ -15,6 +15,7 @@
 			
 			public static const NEW_SLIDE_EVENT:String = "NEW_SLIDE_EVENT";
 			public static const SET_SLIDE_ORDER_EVENT:String = "SET_SLIDE_ORDER_EVENT";
+			public static const DELETE_SLIDE_EVENT:String = "DELETE_SLIDE_EVENT";
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			private var setOrderPopUp:SetOrderPopUp;
@@ -97,13 +98,13 @@
 			 * 
 			 */ 
 			private function deleteSlide(e:Event):void {
-				presentationVO.slidesArray.removeItemAt(int(slideSelector.slideNum) - 1);
+				/* presentationVO.slidesArray.removeItemAt(int(slideSelector.slideNum) - 1);
 				
 				slideSelector.presentationVO = presentationVO;
 				
-				// Remover slide do banco
+				orderChangeHandler(); */
 				
-				orderChangeHandler();
+				this.dispatchEvent( new ResultEvent(DELETE_SLIDE_EVENT, false, true, slideSelector.slideNum) );
 			}
 			
 			/**

@@ -65,5 +65,15 @@ package br.com.optimedia.autor.model
 				sendNotification( NotificationConstants.SET_SLIDE_ORDER_RESULT, event.result );
 			}
 		}
+		
+		public function deleteSlide(slideVO:SlideVO):void {
+			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO);
+			asynkToken.addResponder( new Responder(deleteSlideResult, generalFault) );
+		}
+		private function deleteSlideResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.DELETE_SLIDE_RESULT );
+			}
+		}
 	}
 }

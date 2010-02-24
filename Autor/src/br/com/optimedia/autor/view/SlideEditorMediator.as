@@ -35,6 +35,7 @@ package br.com.optimedia.autor.view
 			
 			view.addEventListener( SlideEditor.NEW_SLIDE_EVENT, addNewSlide );
 			view.addEventListener( SlideEditor.SET_SLIDE_ORDER_EVENT, setOrder );
+			view.addEventListener( SlideEditor.DELETE_SLIDE_EVENT, setOrder );
 			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
@@ -56,7 +57,8 @@ package br.com.optimedia.autor.view
 					NotificationConstants.GET_SLIDES_OK,
 					NotificationConstants.UNLOCK_PRESENTATION_OK,
 					NotificationConstants.ADD_NEW_SLIDE_RESULT,
-					NotificationConstants.SET_SLIDE_ORDER_RESULT];
+					NotificationConstants.SET_SLIDE_ORDER_RESULT,
+					NotificationConstants.DELETE_SLIDE_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -76,9 +78,13 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.ADD_NEW_SLIDE_RESULT:
 					view.orderChangeHandler();
+					view.slideSelector.changeSlide('plus');
 					break;
 				case NotificationConstants.SET_SLIDE_ORDER_RESULT:
 					view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
+					break;
+				case NotificationConstants.DELETE_SLIDE_RESULT:
+					view.orderChangeHandler();
 					break;
 				default:
 					break;
@@ -95,6 +101,10 @@ package br.com.optimedia.autor.view
 		
 		private function setOrder(event:ResultEvent):void {
 			slideManagerProxy.setOrder( event.result as Array );
+		}
+		
+		private function deleteSlide(event:ResultEvent):void {
+			slideManagerProxy.deleteSlide( event.result as SlideVO );
 		}
 	}
 }
