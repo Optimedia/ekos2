@@ -60,13 +60,20 @@
 			return $mediaArray;
 		}
 		
-		public function setOrder($allSlides) {
+		public function setOrder($allSlides = null) {
 			
-			foreach($allSlides as $value) {
-				$slide_id = $value -> slide_id;
-				$order = $value -> page_order;
+			foreach($allSlides as $slide) {
+				$slide_id = $slide -> slide_id;
+				$order = $slide -> page_order;
 				
-				$tempArray = array("page_order" => page_order);
+				if($slide -> title == "") {
+					$title = "Título"; 
+				} else {
+					$title = $slide -> title;
+				}
+				
+				$tempArray = array("page_order" => $order,
+								   "title" => $title);
 				$condition = "slide_id=$slide_id";
 				
 				$result = parent::doUpdate($tempArray, $condition, $this -> _table);
