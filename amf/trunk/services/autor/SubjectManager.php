@@ -300,7 +300,7 @@
 				$sql1 = "SELECT * FROM ekos2_user WHERE user_id=".$presentationVO->locked_by;
 				$query2 = $this->doSelect($sql1);
 				
-				$userVO = mysql_fetch_object($query1, "CompleteUserVO");
+				$userVO = mysql_fetch_object($query2, "CompleteUserVO");
 				
 				return $userVO->firstname." ".$userVO->lastname;
 			}
