@@ -72,8 +72,22 @@
 					$title = $slide -> title;
 				}
 				
+				if($slide -> type_slide_id == 0) {
+					$type_slide_id = 1;
+				} else {
+					$type_slide_id = $slide -> type_slide_id;
+				}
+				
+				if($slide -> header_id == 0) {
+					$header_id = 1;
+				} else {
+					$header_id = $slide -> header_id;
+				}
+				
 				$tempArray = array("page_order" => $order,
-								   "title" => $title);
+								   "title" => $title,
+								   "type_slide_id" => $type_slide_id,
+								   "header_id" => $header_id);
 				
 				$condition = "slide_id=$slide_id";
 				
