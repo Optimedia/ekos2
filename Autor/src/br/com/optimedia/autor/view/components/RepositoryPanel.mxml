@@ -17,6 +17,9 @@
 			public var presentationID:uint;
 			
 			[Bindable]
+			public var currentMedia:int;
+			
+			[Bindable]
 			public var mediaXml:ArrayCollection = new ArrayCollection();
 			
 			private function init():void {
@@ -66,9 +69,15 @@
                 if (mediaTree.dataDescriptor.isBranch(item)) {
                     mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
                     deleteBtn.enabled = false;
+                    
                 }
                 else {
                 	deleteBtn.enabled = true;
+                	currentMedia = item.media_id;
+                	
+                	trace("-------------------------------------");
+                	trace("ID da média é - " + currentMedia);
+                	trace("-------------------------------------");
                 }
 			}
 			
@@ -79,11 +88,16 @@
 				PopUpManager.centerPopUp( popUp );
 			}
 			
+			private function checkChange(e:Event):void {
+				//
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
-		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" />
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" 
+		change="checkChange(event)"/>
 	
 	<mx:ControlBar height="35" paddingTop="5">
 		<mx:Button label="Link"
