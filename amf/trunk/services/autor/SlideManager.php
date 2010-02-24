@@ -107,7 +107,13 @@
 			
 			// TO FINISH SALVAR mediaArray
 			foreach($slide->mediaArray as $media) {
-				return $this->saveMediaLink( $media, $lastId );
+				$this->saveMediaLink( $media, $lastId );
+			}
+			
+			if($slide -> slide_id == 0) {
+				return $this -> getSlides($slide -> presentation_id);
+			} else {
+				return true;
 			}
 			
 		}
