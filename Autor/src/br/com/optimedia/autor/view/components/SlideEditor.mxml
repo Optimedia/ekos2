@@ -110,7 +110,7 @@
 			 * Função que reorganiza a ordem dos slides vindo do 'addSlide' 'deleteSlide' e 'setOrder'
 			 * 
 			 */ 
-			private function orderChangeHandler(e:Event = null):void {
+			public function orderChangeHandler(e:Event = null):void {
 				
 				var tempSlideArray:ArrayCollection = new ArrayCollection();
 				
