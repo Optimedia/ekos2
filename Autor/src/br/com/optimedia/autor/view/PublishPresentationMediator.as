@@ -74,7 +74,7 @@ package br.com.optimedia.autor.view
 		
 		private function saveHandler(event:MouseEvent):void {
 			if( view.currentState == "unpublish" ) {
-				proxy.unpublishPresentation( view.presentationVO.presentation_id );
+				proxy.unpublishPresentation( view.presentationVO.presentation_id, view.presentationVO.section_id );
 			}
 			else {
 				proxy.publishPresentation( view.presentationVO, view.sectionComboBox.selectedItem.section_id );

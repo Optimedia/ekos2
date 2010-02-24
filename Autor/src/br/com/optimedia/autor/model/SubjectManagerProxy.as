@@ -124,8 +124,8 @@ package br.com.optimedia.autor.model
 			else Alert.show("Não foi possível publicar.", "Erro");
 		}
 		
-		public function unpublishPresentation(presentationID:uint):void {
-			var asynkToken:AsyncToken = remoteService.unpublishPresentation(presentationID);
+		public function unpublishPresentation(presentationID:uint, sectionID:uint):void {
+			var asynkToken:AsyncToken = remoteService.unpublishPresentation(presentationID, sectionID);
 			asynkToken.addResponder( new Responder(unpublishPresentationResult, generalFault) );
 		}
 		private function unpublishPresentationResult(event:ResultEvent):void {
