@@ -4,11 +4,15 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+		
 			import br.com.optimedia.autor.assets.vo.SlideVO;
 			import br.com.optimedia.autor.assets.vo.PresentationVO;
 			import br.com.optimedia.autor.AutorFacade;
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			private var setOrderPopUp:SetOrderPopUp;
 			
 			[Bindable]
 			public var presentationVO:PresentationVO = new PresentationVO();
@@ -16,7 +20,10 @@
 			private function init():void {
 				autorFacade.startup( this );
 				
+				slideSelector.addEventListener("addSlide", addSlide);
 				slideSelector.addEventListener("editSlide", editSlide);
+				slideSelector.addEventListener("deleteSlide", deleteSlide);
+				slideSelector.addEventListener("setOrder", setOrder);
 				repositoryPanel.addEventListener("currentMediaChange", currentMediaChange);
 			}
 			
@@ -38,6 +45,71 @@
 				textEditor.slideVO = new SlideVO();
 			}
 			
+			private function setOrder(e:Event):void {				
+				setOrderPopUp = new SetOrderPopUp();
+				
+				setOrderPopUp.slideArray = presentationVO.slidesArray as ArrayCollection;
+				
+				setOrderPopUp.addEventListener("orderChange", orderChangeHandler);
+				
+				PopUpManager.addPopUp(setOrderPopUp, this, true);
+			}
+			
+			private function addSlide(e:Event):void {
+				var slide:SlideVO = new SlideVO();
+				
+				slide.page_order = uint(slideSelector.slideNum + 1);
+				
+				presentationVO.slidesArray.addItemAt(slide, int(slideSelector.slideNum));
+				
+				slideSelector.presentationVO = presentationVO;
+				
+				// Adicionar o novo slide aqui
+				
+				orderChangeHandler();
+			}
+			
+			private function deleteSlide(e:Event):void {
+				presentationVO.slidesArray.removeItemAt(int(slideSelector.slideNum) - 1);
+				
+				slideSelector.presentationVO = presentationVO;
+				
+				// Remover slide do banco
+				
+				orderChangeHandler();
+			}
+			
+			private function orderChangeHandler(e:Event = null):void {
+				
+				var tempSlideArray:ArrayCollection = new ArrayCollection();
+				
+				if(e == null) {
+					tempSlideArray = presentationVO.slidesArray;
+				} else {
+					tempSlideArray = setOrderPopUp.slideArray as ArrayCollection;
+				}
+				
+				var i:int = 1;
+				
+				var finalSlideArray:Array = new Array();
+				
+				for each (var slide:SlideVO in tempSlideArray) {
+				    slide.page_order = i;
+				    finalSlideArray.push(slide);
+				    
+				    i++;
+				}
+				
+				presentationVO.slidesArray = finalSlideArray;
+				
+				slideSelector.presentationVO = presentationVO;
+				
+				// Salvar a ordem nova aqui
+				
+				if(e != null) {
+					setOrderPopUp.closePop();
+				}
+			}
 			
 		]]>
 	</mx:Script>

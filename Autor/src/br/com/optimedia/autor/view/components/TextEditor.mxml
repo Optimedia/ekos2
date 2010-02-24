@@ -528,6 +528,12 @@
 			}
 		}
 		
+		private function saveSlide():void {
+			
+			// Update do slide aqui
+			
+		}
+		
 	
 	]]>
 	</mx:Script>

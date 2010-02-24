@@ -151,8 +151,8 @@
 						
 						<mx:Button label="Adicionar" click="addSlide()"/>
 						<mx:Button label="Editar" click="editSlide()"/>
-						<mx:Button label="Ordenar"/>
-						<mx:Button label="Remover"/>
+						<mx:Button label="Ordenar" click="setOrder()"/>
+						<mx:Button label="Remover" click="deleteSlide()"/>
 						
 					<!--</mx:ToolBar>-->
 						
