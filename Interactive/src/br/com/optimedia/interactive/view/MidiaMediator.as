@@ -11,6 +11,7 @@ package br.com.optimedia.interactive.view {
 	import mx.controls.SWFLoader;
 	import mx.controls.TextArea;
 	import mx.controls.VideoDisplay;
+	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -104,11 +105,12 @@ package br.com.optimedia.interactive.view {
 				text = new TextArea();
 				text.setStyle("backgroundAlpha", 0);
 				text.setStyle("borderSides",0);
-				text.htmlText = media.body;
+				text.htmlText = "<span class='media'>" + media.body + "</span>";
 				text.wordWrap = true;
 				text.editable=false;
 				text.enabled=true;
-				//text.addEventListener(TextEvent.LINK, teste);				
+				//text.addEventListener(TextEvent.LINK, teste);	
+				text.styleSheet = Application.application.styleSh		
 				view.titleWindow.addChild(text);
 				
 			}else if (media.category_id<=3) {
@@ -124,6 +126,8 @@ package br.com.optimedia.interactive.view {
 					imagem.source = media.body;
 					imagem.autoLoad = true;
 					imagem.scaleContent = true;
+					imagem.setStyle("horizontalCenter",0);
+					imagem.setStyle("verticalCenter",0);
 					view.titleWindow.addChild(imagem);
 				}
 			}else if (media.category_id==4){
@@ -131,6 +135,8 @@ package br.com.optimedia.interactive.view {
 					movie.source = media.body;
 					movie.autoPlay=true;
 					movie.autoRewind = false;
+					movie.setStyle("horizontalCenter",0);
+					movie.setStyle("verticalCenter",0);
 					view.titleWindow.addChild(movie);
 			}else if (media.category_id==5) {
 					var url:URLRequest = new URLRequest( media.body);

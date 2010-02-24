@@ -38,11 +38,12 @@ Application {
 a {
 	fontWeight: bold;
 	text-decoration: underline;
-	color: #009;
+	color: #000099;
 }
 body {
-   	font-size:22px;
+	font-size:22px;
 	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;
 }
 p {
 	font-size:22px;
@@ -57,4 +58,11 @@ div {
 b {
 	fontWeight: bold;
 }
-
+a:hover {
+	color: #0000FF;
+	text-decoration: none;
+}
+.media {
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+}

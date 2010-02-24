@@ -7,7 +7,6 @@ package br.com.optimedia.interactive.view
 	
 	import flash.events.MouseEvent;
 	
-	import mx.controls.Button;
 	import mx.controls.Image;
 	import mx.core.Application;
 	
@@ -100,7 +99,9 @@ package br.com.optimedia.interactive.view
 		 		view.btBack.visible = true;
 		 		view.btNext.visible = true;
 		 	}
-		 	view.display.text = note[0] + " / " +  note[1];
+		 	view.display.styleSheet = Application.application.styleSh;
+		 	view.display.htmlText ="<span class='display'>"+ note[0] + " / " +  note[1] + "</span>";
+		 	
 		 }
 		 public function constructionLink(note:Array):void {
 		 	
