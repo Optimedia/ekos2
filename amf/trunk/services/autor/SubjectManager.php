@@ -143,13 +143,6 @@
 		 */
 		public function savePresentation(PresentationVO $presentation) {
 			
-			/*$presentation = new PresentationVO();
-			
-			$presentation -> subject_id = 1;
-			$presentation -> skin_id = 1;
-			$presentation -> title = "teste";
-			$presentation -> description = "teste";*/
-			
 			if($presentation -> title != "" && $presentation -> description != "") {
 				
 				// Montando array para inserir ou atualizar.
@@ -175,29 +168,39 @@
 					
 				} else {
 					
-					
-					
 					// Verificar se a presentation está liberada, se sim, atualizar os dados, se não retornar false;
-					$tempPresentation = new PresentationVO();
-					
-					$fields = "locked_by, locked_at";
-					$table = "ath_presentation";
-					$where = "presentation_id = ".$presentation -> presentation_id;
-					$return = "object";
-					$complement = "PresentationVO"; 
-					
-					$tempPresentation = parent::doSingleSelect($fields, $table, $where, null, $return, $complement);
+//					$tempPresentation = new PresentationVO();
+//					
+//					$fields = "locked_by";
+//					$table = "ath_presentation";
+//					$where = "presentation_id = ".$presentation -> presentation_id;
+//					$return = "object";
+//					$complement = "PresentationVO"; 
+//					
+//					$tempPresentation = parent::doSingleSelect($fields, $table, $where, null, $return, $complement);
 					
 					// Verificando se a presentation está liberada.
-					if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
-						
-						$condition = "presentation_id = ".$presentation -> presentation_id;
+					//if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
+					$sql = "SELECT * FROM ath_presentation WHERE presentation_id=".$presentation->presentation_id;
+					$query = $this->doSelect($sql);
+					
+					$presentationVO = mysql_fetch_object($query, "PresentationVO");
+					
+					if( $presentationVO->locked_by == 0 || $presentationVO->locked_by == $userID) {
+						$locked = false;
+					}
+					else {
+						$locked = true;
+					}
+					
+					if( $locked == false ) {
+						$condition = "presentation_id =".$presentation -> presentation_id;
 						
 						// Atualizar presentation no bd;
-						return parent::doUpdate($arrayPresentation, $condition, $table);
+						return parent::doUpdate($arrayPresentation, $condition, "ath_presentation");
 						
 					} else {
-						return false;
+						return $presentationVO->first_name." ".$presentationVO->last_name;
 					}
 				}
 			} else {
@@ -239,8 +242,10 @@
 		
 		public function deletePresentation($presentation_id) {
 			$condition = "presentation_id=$presentation_id";
-				
+			
 			return parent::doDelete($condition, "ath_presentation");
+			
+			// FINISH DO DELETE SLIDES
 		}
 		
 		public function publishPresentation($presentationID, $sectionID, $presentationName) {
