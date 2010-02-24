@@ -146,8 +146,10 @@
 									import br.com.optimedia.autor.assets.img.ImgAssets;
 								]]>
 							</mx:Script>
-							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"/>
-							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)" />
+							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
+									toolTip="Editar Módulo"/>
+							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
+									toolTip="Remover Módulo"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -243,7 +245,7 @@
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
 									toolTip="Editar Tema"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Apagar Tema"/>
+									toolTip="Remover Tema"/>
 							<mx:LinkButton icon="{iconFunction(data)}" click="parentDocument.showPublishPopUp(data)"
 									toolTip="{toolTipFunction(data)}"/>
 						</mx:HBox>
