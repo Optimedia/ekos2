@@ -536,14 +536,12 @@
 		
 		private function saveSlide():void {
 			
-			var slide:SlideVO = new SlideVO();
+			_slideVO.text_body = textArea.text;
+			_slideVO.title = txtTitle.text;
 			
-			slide.text_body = textArea.text;
-			slide.title = txtTitle.text;
+			_slideVO.mediaArray = mediaArray;
 			
-			slide.mediaArray = mediaArray;
-			
-			dispatchEvent(new ResultEvent('saveSlide', true, true, slide));
+			dispatchEvent(new ResultEvent('saveSlide', true, true, _slideVO));
 			
 		}
 		
