@@ -67,7 +67,7 @@ package br.com.optimedia.autor.model
 		}
 		
 		public function deleteSlide(slideVO:SlideVO):void {
-			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO);
+			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO.slide_id);
 			asynkToken.addResponder( new Responder(deleteSlideResult, generalFault) );
 		}
 		private function deleteSlideResult(event:ResultEvent):void {
