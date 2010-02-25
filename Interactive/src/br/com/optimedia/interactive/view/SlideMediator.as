@@ -7,9 +7,7 @@ package br.com.optimedia.interactive.view
 	
 	import flash.display.Sprite;
 	import flash.events.TextEvent;
-	import flash.text.StyleSheet;
 	
-	import mx.controls.Alert;
 	import mx.controls.Image;
 	import mx.controls.TextArea;
 	import mx.core.Application;
@@ -109,9 +107,11 @@ package br.com.optimedia.interactive.view
 				title.htmlText = "<span class='titleTYPEPAGE'>"+vo.title + "</span>";
 				content.htmlText ="<span class='contentTYPEPAGE'>"+ vo.text_body + "</span>";
 			}
-			title.styleSheet = Application.application.styleSh
+			title.styleSheet = Application.application.styleSh;
+			
 			content.styleSheet= Application.application.styleSh;
-			//title.autoSize = "center";
+			content.styleName = "corpo";
+		//	title.autoSize = "center";
 
 			
 			if (vo.type_slide_id == SlideVO.TYPE_PAGE) {

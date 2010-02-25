@@ -101,9 +101,9 @@ package br.com.optimedia.interactive.view
 		 		view.btNext.visible = true;
 		 	}
 		 	
-		 	if (note[0]<=9) {
-		 		note[0] = "0"+note[0];
-		 	}
+		 	//if (note[0]<=9) {
+		 	//	note[0] = "0"+note[0];
+		 	//}
 		 	view.display.htmlText ="<span class='display'>"+ note[0] + " / " +  note[1] + "</span>";
 		 	view.display.styleSheet = Application.application.styleSh;
 		 	
