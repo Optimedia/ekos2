@@ -230,7 +230,7 @@
 					underlineButton.toolTip = underlineToolTip;
 					colorPicker.toolTip = colorPickerToolTip;
 					bulletButton.toolTip = bulletToolTip;
-					//linkTextInput.toolTip = linkToolTip;
+					/* linkTextInput.toolTip = linkToolTip; */
 				}
 				else
 				{
@@ -239,7 +239,7 @@
 					underlineButton.toolTip = "";
 					colorPicker.toolTip = "";
 					bulletButton.toolTip = "";
-					//linkTextInput.toolTip = "";
+					/* linkTextInput.toolTip = ""; */
 				}	
 				showToolTipsChanged = false;
 			}
@@ -408,10 +408,10 @@
 			var endIndex:int = textArea.getTextField().selectionEndIndex;
 	
 			if (beginIndex == endIndex) {
-				//linkTextInput.enabled = false;
+				/* linkTextInput.enabled = false; */
 				btnLink.enabled = false;
 			} else {
-				//linkTextInput.enabled = true;
+				/* linkTextInput.enabled = true; */
 				if(_currentMedia != 0) {
 					btnLink.enabled = true;
 				} else {
@@ -465,8 +465,8 @@
 			
 			if (!previousTextFormat || previousTextFormat.bullet != tf.bullet)
 				bulletButton.selected = tf.bullet;
-			if (!previousTextFormat || previousTextFormat.url != tf.url)
-				//linkTextInput.text = (tf.url == "" || tf.url == null) ? defaultLinkProtocol : tf.url;
+			/* if (!previousTextFormat || previousTextFormat.url != tf.url)
+				linkTextInput.text = (tf.url == "" || tf.url == null) ? defaultLinkProtocol : tf.url; */
 			
 			if (textArea.getTextField().defaultTextFormat != tf)
 				textArea.getTextField().defaultTextFormat = tf;
@@ -490,10 +490,10 @@
 			else
 			{
 				if (textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
-					//linkTextInput.enabled = false;
+					/* linkTextInput.enabled = false; */
 					btnLink.enabled = false;
 				} else {
-					//linkTextInput.enabled = true;
+					/* linkTextInput.enabled = true; */
 					if(_currentMedia != 0) {
 						btnLink.enabled = true;
 					} else {
@@ -555,12 +555,11 @@
 			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" title="Título do Tema">					 
 					
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle"> 
-				<mx:TextInput id="txtTitle" themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"
-					fontSize="28"/>
+				<mx:TextInput id="txtTitle" themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"/>
 			</mx:HBox>
 				
 			<mx:TextArea id="textArea" height="100%" width="100%" minHeight="0" minWidth="0" htmlText="{_slideVO.text_body}"
-						 themeColor="#FFFFFF" fontSize="22"
+						 themeColor="#FFFFFF"
 						 change="dispatchEvent(event);"
 						 valueCommit="dispatchEvent(event);"
 						 keyUp="getTextStyles()"
@@ -626,8 +625,8 @@
 							
 						<mx:Button id="btnLink" label="Link" enabled="false" click="setTextStyles('url', 'event:'+String(_currentMedia))"/>
 						<mx:Spacer width="100%"/>
-						<!--<mx:Button label="Ver CODE" click="textArea.text=textArea.htmlText"/>-->
-						<!--<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>-->
+						<mx:Button label="Ver CODE" click="textArea.text=textArea.htmlText"/>
+						<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>
 						<mx:VRule height="10"/>
 						
 						<mx:Button label="Salvar" click="saveSlide()"/>
