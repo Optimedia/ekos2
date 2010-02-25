@@ -74,7 +74,7 @@ package br.com.optimedia.autor.view.components {
 		 * @param Date
 		 * @return String
 		 */
-		public function formatToMySQL(actionScriptDate:Date):String{
+		public function AsTomysql(actionScriptDate:Date):String{
 			var dateFormatter:DateFormatter = new DateFormatter();
 			dateFormatter.formatString = 'YYYY-MM-DD J:NN:SS';
 			
