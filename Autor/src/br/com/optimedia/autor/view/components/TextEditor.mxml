@@ -99,8 +99,8 @@
 		{
 			_defaultLinkProtocol = value;
 			
-			if (linkTextInput)
-				linkTextInput.text = _defaultLinkProtocol;
+			/* if (linkTextInput)
+				linkTextInput.text = _defaultLinkProtocol; */
 		}
 	
 	    //----------------------------------
@@ -230,7 +230,7 @@
 					underlineButton.toolTip = underlineToolTip;
 					colorPicker.toolTip = colorPickerToolTip;
 					bulletButton.toolTip = bulletToolTip;
-					linkTextInput.toolTip = linkToolTip;
+					//linkTextInput.toolTip = linkToolTip;
 				}
 				else
 				{
@@ -239,7 +239,7 @@
 					underlineButton.toolTip = "";
 					colorPicker.toolTip = "";
 					bulletButton.toolTip = "";
-					linkTextInput.toolTip = "";
+					//linkTextInput.toolTip = "";
 				}	
 				showToolTipsChanged = false;
 			}
@@ -408,10 +408,10 @@
 			var endIndex:int = textArea.getTextField().selectionEndIndex;
 	
 			if (beginIndex == endIndex) {
-				linkTextInput.enabled = false;
+				//linkTextInput.enabled = false;
 				btnLink.enabled = false;
 			} else {
-				linkTextInput.enabled = true;
+				//linkTextInput.enabled = true;
 				if(_currentMedia != 0) {
 					btnLink.enabled = true;
 				} else {
@@ -466,7 +466,7 @@
 			if (!previousTextFormat || previousTextFormat.bullet != tf.bullet)
 				bulletButton.selected = tf.bullet;
 			if (!previousTextFormat || previousTextFormat.url != tf.url)
-				linkTextInput.text = (tf.url == "" || tf.url == null) ? defaultLinkProtocol : tf.url;
+				//linkTextInput.text = (tf.url == "" || tf.url == null) ? defaultLinkProtocol : tf.url;
 			
 			if (textArea.getTextField().defaultTextFormat != tf)
 				textArea.getTextField().defaultTextFormat = tf;
@@ -490,10 +490,10 @@
 			else
 			{
 				if (textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
-					linkTextInput.enabled = false;
+					//linkTextInput.enabled = false;
 					btnLink.enabled = false;
 				} else {
-					linkTextInput.enabled = true;
+					//linkTextInput.enabled = true;
 					if(_currentMedia != 0) {
 						btnLink.enabled = true;
 					} else {
@@ -536,7 +536,7 @@
 		
 		private function saveSlide():void {
 			
-			_slideVO.text_body = textArea.text;
+			_slideVO.text_body = textArea.htmlText;
 			_slideVO.title = txtTitle.text;
 			
 			_slideVO.mediaArray = mediaArray;
@@ -622,18 +622,11 @@
 						</mx:ToggleButtonBar>
 						
 						<mx:VRule height="10"/>
-						
-						<mx:TextInput id="linkTextInput"
-							focusOut="if (linkTextCommitted) 
-									  { trace('already committed'); linkTextCommitted = false; } 
-									  else 
-									  { trace('not committed'); setTextStyles('url', linkTextInput.text); linkTextInput.text=defaultLinkProtocol;}"
-							enter="setTextStyles('url', linkTextInput.text); linkTextInput.text = defaultLinkProtocol; linkTextCommitted = true;" width="16"/>
 							
 						<mx:Button id="btnLink" label="Link" enabled="false" click="setTextStyles('url', 'event:'+String(_currentMedia))"/>
 						<mx:Spacer width="100%"/>
-						<mx:Button label="Ver CODE" click="textArea.text=textArea.htmlText"/>
-						<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>
+						<!--<mx:Button label="Ver CODE" click="textArea.text=textArea.htmlText"/>-->
+						<!--<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>-->
 						<mx:VRule height="10"/>
 						
 						<mx:Button label="Salvar" click="saveSlide()"/>
