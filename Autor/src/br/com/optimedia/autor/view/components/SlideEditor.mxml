@@ -30,7 +30,7 @@
 				slideSelector.addEventListener("addSlide", addSlide);
 				slideSelector.addEventListener("editSlide", editSlide);
 				slideSelector.addEventListener("deleteSlide", deleteSlide);
-				slideSelector.addEventListener("saveSlide", saveSlide);
+				textEditor.addEventListener("saveSlide", saveSlide);
 				slideSelector.addEventListener("setOrder", showSetOrderPopUp);
 				repositoryPanel.addEventListener("currentMediaChange", currentMediaChange);
 			}
