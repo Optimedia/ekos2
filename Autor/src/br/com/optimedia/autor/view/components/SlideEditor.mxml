@@ -106,7 +106,7 @@
 				
 				orderChangeHandler(); */
 				
-				this.dispatchEvent( new ResultEvent(DELETE_SLIDE_EVENT, false, true, slideSelector.slideNum) );
+				this.dispatchEvent( new ResultEvent(DELETE_SLIDE_EVENT, false, true, slideSelector.slideVO) );
 			}
 			
 			/**
