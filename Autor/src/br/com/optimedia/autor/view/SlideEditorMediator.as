@@ -35,7 +35,7 @@ package br.com.optimedia.autor.view
 			
 			view.addEventListener( SlideEditor.NEW_SLIDE_EVENT, addNewSlide );
 			view.addEventListener( SlideEditor.SET_SLIDE_ORDER_EVENT, setOrder );
-			view.addEventListener( SlideEditor.DELETE_SLIDE_EVENT, setOrder );
+			view.addEventListener( SlideEditor.DELETE_SLIDE_EVENT, deleteSlide );
 			view.addEventListener( SlideEditor.SAVE_SLIDE_EVENT, saveSlide );
 			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
