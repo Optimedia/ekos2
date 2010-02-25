@@ -116,14 +116,20 @@
 							   "text_body" => $slide -> text_body,
 							   "status" => $slide -> status);
 			
+			
+			
 			if($slide -> slide_id == 0) {
+				
 				$result = parent::doInsert($arrayTemp, $this -> _table);
 				$lastId = $this -> insert_id;
 			} else {
+				
 				$condition = "slide_id=".$slide -> slide_id;
 				$lastId = $slide -> slide_id;
 				
-				$result = parent::doUpdate($arrayTemp, $condition, $this -> _table);				
+				$result = parent::doUpdate($arrayTemp, $condition, $this -> _table);
+
+				return $result;
 			}
 			
 			if($result != true) {
@@ -131,38 +137,25 @@
 			}
 			
 			// TO FINISH SALVAR mediaArray
+			$condition = "media_id=$media_id";
+			
+			parent::doDelete($condition, "ath_link");
+			
 			foreach($slide->mediaArray as $media_id) {
 				
-				$sql = "SELECT * FROM ath_media WHERE media_id=$media_id";
-				$result = parent::doSelect($sql);
-				
-				$media = new MediaVO();
-				
-				$media = mysql_fetch_object($result, "MediaVO");
-				
-				$this->saveMediaLink( $media, $lastId );
+				$this->saveMediaLink( $media_id, $lastId );
 			}
 			
 			return true;
 			
 		}
 		
-		public function saveMediaLink(MediaVO $media, $slideID) {
+		public function saveMediaLink($media, $slideID) {
 			
-			$arrayTemp = array("media_id" => $media -> media_id,
+			$arrayTemp = array("media_id" => $media,
 							   "slide_id" => $slideID);
 
-			if($slideID == 0) {
-
-				return parent::doInsert($arrayTemp, "ath_link");
-
-			} else {
-				
-				$condition = "slide_id=".$slideID;
-				
-				return parent::doUpdate($arrayTemp, $condition, "ath_link");
-				
-			}
+			return parent::doInsert($arrayTemp, "ath_link");
 		}
 		
 		public function deleteSlide($slide_id) {
