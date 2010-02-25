@@ -71,6 +71,7 @@ package br.com.optimedia.autor.view
 					//presentationVO = PresentationVO( note.getBody() );
 					view.presentationVO = PresentationVO( note.getBody() );
 					proxy.getSlides( view.presentationVO.presentation_id );
+					view.slideSelector.setInteractiveVars( view.presentationVO.presentation_id, view.presentationVO.slidesArray[0].slide_id );
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
