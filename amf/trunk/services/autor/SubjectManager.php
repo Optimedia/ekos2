@@ -301,12 +301,16 @@
 			}
 			
 			if( $locked == false ) {
-				$array = array ('locked_by' => $userID,
-								'locked_at' => 'DATETIME: Auto NOW()');
+				/*$array = array ('locked_by' => $userID,
+								'locked_at' => 'NOW()');
 					
-				$condition = "presentation_id = ".$presentationID;
+				$condition = "presentation_id = ".$presentationID;*/
 				
-				return parent::doUpdate($array, $condition, "ath_presentation");
+				$sql = "UPDATE ath_presentation SET locked_at = NOW(), locked_by = $userID WHERE presentation_id = $presentationID"; 
+				
+				return mysql_query($sql);
+				
+				//return parent::doUpdate($array, $condition, "ath_presentation");
 			}
 			else {
 				
@@ -320,11 +324,8 @@
 		}
 		
 		public function unlockPresentation($presentationID) {
-			$array = array ('locked_by' => 0,
-							'locked_at' => 'DATETIME: Auto NOW()');
+			$sql = "UPDATE ath_presentation SET locked_at = NOW(), locked_by = 0 WHERE presentation_id = $presentationID"; 
 				
-			$condition = "presentation_id = ".$presentationID;
-			
-			return parent::doUpdate($array, $condition, "ath_presentation");
+			return mysql_query($sql);
 		}
 	}
