@@ -302,7 +302,7 @@
 			
 			if( $locked == false ) {
 				$array = array ('locked_by' => $userID,
-								'locked_at' => 'finishme');
+								'locked_at' => 'DATETIME: Auto NOW()');
 					
 				$condition = "presentation_id = ".$presentationID;
 				
@@ -321,7 +321,7 @@
 		
 		public function unlockPresentation($presentationID) {
 			$array = array ('locked_by' => 0,
-							'locked_at' => '');
+							'locked_at' => 'DATETIME: Auto NOW()');
 				
 			$condition = "presentation_id = ".$presentationID;
 			
