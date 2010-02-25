@@ -19,7 +19,7 @@
 	<mx:HBox x="10" y="5">
 		<mx:Image id="btMenu" source="@Embed(source='../../assets/layout/skin.swf', symbol='btIndice')" width="192" height="24"/>
 		<mx:Image id="btBack"  source="@Embed(source='../../assets/layout/skin.swf', symbol='btPrev')" width="48" height="24"/>
-		<mx:Label id="display"/>
+		<mx:Label id="display"  minWidth="50" maxWidth="80" textAlign="center"/>
 		<mx:Image id="btNext"  source="@Embed(source='../../assets/layout/skin.swf', symbol='btNext')" width="48" height="24"/>
 		<!--<mx:Image id="fullscreen" source="@Embed(source='../../assets/layout/skin.swf', symbol='btRef_fullscreen')" width="24" height="24"/>-->
 		<mx:HBox id="links">
