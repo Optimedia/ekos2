@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+	initialize="preInit()" creationComplete="init()" historyManagementEnabled="false"
+	paddingTop="10" paddingBottom="10" paddingRight="10" paddingLeft="10">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.autor.view.components.SlideEditor;
+			import br.com.optimedia.autor.view.components.SubjectManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.soap.LoadEvent;
+			import br.com.optimedia.autor.AutorFacade;
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			private function preInit():void {
+				autorFacade.startup( 'model' );
+			}
+			
+			private function init():void {
+				autorFacade.startup( this );
+			}
+			
+			public function showModuleManager():void {
+				viewStack.addChild( new SubjectManager );
+			}
+			
+			public function showSlideEditor():void {
+				viewStack.addChild( new SlideEditor );
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:ViewStack id="viewStack" width="100%" height="100%" />
+	
+</mx:Application>
