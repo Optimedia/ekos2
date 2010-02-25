@@ -2,18 +2,18 @@ package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
+	import br.com.optimedia.autor.assets.vo.SlideVO;
 	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SlideEditor;
 	
 	import flash.events.MouseEvent;
 	
+	import mx.collections.ArrayCollection;
+	import mx.rpc.events.ResultEvent;
+	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import flash.events.Event;
-	import mx.rpc.events.ResultEvent;
-	import br.com.optimedia.autor.assets.vo.SlideVO;
-	import mx.collections.ArrayCollection;
 
 	public class SlideEditorMediator extends Mediator
 	{
@@ -59,7 +59,8 @@ package br.com.optimedia.autor.view
 					NotificationConstants.UNLOCK_PRESENTATION_OK,
 					NotificationConstants.ADD_NEW_SLIDE_RESULT,
 					NotificationConstants.SET_SLIDE_ORDER_RESULT,
-					NotificationConstants.DELETE_SLIDE_RESULT];
+					NotificationConstants.DELETE_SLIDE_RESULT,
+					NotificationConstants.SAVE_SLIDE_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
