@@ -28,5 +28,6 @@ package br.com.optimedia.autor.assets
 		public static const ADD_NEW_SLIDE_RESULT:String = "ADD_NEW_SLIDE_RESULT";
 		public static const SET_SLIDE_ORDER_RESULT:String = "SET_SLIDE_ORDER_RESULT";
 		public static const DELETE_SLIDE_RESULT:String = "DELETE_SLIDE_RESULT";
+		public static const SAVE_SLIDE_RESULT:String = "SAVE_SLIDE_RESULT";
 	}
 }

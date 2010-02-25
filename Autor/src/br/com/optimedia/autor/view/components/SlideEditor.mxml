@@ -16,6 +16,7 @@
 			public static const NEW_SLIDE_EVENT:String = "NEW_SLIDE_EVENT";
 			public static const SET_SLIDE_ORDER_EVENT:String = "SET_SLIDE_ORDER_EVENT";
 			public static const DELETE_SLIDE_EVENT:String = "DELETE_SLIDE_EVENT";
+			public static const SAVE_SLIDE_EVENT:String = "SAVE_SLIDE_EVENT";
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			private var setOrderPopUp:SetOrderPopUp;
@@ -29,6 +30,7 @@
 				slideSelector.addEventListener("addSlide", addSlide);
 				slideSelector.addEventListener("editSlide", editSlide);
 				slideSelector.addEventListener("deleteSlide", deleteSlide);
+				slideSelector.addEventListener("saveSlide", saveSlide);
 				slideSelector.addEventListener("setOrder", showSetOrderPopUp);
 				repositoryPanel.addEventListener("currentMediaChange", currentMediaChange);
 			}
@@ -141,6 +143,10 @@
 				if(e != null) {
 					setOrderPopUp.closePop();
 				}
+			}
+			
+			private function saveSlide(event:ResultEvent):void {
+				this.dispatchEvent( new ResultEvent(SAVE_SLIDE_EVENT, false, true, event.result) );
 			}
 			
 		]]>

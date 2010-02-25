@@ -36,6 +36,7 @@ package br.com.optimedia.autor.view
 			view.addEventListener( SlideEditor.NEW_SLIDE_EVENT, addNewSlide );
 			view.addEventListener( SlideEditor.SET_SLIDE_ORDER_EVENT, setOrder );
 			view.addEventListener( SlideEditor.DELETE_SLIDE_EVENT, setOrder );
+			view.addEventListener( SlideEditor.SAVE_SLIDE_EVENT, saveSlide );
 			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
@@ -86,6 +87,9 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.DELETE_SLIDE_RESULT:
 					view.orderChangeHandler();
 					break;
+				case NotificationConstants.SAVE_SLIDE_RESULT:
+					//view.orderChangeHandler();
+					break;
 				default:
 					break;
 			}
@@ -105,6 +109,10 @@ package br.com.optimedia.autor.view
 		
 		private function deleteSlide(event:ResultEvent):void {
 			slideManagerProxy.deleteSlide( event.result as SlideVO );
+		}
+		
+		private function saveSlide(event:ResultEvent):void {
+			slideManagerProxy.saveSlide( event.result as SlideVO );
 		}
 	}
 }
