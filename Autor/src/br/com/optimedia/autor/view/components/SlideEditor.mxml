@@ -60,7 +60,7 @@
 			 * Função que retorna para o SlideSelector.
 			 *
 			 */  
-			private function closeTextEditor(e:Event):void {
+			public function closeTextEditor(e:Event):void {
 				viewStack.selectedIndex = 0;
 				textEditor.slideVO = new SlideVO();
 			}

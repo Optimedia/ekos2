@@ -88,7 +88,7 @@ package br.com.optimedia.autor.view
 					view.orderChangeHandler();
 					break;
 				case NotificationConstants.SAVE_SLIDE_RESULT:
-					//view.orderChangeHandler();
+					view.closeTextEditor(null);
 					break;
 				default:
 					break;
