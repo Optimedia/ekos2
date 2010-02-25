@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%" creationComplete="init()">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%"
+	creationComplete="init()" >
 
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.SystemManager;
 			import mx.collections.ArrayCollection;
 			
 			import br.com.optimedia.autor.assets.vo.SlideVO;
@@ -79,88 +81,104 @@
 				bar --;
 				slideVO = _presentationVO.slidesArray.getItemAt(bar);
 				
+				setNewSlide(slideVO.slide_id);
 				trace("Enviar ao player este ID: " + slideVO.slide_id); 
+			}
+			
+			[Bindable]
+            public var loadedSM:SystemManager;
+
+			private function onSwfCreationComplete(event:Event):void {
+				loadedSM = SystemManager(playerLoader.content);
+			}
+			public function setInteractiveVars(presentationID:uint, slideID:uint):void {
+				Interactive(loadedSM.application).start(slideID);
+				this.slideID = slideID;
+			}
+			public var slideID:uint;
+			public function setNewSlide(slideID:uint):void {
+				this.slideID = slideID;
+				Interactive(loadedSM.application).setSlide(slideID);
 			}
 			
 		]]>
 	</mx:Script>
 	
-	<mx:HBox width="100%" height="100%">
-		
-		<mx:Panel layout="vertical" width="100%" height="100%" cornerRadius="0" minWidth="680" minHeight="450"
-			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" title="Título do Tema">					 
-			<mx:Label text="O Slide Pronto"/>
-					
-			<mx:ControlBar>
+	<mx:Panel layout="vertical" width="100%" height="100%" cornerRadius="0"
+		paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" title="Título do Tema">
+		<mx:SWFLoader width="100%" height="100%" autoLoad="true" id="playerLoader" scaleContent="true"
+			source="Interactive.swf" creationComplete="onSwfCreationComplete(event)"/>
 				
-				<mx:VBox width="100%">
+		<mx:ControlBar>
+			
+			<mx:VBox width="100%">
+				
+				<!--
+				<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
+										
+				<mx:HBox width="100%" horizontalGap="7" verticalAlign="middle">
 					
-					<!--
-					<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
-											
-					<mx:HBox width="100%" horizontalGap="7" verticalAlign="middle">
-						
-						<!-- Seletor de slide -->
-						
-						<mx:HBox horizontalGap="0">
-							<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('minus')"/>
-							<mx:TextInput id="txtOrder" width="33" text="1" textAlign="center" restrict="0-9" enter="changeSlide()" focusOut="changeSlide()"/>
-							<mx:Button label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('plus')"/>
-						</mx:HBox>
-						
-						<mx:VRule height="10"/>
-						
-						<mx:HBox id="toolBar2" horizontalGap="0">
-						
-							<mx:Button id="boldButton" width="20" toggle="true" enabled="false"
-										icon="@Embed('../../assets/img/icon_style_bold.png')"/> 
-							
-							<mx:Button id="italicButton" width="20" toggle="true" enabled="false"
-										icon="@Embed('../../assets/img/icon_style_italic.png')"/> 
-							
-							<mx:Button id="underlineButton" width="20" toggle="true" enabled="false"
-										icon="@Embed('../../assets/img/icon_style_underline.png')"/> 
-						
-						</mx:HBox>
-						
-						<mx:Button id="bulletButton" width="20" toggle="true" enabled="false"
-							   icon="@Embed('../../assets/img/icon_bullet.png')"/>
-							   
-						<mx:ColorPicker id="colorPicker" width="22" height="22" selectedColor="#000000" enabled="false"/>
-						
-						<mx:VRule height="10"/>
-						
-						<mx:ToggleButtonBar id="alignButtons" buttonWidth="20" enabled="false">
-							<mx:dataProvider>
-								<mx:Array> 
-									<mx:Object icon="@Embed('../../assets/img/icon_align_left.png')" action="left"/>
-									<mx:Object icon="@Embed('../../assets/img/icon_align_center.png')" action="center"/>
-									<mx:Object icon="@Embed('../../assets/img/icon_align_right.png')" action="right"/>
-									<mx:Object icon="@Embed('../../assets/img/icon_align_justify.png')" action="justify"/>
-								</mx:Array>
-							</mx:dataProvider>
-						</mx:ToggleButtonBar>
-						
-						<mx:VRule height="10"/>
-						<mx:Button label="Link" id="btnLink" enabled="false"/>
-						
-						<mx:Spacer width="100%"/>
-						<mx:VRule height="10"/>
-						
-						<mx:Button label="Adicionar" click="addSlide()"/>
-						<mx:Button label="Editar" click="editSlide()"/>
-						<mx:Button label="Ordenar" click="setOrder()"/>
-						<mx:Button label="Remover" click="deleteSlide()"/>
-						
-					<!--</mx:ToolBar>-->
-						
+					<!-- Seletor de slide -->
+					
+					<mx:HBox horizontalGap="0">
+						<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('minus')"/>
+						<mx:TextInput id="txtOrder" width="33" text="1" textAlign="center" restrict="0-9" enter="changeSlide()" focusOut="changeSlide()"/>
+						<mx:Button label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('plus')"/>
 					</mx:HBox>
-							
-				</mx:VBox>
-				
-			</mx:ControlBar>
-		</mx:Panel>
+					
+					<mx:VRule height="10"/>
+					
+					<mx:HBox id="toolBar2" horizontalGap="0">
+					
+						<mx:Button id="boldButton" width="20" toggle="true" enabled="false"
+									icon="@Embed('../../assets/img/icon_style_bold.png')"/> 
+						
+						<mx:Button id="italicButton" width="20" toggle="true" enabled="false"
+									icon="@Embed('../../assets/img/icon_style_italic.png')"/> 
+						
+						<mx:Button id="underlineButton" width="20" toggle="true" enabled="false"
+									icon="@Embed('../../assets/img/icon_style_underline.png')"/> 
+					
+					</mx:HBox>
+					
+					<mx:Button id="bulletButton" width="20" toggle="true" enabled="false"
+						   icon="@Embed('../../assets/img/icon_bullet.png')"/>
+						   
+					<mx:ColorPicker id="colorPicker" width="22" height="22" selectedColor="#000000" enabled="false"/>
+					
+					<mx:VRule height="10"/>
+					
+					<mx:ToggleButtonBar id="alignButtons" buttonWidth="20" enabled="false">
+						<mx:dataProvider>
+							<mx:Array> 
+								<mx:Object icon="@Embed('../../assets/img/icon_align_left.png')" action="left"/>
+								<mx:Object icon="@Embed('../../assets/img/icon_align_center.png')" action="center"/>
+								<mx:Object icon="@Embed('../../assets/img/icon_align_right.png')" action="right"/>
+								<mx:Object icon="@Embed('../../assets/img/icon_align_justify.png')" action="justify"/>
+							</mx:Array>
+						</mx:dataProvider>
+					</mx:ToggleButtonBar>
+					
+					<mx:VRule height="10"/>
+					
+					<mx:TextInput width="10"/>
+					<mx:Button label="Link" id="btnLink" enabled="false"/>
+					
+					<mx:Spacer width="100%"/>
+					<mx:VRule height="10"/>
+					
+					<mx:Button label="Adicionar" click="addSlide()"/>
+					<mx:Button label="Editar" click="editSlide()"/>
+					<mx:Button label="Ordenar" click="setOrder()"/>
+					<mx:Button label="Remover" click="deleteSlide()"/>
+					
+				<!--</mx:ToolBar>-->
+					
+				</mx:HBox>
+						
+			</mx:VBox>
+			
+		</mx:ControlBar>
+	</mx:Panel>
 		
-	</mx:HBox>
-	
 </mx:HBox>
