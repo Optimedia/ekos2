@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="100%"
+	creationComplete="init()" title="Repositório de Medias">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.autor.assets.img.ImgAssets;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import mx.events.ListEvent;
+			import mx.collections.ArrayCollection;
+			
+			import br.com.optimedia.autor.AutorFacade;
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			public var presentationID:uint;
+			
+			[Bindable]
+			public var currentMedia:int;
+			
+			[Bindable]
+			public var mediaXml:ArrayCollection = new ArrayCollection();
+			
+			private function init():void {
+				autorFacade.startup( this );
+			}
+			
+			private function setIcon(item:Object):Class {
+				var iconClass:Class;
+				if( mediaTree.dataDescriptor.isBranch(item) ) {
+					iconClass = ImgAssets.iconMinimised;
+					for each( var openItem:Object in mediaTree.openItems ) {
+						if(item == openItem) iconClass = ImgAssets.iconMaximised;
+					}
+					return iconClass;
+				}
+				var categoryID:uint= item.category_id;
+				switch( categoryID ) {
+					case 1:
+						iconClass = ImgAssets.category1Icon;
+						break;
+					case 2:
+						iconClass = ImgAssets.category2Icon;
+						break;
+					case 3:
+						iconClass = ImgAssets.category3Icon;
+						break;
+					case 4:
+						iconClass = ImgAssets.category4Icon;
+						break;
+					case 5:
+						iconClass = ImgAssets.category5Icon;
+						break;
+					case 6:
+						iconClass = ImgAssets.category6Icon;
+						break;
+					case 7:
+						iconClass = ImgAssets.category7Icon;
+						break;
+					default:
+						break;
+				}
+				return iconClass;
+			}
+			
+			private function treeItemClick(event:ListEvent):void {
+				var item:Object = mediaTree.selectedItem;
+                if (mediaTree.dataDescriptor.isBranch(item)) {
+                    mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
+                    deleteBtn.enabled = false;
+                    
+                }
+                else {
+                	deleteBtn.enabled = true;
+                	currentMedia = item.media_id;
+                	
+                	trace("-------------------------------------");
+                	trace("ID da média é - " + currentMedia);
+                	trace("-------------------------------------");
+                	
+                	dispatchEvent(new Event("currentMediaChange", true));
+                }
+			}
+			
+			private function openPopUp():void {
+				var popUp:SendMediaPopUp = new SendMediaPopUp();
+				popUp.presentationID = presentationID;
+				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+				PopUpManager.centerPopUp( popUp );
+			}
+			
+			private function checkChange(e:Event):void {
+				//
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" 
+		change="checkChange(event)"/>
+	
+	<mx:ControlBar height="35" paddingTop="5">
+		<mx:Spacer width="100%" height="10"/>
+		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
+		<mx:VRule height="10"/>
+		<mx:Button id="deleteBtn" label="Del" />
+	</mx:ControlBar>
+	
+</mx:Panel>

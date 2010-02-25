@@ -1,0 +1,78 @@
+/* br/com/optimedia/interactive/css/style.css */
+Application {
+    theme-color: #9DBAEB;
+}
+.titleTITLE {
+	font-size: 32px;
+	font-family: Arial, Helvetica, sans-serif;
+	fontWeight: bold;
+	color: #333333;
+	text-align: center;
+}
+.titleTYPEPAGE {
+   font-size:28px;
+	font-family:Arial, Helvetica, sans-serif;
+	fontWeight: bold;
+	color: #33333;	
+	text-align: center;
+}
+.contentTITLE {
+	font-size: 28px;
+	font-family: Arial, Helvetica, sans-serif;
+	fontWeight: bold;
+	color: #333333;
+	text-align: center;
+}
+.contentTYPEPAGE {
+	font-size:22px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;	
+}
+.display {
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+	fontWeight: bold;
+	color: #333333;	
+}
+
+a {
+	fontWeight: bold;
+	text-decoration: underline;
+	color: #000099;
+}
+.corpo {
+	font-size:22px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;
+}
+body {
+	font-size:22px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;
+}
+p {
+	font-size:22px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;
+}
+div {
+	font-size:22px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;
+}
+b {
+	fontWeight: bold;
+}
+a:hover {
+	color: #0000FF;
+	text-decoration: none;
+}
+.media {
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.corpo {
+	font-size:22px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #333333;
+}
