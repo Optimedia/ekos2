@@ -142,8 +142,6 @@
 						</mx:ToggleButtonBar>
 						
 						<mx:VRule height="10"/>
-						
-						<mx:TextInput width="10"/>
 						<mx:Button label="Link" id="btnLink" enabled="false"/>
 						
 						<mx:Spacer width="100%"/>
