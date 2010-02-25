@@ -75,5 +75,15 @@ package br.com.optimedia.autor.model
 				sendNotification( NotificationConstants.DELETE_SLIDE_RESULT );
 			}
 		}
+		
+		public function saveSlide(slideVO:SlideVO):void {
+			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
+			asynkToken.addResponder( new Responder(saveSlideResult, generalFault) );
+		}
+		private function saveSlideResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.SAVE_SLIDE_RESULT, event.result );
+			}
+		}
 	}
 }
