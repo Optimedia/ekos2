@@ -34,21 +34,29 @@
     		[Bindable]
     		public var showNavegation:Boolean;
     		
-    		public var sheet:StyleSheet;
+    		//public var sheet:StyleSheet;
+    		
+    		public function start(_idPresentation:uint, _idSlide:uint):void {
+    			
+    			if (_idPresentation) {
+    				idPresentation = _idPresentation;
+    			}else {
+    				idPresentation = this.parameters._presentation;
+    			}
+				if (_idSlide) {
+					idSlide = _idSlide;
+				}else {
+					idSlide = this.parameters._idSlide;
+				}
+				//showNavegation = this.parameters._navegation
+				
+    			
+    			this.interactiveFacade = InteractiveFacade.getInstance();
+				this.interactiveFacade.startup( this );
+    		}
 			
 			private function init(): void {
 				this.menuView.visible=false;
-				
-				StyleManager.loadStyleDeclarations("br/com/optimedia/interactive/css/style.swf", true);
-				
-				idPresentation = this.parameters._presentation;
-				if (this.parameters._idSlide) {
-					idSlide = this.parameters._idSlide;
-				}
-				showNavegation = this.parameters._navegation
-				 
-				this.interactiveFacade = InteractiveFacade.getInstance();
-				this.interactiveFacade.startup( this );
 				this.httpService.send();
 				
 			}
@@ -68,4 +76,5 @@
 	<v:NavigatorView id="navigatorView" width="100%" visible="false" bottom="0"/>
 	<v:MidiaView id="midiaViewObj" width="98%"  height="93%" y="0" visible="false" horizontalCenter="0"/>
 	<v:MenuView id="menuView" width="200" height="430"   visible="false" y="50" x="10"/>
+	<mx:Button x="725" y="480" label="Button" click="start(1,0)"/>
 </mx:Application>
