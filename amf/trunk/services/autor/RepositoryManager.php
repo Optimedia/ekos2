@@ -9,9 +9,9 @@
 		private $_table = "mda_media";
 		
 		public function RepositoryManager() {
-			$host = "10.1.1.10";
-			$user = "opti";
-			$pass = "opti";
+			$host = "74.54.27.146:3309";
+			$user = "root";
+			$pass = "0pt1m3d14SQL";
 			$db = "ekos2";
 			
 			parent::SqlManager($host, $user, $pass, $db);
@@ -83,6 +83,7 @@
 							  	 'body' => $filename,
 								 'status' => 1);
 							  
+			//parent::doInsert($arrayMedia, $this -> _table);
 			if( parent::doInsert($arrayMedia, $this -> _table) == true ) {
 				$mediaID = $this->insert_id;
 				
