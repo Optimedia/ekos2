@@ -62,7 +62,7 @@ package br.com.optimedia.autor.view
 					NotificationConstants.DELETE_SLIDE_RESULT,
 					NotificationConstants.SAVE_SLIDE_RESULT];
 		}
-		
+		private var orderDirection:String;
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
@@ -81,13 +81,18 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.ADD_NEW_SLIDE_RESULT:
 					view.orderChangeHandler();
-					view.slideSelector.changeSlide('plus');
+					orderDirection = 'plus';
+					//var my_timedProcess:uint = setTimeout(function():void { view.slideSelector.changeSlide('plus') }, 5000);
+					//view.editSlide(null);
+					//view.slideSelector.changeSlide('plus');
 					break;
 				case NotificationConstants.SET_SLIDE_ORDER_RESULT:
 					view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
+					view.slideSelector.changeSlide(orderDirection);
 					break;
 				case NotificationConstants.DELETE_SLIDE_RESULT:
 					view.orderChangeHandler();
+					orderDirection = 'minus'
 					break;
 				case NotificationConstants.SAVE_SLIDE_RESULT:
 					view.closeTextEditor(null);

@@ -77,7 +77,7 @@ package br.com.optimedia.interactive.view
 			if (lastBg) {
 				view.slide.rawChildren.removeChild(lastBg);
 			}
-			interactiveProxy.getLinks(vo.slide_id);
+			interactiveProxy.getLinks(vo);
 			
 			title = new TextArea();
 			title.x=20;
