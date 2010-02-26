@@ -75,6 +75,12 @@ class SubjectManager extends SqlManager {
 		return $slideManager->getSlides ( $presentationID );
 	}
 	
+	public function getSlide($slideID) {
+		require_once "SlideManager.php";
+		$slideManager = new SlideManager ( );
+		return $slideManager->getSlide ( $slideID );
+	}
+	
 	/**
 	 * Função que retorna todos os skins
 	 *  
@@ -281,7 +287,6 @@ class SubjectManager extends SqlManager {
 	}
 	
 	public function lockPresentation($presentationID, $userID) {
-		return true;
 		$sql = "SELECT * FROM ath_presentation WHERE presentation_id=$presentationID";
 		$query = $this->doSelect ( $sql );
 		
@@ -299,7 +304,7 @@ class SubjectManager extends SqlManager {
 					
 				$condition = "presentation_id = ".$presentationID;*/
 			
-			$sql = "UPDATE ath_presentation SET locked_at =.NOW(), locked_by = $userID WHERE presentation_id = $presentationID";
+			$sql = "UPDATE ath_presentation SET locked_at = NOW(), locked_by = $userID WHERE presentation_id = $presentationID";
 			
 			return mysql_query ( $sql );
 			
