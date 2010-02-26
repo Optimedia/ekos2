@@ -161,7 +161,18 @@ class SlideManager extends SqlManager {
 		$where = "slide_id = $slide_id";
 		$table = "ath_slide";
 		
-		return parent::doDelete ( $where, $table );
+		$result1 = parent::doDelete ( $where, $table );
+		
+		$where "slide_id=$slide_id";
+		$table = "ath_link";
+		
+		$result2 = parent::doDelete( $where, $table );
+		
+		if($result1 != true || $result2 != true) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }
