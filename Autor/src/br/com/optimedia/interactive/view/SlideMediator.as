@@ -9,8 +9,8 @@ package br.com.optimedia.interactive.view
 	import flash.events.TextEvent;
 	
 	import mx.controls.Image;
+	import mx.controls.Text;
 	import mx.controls.TextArea;
-	import mx.core.Application;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -24,7 +24,7 @@ package br.com.optimedia.interactive.view
 		
 		public var lineTitle:uint = 0x000000;
 		public var bgTitle:uint = 0xFFFFFF;
-		public var title:TextArea;
+		public var title:Text;
 		public var content:TextArea;
 		public var imgContent:Image;
 		
@@ -79,15 +79,15 @@ package br.com.optimedia.interactive.view
 			}
 			interactiveProxy.getLinks(vo);
 			
-			title = new TextArea();
+			title = new Text();
 			title.x=20;
 			title.percentWidth = 90;
 			//title.width = 740;
-			//title.height
+			title.height = 42;
 			title.selectable = false;
-			title.wordWrap = true;
-			title.setStyle("backgroundAlpha",0);
-			title.setStyle("borderThickness",0);
+			//title.wordWrap = true;
+			//title.setStyle("backgroundAlpha",0);
+			//title.setStyle("borderThickness",0);
 			
 			
 			content = new TextArea()
@@ -145,14 +145,14 @@ package br.com.optimedia.interactive.view
 			lastBg=new Sprite ();
 			lastBg.graphics.lineStyle(1,lineTitle);
 			lastBg.graphics.beginFill(bgTitle,0.5);
-			lastBg.graphics.drawRoundRect(0,0,view.width*0.95,title.textHeight + 37 ,20,20);
+			lastBg.graphics.drawRoundRect(0,0,view.width*0.95,title.height + 12 ,20,20);
 			lastBg.graphics.endFill();
 			lastBg.x=15;
 			lastBg.y=yTitle-10;
 			view.slide.rawChildren.addChildAt(lastBg,0);
 			
 			
-			content.y=title.y + title.textHeight + 37;
+			content.y=title.y + title.height + 12;
 			if (type==1) {
 				content.y+=30;
 				content.height = view.height - title.y - title.height - 90 - 40 ;
