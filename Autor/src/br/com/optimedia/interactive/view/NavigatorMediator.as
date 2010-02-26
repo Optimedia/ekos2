@@ -151,9 +151,6 @@ package br.com.optimedia.interactive.view
 		public function clickLink(event:MouseEvent):void {
 		 	var media:MediaVO = event.currentTarget.data as MediaVO;
 		 	sendNotification(ApplicationConstants.CREAT_MIDIA,media);
-		 	
 		 }
-
-		 
 	}
 }

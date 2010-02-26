@@ -83,18 +83,28 @@
 			 * Função para adicionar um slide
 			 * 
 			 */ 
-			private function addSlide(e:Event):void {
+			public function addSlide(e:Event):void {
 				var slide:SlideVO = new SlideVO();
 				slide.presentation_id = presentationVO.presentation_id;
 				slide.page_order = uint(slideSelector.slideNum)+ 1;
 				
-				presentationVO.slidesArray.addItemAt(slide, int(slideSelector.slideNum ));
+				ArrayCollection(presentationVO.slidesArray).addItemAt(slide, int(slideSelector.slideNum ));
 				
 				slideSelector.presentationVO = presentationVO;
 				
 				this.dispatchEvent( new ResultEvent(NEW_SLIDE_EVENT, false, true, slide) );
 			}
-			
+			public function firstSlide(e:Event):void {
+				var slide:SlideVO = new SlideVO();
+				slide.presentation_id = presentationVO.presentation_id;
+				slide.page_order = uint(slideSelector.slideNum)+ 1;
+				
+				ArrayCollection(presentationVO.slidesArray).addItemAt(slide, 0);
+				
+				slideSelector.presentationVO = presentationVO;
+				
+				this.dispatchEvent( new ResultEvent(NEW_SLIDE_EVENT, false, true, slide) );
+			}
 			/**
 			 * Função para deletar um slide
 			 * 
@@ -159,7 +169,7 @@
 	
 	<mx:Button id="backBtn" label="Voltar" />
 	
-	<mx:HBox width="100%" height="100%">
+	<mx:HBox>
 		
 		<mx:ViewStack id="viewStack" width="100%" height="100%" change="onViewChange()">
 		

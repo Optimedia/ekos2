@@ -558,7 +558,7 @@
 				<mx:TextInput id="txtTitle" themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"/>
 			</mx:HBox>
 				
-			<mx:TextArea id="textArea" height="100%" width="100%" minHeight="0" minWidth="0" htmlText="{_slideVO.text_body}"
+			<mx:TextArea id="textArea" height="100%" width="100%" minHeight="0" minWidth="0" htmlText="{_slideVO.text_body}" fontSize="22" fontFamily="Arial"
 						 themeColor="#FFFFFF"
 						 change="dispatchEvent(event);"
 						 valueCommit="dispatchEvent(event);"

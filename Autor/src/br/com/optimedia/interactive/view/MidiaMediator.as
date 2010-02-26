@@ -137,7 +137,7 @@ package br.com.optimedia.interactive.view {
 					var arq:Array = media.body.split(".");
 					if (arq[1]=="swf") {
 						swfLoad = new SWFLoader();
-						swfLoad.source = media.body;
+						swfLoad.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
 						swfLoad.autoLoad = true;
 						swfLoad.scaleContent = true;
 						view.addChild(swfLoad);

@@ -56,11 +56,11 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.UPLOAD_MEDIA_FILE_RESULT:
-					Alert.show("finishme");
+					repositoryProxy.getMedias(view.presentationID);
 					closeMe(null);
 					break;
 				case NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT:
-					Alert.show("finishme");
+					//Alert.show("finishme");
 					closeMe(null);
 					break;
 				default:
