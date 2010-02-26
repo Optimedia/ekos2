@@ -39,7 +39,7 @@
 			 * Função para editar um slide
 			 * 
 			 */ 
-			private function editSlide(e:Event):void {
+			public function editSlide(e:Event):void {
 				viewStack.selectedIndex = 1;
 				
 				textEditor.addEventListener("closeTextEditor", closeTextEditor);
@@ -143,6 +143,7 @@
 				if(e != null) {
 					setOrderPopUp.closePop();
 				}
+				
 			}
 			
 			private function saveSlide(event:ResultEvent):void {

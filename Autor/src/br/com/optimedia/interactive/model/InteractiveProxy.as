@@ -58,16 +58,22 @@ package br.com.optimedia.interactive.model
 			sendNotification( ApplicationConstants.IGET_SLIDES_OK, slidesArray );
 		}
 		
-		public function getLinks(id:uint):void {
-			midias = new Array();
+		public function getLinks(slide:SlideVO):void {
+			/* midias = new Array();
 			for (var i:uint=0; i<slidesArray.length ; i++ ) {
 				var ids:uint = slidesArray[i].slide_id
-				if (slidesArray[i].slide_id==id) {
+				//if (slidesArray[i].slide_id==id) {
 					for (var j:uint=0; j<slidesArray[i].mediaArray.length; j++) {
 						var media:MediaVO = slidesArray[i].mediaArray[j] as MediaVO;
 						midias[j] = media;			
 					}
-				}
+				//}
+			} */
+			var i:uint = 0;
+			midias = new Array();
+			for each(var item:MediaVO in slide.mediaArray) {
+				midias[i] = item;
+				i++;
 			}
 			sendNotification(ApplicationConstants.CONTRUCT_LINKS,midias)
 				

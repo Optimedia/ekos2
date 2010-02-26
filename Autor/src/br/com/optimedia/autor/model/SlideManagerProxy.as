@@ -1,17 +1,16 @@
 package br.com.optimedia.autor.model
 {
 	import br.com.optimedia.autor.assets.FaultHandler;
-	import br.com.optimedia.autor.assets.vo.PresentationVO;
+	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.SlideVO;
 	
+	import mx.rpc.AsyncToken;
+	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
-	import br.com.optimedia.autor.assets.NotificationConstants;
-	import mx.rpc.AsyncToken;
-	import mx.rpc.Responder;
-	import br.com.optimedia.autor.assets.vo.SlideVO;
 
 	public class SlideManagerProxy extends Proxy
 	{
@@ -52,6 +51,9 @@ package br.com.optimedia.autor.model
 		}
 		private function addNewSlideResult(event:ResultEvent):void {
 			if( event.result == true ) {
+				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
+			}
+			else if( event.result is SlideVO ) {
 				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
 			}
 		}
