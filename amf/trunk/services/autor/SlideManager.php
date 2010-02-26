@@ -38,6 +38,19 @@ class SlideManager extends SqlManager {
 		
 		return $slideArray;
 	}
+	public function getSlide($slideID) {
+		
+		$sql = "SELECT * FROM ath_slide WHERE slide_id = $slideID";
+		$query = parent::doSelect ( $sql );
+		
+		$slide = new SlideVO ( );
+		$slideArray = array ();
+		
+		$slide = mysql_fetch_object ( $query, "SlideVO" );
+		$slide->mediaArray = $this->getMedias($slide->slide_id);
+		return $slide;
+		
+	}
 	
 	/**
 	 * Função que retorna todos as medias do slide
