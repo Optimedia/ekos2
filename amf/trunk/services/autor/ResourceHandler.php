@@ -11,9 +11,9 @@
         protected $presentationID;
         
 		public function ResourceHandler() {
-			$host = "10.1.1.10";
-			$user = "opti";
-			$pass = "opti";
+			$host = "74.54.27.146:3309";
+			$user = "root";
+			$pass = "0pt1m3d14SQL";
 			$db = "sinasemdl";
 	
 			parent::SqlManager($host, $user, $pass, $db);
@@ -27,7 +27,7 @@
 						                    "type" => "html",
 						                    "reference" => "",
 						                    "summary" => $presentationName,
-						                    "alltext" => "<script src='/Interactive/includeAll.js' language='javascript'></script><noscript>  	<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'			id='Interactive' width='800' height='512'			codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'>			<param name='movie' value='Interactive.swf' />			<param name='quality' value='high' />			<param name='bgcolor' value='#869ca7' />			<param name='allowScriptAccess' value='sameDomain' />      <param name='flashVars' value='_presentation=$presentationID&_idSlide=0'/> 			<embed src='/Interactive/Interactive.swf' quality='high' bgcolor='#869ca7'				width='800' height='512' name='Interactive' align='middle'				play='true'				loop='false'				quality='high'				allowScriptAccess='sameDomain'				type='application/x-shockwave-flash'				pluginspage='http://www.adobe.com/go/getflashplayer'>			</embed>	</object></noscript>",
+						                    "alltext" => "<script src='/sinase.moodle/interactive/includeAll.js' language='javascript'></script><noscript><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='Interactive' width='800' height='512' codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='Interactive.swf' /><param name='quality' value='high' /><param name='bgcolor' value='#869ca7' /><param name='allowScriptAccess' value='sameDomain' /> <param name='flashVars' value='_presentation=$presentationID&_idSlide=0'/><embed src='/sinase.moodle/interactive/Interactive.swf' quality='high' bgcolor='#869ca7' width='800' height='512' name='Interactive' align='middle' play='true' loop='false' quality='high' allowScriptAccess='sameDomain' type='application/x-shockwave-flash' pluginspage='http://www.adobe.com/go/getflashplayer'> </embed> </object></noscript>",
 						                    "popup" =>"",
 						                    "options" =>"",
 						                    "timemodified" =>"1248132589"
@@ -43,7 +43,7 @@
 	    }
 
 		function insertCourseModule(){
-		    $fieldsAndValuesResource= array("course" => "2",
+		    $fieldsAndValuesResource= array("course" => $this->course,
 						                    "module" => "13",
 						                    "instance" => $this->instances,
 						                    "section" => $this->sectionID,
@@ -76,7 +76,7 @@
 		function insertContext() {
 		    $fieldsAndValuesResource= array("contextlevel" => "70",
 						                    "instanceid" => $this->instances,
-						                    "path" => "/1/56/12/",
+						                    "path" => "/1/3/12/",
 						                    "depth" => "4"
 											);
 		    
@@ -84,7 +84,7 @@
 		    
 		    $this-> instances = $this -> insert_id;
 		    
-		    $fieldsAndValuesResource= array( "path" => "/1/56/12/$this->instances" );
+		    $fieldsAndValuesResource= array( "path" => "/1/3/12/$this->instances" );
 		    
 		    $condition = "id=$this->instances";
 		    
@@ -148,6 +148,5 @@
             
             $result = parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
 
-            return $result;
         }
 	}

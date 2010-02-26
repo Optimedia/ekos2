@@ -3,15 +3,16 @@
 require_once '../includes/SqlManager.php';
 require_once '../vo/br/com/optimedia/assets/vo/SlideVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/MediaVO.php';
+require_once '../vo/br/com/optimedia/assets/vo/PresentationVO.php';
 
 class SlideManager extends SqlManager {
 	
 	private $_table = "ath_slide";
 	
 	public function SlideManager() {
-		$host = "10.1.1.10";
-		$user = "opti";
-		$pass = "opti";
+    $host = "74.54.27.146:3309";
+		$user = "root";
+		$pass = "0pt1m3d14SQL";
 		$db = "ekos2";
 		
 		parent::SqlManager ( $host, $user, $pass, $db );
@@ -23,14 +24,86 @@ class SlideManager extends SqlManager {
 	 * - Retorna: Array - SlideVO
 	 * .
 	 */
-	public function getSlides($presentationID) {
+	public function getPlayerSlides($presentationID) {
+
+		$slideArray = array ();
+
+		$sql = "SELECT * FROM ath_presentation WHERE presentation_id = $presentationID";
+		$query = parent::doSelect ( $sql );
+		$presentation = mysql_fetch_object ( $query, "PresentationVO" );
+
+		if ($presentation->img_credit) {
+			$slide = new SlideVO ( );
+			$slide->slide_id        = "-3";
+			$slide->type_slide_id   = 3;
+			$slide->presentation_id = $presentationID;
+			$slide->header_id       = 1;
+			$slide->page_order      = 0;
+			$slide->title           = "Crédito";
+			$slide->title_menu      = "Crédito";
+			$slide->text_body       = $presentation->img_credit;
+			$slide->status          = "1";
+			$slideArray [] = $slide;		
+		}
+		
+		$slide = new SlideVO ( );
+		$slide->slide_id        = "-2";
+		$slide->type_slide_id   = 1;
+		$slide->presentation_id = $presentationID;
+		$slide->header_id       = 1;
+		$slide->page_order      = 0;
+		$slide->title           = $presentation->title;
+		$slide->title_menu      = $presentation->title;
+		$slide->text_body       = $presentation->description;
+		$slide->status          = "1";
+		$slideArray [] = $slide;
+		
+		if ($presentation->img_intro) {
+			$slide = new SlideVO ( );
+			$slide->slide_id        = "-3";
+			$slide->type_slide_id   = 3;
+			$slide->presentation_id = $presentationID;
+			$slide->header_id       = 1;
+			$slide->page_order      = 0;
+			$slide->title           = "Introdução";
+			$slide->title_menu      = "Introdução";
+			$slide->text_body       = $presentation->img_intro;
+			$slide->status          = "1";
+			$slideArray [] = $slide;		
+		}
 		
 		$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY page_order";
 		$query = parent::doSelect ( $sql );
+
+		while ( $slide = mysql_fetch_object ( $query, "SlideVO" ) ) {
+			$slide->mediaArray = $this->getMedias ( $slide->slide_id );
+			$slideArray [] = $slide;
+		}
 		
-		$slide = new SlideVO ( );
+		if ($presentation->img_conclusion) {
+			$slide = new SlideVO ( );
+			$slide->slide_id        = "-3";
+			$slide->type_slide_id   = 3;
+			$slide->presentation_id = $presentationID;
+			$slide->header_id       = 1;
+			$slide->page_order      = 0;
+			$slide->title           = "Conclusão";
+			$slide->title_menu      = "Conclusão";
+			$slide->text_body       = $presentation->img_conclusion;
+			$slide->status          = "1";
+			$slideArray [] = $slide;		
+		}
+		
+		return $slideArray;
+	}
+
+	public function getSlides($presentationID) {
+
 		$slideArray = array ();
-		
+	
+		$sql = "SELECT * FROM ath_slide WHERE presentation_id = $presentationID ORDER BY page_order";
+		$query = parent::doSelect ( $sql );
+
 		while ( $slide = mysql_fetch_object ( $query, "SlideVO" ) ) {
 			$slide->mediaArray = $this->getMedias ( $slide->slide_id );
 			$slideArray [] = $slide;
@@ -38,6 +111,7 @@ class SlideManager extends SqlManager {
 		
 		return $slideArray;
 	}
+
 	public function getSlide($slideID) {
 		
 		$sql = "SELECT * FROM ath_slide WHERE slide_id = $slideID";
@@ -89,7 +163,7 @@ class SlideManager extends SqlManager {
 			}
 			
 			if ($slide->type_slide_id == 0) {
-				$type_slide_id = 1;
+				$type_slide_id = 2;
 			} else {
 				$type_slide_id = $slide->type_slide_id;
 			}
@@ -161,18 +235,7 @@ class SlideManager extends SqlManager {
 		$where = "slide_id = $slide_id";
 		$table = "ath_slide";
 		
-		$result1 = parent::doDelete ( $where, $table );
-		
-		$where "slide_id=$slide_id";
-		$table = "ath_link";
-		
-		$result2 = parent::doDelete( $where, $table );
-		
-		if($result1 != true || $result2 != true) {
-			return false;
-		} else {
-			return true;
-		}
+		return parent::doDelete ( $where, $table );
 	}
 
 }

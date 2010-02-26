@@ -11,9 +11,9 @@ class SubjectManager extends SqlManager {
 	private $_table = "ath_subject";
 	
 	public function SubjectManager() {
-		$host = "10.1.1.10";
-		$user = "opti";
-		$pass = "opti";
+		$host = "74.54.27.146:3309";
+		$user = "root";
+		$pass = "0pt1m3d14SQL";
 		$db = "ekos2";
 		
 		parent::SqlManager ( $host, $user, $pass, $db );
@@ -67,6 +67,12 @@ class SubjectManager extends SqlManager {
 		}
 		
 		return $presentationArray;
+	}
+
+	public function getPlayerSlides($presentationID) {
+		require_once "SlideManager.php";
+		$slideManager = new SlideManager ( );
+		return $slideManager->getPlayerSlides ( $presentationID );
 	}
 	
 	public function getSlides($presentationID) {
@@ -164,7 +170,12 @@ class SubjectManager extends SqlManager {
 				}
 				
 				// Adicionar presentation no bd;								  
-				return parent::doInsert ( $arrayPresentation, "ath_presentation" );
+				if (parent::doInsert ( $arrayPresentation, "ath_presentation" )) {
+					$arraySlide = array ("type_slide_id" => 2, "presentation_id" => $this->insert_id, "header_id" => 1, "page_order" => 0, "title" => 'Título', "title_menu" => '', "text_body" => '', "status" => 0 );
+					return parent::doInsert ( $arraySlide, "ath_slide" );
+				}
+				
+				return false;
 			
 			} else {
 				
