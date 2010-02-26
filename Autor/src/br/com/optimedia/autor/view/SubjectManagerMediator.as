@@ -107,7 +107,7 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function slideEditBtnClick(event:MouseEvent):void {
-			Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
+			//Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
 			// FALTA COLOCAR O USER ID NO lockPresentation
 			subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, 2 );
 		}
