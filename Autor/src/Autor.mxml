@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
 	initialize="preInit()" creationComplete="init()" historyManagementEnabled="false"
-	paddingTop="10" paddingBottom="10" paddingRight="10" paddingLeft="10">
+	paddingTop="10" paddingBottom="10" paddingRight="10" paddingLeft="10" visible="false">
 	
 	<mx:Script>
 		<![CDATA[

@@ -4,6 +4,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Application;
 			import mx.managers.SystemManager;
 			import mx.collections.ArrayCollection;
 			
@@ -90,6 +91,7 @@
 
 			private function onSwfCreationComplete(event:Event):void {
 				loadedSM = SystemManager(playerLoader.content);
+				Application.application.visible = true;
 			}
 			public function setInteractiveVars(presentationID:uint, slideID:uint):void {
 				Interactive(loadedSM.application).start(slideID);
@@ -101,13 +103,19 @@
 				Interactive(loadedSM.application).setSlide(slideID);
 			}
 			
+			public function teste():void {
+				if(loadedSM == null) loadedSM = SystemManager(playerLoader.content);
+				Application.application.visible = true;
+				trace("asdfasD");
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:Panel layout="vertical" width="100%" height="100%" cornerRadius="0"
 		paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" title="Título do Tema">
-		<mx:SWFLoader width="100%" height="100%" autoLoad="true" id="playerLoader" scaleContent="true"
-			source="Interactive.swf" creationComplete="onSwfCreationComplete(event)"/>
+		<mx:SWFLoader width="100%" height="100%" autoLoad="true" id="playerLoader" scaleContent="true" trustContent="true"
+			source="Interactive.swf" creationComplete="onSwfCreationComplete(event)" showBusyCursor="true" init="teste()"/>
 				
 		<mx:ControlBar>
 			
