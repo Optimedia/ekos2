@@ -11,10 +11,17 @@
         protected $presentationID;
         
 		public function ResourceHandler() {
-			$host = "74.54.27.146:3309";
-			$user = "root";
-			$pass = "0pt1m3d14SQL";
-			$db = "sinasemdl";
+			if($_SERVER['SERVER_ADDR'] == "74.54.27.146") {
+				$host = "74.54.27.146:3309";
+				$user = "root";
+				$pass = "0pt1m3d14SQL";
+				$db = "ekos2";
+			} else {
+				$host = "10.1.1.10";
+				$user = "opti";
+				$pass = "opti";
+				$db = "ekos2";
+			}
 	
 			parent::SqlManager($host, $user, $pass, $db);
 		}
