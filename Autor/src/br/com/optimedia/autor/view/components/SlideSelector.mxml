@@ -159,9 +159,9 @@
 						<mx:Button id="btnNext" label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('plus')"/>
 					</mx:HBox>
 					
-					<mx:VRule height="10"/>
+					<mx:VRule height="10" visible="false"/>
 					
-					<mx:HBox id="toolBar2" horizontalGap="0">
+					<mx:HBox id="toolBar2" horizontalGap="0" visible="false">
 					
 						<mx:Button id="boldButton" width="20" toggle="true" enabled="false"
 									icon="@Embed('../../assets/img/icon_style_bold.png')"/> 
@@ -175,13 +175,13 @@
 					</mx:HBox>
 					
 					<mx:Button id="bulletButton" width="20" toggle="true" enabled="false"
-						   icon="@Embed('../../assets/img/icon_bullet.png')"/>
+						   icon="@Embed('../../assets/img/icon_bullet.png')" visible="false"/>
 						   
-					<mx:ColorPicker id="colorPicker" width="22" height="22" selectedColor="#000000" enabled="false"/>
+					<mx:ColorPicker id="colorPicker" width="22" height="22" selectedColor="#000000" enabled="false" visible="false"/>
 					
-					<mx:VRule height="10"/>
+					<mx:VRule height="10" visible="false"/>
 					
-					<mx:ToggleButtonBar id="alignButtons" buttonWidth="20" enabled="false">
+					<mx:ToggleButtonBar id="alignButtons" buttonWidth="20" enabled="false" visible="false">
 						<mx:dataProvider>
 							<mx:Array> 
 								<mx:Object icon="@Embed('../../assets/img/icon_align_left.png')" action="left"/>
@@ -192,16 +192,16 @@
 						</mx:dataProvider>
 					</mx:ToggleButtonBar>
 					
-					<mx:VRule height="10"/>
-					<mx:Button label="Link" id="btnLink" enabled="false"/>
+					<mx:VRule height="10" visible="false"/>
+					<mx:Button label="Link" id="btnLink" enabled="false" visible="false"/>
 					
 					<mx:Spacer width="100%"/>
-					<mx:VRule height="10"/>
+					<mx:VRule height="10" visible="false"/>
 					
-					<mx:Button label="Adicionar" click="addSlide()"/>
+					<mx:Button label="Novo slide" click="addSlide()"/>
 					<mx:Button label="Editar" click="editSlide()"/>
 					<mx:Button label="Ordenar" click="setOrder()"/>
-					<mx:Button label="Remover" click="deleteSlide()"/>
+					<mx:Button label="Remover Slide" click="deleteSlide()"/>
 					
 				<!--</mx:ToolBar>-->
 					

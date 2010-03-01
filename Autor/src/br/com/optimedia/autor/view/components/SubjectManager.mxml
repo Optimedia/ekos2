@@ -127,6 +127,7 @@
 				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
 				PopUpManager.centerPopUp( popUp );
 			}
+			[Bindable]
 			public var roleID:int;
 			public function setRoleID(roleID:int):void {
 				this.roleID = roleID;

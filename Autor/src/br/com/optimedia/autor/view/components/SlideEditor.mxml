@@ -62,7 +62,7 @@
 			 * 
 			 */ 
 			private function currentMediaChange(e:Event):void {
-				textEditor.currentMedia = repositoryPanel.currentMedia;
+				textEditor.currentMediaID = repositoryPanel.currentMediaID;
 			}
 			
 			/**
@@ -170,7 +170,11 @@
 			}
 			
 			private function onViewChange():void {
-				if(viewStack.selectedChild is SlideSelector) slideSelector.setNewSlide(slideSelector.slideID);
+				if(viewStack.selectedChild is SlideSelector) {
+					slideSelector.setNewSlide(slideSelector.slideID);
+					repositoryPanel.linkBtn.enabled = false;
+					repositoryPanel.mediaTree.selectedIndex = -1;
+				}
 			}
 			
 		]]>

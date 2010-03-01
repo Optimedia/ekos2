@@ -107,7 +107,7 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(deleteMediaResult, generalFault) );
 		}
 		private function deleteMediaResult(event:ResultEvent):void {
-			sendNotification( NotificationConstants.DELETE_MEDIA_OK );
+			if(event.result == true) sendNotification( NotificationConstants.DELETE_MEDIA_OK );
 		}
 	}
 }

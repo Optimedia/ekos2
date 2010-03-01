@@ -89,6 +89,9 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function doLink(event:MouseEvent):void {
+			event.stopImmediatePropagation();
+			event.stopPropagation();
+			event.preventDefault();
 			sendNotification( NotificationConstants.DO_LINK_EVENT, view.mediaTree.selectedItem );
 		}
 	}
