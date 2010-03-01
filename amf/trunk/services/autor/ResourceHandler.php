@@ -27,7 +27,7 @@
 						                    "type" => "html",
 						                    "reference" => "",
 						                    "summary" => $presentationName,
-						                    "alltext" => "<script src='/sinase.moodle/interactive/includeAll.js' language='javascript'></script><noscript><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='Interactive' width='800' height='512' codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='Interactive.swf' /><param name='quality' value='high' /><param name='bgcolor' value='#869ca7' /><param name='allowScriptAccess' value='sameDomain' /> <param name='flashVars' value='_presentation=$presentationID&_idSlide=0'/><embed src='/sinase.moodle/interactive/Interactive.swf' quality='high' bgcolor='#869ca7' width='800' height='512' name='Interactive' align='middle' play='true' loop='false' quality='high' allowScriptAccess='sameDomain' type='application/x-shockwave-flash' pluginspage='http://www.adobe.com/go/getflashplayer'> </embed> </object></noscript>",
+						                    "alltext" => "\"<script src='/sinase.moodle/interactive/includeAll.js' language='javascript'></script><noscript><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='Interactive' width='800' height='512' codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='Interactive.swf' /><param name='quality' value='high' /><param name='bgcolor' value='#869ca7' /><param name='allowScriptAccess' value='sameDomain' /> <param name='flashVars' value='_presentation=$presentationID&_idSlide=0'/><embed src='/sinase.moodle/interactive/Interactive.swf' quality='high' bgcolor='#869ca7' width='800' height='512' name='Interactive' align='middle' play='true' loop='false' quality='high' allowScriptAccess='sameDomain' type='application/x-shockwave-flash' pluginspage='http://www.adobe.com/go/getflashplayer'> </embed> </object></noscript>\"",
 						                    "popup" =>"",
 						                    "options" =>"",
 						                    "timemodified" =>"1248132589"
@@ -70,7 +70,7 @@
             
 		    $this-> insertContext();
 		    
-		    //return $result;
+		    return $result;
 		}
 		
 		function insertContext() {
@@ -92,7 +92,7 @@
 		    
 		    $this->insertCourseSection();
 		    
-		    //return $result;
+		    return $result;
 		}
 	
 		function insertCourseSection() {
@@ -114,6 +114,7 @@
 			
 		    $result = parent::doUpdate($fieldsAndValuesResource,$condition,"mdl_course_sections");
 			
+			return $result;
 //		    $fieldsAndValuesResource= array( "section_id" => $this->sectionID );
 //			
 //		    $condition="presentation_id=$this->presentationID";
@@ -147,6 +148,8 @@
             $condition = "id=$sectionID";
             
             $result = parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
+
+            return $result;
 
         }
 	}
