@@ -530,10 +530,12 @@
 		public function set currentMedia(value:int):void {
 			_currentMedia = value;
 			
-			if(textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
-				btnLink.enabled = false;
-			} else {
-				btnLink.enabled = true;
+			if(textArea) {
+				if(textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
+					btnLink.enabled = false;
+				} else {
+					btnLink.enabled = true;
+				}
 			}
 		}
 		
