@@ -11,10 +11,17 @@ class SubjectManager extends SqlManager {
 	private $_table = "ath_subject";
 	
 	public function SubjectManager() {
-		$host = "74.54.27.146:3309";
-		$user = "root";
-		$pass = "0pt1m3d14SQL";
-		$db = "ekos2";
+		if($_SERVER['SERVER_ADDR'] == "74.54.27.146") {
+			$host = "74.54.27.146:3309";
+			$user = "root";
+			$pass = "0pt1m3d14SQL";
+			$db = "ekos2";
+		} else {
+			$host = "10.1.1.10";
+			$user = "opti";
+			$pass = "opti";
+			$db = "ekos2";
+		}
 		
 		parent::SqlManager ( $host, $user, $pass, $db );
 	}
