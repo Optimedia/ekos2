@@ -210,16 +210,18 @@ class SlideManager extends SqlManager {
 			$lastId = $slide->slide_id;
 			
 			$result = parent::doUpdate ( $arrayTemp, $condition, $this->_table );
+			
+			$where = "slide_id=$lastId";
+			$table = "ath_link";
+			
+			$resultMedia = parent::doDelete($where, $table);
 		}
 		
-		if ($result != true) {
+		if ($result != true || $resultMedia != true) {
 			return false;
 		}
 		
 		// TO FINISH SALVAR mediaArray
-		$condition = "media_id=$media_id";
-		
-		parent::doDelete ( $condition, "ath_link" );
 		
 		foreach ( $slide->mediaArray as $media_id ) {
 			

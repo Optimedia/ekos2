@@ -130,5 +130,19 @@
 		 */
 		public function deleteMedia($mediaID) {
 			
+			$sql = "SELECT * FROM ath_link WHERE media_id=$media_id";
+			$result = mysql_query($sql);
+			
+			if(mysql_num_rows($result) > 0) {
+				return false;
+			} else {
+				
+				$where = "media_id=$media_id";
+				$table = "mda_media";
+				
+				return parent::doDelete($where, $table);
+				
+			}
+			
 		}
 	}
