@@ -60,7 +60,8 @@ package br.com.optimedia.autor.view
 					NotificationConstants.ADD_NEW_SLIDE_RESULT,
 					NotificationConstants.SET_SLIDE_ORDER_RESULT,
 					NotificationConstants.DELETE_SLIDE_RESULT,
-					NotificationConstants.SAVE_SLIDE_RESULT];
+					NotificationConstants.SAVE_SLIDE_RESULT,
+					NotificationConstants.DO_LINK_EVENT];
 		}
 		private var orderDirection:String;
 		override public function handleNotification(note:INotification):void
@@ -99,6 +100,8 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.SAVE_SLIDE_RESULT:
 					view.closeTextEditor(null);
 					break;
+				case NotificationConstants.DO_LINK_EVENT:
+					
 				default:
 					break;
 			}
