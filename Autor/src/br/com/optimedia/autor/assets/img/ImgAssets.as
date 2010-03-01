@@ -21,7 +21,7 @@ package br.com.optimedia.autor.assets.img
 		public static const iconMaximised:Class;
 		
 		
-		
+		//ÍCONES DA TREE DO REPOSITÓRIO
 		[Embed('tableIcon.png')]
 		public static const category1Icon:Class;
 		
@@ -42,6 +42,14 @@ package br.com.optimedia.autor.assets.img
 		
 		[Embed('fileIcon.png')]
 		public static const category7Icon:Class;
+		
+		
+		//ÍCONES DA PREVIEW DO REPOSITÓRIO
+		[Embed('movieIcon.png')]
+		public static const movieIconLarge:Class;
+		
+		[Embed('fileIcon.png')]
+		public static const fileIconLarge:Class;
 		
 	}
 }
