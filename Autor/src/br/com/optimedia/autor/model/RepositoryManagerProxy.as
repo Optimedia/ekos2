@@ -94,8 +94,8 @@ package br.com.optimedia.autor.model
 			sendNotification( NotificationConstants.UPLOAD_MEDIA_FILE_RESULT, event.result );
 		}
 		
-		public function uploadMediaText(mediaVO:MediaVO):void {
-			var asynkToken:AsyncToken = remoteService.uploadMediaText(mediaVO);
+		public function uploadMediaText(mediaVO:MediaVO, presentationID:uint):void {
+			var asynkToken:AsyncToken = remoteService.uploadMediaText(mediaVO, presentationID);
 			asynkToken.addResponder( new Responder(uploadMediaTextResult, generalFault) );
 		}
 		private function uploadMediaTextResult(event:ResultEvent):void {

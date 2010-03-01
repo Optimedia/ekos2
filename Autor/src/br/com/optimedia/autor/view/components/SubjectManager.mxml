@@ -127,6 +127,14 @@
 				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
 				PopUpManager.centerPopUp( popUp );
 			}
+			public var roleID:int;
+			public function setRoleID(roleID:int):void {
+				this.roleID = roleID;
+				if( roleID == 3 ) {
+					newSubjectBtn.visible = false;
+					newPresentationBtn.visible = false;
+				}
+			}
 		]]>
 	</mx:Script>
 	
@@ -147,9 +155,9 @@
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
-									toolTip="Editar Módulo"/>
+									toolTip="Editar Módulo" visible="{parentDocument.roleID==2}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Módulo"/>
+									toolTip="Remover Módulo" visible="{parentDocument.roleID==2}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -243,11 +251,11 @@
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
-									toolTip="Editar Tema"/>
+									toolTip="Editar Tema" visible="{parentDocument.roleID==2}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Tema"/>
+									toolTip="Remover Tema" visible="{parentDocument.roleID==2}"/>
 							<mx:LinkButton icon="{iconFunction(data)}" click="parentDocument.showPublishPopUp(data)"
-									toolTip="{toolTipFunction(data)}"/>
+									toolTip="{toolTipFunction(data)}" visible="{parentDocument.roleID==2}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>

@@ -511,11 +511,14 @@
 		public function set slideVO(value:SlideVO):void {
 			_slideVO = value;
 		}
+		public function get slideVO():SlideVO {
+			return _slideVO;
+		}
 		
 		[Bindable]
 		private var _slideNum:String;
 		
-		private var mediaArray:Array = new Array();
+		public var mediaArray:Array = new Array();
 		
 		public function set slideNum(value:String):void {
 			_slideNum = value;
@@ -545,6 +548,9 @@
 			
 		}
 		
+		private function makeLink():void {
+			setTextStyles('url', 'event:'+String(_currentMedia));
+		}
 	
 	]]>
 	</mx:Script>
@@ -623,10 +629,8 @@
 						
 						<mx:VRule height="10"/>
 							
-						<mx:Button id="btnLink" label="Link" enabled="false" click="setTextStyles('url', 'event:'+String(_currentMedia))"/>
+						<mx:Button id="btnLink" label="Link" enabled="false" click="makeLink()"/>
 						<mx:Spacer width="100%"/>
-						<mx:Button label="Ver CODE" click="textArea.text=textArea.htmlText"/>
-						<mx:Button label="Ver HTML" click="textArea.htmlText=textArea.text"/>
 						<mx:VRule height="10"/>
 						
 						<mx:Button label="Salvar" click="saveSlide()"/>

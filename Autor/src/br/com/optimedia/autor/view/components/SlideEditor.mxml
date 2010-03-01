@@ -4,6 +4,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.autor.assets.vo.MediaVO;
+			import mx.utils.ArrayUtil;
 			import mx.rpc.events.ResultEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
@@ -46,6 +48,13 @@
 				
 				textEditor.slideVO = slideSelector.slideVO;
 				textEditor.slideNum = slideSelector.slideNum;
+				textEditor.mediaArray = [];
+				if( slideSelector.slideVO.mediaArray.length > 0 ) {
+					var i:uint = 0;
+					for each(var item:int in slideSelector.slideVO.mediaArray) {
+						textEditor.mediaArray[i] = item;
+					}
+				}
 			}
 			
 			/**

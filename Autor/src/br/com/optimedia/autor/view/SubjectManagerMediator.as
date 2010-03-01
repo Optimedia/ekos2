@@ -14,6 +14,7 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.autor.AutorFacade;
 
 	public class SubjectManagerMediator extends Mediator
 	{
@@ -40,6 +41,8 @@ package br.com.optimedia.autor.view
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			subjectManagerProxy.getSubjects();
 			view.presentationSkins = subjectManagerProxy.presentationSkins;
+			
+			view.setRoleID( AutorFacade(facade).roleID );
 		}
 		
 		override public function onRemove():void {

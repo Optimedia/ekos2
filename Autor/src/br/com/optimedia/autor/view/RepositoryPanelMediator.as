@@ -14,6 +14,7 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import mx.rpc.CallResponder;
 
 	public class RepositoryPanelMediator extends Mediator
 	{
@@ -61,6 +62,10 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.GET_MEDIAS_RESULT:
 					//view.hd.source = note.getBody() as Array;
 					view.mediaXml = new ArrayCollection(note.getBody() as Array);
+					view.mediaTree.validateNow();
+					for (var i:int = 0; i < view.mediaXml.length; i ++){ 
+						view.mediaTree.expandItem(view.mediaXml[i], true) 
+					}
 					break;
 				case NotificationConstants.DELETE_MEDIA_OK:
 					proxy.getMedias( view.presentationID );
