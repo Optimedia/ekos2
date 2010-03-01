@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="100%"
-	creationComplete="init()" title="Repositório de Medias">
+	creationComplete="init()" title="Repositório de Midias">
 	
 	<mx:Script>
 		<![CDATA[
@@ -29,6 +29,10 @@
 			
 			private function setIcon(item:Object):Class {
 				var iconClass:Class;
+				previePanel.title = 'Pré-visualização';
+				previewImage.visible = false;
+				previewTextArea.visible = false;
+				
 				if( mediaTree.dataDescriptor.isBranch(item) ) {
 					iconClass = ImgAssets.iconMinimised;
 					for each( var openItem:Object in mediaTree.openItems ) {
@@ -125,7 +129,7 @@
 				PopUpManager.centerPopUp( popUp );
 			}
 			
-			private function checkChange(e:Event):void {
+			private function doLink():void {
 				
 			}
 			
@@ -133,19 +137,21 @@
 	</mx:Script>
 	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
-		width="100%" height="70%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" 
-		change="checkChange(event)" borderStyle="none"/>
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}"borderStyle="none"/>
 		
-	<mx:Panel id="previePanel" width="100%" height="30%" dropShadowEnabled="false" cornerRadius="10"
-		borderStyle="solid" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0">
+	<mx:Panel id="previePanel" width="280" height="180" dropShadowEnabled="false" cornerRadius="10"
+		borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0" layout="absolute" title="Pré-visualização">
 		
-		<mx:TextArea id="previewTextArea" width="100%" height="100%" />
+		<mx:TextArea id="previewTextArea" width="100%" height="100%" editable="false"/>
 		
-		<mx:Image id="previewImage" width="100%" height="100%" />
+		<mx:Image id="previewImage" maxWidth="280" maxHeight="180" horizontalCenter="0" verticalCenter="0"/>
 		
 	</mx:Panel>
 	
 	<mx:ControlBar height="35" paddingTop="5">
+		<mx:Spacer width="100%" height="10"/>
+		<mx:Button id="linkBtn" label="Associar" click="doLink()" />
+		<mx:VRule height="10"/>
 		<mx:Spacer width="100%" height="10"/>
 		<mx:Button id="addBtn" label="Adicionar" click="openPopUp()" />
 		<mx:VRule height="10"/>
