@@ -73,7 +73,7 @@ package br.com.optimedia.autor.view
 			view.visible = true;
 			view.showModuleManager();
 			view.showSlideEditor();
-			AutorFacade(facade).roleID = 3;
+			AutorFacade(facade).roleID = 2;
 			AutorFacade(facade).userID = 1;
 			/* if( event.result.roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
