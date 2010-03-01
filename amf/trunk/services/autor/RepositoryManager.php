@@ -96,16 +96,23 @@
 			return false;
 		}
 		
-		public function uploadMediaText(MediaVO $media) {
+		public function uploadMediaText(MediaVO $media, $presentationID) {
 			
 			$arrayMedia = array	('title' => $media -> title,
 							  	 'category_id' => $media -> category_id,
 							  	 'body' => $media -> body,
 								 'status' => 1);
 							  
-			return parent::doInsert($arrayMedia, $this -> _table);
+			if( parent::doInsert($arrayMedia, $this -> _table) == true ) {
+				$mediaID = $this->insert_id;
+				
+				$array = array	('media_id' => $mediaID,
+								 'presentation_id' => $presentationID);
+				
+				return parent::doInsert($array, 'ath_media');
+			}
 			
-			//return $filename;
+			return false;
 		}
 		
 		/**
