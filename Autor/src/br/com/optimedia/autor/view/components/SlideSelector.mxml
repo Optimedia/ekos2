@@ -35,6 +35,8 @@
 				// Passar somente o id para o player.
 				//slideVO.slide_id;
 				
+				btnPrev.enabled = false;
+				
 			}
 			
 			private function addSlide():void {
@@ -77,6 +79,18 @@
 					bar = int(txtOrder.text);
 				}
 				
+				// Verificando os botões
+				if(bar == 1) {
+					btnPrev.enabled = false;
+					btnNext.enabled = true;
+				} else if(bar == maxSlides) {
+					btnPrev.enabled = true;
+					btnNext.enabled = false;
+				} else {
+					btnPrev.enabled = true;
+					btnNext.enabled = true;
+				}
+				
 				slideNum = String(bar);
 				
 				// Diminuindo o bar, para selecionar o index da array
@@ -113,11 +127,11 @@
 				//Interactive(loadedSM.application).setSlide(slideID);
 			}
 			
-			public function teste():void {
+			/* public function teste():void {
 				//if(loadedSM == null) loadedSM = SystemManager(playerLoader.content);
 				Application.application.visible = true;
 				trace("asdfasD");
-			}
+			} */
 			
 		]]>
 	</mx:Script>
@@ -140,9 +154,9 @@
 					<!-- Seletor de slide -->
 					
 					<mx:HBox horizontalGap="0">
-						<mx:Button label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('minus')"/>
+						<mx:Button id="btnPrev" label="&lt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('minus')"/>
 						<mx:TextInput id="txtOrder" width="33" text="1" textAlign="center" restrict="0-9" enter="changeSlide()" focusOut="changeSlide()"/>
-						<mx:Button label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('plus')"/>
+						<mx:Button id="btnNext" label="&gt;" width="22" paddingRight="0" paddingLeft="0" fontWeight="normal" click="changeSlide('plus')"/>
 					</mx:HBox>
 					
 					<mx:VRule height="10"/>
