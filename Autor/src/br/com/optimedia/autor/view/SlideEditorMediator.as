@@ -71,15 +71,12 @@ package br.com.optimedia.autor.view
 					//presentationVO = PresentationVO( note.getBody() );
 					view.presentationVO = PresentationVO( note.getBody() );
 					proxy.getSlides( view.presentationVO.presentation_id );
-					if( view.presentationVO.slidesArray.length > 0) {
-						view.slideSelector.setInteractiveVars( view.presentationVO.presentation_id, view.presentationVO.slidesArray[0].slide_id );
-					}
-					else {
-						view.firstSlide(null);
-					}
+					view.slideSelector.interactive.visible = false;
+					view.slideSelector.setInteractiveVars( view.presentationVO.presentation_id, view.presentationVO.slidesArray[0].slide_id );
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
+					view.slideSelector.interactive.visible = true;
 					break;
 				case NotificationConstants.UNLOCK_PRESENTATION_OK:
 					sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
@@ -109,6 +106,7 @@ package br.com.optimedia.autor.view
 		
 		private function backBtnClick(event:MouseEvent):void {
 			subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
+			view.viewStack.selectedIndex = 0;
 		}
 		
 		private function addNewSlide(event:ResultEvent):void {

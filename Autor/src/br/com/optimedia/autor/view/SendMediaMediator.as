@@ -60,7 +60,7 @@ package br.com.optimedia.autor.view
 					closeMe(null);
 					break;
 				case NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT:
-					//Alert.show("finishme");
+					repositoryProxy.getMedias(view.presentationID);
 					closeMe(null);
 					break;
 				default:
@@ -85,7 +85,7 @@ package br.com.optimedia.autor.view
 			media.title = view.nameTextInput.text;
 			if( view.currentState == 'text' ) media.body = view.textArea.text;
 			else media.body = view.fileTextInput.text;
-			repositoryProxy.uploadMediaText( media );
+			repositoryProxy.uploadMediaText( media, view.presentationID );
 		}
 		
 	}

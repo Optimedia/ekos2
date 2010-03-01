@@ -91,7 +91,7 @@
 			}
 			
 			private function checkChange(e:Event):void {
-				//
+				
 			}
 			
 		]]>
@@ -103,9 +103,9 @@
 	
 	<mx:ControlBar height="35" paddingTop="5">
 		<mx:Spacer width="100%" height="10"/>
-		<mx:Button id="addBtn" label="Add" click="openPopUp()" />
+		<mx:Button id="addBtn" label="Adicionar" click="openPopUp()" />
 		<mx:VRule height="10"/>
-		<mx:Button id="deleteBtn" label="Del" />
+		<mx:Button id="deleteBtn" label="Remover" />
 	</mx:ControlBar>
 	
 </mx:Panel>

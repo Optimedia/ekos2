@@ -3,6 +3,13 @@ package br.com.optimedia.autor.view
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import br.com.optimedia.autor.assets.NotificationConstants;
+	import flash.net.URLRequest;
+	import mx.rpc.events.ResultEvent;
+	import mx.rpc.events.FaultEvent;
+	import br.com.optimedia.autor.assets.FaultHandler;
+	import mx.rpc.http.HTTPService;
+	import mx.controls.Alert;
+	import br.com.optimedia.autor.AutorFacade;
 
 	public class AutorMediator extends Mediator
 	{
@@ -18,8 +25,8 @@ package br.com.optimedia.autor.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
-			view.showModuleManager();
-			view.showSlideEditor();
+			view.visible = false;
+			whoAmI();
 			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
@@ -51,6 +58,39 @@ package br.com.optimedia.autor.view
 				default:
 					break;
 			}
+		}
+		
+		private function whoAmI():void {
+			var service:HTTPService = new HTTPService();
+			service.url = 'http://www.educar.tv/sinase.moodle/autor/whoami.php';
+			service.resultFormat = "array";
+			service.showBusyCursor = true;
+			service.addEventListener(ResultEvent.RESULT, resultHandler);
+			service.addEventListener(FaultEvent.FAULT, faultHandler);
+			service.send();
+		}
+		private function resultHandler(event:ResultEvent):void {
+			view.visible = true;
+			view.showModuleManager();
+			view.showSlideEditor();
+			AutorFacade(facade).roleID = 3;
+			AutorFacade(facade).userID = 1;
+			/* if( event.result.roleID == 0 ) {
+				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
+			}
+			else if( event.result.roleID == 3 || event.result.roleID == 2 ) {
+				view.visible = true;
+				view.showModuleManager();
+				view.showSlideEditor();
+				AutorFacade(facade).roleID = event.result.roleID;
+				AutorFacade(facade).userID = event.result.userID;
+			}
+			else {
+				Alert.show("Você não tem permissão para editar", "Atenção");
+			} */
+		}
+		private function faultHandler(event:FaultHandler):void {
+			trace(event);
 		}
 	}
 }

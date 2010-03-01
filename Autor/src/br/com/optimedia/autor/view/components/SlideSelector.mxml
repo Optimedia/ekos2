@@ -24,9 +24,10 @@
 			public function set presentationVO(value:PresentationVO):void {
 				_presentationVO = value;
 				
-				if( value.slidesArray.length > 0 ) slideVO = _presentationVO.slidesArray.getItemAt(0);
-				
-				slideNum = "1";
+				if( _presentationVO.slidesArray.length > 0 ) {
+					slideVO = _presentationVO.slidesArray.getItemAt(0);
+					slideNum = "1";
+				}
 			}
 			
 			private function init():void {
@@ -93,9 +94,16 @@
 				//loadedSM = SystemManager(playerLoader.content);
 				Application.application.visible = true;
 			}
+			private var isStarted:Boolean;
 			public function setInteractiveVars(presentationID:uint, slideID:uint):void {
 				//Interactive(loadedSM.application).start(slideID);
-				interactive.start(slideID);
+				if(!isStarted) {
+					interactive.start(slideID);
+					isStarted = true;
+				}
+				else {
+					setNewSlide(slideID);
+				}
 				this.slideID = slideID;
 			}
 			public var slideID:uint;

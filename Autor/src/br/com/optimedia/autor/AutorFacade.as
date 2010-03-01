@@ -24,6 +24,9 @@ package br.com.optimedia.autor
 	public class AutorFacade extends Facade
 	{
 		
+		public var userID:int;
+		public var roleID:int;
+		
 		public function AutorFacade(key:String)
 		{
 			super(key);
