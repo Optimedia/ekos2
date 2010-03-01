@@ -49,7 +49,8 @@ package br.com.optimedia.autor.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
-					NotificationConstants.GET_MEDIAS_RESULT];
+					NotificationConstants.GET_MEDIAS_RESULT,
+					NotificationConstants.DELETE_MEDIA_OK];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -70,7 +71,7 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.DELETE_MEDIA_OK:
 					proxy.getMedias( view.presentationID );
-					Alert.show("Media removida com sucesso", "OK");
+					Alert.show("Mídia removida com sucesso", "OK");
 					break;
 				default:
 					break;

@@ -45,9 +45,12 @@
 				viewStack.selectedIndex = 1;
 				
 				textEditor.addEventListener("closeTextEditor", closeTextEditor);
-				
 				textEditor.slideVO = slideSelector.slideVO;
 				textEditor.slideNum = slideSelector.slideNum;
+				textEditor.validateNow();
+				
+				//textEditor.textArea.htmlText = slideSelector.slideVO.text_body;
+				//textEditor.txtTitle.text = slideSelector.slideVO.title;
 				textEditor.mediaArray = [];
 				if( slideSelector.slideVO.mediaArray.length > 0 ) {
 					var i:uint = 0;
@@ -166,6 +169,7 @@
 			}
 			
 			private function saveSlide(event:ResultEvent):void {
+				slideSelector.slideVO = event.result as SlideVO;
 				this.dispatchEvent( new ResultEvent(SAVE_SLIDE_EVENT, false, true, event.result) );
 			}
 			

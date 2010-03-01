@@ -79,6 +79,7 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
+					view.slideSelector.presentationVO = view.presentationVO;
 					view.slideSelector.interactive.visible = true;
 					break;
 				case NotificationConstants.UNLOCK_PRESENTATION_OK:

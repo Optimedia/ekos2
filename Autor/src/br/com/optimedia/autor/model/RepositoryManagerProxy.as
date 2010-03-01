@@ -5,6 +5,7 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.autor.assets.vo.FileVO;
 	import br.com.optimedia.autor.assets.vo.MediaVO;
 	
+	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
@@ -107,7 +108,12 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(deleteMediaResult, generalFault) );
 		}
 		private function deleteMediaResult(event:ResultEvent):void {
-			if(event.result == true) sendNotification( NotificationConstants.DELETE_MEDIA_OK );
+			if(event.result == true) {
+				sendNotification( NotificationConstants.DELETE_MEDIA_OK );
+			}
+			else {
+				Alert.show("Não foi possível remover a mídia. Ela pode estar associada em algum slide.", "Erro");
+			}
 		}
 	}
 }
