@@ -14,7 +14,6 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import mx.rpc.CallResponder;
 
 	public class RepositoryPanelMediator extends Mediator
 	{
@@ -33,6 +32,8 @@ package br.com.optimedia.autor.view
 		{
 			trace(NAME+".onRegister()");
 			view.deleteBtn.addEventListener( MouseEvent.CLICK, deleteMedia );
+			view.linkBtn.addEventListener( MouseEvent.CLICK, doLink);
+			
 			proxy = facade.retrieveProxy( RepositoryManagerProxy.NAME ) as RepositoryManagerProxy;
 		}
 		
@@ -85,6 +86,10 @@ package br.com.optimedia.autor.view
 					proxy.deleteMedia( MediaVO(view.mediaTree.selectedItem).media_id );
 				}
 			}
+		}
+		
+		private function doLink(event:MouseEvent):void {
+			sendNotification( NotificationConstants.DO_LINK_EVENT, view.mediaTree.selectedItem );
 		}
 	}
 }

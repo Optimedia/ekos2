@@ -29,9 +29,6 @@
 			
 			private function setIcon(item:Object):Class {
 				var iconClass:Class;
-				previePanel.title = 'Pré-visualização';
-				previewImage.visible = false;
-				previewTextArea.visible = false;
 				
 				if( mediaTree.dataDescriptor.isBranch(item) ) {
 					iconClass = ImgAssets.iconMinimised;
@@ -70,6 +67,11 @@
 			}
 			
 			private function treeItemClick(event:ListEvent):void {
+				previePanel.title = 'Pré-visualização';
+				previewImage.visible = false;
+				previewTextArea.visible = false;
+				linkBtn.enabled = false;
+				
 				var item:Object = mediaTree.selectedItem;
                 if (mediaTree.dataDescriptor.isBranch(item)) {
                     mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
@@ -120,6 +122,7 @@
 					previewImage.visible = false;
 					previewTextArea.visible = true;
 				}
+				linkBtn.enabled = true;
 			}
 			
 			private function openPopUp():void {
@@ -129,15 +132,11 @@
 				PopUpManager.centerPopUp( popUp );
 			}
 			
-			private function doLink():void {
-				
-			}
-			
 		]]>
 	</mx:Script>
 	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
-		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}"borderStyle="none"/>
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" borderStyle="none"/>
 		
 	<mx:Panel id="previePanel" width="280" height="180" dropShadowEnabled="false" cornerRadius="10"
 		borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0" layout="absolute" title="Pré-visualização">
@@ -146,15 +145,16 @@
 		
 		<mx:Image id="previewImage" maxWidth="280" maxHeight="180" horizontalCenter="0" verticalCenter="0"/>
 		
+		
+		
 	</mx:Panel>
 	
 	<mx:ControlBar height="35" paddingTop="5">
-		<mx:Spacer width="100%" height="10"/>
-		<mx:Button id="linkBtn" label="Associar" click="doLink()" />
+		<mx:Button id="linkBtn" label="Associar" click="doLink()"/>
+		<mx:Spacer width="100%"/>
 		<mx:VRule height="10"/>
-		<mx:Spacer width="100%" height="10"/>
+		<mx:Spacer width="100%"/>
 		<mx:Button id="addBtn" label="Adicionar" click="openPopUp()" />
-		<mx:VRule height="10"/>
 		<mx:Button id="deleteBtn" label="Remover" />
 	</mx:ControlBar>
 	
