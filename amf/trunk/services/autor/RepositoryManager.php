@@ -128,7 +128,7 @@
 		 * - Retorna: Boolean 
 		 * .
 		 */
-		public function deleteMedia($mediaID) {
+		public function deleteMedia($media_id) {
 			
 			$sql = "SELECT * FROM ath_link WHERE media_id=$media_id";
 			$result = mysql_query($sql);
