@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="100%"
-	creationComplete="init()" title="Repositório de Midias">
+	creationComplete="init()" title="Repositório de Mídias">
 	
 	<mx:Script>
 		<![CDATA[
