@@ -45,10 +45,10 @@ package br.com.optimedia.autor.assets.img
 		
 		
 		//ÍCONES DA PREVIEW DO REPOSITÓRIO
-		[Embed('movieIcon.png')]
+		[Embed('movieIconLarge.png')]
 		public static const movieIconLarge:Class;
 		
-		[Embed('fileIcon.png')]
+		[Embed('fileIconLarge.png')]
 		public static const fileIconLarge:Class;
 		
 	}

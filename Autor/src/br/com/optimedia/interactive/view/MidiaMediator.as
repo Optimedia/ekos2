@@ -124,6 +124,8 @@ package br.com.optimedia.interactive.view {
 					text.wordWrap = true;
 					text.editable=false;
 					text.enabled=true;
+					text.percentWidth = 100;
+					text.percentHeight = 100;
 					//text.addEventListener(TextEvent.LINK, teste);	
 					text.styleSheet = view.styleSh		
 					view.addChild(text);

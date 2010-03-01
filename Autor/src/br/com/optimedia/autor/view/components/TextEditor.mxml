@@ -308,13 +308,14 @@
 	    //  Methods
 	    //
 	    //--------------------------------------------------------------------------
-	
+		public var beginIndex:int;;
+		public var endIndex:int;
 		private function setTextStyles(type:String, value:Object = null):void
 		{
 			var tf:TextFormat;
 	
-			var beginIndex:int = textArea.getTextField().selectionBeginIndex;
-			var endIndex:int = textArea.getTextField().selectionEndIndex;
+			beginIndex = textArea.getTextField().selectionBeginIndex;
+			endIndex = textArea.getTextField().selectionEndIndex;
 	
 			if (beginIndex == endIndex)
 			{
@@ -357,7 +358,7 @@
 					tf["target"] = "";
 					tf["underline"] = true;
 					
-					mediaArray.push(_currentMedia);
+					mediaArray.push(_currentMediaID);
 				}
 				else if (tf[type] != "")
 				{
@@ -404,18 +405,18 @@
 				
 			var tf:TextFormat;
 	
-			var beginIndex:int = textArea.getTextField().selectionBeginIndex;
-			var endIndex:int = textArea.getTextField().selectionEndIndex;
+			beginIndex = textArea.getTextField().selectionBeginIndex;
+			endIndex = textArea.getTextField().selectionEndIndex;
 	
 			if (beginIndex == endIndex) {
 				/* linkTextInput.enabled = false; */
-				btnLink.enabled = false;
+				//btnLink.enabled = false;
 			} else {
 				/* linkTextInput.enabled = true; */
-				if(_currentMedia != 0) {
-					btnLink.enabled = true;
+				if(_currentMediaID != 0) {
+					//btnLink.enabled = true;
 				} else {
-					btnLink.enabled = false;
+					//btnLink.enabled = false;
 				}
 			}
 				
@@ -482,22 +483,24 @@
 		 *  This method is called when the user clicks on the textArea, drags
 		 *  out of it and releases the mouse button outside the TextArea.
 		 */
+		public var haveSelection:Boolean;
 		private function systemManager_mouseUpHandler(event:MouseEvent):void
 		{
-			
 			if (lastCaretIndex != textArea.getTextField().caretIndex)
 				getTextStyles();
 			else
 			{
 				if (textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
+					haveSelection = false;
 					/* linkTextInput.enabled = false; */
-					btnLink.enabled = false;
+					//btnLink.enabled = false;
 				} else {
 					/* linkTextInput.enabled = true; */
-					if(_currentMedia != 0) {
-						btnLink.enabled = true;
+					haveSelection = true;
+					if(_currentMediaID != 0) {
+						//btnLink.enabled = true;
 					} else {
-						btnLink.enabled = false;
+						//btnLink.enabled = false;
 					}
 				}	
 			}
@@ -525,18 +528,18 @@
 		}
 		
 		[Bindable]
-		private var _currentMedia:int;
+		private var _currentMediaID:int;
 		
-		public function set currentMedia(value:int):void {
-			_currentMedia = value;
+		public function set currentMediaID(value:int):void {
+			_currentMediaID = value;
 			
-			if(textArea) {
+			/* if(textArea) {
 				if(textArea.getTextField().selectionBeginIndex == textArea.getTextField().selectionEndIndex) {
 					btnLink.enabled = false;
 				} else {
 					btnLink.enabled = true;
 				}
-			}
+			} */
 		}
 		
 		private function saveSlide():void {
@@ -550,8 +553,8 @@
 			
 		}
 		
-		private function makeLink():void {
-			setTextStyles('url', 'event:'+String(_currentMedia));
+		public function makeLink():void {
+			setTextStyles('url', 'event:'+String(_currentMediaID));
 		}
 	
 	]]>
@@ -612,10 +615,10 @@
 							   icon="@Embed('../../assets/img/icon_bullet.png')"
 							   click="setTextStyles('bullet', event.currentTarget.selected);" />
 							   
-						<mx:ColorPicker id="colorPicker" width="22" height="22"
+						<mx:ColorPicker id="colorPicker" width="22" height="22" visible="false" includeInLayout="false"
 									close="setTextStyles('color');" selectedColor="#000000"/>
 						
-						<mx:VRule height="10"/>
+						<mx:VRule height="10" visible="false" includeInLayout="false"/>
 						
 						<mx:ToggleButtonBar id="alignButtons" buttonWidth="20"
 									itemClick="setTextStyles('align', ToggleButtonBar(event.currentTarget).dataProvider.getItemAt(ToggleButtonBar(event.currentTarget).selectedIndex).action); " >
@@ -629,9 +632,9 @@
 							</mx:dataProvider>
 						</mx:ToggleButtonBar>
 						
-						<mx:VRule height="10"/>
+						<!--<mx:VRule height="10"/>
 							
-						<mx:Button id="btnLink" label="Link" enabled="false" click="makeLink()"/>
+						<mx:Button id="btnLink" label="Link" enabled="false" click="makeLink()"/>-->
 						<mx:Spacer width="100%"/>
 						<mx:VRule height="10"/>
 						

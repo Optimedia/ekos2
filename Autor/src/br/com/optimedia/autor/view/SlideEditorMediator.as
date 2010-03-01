@@ -1,6 +1,7 @@
 package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.autor.assets.NotificationConstants;
+	import br.com.optimedia.autor.assets.vo.MediaVO;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.assets.vo.SlideVO;
 	import br.com.optimedia.autor.model.SlideManagerProxy;
@@ -10,6 +11,7 @@ package br.com.optimedia.autor.view
 	import flash.events.MouseEvent;
 	
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	import mx.rpc.events.ResultEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -101,7 +103,15 @@ package br.com.optimedia.autor.view
 					view.closeTextEditor(null);
 					break;
 				case NotificationConstants.DO_LINK_EVENT:
-					
+					//var aux:Object = note.getBody();
+					if( view.textEditor.beginIndex != view.textEditor.endIndex ) {
+						view.textEditor.currentMediaID = MediaVO( note.getBody() ).media_id;
+						view.textEditor.makeLink();
+					}
+					else {
+						Alert.show("É necessário selecionar um texto antes.", "Atenção");
+					}
+					break;
 				default:
 					break;
 			}
