@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.autor.assets.vo.MediaVO;
 			import br.com.optimedia.autor.assets.img.ImgAssets;
 			import mx.core.Application;
 			import mx.managers.PopUpManager;
@@ -80,7 +81,41 @@
                 	trace("-------------------------------------");
                 	
                 	dispatchEvent(new Event("currentMediaChange", true));
+                	
+                	showPreview(item as MediaVO);
                 }
+			}
+			
+			private function showPreview(item:MediaVO):void {
+				previewTextArea.text = '';
+				previePanel.title = item.title;
+				
+				switch( item.category_id ) {
+					case 4:
+						previewImage.source = ImgAssets.movieIconLarge;
+						break;
+					case 5:
+						previewTextArea.text = item.body;
+						break;
+					case 6:
+						previewTextArea.text = item.body;
+						break;
+					case 7:
+						previewImage.source = ImgAssets.fileIconLarge;
+						previewImage.visible = true;
+						break;
+					default:
+						previewImage.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+item.body;
+						break;
+				}
+				if( previewTextArea.text == '' ) {
+					previewImage.visible = true;
+					previewTextArea.visible = false;
+				}
+				else {
+					previewImage.visible = false;
+					previewTextArea.visible = true;
+				}
 			}
 			
 			private function openPopUp():void {
@@ -99,9 +134,16 @@
 	
 	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
 		width="100%" height="70%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" 
-		change="checkChange(event)"/>
+		change="checkChange(event)" borderStyle="none"/>
 		
-	<mx:Canvas width="100%" height="30%"/>
+	<mx:Panel id="previePanel" width="100%" height="30%" dropShadowEnabled="false" cornerRadius="10"
+		borderStyle="solid" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0">
+		
+		<mx:TextArea id="previewTextArea" width="100%" height="100%" />
+		
+		<mx:Image id="previewImage" width="100%" height="100%" />
+		
+	</mx:Panel>
 	
 	<mx:ControlBar height="35" paddingTop="5">
 		<mx:Spacer width="100%" height="10"/>
