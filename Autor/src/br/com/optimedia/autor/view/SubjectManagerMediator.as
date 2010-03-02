@@ -1,5 +1,6 @@
 package br.com.optimedia.autor.view
 {
+	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.assets.NotificationConstants;
 	import br.com.optimedia.autor.assets.vo.PresentationVO;
 	import br.com.optimedia.autor.assets.vo.SubjectVO;
@@ -14,7 +15,6 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.autor.AutorFacade;
 
 	public class SubjectManagerMediator extends Mediator
 	{
@@ -60,7 +60,8 @@ package br.com.optimedia.autor.view
 					NotificationConstants.SAVE_SUBJECT_OK,
 					NotificationConstants.SAVE_PRESENTATION_OK,
 					NotificationConstants.LOCK_PRESENTATION_OK,
-					NotificationConstants.GET_SKINS_RESULT];
+					NotificationConstants.GET_SKINS_RESULT,
+					NotificationConstants.BACK_TO_SUBJECT_MANAGER];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -87,6 +88,9 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.GET_SKINS_RESULT:
 					view.presentationSkins = new ArrayCollection( note.getBody() as Array );
+					break;
+				case NotificationConstants.BACK_TO_SUBJECT_MANAGER:
+					subjectManagerProxy.getSubjects();
 					break;
 				default:
 					break;

@@ -56,6 +56,7 @@
 					var i:uint = 0;
 					for each(var item:int in slideSelector.slideVO.mediaArray) {
 						textEditor.mediaArray[i] = item;
+						i++;
 					}
 				}
 			}
