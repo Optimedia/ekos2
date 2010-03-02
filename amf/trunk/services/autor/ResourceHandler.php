@@ -4,24 +4,17 @@
 	class ResourceHandler extends SqlManager {
         
 		protected $db_name = sinasemdl;
-        protected $course = 2;
+        protected $course = 3;
         protected $instances;
         protected $instancesModule;
         protected $sectionID;
         protected $presentationID;
         
 		public function ResourceHandler() {
-			if($_SERVER['SERVER_ADDR'] == "74.54.27.146") {
-				$host = "74.54.27.146:3309";
-				$user = "root";
-				$pass = "0pt1m3d14SQL";
-				$db = "ekos2";
-			} else {
-				$host = "10.1.1.10";
-				$user = "opti";
-				$pass = "opti";
-				$db = "ekos2";
-			}
+			$host = "74.54.27.146:3309";
+			$user = "root";
+			$pass = "0pt1m3d14SQL";
+			$db = "sinasemdl";
 	
 			parent::SqlManager($host, $user, $pass, $db);
 		}
@@ -34,7 +27,7 @@
 						                    "type" => "html",
 						                    "reference" => "",
 						                    "summary" => $presentationName,
-						                    "alltext" => "\"<script src='/sinase.moodle/interactive/includeAll.js' language='javascript'></script><noscript><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='Interactive' width='800' height='512' codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='Interactive.swf' /><param name='quality' value='high' /><param name='bgcolor' value='#869ca7' /><param name='allowScriptAccess' value='sameDomain' /> <param name='flashVars' value='_presentation=$presentationID&_idSlide=0'/><embed src='/sinase.moodle/interactive/Interactive.swf' quality='high' bgcolor='#869ca7' width='800' height='512' name='Interactive' align='middle' play='true' loop='false' quality='high' allowScriptAccess='sameDomain' type='application/x-shockwave-flash' pluginspage='http://www.adobe.com/go/getflashplayer'> </embed> </object></noscript>\"",
+						                    "alltext" => "<script language=\"javascript\" src=\"/Interactive/includeAll.js\"></script><script language=\"javascript\" src=\"/Interactive/AC_OETags.js\"></script><script language=\"javascript\" src=\"/Interactive/history/history.js\"></script><script language=\"javascript\" src=\"/Interactive/testBrowser.js\"></script><embed height=\"512\" align=\"middle\" width=\"800\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.adobe.com/go/getflashplayer\" allowscriptaccess=\"sameDomain\" name=\"Interactive\" bgcolor=\"#869ca7\" quality=\"high\" id=\"Interactive\" src=\"/Interactive/Interactive.swf?_presentation=$presentationID&_idSlide=\"<?php echo 0 ?>\" /> <noscript> <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" id=\"Interactive\" width=\"800\" height=\"512\" codebase=\"http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab\"> <param name=\"movie\" value=\"Interactive.swf\" /> <param name=\"quality\" value=\"high\" /> <param name=\"bgcolor\" value=\"#869ca7\" /> <param name=\"allowScriptAccess\" value=\"sameDomain\" /> <param name=\"flashVars\" value=\"_presentation=18&_idSlide=0\"/> <embed src=\"/Interactive/Interactive.swf\" quality=\"high\" bgcolor=\"#869ca7\" width=\"800\" height=\"512\" name=\"Interactive\" align=\"middle\" play=\"true\" loop=\"false\" quality=\"high\" allowScriptAccess=\"sameDomain\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.adobe.com/go/getflashplayer\"></embed> </object></noscript>",
 						                    "popup" =>"",
 						                    "options" =>"",
 						                    "timemodified" =>"1248132589"
@@ -44,9 +37,10 @@
 	        
 	        $this-> instances = $this->insert_id;
 	        
-	        $this->insertCourseModule();
+	        if( $result == true ) {
+		        return $this->insertCourseModule();
+	        }
 			//return $this-> instancesResource;
-			return $result;
 	    }
 
 		function insertCourseModule(){
@@ -73,17 +67,19 @@
 
             $condition="presentation_id=$this->presentationID";
             
-            $result = parent::doUpdate($fieldsAndValuesPresentation,$condition,"ekos2.ath_presentation");
-            
-		    $this-> insertContext();
+            if( $result == true ){
+            	$result = parent::doUpdate($fieldsAndValuesPresentation,$condition,"ekos2.ath_presentation");
+            }
+            if( $result == true ){
+			    return $this-> insertContext();
+            }
 		    
-		    return $result;
 		}
 		
 		function insertContext() {
 		    $fieldsAndValuesResource= array("contextlevel" => "70",
 						                    "instanceid" => $this->instances,
-						                    "path" => "/1/3/12/",
+						                    "path" => "/1/3/46/",
 						                    "depth" => "4"
 											);
 		    
@@ -91,15 +87,16 @@
 		    
 		    $this-> instances = $this -> insert_id;
 		    
-		    $fieldsAndValuesResource= array( "path" => "/1/3/12/$this->instances" );
+		    $fieldsAndValuesResource= array( "path" => "/1/3/46/$this->instances" );
 		    
 		    $condition = "id=$this->instances";
 		    
-		    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "mdl_context" );
-		    
-		    $this->insertCourseSection();
-		    
-		    return $result;
+		    if( $result == true ) {
+			    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "mdl_context" );
+		    }
+		    if( $result == true ) {
+			    return $this->insertCourseSection();
+		    }
 		}
 	
 		function insertCourseSection() {
@@ -119,9 +116,8 @@
 				$fieldsAndValuesResource= array( "sequence" => $newSequence );
 		    }
 			
-		    $result = parent::doUpdate($fieldsAndValuesResource,$condition,"mdl_course_sections");
+		    return parent::doUpdate($fieldsAndValuesResource,$condition,"mdl_course_sections");
 			
-			return $result;
 //		    $fieldsAndValuesResource= array( "section_id" => $this->sectionID );
 //			
 //		    $condition="presentation_id=$this->presentationID";
@@ -154,9 +150,7 @@
             
             $condition = "id=$sectionID";
             
-            $result = parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
-
-            return $result;
+            return parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
 
         }
 	}
