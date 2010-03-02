@@ -201,10 +201,10 @@
 					<mx:Button label="Novo slide" click="addSlide()"/>
 					<mx:Button label="Editar" click="editSlide()"/>
 					<mx:Button label="Ordenar" click="setOrder()"/>
-					<mx:Button label="Remover Slide" click="deleteSlide()"/>
+					<mx:Button id="slideRemoveBtn" label="Remover Slide" click="deleteSlide()" enabled="{_presentationVO.slidesArray.length > 1}"/>
 					
 				<!--</mx:ToolBar>-->
-					
+				
 				</mx:HBox>
 						
 			</mx:VBox>

@@ -37,6 +37,7 @@
 
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.autor.assets.vo.MediaVO;
 		import mx.collections.ArrayCollection;
 		import mx.rpc.events.ResultEvent;
 		import mx.controls.Alert;
@@ -542,12 +543,22 @@
 			} */
 		}
 		
+		private function checkLinks():void {
+			var newMediaArray:ArrayCollection = new ArrayCollection();
+			for each( var media:int in _slideVO.mediaArray ) {
+				if( _slideVO.text_body.indexOf('<A HREF="event:'+media.toString()+'"') != -1 ) {
+					newMediaArray.addItem( media );
+				}
+			}
+			_slideVO.mediaArray = newMediaArray;
+		}
+		
 		private function saveSlide():void {
-			
 			_slideVO.text_body = textArea.htmlText;
 			_slideVO.title = txtTitle.text;
-			
 			_slideVO.mediaArray = mediaArray;
+			
+			checkLinks();
 			
 			dispatchEvent(new ResultEvent('saveSlide', true, true, _slideVO));
 			

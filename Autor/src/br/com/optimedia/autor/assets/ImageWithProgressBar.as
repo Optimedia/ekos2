@@ -112,7 +112,7 @@ package br.com.optimedia.autor.assets
             //_progressBar.y         = ( this.height * 0.5 ) - ( progressHeight * 0.5 );
             /* _progressBar.setStyle("horizontalCenter", 0);
             _progressBar.setStyle("verticalCenter", 0); */
-            _progressBar.x = -130;
+            _progressBar.x = -135;
             _progressBar.width     = 270;
             _progressBar.height = progressHeight
         }

@@ -81,6 +81,12 @@ package br.com.optimedia.autor.view
 					view.presentationVO.slidesArray = note.getBody() as Array;
 					view.slideSelector.presentationVO = view.presentationVO;
 					view.slideSelector.interactive.visible = true;
+					if( view.presentationVO.slidesArray.length <= 1 ) {
+						view.slideSelector.slideRemoveBtn.enabled = false;
+					}
+					else {
+						view.slideSelector.slideRemoveBtn.enabled = true;
+					}
 					break;
 				case NotificationConstants.UNLOCK_PRESENTATION_OK:
 					sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
