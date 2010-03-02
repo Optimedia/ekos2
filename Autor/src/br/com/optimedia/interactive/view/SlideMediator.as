@@ -6,11 +6,13 @@ package br.com.optimedia.interactive.view
 	import br.com.optimedia.interactive.view.components.SlideView;
 	
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	import flash.events.TextEvent;
 	
 	import mx.controls.Image;
 	import mx.controls.Text;
 	import mx.controls.TextArea;
+	import mx.managers.CursorManager;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -90,18 +92,17 @@ package br.com.optimedia.interactive.view
 			//title.setStyle("borderThickness",0);
 			
 			
-			content = new TextArea()
+			content = new TextArea();
 			content.x=20;
 			content.percentWidth = 90;
 			//content.width = 740;
-			content.selectable = false;
+			//content.selectable = false;
+
 			content.wordWrap = true;
 			content.editable = false;
 			content.setStyle("backgroundAlpha",0);
 			content.setStyle("borderThickness",0);
 		
-			content.addEventListener(TextEvent.LINK,openlink);
-			
 			if (vo.type_slide_id == 1) {
 				title.htmlText = "<span class='titleTITLE'>"+vo.title + "</span>";
 				content.htmlText = "<span class='contentTITLE'>"+vo.text_body + "</span>";
@@ -109,6 +110,9 @@ package br.com.optimedia.interactive.view
 				title.htmlText = "<span class='titleTYPEPAGE'>"+vo.title + "</span>";
 				content.htmlText ="<span class='contentTYPEPAGE'>"+ vo.text_body + "</span>";
 			}
+			
+			content.addEventListener(TextEvent.LINK,openlink);
+			
 			title.styleSheet = view.styleSh;
 			
 			content.styleSheet= view.styleSh;
