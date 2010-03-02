@@ -46,7 +46,7 @@ package br.com.optimedia.autor.model
 		}
 		
 		public function addNewSlide(slideVO:SlideVO):void {
-			slideVO.title = "Título";
+			//slideVO.title = "Título";
 			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
 			asynkToken.addResponder( new Responder(addNewSlideResult, generalFault) );
 		}

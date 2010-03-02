@@ -99,6 +99,7 @@
 				var slide:SlideVO = new SlideVO();
 				slide.presentation_id = presentationVO.presentation_id;
 				slide.page_order = uint(slideSelector.slideNum)+ 1;
+				slide.title = "Título Slide "+slide.page_order.toString();
 				
 				ArrayCollection(presentationVO.slidesArray).addItemAt(slide, int(slideSelector.slideNum ));
 				

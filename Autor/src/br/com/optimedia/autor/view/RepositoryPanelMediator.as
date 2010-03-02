@@ -90,6 +90,7 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function doLink(event:MouseEvent):void {
+			view.linkBtn.enabled = false;
 			event.stopImmediatePropagation();
 			event.stopPropagation();
 			event.preventDefault();

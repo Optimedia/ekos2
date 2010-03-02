@@ -146,8 +146,8 @@ package br.com.optimedia.interactive.view {
 					}else {
 						imagem = new Image();
 						imagem.autoLoad = true;
-						imagem.width = view.width*0.9;
-						imagem.height = view.height*0.9;
+						imagem.maxWidth = view.width*0.9;
+						imagem.maxHeight = view.height*0.9;
 						imagem.scaleContent = true;
 						imagem.setStyle("horizontalCenter",0);
 						imagem.setStyle("verticalCenter",0);
