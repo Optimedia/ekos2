@@ -365,7 +365,7 @@
 				{
 					tf[type] = ""; 
 					tf["target"] = ""; 
-					tf["underline"] = false;
+					tf["underline"] = true;
 				}
 			} else if(type == "media") {
 				tf["underline"] = true;
