@@ -202,8 +202,7 @@ class SlideManager extends SqlManager {
 		
 		if ($slide->slide_id == 0) {
 			
-			$result = parent::doInsert ( $arrayTemp, $this->_table );
-			$lastId = $this->insert_id;
+			return parent::doInsert ( $arrayTemp, $this->_table );
 		} else {
 			
 			$condition = "slide_id=" . $slide->slide_id;
@@ -215,20 +214,22 @@ class SlideManager extends SqlManager {
 			$table = "ath_link";
 			
 			$resultMedia = parent::doDelete($where, $table);
-		}
-		
-		if ($result != true || $resultMedia != true) {
-			return false;
-		}
-		
-		// TO FINISH SALVAR mediaArray
-		
-		foreach ( $slide->mediaArray as $media_id ) {
 			
-			$this->saveMediaLink ( $media_id, $lastId );
+			if ($result != true || $resultMedia != true) {
+				return false;
+			}
+			
+			// TO FINISH SALVAR mediaArray
+			
+			foreach ( $slide->mediaArray as $media_id ) {
+				
+				$this->saveMediaLink ( $media_id, $lastId );
+			}
+			
+			return true;
 		}
 		
-		return true;
+		
 	
 	}
 	
