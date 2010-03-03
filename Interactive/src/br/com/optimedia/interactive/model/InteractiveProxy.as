@@ -51,7 +51,7 @@ package br.com.optimedia.interactive.model
 		public function getSlides(presentationID:uint, idSlideID:uint):void {
 			idSlide = idSlideID as uint;
 			
-			var asynkToken:AsyncToken = remoteService.getSlides(presentationID);
+			var asynkToken:AsyncToken = remoteService.getPlayerSlides(presentationID);
 			asynkToken.addResponder( new Responder(getSlidesResult, generalFault) );
 		}
 		private function getSlidesResult(event:ResultEvent ):void {
@@ -71,7 +71,7 @@ package br.com.optimedia.interactive.model
 					}
 				}
 			}
-			sendNotification(ApplicationConstants.CONTRUCT_LINKS,midias)
+			sendNotification(ApplicationConstants.CONTRUCT_LINKS,midias);
 				
 				
 		}
