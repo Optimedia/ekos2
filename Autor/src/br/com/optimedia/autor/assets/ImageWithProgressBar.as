@@ -18,14 +18,6 @@ package br.com.optimedia.autor.assets
         private var _progressPercentWidth:Number = 80;
         private var _progressHeight:Number = 20;
         
-        
-//---------------------------------------------------------------------
-// Public properties
-//---------------------------------------------------------------------
-        
-        /**
-         * The relative width of the progress bar
-         */
         public function set progressPercentWidth( value:Number ):void
         {
             _progressPercentWidth = value;
@@ -36,9 +28,6 @@ package br.com.optimedia.autor.assets
             return _progressPercentWidth;    
         }
         
-        /**
-         * The height of the progress bar
-         */
         public function set progressHeight( value:Number ):void
         {
             _progressHeight = value;
@@ -50,9 +39,6 @@ package br.com.optimedia.autor.assets
             return _progressHeight;
         }
         
-        /**
-         * The progress bar label
-         */
         public function set progressLabel( value:String ):void
         {
             _progressBar.label = value;
@@ -62,10 +48,6 @@ package br.com.optimedia.autor.assets
             return _progressBar.label;
         }
         
-        
-//---------------------------------------------------------------------
-// Constructior
-//---------------------------------------------------------------------
         public function ImageWithProgressBar()
         {
             this.addEventListener( ResizeEvent.RESIZE, resizeHandler );
@@ -75,15 +57,6 @@ package br.com.optimedia.autor.assets
             this.addEventListener( SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
         }
         
-        
-//---------------------------------------------------------------------
-// Protected functions
-//---------------------------------------------------------------------
-        
-        /**
-         * Create children override
-         * This is where the progress bar is created
-         */
         override protected function createChildren():void
         {
             _progressBar = new ProgressBar();
@@ -100,46 +73,27 @@ package br.com.optimedia.autor.assets
             this.addChild( _progressBar );
         }
         
-        /**
-         * Set the dimensions of the progress bar
-         */
         protected function evaluateProgressSize():void
         {
             if( _progressBar == null )
                 return;
                 
-            //_progressBar.x         = this.width * ( ( 1 - ( progressPercentWidth / 100 ) ) * 0.5 );
-            //_progressBar.y         = ( this.height * 0.5 ) - ( progressHeight * 0.5 );
-            /* _progressBar.setStyle("horizontalCenter", 0);
-            _progressBar.setStyle("verticalCenter", 0); */
             _progressBar.x = -135;
-            _progressBar.width     = 270;
+            _progressBar.width = 270;
             _progressBar.height = progressHeight
         }
         
-        /**
-         * Show the progress bar
-         */
         protected function showProgress():void
         {
-            // resets the progress bar before it is shown
             this.dispatchEvent( new ProgressEvent(ProgressEvent.PROGRESS, false, false, 0, 100 ) );
             
             _progressBar.visible = true;
         }
         
-        /**
-         * Hide the progress bar
-         */
         protected function hideProgress():void
         {
             _progressBar.visible = false;
         }
-        
-
-//---------------------------------------------------------------------
-// Event handlers
-//---------------------------------------------------------------------
         
         private function progressCreated( event:FlexEvent ):void
         {
