@@ -18,7 +18,7 @@ package br.com.optimedia.interactive.assets.vo
 		public var header_id:uint;
 		public var page_order:uint;
 		public var title:String;
-		public var title_menu:String;
+		private var _title_menu:String;
 		public var text_body:String;
 		public var status:uint;
 		private var _mediaArray:ArrayCollection = new ArrayCollection();
@@ -36,6 +36,16 @@ package br.com.optimedia.interactive.assets.vo
 		}
 		public function get mediaArray():* {
 			return _mediaArray;
+		}
+		public function get title_menu():String {
+			if (this._title_menu=="") {
+				return this.title;
+			} else {
+				return this._title_menu;
+			}
+		}
+		public function set title_menu(value: String): void {
+			this._title_menu = value;
 		}
 	}
 }

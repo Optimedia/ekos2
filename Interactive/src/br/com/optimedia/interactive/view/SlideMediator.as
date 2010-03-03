@@ -9,6 +9,7 @@ package br.com.optimedia.interactive.view
 	import flash.events.TextEvent;
 	
 	import mx.controls.Image;
+	import mx.controls.Text;
 	import mx.controls.TextArea;
 	import mx.core.Application;
 	
@@ -24,7 +25,7 @@ package br.com.optimedia.interactive.view
 		
 		public var lineTitle:uint = 0x000000;
 		public var bgTitle:uint = 0xFFFFFF;
-		public var title:TextArea;
+		public var title:Text;
 		public var content:TextArea;
 		public var imgContent:Image;
 		
@@ -79,26 +80,27 @@ package br.com.optimedia.interactive.view
 			}
 			interactiveProxy.getLinks(vo.slide_id);
 			
-			title = new TextArea();
+			title = new Text();
 			title.x=20;
+			title.height = 42;
 			title.width = 740;
 			//title.height
 			title.selectable = false;
-			title.wordWrap = true;
-			title.setStyle("backgroundAlpha",0);
-			title.setStyle("borderThickness",0);
+//			title.wordWrap = true;
+			//title.setStyle("backgroundAlpha",0);
+			//title.setStyle("borderThickness",0);
 			
 			
 			content = new TextArea()
 			content.x=20;
 			content.width = 740;
-			content.selectable = false;
+			//content.selectable = false;
 			content.wordWrap = true;
 			content.editable = false;
 			content.setStyle("backgroundAlpha",0);
 			content.setStyle("borderThickness",0);
 		
-			content.addEventListener(TextEvent.LINK,openlink);
+			
 			
 			if (vo.type_slide_id == SlideVO.TYPE_TITLE) {
 				title.htmlText = "<span class='titleTITLE'>"+vo.title + "</span>";
@@ -124,7 +126,7 @@ package br.com.optimedia.interactive.view
 				view.slide.rawChildren.addChildAt(lastBg,0);
 				
 				imgContent = new Image();
-				imgContent.source = vo.text_body;
+				imgContent.source = 'http://www.educar.tv/amf/services/autor/presentationfiles/'+Application.application.idPresentation+"/"+vo.text_body;
 				imgContent.autoLoad = true;
 				imgContent.setStyle("horizontalCenter",0);
 				imgContent.setStyle("verticalCenter",0);
@@ -143,14 +145,14 @@ package br.com.optimedia.interactive.view
 			lastBg=new Sprite ();
 			lastBg.graphics.lineStyle(1,lineTitle);
 			lastBg.graphics.beginFill(bgTitle,0.5);
-			lastBg.graphics.drawRoundRect(0,0,760,title.textHeight + 37 ,20,20);
+			lastBg.graphics.drawRoundRect(0,0,760,title.height + 12 ,20,20);
 			lastBg.graphics.endFill();
 			lastBg.x=15;
 			lastBg.y=yTitle-10;
 			view.slide.rawChildren.addChildAt(lastBg,0);
 			
 			
-			content.y=title.y + title.textHeight + 37;
+			content.y=title.y + title.height + 37;
 			if (type==SlideVO.TYPE_TITLE) {
 				content.y+=30;
 				content.height = 512 - title.y - title.height - 90 - 40 ;
@@ -158,6 +160,7 @@ package br.com.optimedia.interactive.view
 				content.height = 512 - title.y - title.height - 90;
 			}
 			view.slide.addChild(content);
+			content.addEventListener(TextEvent.LINK,openlink);
 		}
 		
 		public function getLineTitle ():uint {

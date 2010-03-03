@@ -26,6 +26,7 @@ package br.com.optimedia.interactive.assets
 		public static const OPEN_MIDIA_VIEW:String = "OPEN_MIDIA_VIEW";
 		public static const OPEN_MIDIA:String = "OPEN_MIDIA";
 		public static const CLOSE_MIDIA:String = "CLOSE_MIDIA";
+		public static const TOGGLE_MENUVIEW_VISIBILITY:String = "TOGGLE_MENUVIEW_VISIBILITY";
 		
 		
 	}

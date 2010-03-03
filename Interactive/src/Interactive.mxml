@@ -8,18 +8,12 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import mx.rpc.events.ResultEvent;
-		
-		import flash.net.URLLoader;
-    		import flash.net.URLRequest;
-    		import flash.text.StyleSheet;
-    		import flash.events.IOErrorEvent;
-		    import flash.events.Event;
-		    import flash.events.MouseEvent;
-
-
 			import mx.controls.Alert;
+			import mx.managers.BrowserManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.IBrowserManager;
 			import br.com.optimedia.interactive.InteractiveFacade;
+
 			
 			import mx.styles.StyleManager;
 		
@@ -31,34 +25,26 @@
     		[Bindable]
     		public var idSlide:uint = 0;
     		
-    		[Bindable]
-    		public var showNavegation:Boolean;
-    		
-    		//public var sheet:StyleSheet;
-    		
-    		public function start(_idPresentation:uint, _idSlide:uint):void {
-    			
-    			if (_idPresentation) {
-    				idPresentation = _idPresentation;
-    			}else {
-    				idPresentation = this.parameters._presentation;
-    			}
-				if (_idSlide) {
-					idSlide = _idSlide;
-				}else {
-					idSlide = this.parameters._idSlide;
-				}
-				//showNavegation = this.parameters._navegation
-				
-    			
-    			this.interactiveFacade = InteractiveFacade.getInstance();
-				this.interactiveFacade.startup( this );
-    		}
+    		public var sheet:StyleSheet;
+    		public var end:IBrowserManager;
+
 			
 			private function init(): void {
+				idPresentation = this.parameters._presentation;
+				//idSlide = this.parameters._idSlide;
+				 end = BrowserManager.getInstance(); 
+				 end.init();
+				 
+				 var idSlideUrl:Array = end.url.split("s=");
+				 idSlide = idSlideUrl[1];
+				
 				this.menuView.visible=false;
 				this.httpService.send();
 				
+				this.interactiveFacade = InteractiveFacade.getInstance();
+				this.interactiveFacade.startup( this );
+
+
 			}
 			public function httpService_result(event:ResultEvent):void {
                 styleSh.parseCSS(event.result as String);
@@ -74,7 +60,6 @@
 	 />	
 	<v:SlideView id="slideView" width="100%" height="100%"  visible="false"/>
 	<v:NavigatorView id="navigatorView" width="100%" visible="false" bottom="0"/>
-	<v:MidiaView id="midiaViewObj" width="98%"  height="93%" y="0" visible="false" horizontalCenter="0"/>
+	<v:MidiaView id="midiaViewObj" width="98%"  height="93%" y="0" visible="false" horizontalCenter="0" />
 	<v:MenuView id="menuView" width="200" height="430"   visible="false" y="50" x="10"/>
-	<mx:Button x="725" y="480" label="Button" click="start(1,0)"/>
 </mx:Application>

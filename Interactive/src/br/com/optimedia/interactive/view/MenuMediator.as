@@ -49,7 +49,8 @@ package br.com.optimedia.interactive.view
 			return [
 					ApplicationConstants.CONTRUCT_MENU,
 					ApplicationConstants.BACK_PAGE, 
-					ApplicationConstants.NEXT_PAGE
+					ApplicationConstants.NEXT_PAGE,
+					ApplicationConstants.TOGGLE_MENUVIEW_VISIBILITY
 					 ];
 		}
 		
@@ -66,6 +67,9 @@ package br.com.optimedia.interactive.view
 				case ApplicationConstants.NEXT_PAGE:
 						nextPage ();
 					break; 
+				case ApplicationConstants.TOGGLE_MENUVIEW_VISIBILITY:
+					toggleVisibility();
+					break;
 				default:
 					break;
 			}
@@ -118,6 +122,14 @@ package br.com.optimedia.interactive.view
 		 	sendNotification(ApplicationConstants.PAGE,display);
 
 		 	view.visible=false;
+		 }
+		 private function toggleVisibility():void {
+		 	 if( view.visible == true ) {
+		 			view.visible = false;
+		 	}
+		 	else {
+		 			view.visible = true;
+		 	} 
 		 }
 	}
 }

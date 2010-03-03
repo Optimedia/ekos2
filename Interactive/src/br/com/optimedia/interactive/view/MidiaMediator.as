@@ -100,50 +100,60 @@ package br.com.optimedia.interactive.view {
 					
 				}
 			}
-			var media:MediaVO = media;
-			if (media.category_id==6){
-				text = new TextArea();
-				text.setStyle("backgroundAlpha", 0);
-				text.setStyle("borderSides",0);
-				text.htmlText = "<span class='media'>" + media.body + "</span>";
-				text.wordWrap = true;
-				text.editable=false;
-				text.enabled=true;
-				//text.addEventListener(TextEvent.LINK, teste);	
-				text.styleSheet = Application.application.styleSh		
-				view.titleWindow.addChild(text);
-				
-			}else if (media.category_id<=3) {
-				var arq:Array = media.body.split(".");
-				if (arq[1]=="swf") {
-					swfLoad = new SWFLoader();
-					swfLoad.source = media.body;
-					swfLoad.autoLoad = true;
-					swfLoad.scaleContent = true;
-					view.titleWindow.addChild(swfLoad);
-				}else {
-					imagem = new Image();
-					imagem.source = media.body;
-					imagem.autoLoad = true;
-					imagem.scaleContent = true;
-					imagem.setStyle("horizontalCenter",0);
-					imagem.setStyle("verticalCenter",0);
-					view.titleWindow.addChild(imagem);
+			switch(media.category_id) {
+					case 4:
+						movie = new VideoDisplay();
+						movie.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
+						movie.autoPlay=true;
+						movie.autoRewind = false;
+						movie.setStyle("horizontalCenter",0);
+						movie.setStyle("verticalCenter",0);
+						view.titleWindow.addChild(movie);
+						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
+						break;
+					case 5:
+						var url:URLRequest = new URLRequest( media.body);
+						navigateToURL(url,"_blank");
+						break;
+					case 6:
+						text = new TextArea();
+						text.setStyle("backgroundAlpha", 0);
+						text.setStyle("borderSides",0);
+						text.htmlText = "<span class='media'>" + media.body + "</span>";
+						text.wordWrap = true;
+						text.editable=false;
+						text.enabled=true;
+						//text.addEventListener(TextEvent.LINK, teste);
+						text.styleSheet = Application.application.styleSh;
+						view.titleWindow.addChild(text);
+						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
+						break;
+					case 7:
+						var url1:URLRequest = new URLRequest( 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
+						navigateToURL(url1,"_blank");
+						break;
+						default:
+						var arq:Array = media.body.split(".");
+						if (arq[1]=="swf") {
+							swfLoad = new SWFLoader();
+							swfLoad.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+ media.body;
+							swfLoad.autoLoad = true;
+							swfLoad.scaleContent = true;
+							view.titleWindow..addChild(swfLoad);
+						}else {
+							imagem = new Image();
+							imagem.autoLoad = true;
+							imagem.width = view.width*0.9;
+							imagem.height = view.height*0.9;
+							imagem.scaleContent = true;
+							imagem.setStyle("horizontalCenter",0);
+							imagem.setStyle("verticalCenter",0);
+							imagem.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
+							view.titleWindow.addChild(imagem);
+						}
+						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
+						break;
 				}
-			}else if (media.category_id==4){
-					movie = new VideoDisplay();
-					movie.source = media.body;
-					movie.autoPlay=true;
-					movie.autoRewind = false;
-					movie.setStyle("horizontalCenter",0);
-					movie.setStyle("verticalCenter",0);
-					view.titleWindow.addChild(movie);
-			}else if (media.category_id==5) {
-					var url:URLRequest = new URLRequest( media.body);
-					navigateToURL(url,"_blank");
-				
-			}
-			sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
 		}
 	}
 }

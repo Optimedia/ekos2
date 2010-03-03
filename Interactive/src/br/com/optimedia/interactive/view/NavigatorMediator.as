@@ -3,6 +3,7 @@ package br.com.optimedia.interactive.view
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
 	import br.com.optimedia.interactive.assets.ApplicationMyAssets;
 	import br.com.optimedia.interactive.assets.vo.MediaVO;
+	import br.com.optimedia.interactive.assets.vo.SlideVO;
 	import br.com.optimedia.interactive.view.components.NavigatorView;
 	
 	import flash.events.MouseEvent;
@@ -20,6 +21,7 @@ package br.com.optimedia.interactive.view
 		
 		public var btn:Image;
 		public var medias:Array;
+		public var btEnd:Image;
 		
 	//	private var interactiveProxy:InteractiveProxy = new InteractiveProxy();
 		
@@ -80,11 +82,7 @@ package br.com.optimedia.interactive.view
 		 	
 		 }
 		 public function showMenu(event:MouseEvent):void {
-		 	if (Application.application.menuView.visible==true) {
-		 		Application.application.menuView.visible = false;
-		 	}else {
-		 		Application.application.menuView.visible = true;
-		 	}
+		 	sendNotification( ApplicationConstants.TOGGLE_MENUVIEW_VISIBILITY );
 		 }
 		 public function display (note:Array):void {
 		 	if (note[0]==1 && note[1]>1) {
@@ -109,8 +107,19 @@ package br.com.optimedia.interactive.view
 		 	
 		 }
 		 public function constructionLink(note:Array):void {
-		 	
 		 	view.links.removeAllChildren();
+		 	
+		 	var vo:SlideVO = Application.application.menuView.menuList.selectedItem as SlideVO;
+		 		
+		 	if (vo.type_slide_id !=3) {
+		 		btEnd = new Image();
+		 		btEnd.width = 24;
+		 		btEnd.height = 24;
+		 		btEnd.data = Application.application.end.url;
+		 		btEnd.addEventListener(MouseEvent.CLICK,clickEnd);
+		 		btEnd.source = ApplicationMyAssets.btRef_tabela;
+		 		view.links.addChild(btEnd);
+		 	}
 		 	
 		 	medias = note;		 	
 		 	for (var i:int=0 ; i<note.length; i++) {
@@ -158,7 +167,21 @@ package br.com.optimedia.interactive.view
 		 	sendNotification(ApplicationConstants.CREAT_MIDIA,media);
 		 	
 		 }
-
+		public function clickEnd (event:MouseEvent):void {
+			var end:String = event.currentTarget.data as String;
+			
+			var url:Array = end.split("?");
+			
+			var urlModulo:* = end.split("id=");
+			var url1:String = urlModulo[1];
+			var idModulo:Array = url1.split("&");
+			
+			//var id:uint = Application.application.idPresentation;
+				 
+			var vo:SlideVO = Application.application.menuView.menuList.selectedItem as SlideVO;
+			
+			Alert.show("Endereço da apresentação: \n " + url[0] +"?id=" + idModulo[0] + "&s=" + vo.slide_id );
+		}
 		 
 	}
 }
