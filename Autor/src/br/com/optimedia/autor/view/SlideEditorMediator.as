@@ -76,6 +76,7 @@ package br.com.optimedia.autor.view
 					proxy.getSlides( view.presentationVO.presentation_id );
 					view.slideSelector.interactive.visible = false;
 					view.slideSelector.setInteractiveVars( view.presentationVO.presentation_id, view.presentationVO.slidesArray[0].slide_id );
+					view.repositoryPanel.linkBtn.visible = false;
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
