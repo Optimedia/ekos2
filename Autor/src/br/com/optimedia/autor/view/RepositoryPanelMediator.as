@@ -90,11 +90,14 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function doLink(event:MouseEvent):void {
-			view.linkBtn.enabled = false;
 			event.stopImmediatePropagation();
 			event.stopPropagation();
 			event.preventDefault();
 			sendNotification( NotificationConstants.DO_LINK_EVENT, view.mediaTree.selectedItem );
+			view.linkBtn.enabled = false;
+			view.mediaTree.selectedIndex = -1;
+			view.previewImage.visible = false;
+			view.previewTextArea.visible = false;
 		}
 	}
 }

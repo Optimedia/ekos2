@@ -148,9 +148,6 @@
 		<assets:ImageWithProgressBar id="previewImage" maxWidth="280" maxHeight="150" scaleContent="true" maintainAspectRatio="false"
 			horizontalCenter="0" verticalCenter="0"/>
 		
-		<!--<mx:Image id="previewImage" maxWidth="280" maxHeight="150" scaleContent="true" maintainAspectRatio="false"
-			horizontalCenter="0" verticalCenter="0"/>-->
-		
 	</mx:Panel>
 	
 	<mx:ControlBar height="35" paddingTop="5">
