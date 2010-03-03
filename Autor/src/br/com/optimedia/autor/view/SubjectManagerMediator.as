@@ -74,6 +74,10 @@ package br.com.optimedia.autor.view
 					view.subjectArray = new ArrayCollection(note.getBody() as Array);
 					view.subjectGrid.selectedIndex = subjectSelectedIndex;
 					view.presentationGrid.selectedIndex = presentationSelectedIndex;
+					if( view.presentationGrid.selectedIndex != -1 ) {
+						if( PresentationVO(view.presentationGrid.selectedItem).section_id != 0 ) view.slideEditBtn.enabled=false;
+						else view.slideEditBtn.enabled = true;
+					} 
 					break;
 				case NotificationConstants.SAVE_SUBJECT_OK:
 					Alert.show("Módulo salvo com sucesso.", "OK");
