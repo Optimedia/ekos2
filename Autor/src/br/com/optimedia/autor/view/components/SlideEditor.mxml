@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
-	xmlns:components="br.com.optimedia.autor.view.components.*" creationComplete="init()">
+	xmlns:components="br.com.optimedia.autor.view.components.*" creationComplete="init()" xmlns:assets="br.com.optimedia.autor.assets.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -180,6 +180,11 @@
 					slideSelector.setNewSlide(slideSelector.slideID);
 					repositoryPanel.linkBtn.enabled = false;
 					repositoryPanel.mediaTree.selectedIndex = -1;
+					repositoryPanel.linkBtn.visible = false;
+				}
+				else {
+					repositoryPanel.linkBtn.visible = true;
+					repositoryPanel.mediaTree.selectedIndex = -1;
 				}
 			}
 			
@@ -187,6 +192,8 @@
 	</mx:Script>
 	
 	<mx:Button id="backBtn" label="Voltar" />
+	
+	<assets:SwfWithProgressBar id="bla"/>
 	
 	<mx:HBox>
 		

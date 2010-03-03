@@ -141,9 +141,11 @@
 				if( presentationGrid.selectedIndex!=-1 ) {
 					if( PresentationVO(presentationGrid.selectedItem).section_id == 0 ) {
 						slideEditBtn.enabled = true;
+						slideEditBtn.toolTip = "Clique para editar os slides da apresentação selecionada";
 					}
 					else {
 						slideEditBtn.enabled = false;
+						slideEditBtn.toolTip = "Não é possível editar os slides de apresentações publicadas";
 					}
 				}
 			}
