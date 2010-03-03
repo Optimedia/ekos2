@@ -1,14 +1,15 @@
 package br.com.optimedia.interactive.view {
 	
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
+	import br.com.optimedia.interactive.assets.ImageWithProgressBar;
+	import br.com.optimedia.interactive.assets.SwfWithProgressBar;
 	import br.com.optimedia.interactive.assets.vo.MediaVO;
 	import br.com.optimedia.interactive.view.components.MidiaView;
 	
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
-	import mx.controls.Image;
-	import mx.controls.SWFLoader;
+	import mx.controls.ProgressBar;
 	import mx.controls.TextArea;
 	import mx.controls.VideoDisplay;
 	import mx.core.Application;
@@ -21,9 +22,13 @@ package br.com.optimedia.interactive.view {
 		public static const NAME:String = 'MidiaMediator';
 		
 		public var text:TextArea;
-		public var imagem:Image;
-		public var swfLoad:SWFLoader;
+		//public var imagem:Image;
+		public var imagem:ImageWithProgressBar;
+		//public var swfLoad:SWFLoader;
+		public var swfLoad:SwfWithProgressBar;
 		public var movie:VideoDisplay; 
+		
+		private var loadBar:ProgressBar;
 		
 		
 		public function MidiaMediator(viewComponent:Object=null)
@@ -123,7 +128,6 @@ package br.com.optimedia.interactive.view {
 						text.wordWrap = true;
 						text.editable=false;
 						text.enabled=true;
-						//text.addEventListener(TextEvent.LINK, teste);
 						text.styleSheet = Application.application.styleSh;
 						view.titleWindow.addChild(text);
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
@@ -132,16 +136,18 @@ package br.com.optimedia.interactive.view {
 						var url1:URLRequest = new URLRequest( 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						navigateToURL(url1,"_blank");
 						break;
-						default:
+					default:
 						var arq:Array = media.body.split(".");
+						
 						if (arq[1]=="swf") {
-							swfLoad = new SWFLoader();
+							swfLoad = new SwfWithProgressBar();
 							swfLoad.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+ media.body;
 							swfLoad.autoLoad = true;
 							swfLoad.scaleContent = true;
-							view.titleWindow..addChild(swfLoad);
+							view.titleWindow.addChild(swfLoad);
+							
 						}else {
-							imagem = new Image();
+							imagem = new ImageWithProgressBar();
 							imagem.autoLoad = true;
 							imagem.width = view.width*0.9;
 							imagem.height = view.height*0.9;
