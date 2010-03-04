@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="400" height="300" 
+	showCloseButton="true" creationComplete="init()" close="closePop()" title="Clique e arraste para ordenar">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.assets.vo.SlideVO;
+			import mx.collections.ArrayCollection;
+		
+			import mx.managers.PopUpManager;
+			
+			[Bindable]
+			private var _slideArray:ArrayCollection;
+			
+			public function set slideArray(value:ArrayCollection):void {
+				_slideArray = value;
+			}
+			
+			public function get slideArray():ArrayCollection {
+				return _slideArray;
+			}
+			
+			private function init():void {
+				PopUpManager.centerPopUp(this);
+			}
+			
+			public function closePop():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function saveOrder():void {
+				/* var i:int = 1;
+				
+				finalSlideArray = new Array();
+				
+				for each (var slide:SlideVO in _slideArray) {
+				    slide.page_order = i;
+				    finalSlideArray.push(slide);
+				    
+				    i++;
+				}	 */		
+				dispatchEvent(new Event("orderChange", true));
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:DataGrid id="listSlide" dropEnabled="true" dragEnabled="true" dragMoveEnabled="true" dataProvider="{_slideArray}" width="100%" height="100%">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Titulo" dataField="title" sortable="false"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:ControlBar paddingTop="5" height="35">
+		<mx:Button label="Salvar" click="saveOrder()"/>
+		<mx:Spacer width="100%" height="10"/>
+		<mx:Button label="Cancelar" click="closePop()"/>
+	</mx:ControlBar>
+	
+</mx:TitleWindow>
