@@ -4,7 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import br.com.optimedia.assets.img.ImgAssets;
+			import br.com.optimedia.assets.ImgAssets;
 			import br.com.optimedia.assets.vo.MediaVO;
 			import mx.core.Application;
 			import mx.managers.PopUpManager;
