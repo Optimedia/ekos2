@@ -95,9 +95,6 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.ADD_NEW_SLIDE_RESULT:
 					view.orderChangeHandler();
 					orderDirection = 'plus';
-					//var my_timedProcess:uint = setTimeout(function():void { view.slideSelector.changeSlide('plus') }, 5000);
-					//view.editSlide(null);
-					//view.slideSelector.changeSlide('plus');
 					break;
 				case NotificationConstants.SET_SLIDE_ORDER_RESULT:
 					view.presentationVO.slidesArray = new ArrayCollection( note.getBody() as Array );
