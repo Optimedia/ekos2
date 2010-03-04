@@ -42,6 +42,12 @@ package br.com.optimedia.interactive.assets
             [Bindable]
             [Embed('br/com/optimedia/interactive/assets/layout/skin.swf', symbol='btRef_grafico')]
             public static var btRef_grafico:Class;
+            
+            [Bindable]
+            [Embed('br/com/optimedia/interactive/assets/layout/skin.swf', symbol='btRef_url')]
+            public static var btRef_url:Class;
+            
+            
 		}
 
 	}
