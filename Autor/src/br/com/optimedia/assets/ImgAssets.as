@@ -1,17 +1,17 @@
-package br.com.optimedia.assets.img
+package br.com.optimedia.assets
 {
 	public class ImgAssets
 	{
-		[Embed('trashIcon.png')]
+		[Embed('img/trashIcon.png')]
 		public static const deleteIcon:Class;
 		
-		[Embed('editIcon.png')]
+		[Embed('img/editIcon.png')]
 		public static const editIcon:Class;
 		
-		[Embed('minusIcon.png')]
+		[Embed('img/minusIcon.png')]
 		public static const publishedIcon:Class;
 		
-		[Embed('plusIcon.png')]
+		[Embed('img/plusIcon.png')]
 		public static const unpublishedIcon:Class;
 		
         [Embed(source="Assets.swf",symbol="TreeFolderClosed")]
@@ -22,38 +22,38 @@ package br.com.optimedia.assets.img
 		
 		
 		//ÍCONES DA TREE DO REPOSITÓRIO
-		[Embed('tableIcon.png')]
+		[Embed('img/tableIcon.png')]
 		public static const category1Icon:Class;
 		
-		[Embed('chartIcon.png')]
+		[Embed('img/chartIcon.png')]
 		public static const category2Icon:Class;
 		
-		[Embed('imageIcon.png')]
+		[Embed('img/imageIcon.png')]
 		public static const category3Icon:Class;
 		
-		[Embed('movieIcon.png')]
+		[Embed('img/movieIcon.png')]
 		public static const category4Icon:Class;
 		
-		[Embed('urlIcon.png')]
+		[Embed('img/urlIcon.png')]
 		public static const category5Icon:Class;
 		
-		[Embed('noteIcon.png')]
+		[Embed('img/noteIcon.png')]
 		public static const category6Icon:Class;
 		
-		[Embed('fileIcon.png')]
+		[Embed('img/fileIcon.png')]
 		public static const category7Icon:Class;
 		
 		
 		//ÍCONES DA PREVIEW DO REPOSITÓRIO
-		[Embed('movieIconLarge.png')]
+		[Embed('img/movieIconLarge.png')]
 		public static const movieIconLarge:Class;
 		
-		[Embed('fileIconLarge.png')]
+		[Embed('img/fileIconLarge.png')]
 		public static const fileIconLarge:Class;
 		
 		
 		//IMGS DO PLAYER
-		[Embed(source="playerSkin.swf",symbol="taskbar")]
+		[Embed(source="img/playerSkin.swf",symbol="taskbar")]
 		public static const playerTaskbar:Class;
 	}
 }

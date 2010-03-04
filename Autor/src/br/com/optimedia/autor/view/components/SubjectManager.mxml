@@ -165,7 +165,7 @@
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
 							<mx:Script>
 								<![CDATA[
-									import br.com.optimedia.assets.img.ImgAssets;
+									import br.com.optimedia.assets.ImgAssets;
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
@@ -192,7 +192,7 @@
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
 							<mx:Script>
 								<![CDATA[
-									import br.com.optimedia.assets.img.ImgAssets;
+									import br.com.optimedia.assets.ImgAssets;
 								]]>
 							</mx:Script>
 							<mx:Label text="{data.img_credit}" verticalCenter="0"/>
@@ -209,7 +209,7 @@
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
 							<mx:Script>
 								<![CDATA[
-									import br.com.optimedia.assets.img.ImgAssets;
+									import br.com.optimedia.assets.ImgAssets;
 								]]>
 							</mx:Script>
 							<mx:Label text="{data.img_intro}" verticalCenter="0"/>
@@ -226,7 +226,7 @@
 						<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
 							<mx:Script>
 								<![CDATA[
-									import br.com.optimedia.assets.img.ImgAssets;
+									import br.com.optimedia.assets.ImgAssets;
 								]]>
 							</mx:Script>
 							<mx:Label text="{data.img_conclusion}" verticalCenter="0"/>
@@ -245,7 +245,7 @@
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
 							<mx:Script>
 								<![CDATA[
-									import br.com.optimedia.assets.img.ImgAssets;
+									import br.com.optimedia.assets.ImgAssets;
 									import br.com.optimedia.assets.vo.PresentationVO;
 									
 									private function toolTipFunction(data:Object):String {
