@@ -1,5 +1,9 @@
 package br.com.optimedia.player
 {
+	import br.com.optimedia.assets.CommandConstants;
+	import br.com.optimedia.player.controller.PlayerModuleStartupCommand;
+	import br.com.optimedia.player.model.PlayerSlideManagerProxy;
+	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 
 	public class PlayerFacade extends Facade
@@ -24,8 +28,11 @@ package br.com.optimedia.player
         override protected function initializeController( ) : void 
         {
             super.initializeController();
+            
+            this.registerProxy( new PlayerSlideManagerProxy() );
+            
             //STARTUP COMMANDS
-			//registerCommand( CommandConstants.MODEL_STARTUP, ModelStartupCommand );
+			registerCommand( CommandConstants.PLAYER_MODULE_STARTUP, PlayerModuleStartupCommand );
             
             //DISPOSE COMMANDS
 			//registerCommand( CommandConstants.SEND_FILE_POPUP_DISPOSE, SendFilePopUpDisposeCommand );
@@ -38,7 +45,7 @@ package br.com.optimedia.player
          */
         public function startup( app:Object ):void
         {
-        	//if (app == "model") sendNotification( CommandConstants.MODEL_STARTUP, null );
+        	if(app is PlayerModule) sendNotification( CommandConstants.PLAYER_MODULE_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
