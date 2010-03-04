@@ -28,6 +28,7 @@
 			styleSheet="{styleSh}"
 			wordWrap="true" backgroundAlpha="0"  borderThickness="0" editable="false" y="52" height="413">
 		</mx:TextArea>
+		<mx:ProgressBar horizontalCenter="0" verticalCenter="0" labelPlacement="center"/>
 	</mx:Canvas>
 		
 	<!-- Navigator -->

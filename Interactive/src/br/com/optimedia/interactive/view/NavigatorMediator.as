@@ -117,7 +117,7 @@ package br.com.optimedia.interactive.view
 		 		btEnd.height = 24;
 		 		btEnd.data = Application.application.end.url;
 		 		btEnd.addEventListener(MouseEvent.CLICK,clickEnd);
-		 		btEnd.source = ApplicationMyAssets.btRef_tabela;
+		 		btEnd.source = ApplicationMyAssets.btRef_url;
 		 		view.links.addChild(btEnd);
 		 	}
 		 	
@@ -172,15 +172,15 @@ package br.com.optimedia.interactive.view
 			
 			var url:Array = end.split("?");
 			
-			var urlModulo:* = end.split("id=");
-			var url1:String = urlModulo[1];
-			var idModulo:Array = url1.split("&");
-			
-			//var id:uint = Application.application.idPresentation;
-				 
-			var vo:SlideVO = Application.application.menuView.menuList.selectedItem as SlideVO;
-			
-			Alert.show("Endereço da apresentação: \n " + url[0] +"?id=" + idModulo[0] + "&s=" + vo.slide_id );
+			var urlModulo:Array = end.split("id=");
+			if (urlModulo[1]){
+				var url1:String = urlModulo[1];
+				var idModulo:Array = url1.split("&");
+				var vo:SlideVO = Application.application.menuView.menuList.selectedItem as SlideVO;
+				Alert.show("Endereço da apresentação: \n " + url[0] +"?id=" + idModulo[0] + "&s=" + vo.slide_id );
+			}else { 
+				Alert.show("Endereço da apresentação: \n " + url[0]);
+			}
 		}
 		 
 	}
