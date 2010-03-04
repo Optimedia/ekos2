@@ -31,7 +31,6 @@
 			}
 			
 			private function init():void {
-				
 				// Passar somente o id para o player.
 				//slideVO.slide_id;
 				

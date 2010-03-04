@@ -2,7 +2,7 @@ package br.com.optimedia.assets
 {
 	public class CommandConstants
 	{
-		//startup commands
+		//autor startup commands
 		public static const MODEL_STARTUP:String = 'MODEL_STARTUP';
 		public static const AUTOR_STARTUP:String = 'AUTOR_STARTUP';
 		public static const SUBJECT_MANAGER_STARTUP:String = 'SUBJECT_MANAGER_STARTUP';
@@ -11,6 +11,11 @@ package br.com.optimedia.assets
 		public static const SEND_MEDIA_POPUP_STARTUP:String = 'SEND_MEDIA_POPUP_STARTUP';
 		public static const SLIDE_EDITOR_STARTUP:String = 'SLIDE_EDITOR_STARTUP';
 		public static const PUBLISH_PRESENTATION_STARTUP:String = 'PUBLISH_PRESENTATION_STARTUP';
+		
+		//player startup commands
+		public static const PLAYER_MODEL_STARTUP:String = 'PLAYER_MODEL_STARTUP';
+		public static const PLAYER_MODULE_STARTUP:String = 'PLAYER_MODULE_STARTUP';
+		
 		
 		//dispose commands
 		public static const SEND_FILE_POPUP_DISPOSE:String = 'SEND_FILE_POPUP_DISPOSE';

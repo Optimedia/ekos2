@@ -1,0 +1,92 @@
+package br.com.optimedia.player.model
+{
+	import br.com.optimedia.assets.FaultHandler;
+	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.vo.SlideVO;
+	
+	import mx.rpc.AsyncToken;
+	import mx.rpc.Responder;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	import mx.rpc.remoting.mxml.RemoteObject;
+	
+	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+
+	public class PlayerSlideManagerProxy extends Proxy
+	{
+		public static const NAME:String = "PlayerSlideManagerProxy";
+		
+		private var remoteService:RemoteObject;
+		
+		public function PlayerSlideManagerProxy(data:Object=null)
+		{
+			super(NAME, data);
+		}
+		
+		override public function onRegister():void {
+			trace(NAME+".onRegister()");
+			remoteService = new RemoteObject();
+			remoteService.destination = "amfphp";
+			remoteService.source = "autor.SlideManager";
+			remoteService.showBusyCursor = true;
+		}
+		
+		private function generalFault(event:FaultEvent):void {
+			FaultHandler.handleFault(event);
+		}
+		
+		/* public function getSlides(presentationID:uint):void {
+			var asynkToken:AsyncToken = remoteService.getSlides(presentationID);
+			asynkToken.addResponder( new Responder(getSlidesResult, generalFault) );
+		}
+		private function getSlidesResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
+			}
+		}
+		
+		public function addNewSlide(slideVO:SlideVO):void {
+			//slideVO.title = "Título";
+			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
+			asynkToken.addResponder( new Responder(addNewSlideResult, generalFault) );
+		}
+		private function addNewSlideResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
+			}
+			else if( event.result is SlideVO ) {
+				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
+			}
+		}
+		
+		public function setOrder(slideArray:Array):void {
+			var asynkToken:AsyncToken = remoteService.setOrder(slideArray);
+			asynkToken.addResponder( new Responder(setOrderResult, generalFault) );
+		}
+		private function setOrderResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.SET_SLIDE_ORDER_RESULT, event.result );
+			}
+		}
+		
+		public function deleteSlide(slideVO:SlideVO):void {
+			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO.slide_id);
+			asynkToken.addResponder( new Responder(deleteSlideResult, generalFault) );
+		}
+		private function deleteSlideResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.DELETE_SLIDE_RESULT );
+			}
+		}
+		
+		public function saveSlide(slideVO:SlideVO):void {
+			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
+			asynkToken.addResponder( new Responder(saveSlideResult, generalFault) );
+		}
+		private function saveSlideResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.SAVE_SLIDE_RESULT, event.result );
+			}
+		} */
+	}
+}

@@ -51,5 +51,9 @@ package br.com.optimedia.assets.img
 		[Embed('fileIconLarge.png')]
 		public static const fileIconLarge:Class;
 		
+		
+		//IMGS DO PLAYER
+		[Embed(source="playerSkin.swf",symbol="taskbar")]
+		public static const playerTaskbar:Class;
 	}
 }
