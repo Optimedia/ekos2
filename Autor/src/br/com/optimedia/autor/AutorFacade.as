@@ -24,8 +24,11 @@ package br.com.optimedia.autor
 	public class AutorFacade extends Facade
 	{
 		
+		public static const IS_ADMIN:String = "IS_ADMIN";
+		public static const IS_EDITOR:String = "IS_EDITOR";
+		
 		public var userID:int;
-		public var roleID:int;
+		public var userRole:String;
 		
 		public function AutorFacade(key:String)
 		{

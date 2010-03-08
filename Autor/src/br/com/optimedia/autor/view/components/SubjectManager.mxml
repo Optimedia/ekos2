@@ -128,12 +128,16 @@
 				PopUpManager.centerPopUp( popUp );
 			}
 			[Bindable]
-			public var roleID:int;
-			public function setRoleID(roleID:int):void {
-				this.roleID = roleID;
-				if( roleID == 3 ) {
+			public var userRole:String;
+			public function setRoleID(userRole:String):void {
+				this.userRole = userRole;
+				if( userRole == AutorFacade.IS_EDITOR ) {
 					newSubjectBtn.visible = false;
 					newPresentationBtn.visible = false;
+				}
+				else if( userRole == AutorFacade.IS_ADMIN ) {
+					newSubjectBtn.visible = true;
+					newPresentationBtn.visible = true;
 				}
 			}
 			
@@ -165,13 +169,14 @@
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
 							<mx:Script>
 								<![CDATA[
+									import br.com.optimedia.autor.AutorFacade;
 									import br.com.optimedia.assets.ImgAssets;
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
-									toolTip="Editar Módulo" visible="{parentDocument.roleID==2}"/>
+									toolTip="Editar Módulo" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Módulo" visible="{parentDocument.roleID==2}"/>
+									toolTip="Remover Módulo" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -245,6 +250,7 @@
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
 							<mx:Script>
 								<![CDATA[
+									import br.com.optimedia.autor.AutorFacade;
 									import br.com.optimedia.assets.ImgAssets;
 									import br.com.optimedia.assets.vo.PresentationVO;
 									
@@ -266,11 +272,11 @@
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
-									toolTip="Editar Tema" visible="{parentDocument.roleID==2}"/>
+									toolTip="Editar Tema" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Tema" visible="{parentDocument.roleID==2}"/>
+									toolTip="Remover Tema" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
 							<mx:LinkButton icon="{iconFunction(data)}" click="parentDocument.showPublishPopUp(data)"
-									toolTip="{toolTipFunction(data)}" visible="{parentDocument.roleID==2}"/>
+									toolTip="{toolTipFunction(data)}" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>

@@ -1,9 +1,9 @@
 package br.com.optimedia.autor.view
 {
-	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.PresentationVO;
 	import br.com.optimedia.assets.vo.SubjectVO;
+	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
@@ -42,7 +42,7 @@ package br.com.optimedia.autor.view
 			subjectManagerProxy.getSubjects();
 			view.presentationSkins = subjectManagerProxy.presentationSkins;
 			
-			view.setRoleID( AutorFacade(facade).roleID );
+			view.setRoleID( AutorFacade(facade).userRole );
 		}
 		
 		override public function onRemove():void {
@@ -120,7 +120,7 @@ package br.com.optimedia.autor.view
 		private function slideEditBtnClick(event:MouseEvent):void {
 			//Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
 			// FALTA COLOCAR O USER ID NO lockPresentation
-			subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, 2 );
+			subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
 		}
 		
 		private function getSkins(event:MouseEvent):void {
