@@ -55,5 +55,42 @@ package br.com.optimedia.assets
 		//IMGS DO PLAYER
 		[Embed(source="img/playerSkin.swf",symbol="taskbar")]
 		public static const playerTaskbar:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="btIndice")]
+		public static const slideIndexBtn:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="btPrev")]
+		public static const prevSlideBtn:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="btNext")]
+		public static const nextSlideBtn:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="ref_up")]
+		public static const playerBtnUp:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="ref_down")]
+		public static const playerBtnDown:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="ref_over")]
+		public static const playerBtnOver:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="icon_backUp")]
+		public static const arrowBackUp:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="icon_backUp")]
+		public static const arrowBackDown:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="icon_backOver")]
+		public static const arrowBackOver:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="icon_nextUp")]
+		public static const arrowNextUp:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="icon_nextUp")]
+		public static const arrowNextDown:Class;
+
+		[Embed(source="img/playerSkin.swf",symbol="icon_nextOver")]
+		public static const arrowNextOver:Class;
+
 	}
 }
