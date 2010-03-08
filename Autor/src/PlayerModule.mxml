@@ -1,20 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
-	creationComplete="init()">
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+	width="800" height="512" creationComplete="init()" horizontalAlign="center">
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.assets.ImgAssets;
+			import mx.controls.Alert;
 			import br.com.optimedia.player.PlayerFacade;
+			
+			public static const PLAYER_MODE:String = "PLAYER_MODE";
+			public static const PREVIEW_MODE:String = "PREVIEW_MODE";
 			
 			private var playerFacade:PlayerFacade = PlayerFacade.getInstance();
 			
 			private function init():void {
-				
-				playerFacade.startup( this );
-				
+				var titleBackground:Sprite = new Sprite ();
+				titleBackground.graphics.lineStyle(1,0x000000);
+				titleBackground.graphics.beginFill(0xFFFFFF,0.5);
+				titleBackground.graphics.drawRoundRect(40,0,titleCanvas.width*0.9,titleCanvas.height ,20,20);
+				titleBackground.graphics.endFill();
+				titleCanvas.rawChildren.addChildAt(titleBackground, 0);
 			}
 			
+			public function start(presentationID:int, slideID:int, mode:String = PLAYER_MODE ):void {
+				if( mode != PLAYER_MODE && mode != PREVIEW_MODE ) {
+					Alert.show( mode+" não é um modo válido.", "Erro");
+				}
+				else {
+					playerFacade.startup( this );
+					if( mode == PLAYER_MODE ) {
+						
+					}
+					else if( mode == PREVIEW_MODE ) {
+						
+					}
+				}
+			}
 		]]>
 	</mx:Script>
+	
+	<mx:VBox id="slideVBox" width="100%" height="100%" horizontalAlign="center">
+		
+		<mx:Spacer id="slideSpacer" height="0"/>
+		
+		<mx:Canvas id="titleCanvas" width="100%" height="50">
+			<mx:TextInput id="titleTextInput" verticalCenter="0" horizontalCenter="0" width="714" backgroundAlpha="0" borderThickness="0"
+				borderStyle="none" fontSize="28"/>
+		</mx:Canvas>
+		
+		<mx:TextArea id="bodyTextArea" width="784" height="100%" fontSize="22"/>
+		
+	</mx:VBox>
+	
+	<mx:Canvas width="100%">
+	
+		<mx:Image source="{ImgAssets.playerTaskbar}" width="784" bottom="0" horizontalCenter="0"/>
+		
+		<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">
+			
+			<mx:Button id="prevBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
+				upIcon="{ImgAssets.arrowBackUp}" overIcon="{ImgAssets.arrowBackOver}" downIcon="{ImgAssets.arrowBackDown}"
+				toolTip="Slide Anterior" />
+			<mx:Button id="indexBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
+				toolTip="Lista de slides" width="120"/>
+			<mx:Button id="nextBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
+				upIcon="{ImgAssets.arrowNextUp}" overIcon="{ImgAssets.arrowNextOver}" downIcon="{ImgAssets.arrowNextDown}"
+				toolTip="Próximo slide" />
+			
+			<mx:Spacer width="100" />
+			
+			<mx:HBox id="mediaBox">
+				
+			</mx:HBox>
+			
+			<mx:Spacer width="100%" />
+			
+			<mx:Button id="urlBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
+				
+				toolTip="Clique para ver a url deste slide"/>
+			
+		</mx:HBox>
+
+	</mx:Canvas>
 	
 </mx:Module>
