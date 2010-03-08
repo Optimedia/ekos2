@@ -1,21 +1,20 @@
 package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.assets.FaultHandler;
+	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.autor.AutorFacade;
 	
+	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import br.com.optimedia.assets.NotificationConstants;
 
 	public class AutorMediator extends Mediator
 	{
 		public static const NAME:String = 'AutorMediator';
-		
-		//private var friendManagerProxy:FriendManagerProxy;
 		
 		public function AutorMediator(viewComponent:Object=null)
 		{
@@ -27,7 +26,6 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.visible = false;
 			whoAmI();
-			//ignoreManagerProxy = facade.retrieveProxy( IgnoreManagerProxy.NAME ) as IgnoreManagerProxy;
 		}
 		
 		override public function onRemove():void {
@@ -63,31 +61,42 @@ package br.com.optimedia.autor.view
 		private function whoAmI():void {
 			var service:HTTPService = new HTTPService();
 			service.url = 'http://www.educar.tv/sinase.moodle/autor/whoami.php';
-			service.resultFormat = "array";
+			service.resultFormat = "e4x";
 			service.showBusyCursor = true;
 			service.addEventListener(ResultEvent.RESULT, resultHandler);
 			service.addEventListener(FaultEvent.FAULT, faultHandler);
 			service.send();
 		}
 		private function resultHandler(event:ResultEvent):void {
-			view.visible = true;
+			/* view.visible = true;
 			view.showModuleManager();
 			view.showSlideEditor();
-			AutorFacade(facade).roleID = 2;
-			AutorFacade(facade).userID = 1;
-			/* if( event.result.roleID == 0 ) {
+			AutorFacade(facade).userRole = AutorFacade.IS_ADMIN;
+			AutorFacade(facade).userID = 1; */
+			//SE NÃO ESTIVER LOGADO NO MOODLE
+			if( event.result.roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
 			}
-			else if( event.result.roleID == 3 || event.result.roleID == 2 ) {
+			//SE FOR AUTOR
+			else if( event.result.roleID == 2 || event.result.roleID == 1 ) {
 				view.visible = true;
 				view.showModuleManager();
 				view.showSlideEditor();
-				AutorFacade(facade).roleID = event.result.roleID;
+				AutorFacade(facade).userRole = AutorFacade.IS_ADMIN;
 				AutorFacade(facade).userID = event.result.userID;
 			}
+			//SE FOR CONTEUDISTA (EDITOR)
+			else if( event.result.roleID == 8 ) {
+				view.visible = true;
+				view.showModuleManager();
+				view.showSlideEditor();
+				AutorFacade(facade).userRole = AutorFacade.IS_EDITOR;
+				AutorFacade(facade).userID = event.result.userID;
+			}
+			//SE NÃO TIVER PREMISSÃO DE ADMIN, AUTOR OU CONTEUDISTA
 			else {
 				Alert.show("Você não tem permissão para editar", "Atenção");
-			} */
+			}
 		}
 		private function faultHandler(event:FaultHandler):void {
 			trace(event);

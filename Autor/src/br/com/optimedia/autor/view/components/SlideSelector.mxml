@@ -138,8 +138,6 @@
 	<mx:Panel layout="vertical" cornerRadius="0" backgroundAlpha="0"
 		paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" title="Título do Tema">
 		<Interactive id="interactive" creationComplete="onSwfCreationComplete(event)" width="800" height="512"/>
-		<!--<mx:SWFLoader width="100%" height="100%" autoLoad="true" id="playerLoader" scaleContent="true" trustContent="true"
-			source="Interactive.swf" creationComplete="onSwfCreationComplete(event)" showBusyCursor="true" init="teste()"/>-->
 				
 		<mx:ControlBar>
 			
