@@ -14,53 +14,6 @@
             }
 		]]>
 	</mx:Script>
-    <flash:StyleSheet id="styleSh" />
-  	<mx:HTTPService id="httpService"
-	url="http://10.1.1.10/Interactive/br/com/optimedia/interactive/css/style.css"
-	resultFormat="text"
-	result="httpService_result(event);"
-	 />
-	<!-- Content -->
-	<mx:Canvas id="cnvContent" width="100%" height="100%">
-		<mx:TextArea id="textTitle" width="740" selectable="false" 
-			wordWrap="true"  backgroundAlpha="0" borderThickness="0" editable="false"/>
-		<mx:TextArea id="textContent"  width="760" selectable="false"
-			styleSheet="{styleSh}"
-			wordWrap="true" backgroundAlpha="0"  borderThickness="0" editable="false" y="52" height="413">
-		</mx:TextArea>
-		<mx:ProgressBar horizontalCenter="0" verticalCenter="0" labelPlacement="center"/>
-	</mx:Canvas>
-		
-	<!-- Navigator -->
-	<mx:Canvas id="cnvNavigator" bottom="0">
-		<mx:Image source="@Embed(source='../assets/layout/skin.swf', symbol='taskbar')" width="790" height="32" x="5"/>
-		<mx:HBox x="10" y="5">
-			<mx:Image id="btMenu" source="@Embed(source='../assets/layout/skin.swf', symbol='btIndice')" width="192" height="24"/>
-			<mx:Image id="btBack"  source="@Embed(source='../assets/layout/skin.swf', symbol='btPrev')" width="48" height="24"/>
-			<mx:Label id="display"  text="" styleName="display"/>
-			<mx:Image id="btNext"  source="@Embed(source='../assets/layout/skin.swf', symbol='btNext')" width="48" height="24"/>
-			<!--<mx:Image id="fullscreen" source="@Embed(source='../assets/layout/skin.swf', symbol='btRef_fullscreen')" width="24" height="24"/>-->
-			<mx:HBox id="links">
-				
-			</mx:HBox>
-		</mx:HBox>
-	</mx:Canvas>
-	
-	<!-- Media -->
-	<mx:Canvas id="cnvMedia" width="98%"  height="93%" y="0" visible="false" horizontalCenter="0">
-		<mx:TitleWindow id="titleWindow"  showCloseButton="true" 
-			width="100%" height="100%" layout="horizontal" 
-			alpha="1" backgroundAlpha="1" borderAlpha="1">
-		</mx:TitleWindow>	
-	</mx:Canvas>
-	<!-- Menu -->
-	<mx:Canvas id="cnvMenu" width="200" height="200"   visible="false" y="10" x="10">
-		<mx:List id="menuList" editable="false" width="100%" height="100%">
-			<mx:itemRenderer>
-				<mx:Component>
-						<mx:Label text="{data.title_menu}" />
-				</mx:Component>
-			</mx:itemRenderer>
-		</mx:List>
-	</mx:Canvas>
+	<mx:VideoDisplay x="381" y="303" />
+    
 </mx:Canvas>
