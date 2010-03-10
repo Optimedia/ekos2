@@ -89,7 +89,6 @@ package br.com.optimedia.interactive.view {
 			
 			switch(media.category_id) {
 					case 4:
-						
 						movie = new FLVPlayback();
 						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						//movie.autoPlay = true;
@@ -105,10 +104,6 @@ package br.com.optimedia.interactive.view {
             			//movie.scaleMode = true
 						view.rawChildren.addChild(movie as FLVPlayback);
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
-						
-					
-				
-						
 						break;
 					case 5:
 						var url:URLRequest = new URLRequest( media.body);
