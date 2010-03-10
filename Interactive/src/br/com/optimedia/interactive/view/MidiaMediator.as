@@ -101,7 +101,7 @@ package br.com.optimedia.interactive.view {
 						movie.x=20;
 						movie.skinBackgroundColor = 0x666666;
             			movie.skinAutoHide = true;
-            			//movie.scaleMode = true
+            			movie.scaleMode = "maintainAspectRatio";
 						view.rawChildren.addChild(movie as FLVPlayback);
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
 						break;
