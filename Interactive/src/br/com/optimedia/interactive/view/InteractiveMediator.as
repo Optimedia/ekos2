@@ -77,7 +77,7 @@ package br.com.optimedia.interactive.view
 		public function openMidia(tipo:uint):void {
 			if (tipo!=5) {
 				view.midiaViewObj.visible = true;
-				view.midiaViewObj.titleWindow.visible = true;
+				view.midiaViewObj.visible = true;
 			}
 		}
 		

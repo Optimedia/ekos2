@@ -6,13 +6,15 @@ package br.com.optimedia.interactive.view {
 	import br.com.optimedia.interactive.assets.vo.MediaVO;
 	import br.com.optimedia.interactive.view.components.MidiaView;
 	
+	import fl.video.*;
+	
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
 	import mx.controls.ProgressBar;
 	import mx.controls.TextArea;
-	import mx.controls.VideoDisplay;
 	import mx.core.Application;
+	import mx.events.CloseEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -26,7 +28,7 @@ package br.com.optimedia.interactive.view {
 		public var imagem:ImageWithProgressBar;
 		//public var swfLoad:SWFLoader;
 		public var swfLoad:SwfWithProgressBar;
-		public var movie:VideoDisplay; 
+		public var movie:FLVPlayback; 
 		
 		private var loadBar:ProgressBar;
 		
@@ -40,6 +42,7 @@ package br.com.optimedia.interactive.view {
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
+			view.addEventListener(CloseEvent.CLOSE, closepop);
 		}
 		
 		override public function onRemove():void {
@@ -70,51 +73,42 @@ package br.com.optimedia.interactive.view {
 						openMidia (note.getBody() as MediaVO);
 					break;
 				case ApplicationConstants.CLOSE_MIDIA:
-						closeMidia ();
+						closepop (null);
 					break;
 				default:
 					break;
 			}
 		}
-		public function closeMidia():void {
-			view.visible = false;
-		}
 		public function openMidia(media:MediaVO):void {
-			if (text) {
-				try{
-					view.titleWindow.removeChild(text);	
-				}catch (e:Error) {	
-				}
+			view.removeAllChildren();
+			try{
+				movie.stop();
+				view.rawChildren.removeChild(movie);	
+			}catch (e:Error) {
 			}
-			if (imagem) {
-				try{
-					view.titleWindow.removeChild(imagem);
-				}catch (e:Error) {	
-				}
-			}
-			if (swfLoad) {
-				try{
-					view.titleWindow.removeChild(swfLoad);
-				}catch (e:Error) {	
-				}
-			}
-			if (movie) {
-				try{
-					view.titleWindow.removeChild(movie);
-				}catch (e:Error) {
-					
-				}
-			}
+			
 			switch(media.category_id) {
 					case 4:
-						movie = new VideoDisplay();
-						movie.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
-						movie.autoPlay=true;
+						
+						movie = new FLVPlayback();
+						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
+						//movie.autoPlay = true;
 						movie.autoRewind = false;
-						movie.setStyle("horizontalCenter",0);
-						movie.setStyle("verticalCenter",0);
-						view.titleWindow.addChild(movie);
+						//movie.setStyle("horizontalCenter",0);
+						//movie.setStyle("verticalCenter",0);
+						movie.skin="br/com/optimedia/interactive/assets/skinOverPlaySeekMute.swf"
+						movie.width=300;
+						movie.height = 300;
+						movie.x=20;
+						movie.skinBackgroundColor = 0x666666;
+            			movie.skinAutoHide = true;
+            			//movie.scaleMode = true
+						view.rawChildren.addChild(movie as FLVPlayback);
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
+						
+					
+				
+						
 						break;
 					case 5:
 						var url:URLRequest = new URLRequest( media.body);
@@ -129,7 +123,7 @@ package br.com.optimedia.interactive.view {
 						text.editable=false;
 						text.enabled=true;
 						text.styleSheet = Application.application.styleSh;
-						view.titleWindow.addChild(text);
+						view.addChild(text);
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
 						break;
 					case 7:
@@ -144,7 +138,7 @@ package br.com.optimedia.interactive.view {
 							swfLoad.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+ media.body;
 							swfLoad.autoLoad = true;
 							swfLoad.scaleContent = true;
-							view.titleWindow.addChild(swfLoad);
+							view.addChild(swfLoad);
 							
 						}else {
 							imagem = new ImageWithProgressBar();
@@ -155,11 +149,21 @@ package br.com.optimedia.interactive.view {
 							imagem.setStyle("horizontalCenter",0);
 							imagem.setStyle("verticalCenter",0);
 							imagem.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
-							view.titleWindow.addChild(imagem);
+							view.addChild(imagem);
 						}
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
 						break;
 				}
+		}
+		private function closepop (event:CloseEvent):void {
+			try{
+				movie.stop();
+				view.rawChildren.removeChild(movie);	
+			}catch (e:Error) {
+			}		
+			view.removeAllChildren();
+			view.visible = false;
+			
 		}
 	}
 }
