@@ -25,7 +25,9 @@ package br.com.optimedia.autor
 	{
 		
 		public static const IS_ADMIN:String = "IS_ADMIN";
+		public static const IS_AUTHOR:String = "IS_AUTHOR";
 		public static const IS_EDITOR:String = "IS_EDITOR";
+		public static const IS_OBSERVER:String = "IS_OBSERVER";
 		
 		public var userID:int;
 		public var userRole:String;

@@ -15,7 +15,8 @@
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			
-			public var presentationID:uint;
+			//public var presentationID:uint;
+			public var subjectID:uint;
 			
 			[Bindable]
 			public var currentMediaID:int;
@@ -127,7 +128,8 @@
 			
 			private function openPopUp():void {
 				var popUp:SendMediaPopUp = new SendMediaPopUp();
-				popUp.presentationID = presentationID;
+				//popUp.presentationID = presentationID;
+				popUp.subjectID = subjectID;
 				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
 				PopUpManager.centerPopUp( popUp );
 			}

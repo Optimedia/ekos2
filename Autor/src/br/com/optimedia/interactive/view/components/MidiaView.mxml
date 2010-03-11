@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()"
-	xmlns:flash="flash.text.*" close="closepop()" backgroundAlpha="1" borderAlpha="1" showCloseButton="true"
+	xmlns:flash="flash.text.*" backgroundAlpha="1" borderAlpha="1" showCloseButton="true"
 	verticalScrollPolicy="off" horizontalScrollPolicy="off" width="90%" height="90%" layout="absolute">
 	<mx:Script>
 		<![CDATA[
@@ -14,9 +14,9 @@
 				interactiveFacade.startup( this );
 			}
 			
-			private function closepop():void {
+			/* private function closepop():void {
 				this.visible=false;
-			}
+			} */
 			
 		]]>
 	</mx:Script>

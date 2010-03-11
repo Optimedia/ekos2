@@ -3,6 +3,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.events.ResultEvent;
 			import mx.core.Application;
 			
 			import mx.events.CloseEvent;
@@ -22,6 +23,7 @@
 			public static const SAVE_PRESENTATION_EVENT:String = "SAVE_PRESENTATION";
 			public static const DELETE_SUBJECT_EVENT:String = "DELETE_SUBJECT_EVENT";
 			public static const DELETE_PRESENTATION_EVENT:String = "DELETE_PRESENTATION_EVENT";
+			public static const LOCK_UNLOCK_PRESENTATION_EVENT:String = "LOCK_UNLOCK_PRESENTATION_EVENT";
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			
@@ -129,6 +131,8 @@
 			}
 			[Bindable]
 			public var userRole:String;
+			[Bindable]
+			public var userID:int;
 			public function setRoleID(userRole:String):void {
 				this.userRole = userRole;
 				if( userRole == AutorFacade.IS_EDITOR ) {
@@ -139,11 +143,24 @@
 					newSubjectBtn.visible = true;
 					newPresentationBtn.visible = true;
 				}
+				else if( userRole == AutorFacade.IS_AUTHOR ) {
+					newSubjectBtn.visible = true;
+					newPresentationBtn.visible = true;
+				}
+				else if( userRole == AutorFacade.IS_OBSERVER ) {
+					newSubjectBtn.visible = false;
+					newPresentationBtn.visible = false;
+					slideEditBtn.label = "Ver slides";
+				}
 			}
 			
 			private function slideEditionEnabled():void {
 				if( presentationGrid.selectedIndex!=-1 ) {
-					if( PresentationVO(presentationGrid.selectedItem).section_id == 0 ) {
+					if( userRole == AutorFacade.IS_OBSERVER ) {
+						slideEditBtn.enabled = true;
+						slideEditBtn.toolTip = "Clique para ver os slides da apresentação selecionada";
+					}
+					else if( PresentationVO(presentationGrid.selectedItem).section_id == 0 ) {
 						slideEditBtn.enabled = true;
 						slideEditBtn.toolTip = "Clique para editar os slides da apresentação selecionada";
 					}
@@ -152,6 +169,10 @@
 						slideEditBtn.toolTip = "Não é possível editar os slides de apresentações publicadas";
 					}
 				}
+			}
+			
+			public function togleLock(item:PresentationVO):void {
+				dispatchEvent( new ResultEvent( LOCK_UNLOCK_PRESENTATION_EVENT, false, true, item ) );
 			}
 		]]>
 	</mx:Script>
@@ -163,7 +184,7 @@
 				<mx:DataGridColumn headerText="Módulo" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
 				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
-				<mx:DataGridColumn headerText="Opções" width="100" textAlign="center">
+				<mx:DataGridColumn headerText="Opções" width="100" textAlign="center" visible="{userRole==AutorFacade.IS_ADMIN || userRole==AutorFacade.IS_AUTHOR}">
 					<mx:itemRenderer>
 					<mx:Component>
 						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
@@ -174,9 +195,9 @@
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
-									toolTip="Editar Módulo" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
+									toolTip="Editar Módulo" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN || parentDocument.userRole==AutorFacade.IS_AUTHOR}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Módulo" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
+									toolTip="Remover Módulo" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN || parentDocument.userRole==AutorFacade.IS_AUTHOR}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>
@@ -244,39 +265,66 @@
 				</mx:DataGridColumn>
 				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
 				<mx:DataGridColumn headerText="Slides" labelFunction="{slidesNumLabelFunction}" width="50" textAlign="center" />
-				<mx:DataGridColumn headerText="Opções" width="100" textAlign="center">
+				<mx:DataGridColumn headerText="Opções" width="150" textAlign="center" visible="{userRole==AutorFacade.IS_ADMIN || userRole==AutorFacade.IS_AUTHOR}">
 					<mx:itemRenderer>
 					<mx:Component>
-						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center">
+						<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center" horizontalGap="0">
 							<mx:Script>
 								<![CDATA[
+									import mx.controls.Alert;
 									import br.com.optimedia.autor.AutorFacade;
 									import br.com.optimedia.assets.ImgAssets;
 									import br.com.optimedia.assets.vo.PresentationVO;
 									
-									private function toolTipFunction(data:Object):String {
+									private function toolTipFunction(item:Object):String {
 										var resultString:String = "Publicar";
-										if( data.section_id != 0 ) {
+										if( item.section_id != 0 ) {
 											resultString = "Despublicar";
 										}
 										return resultString;
 									}
 									
-									private function iconFunction(data:Object):Class {
+									private function iconFunction(item:Object):Class {
 										var resultIcon:Class = ImgAssets.unpublishedIcon;
-										if( data.section_id != 0 ) {
+										if( item.section_id != 0 ) {
 											resultIcon = ImgAssets.publishedIcon;
 										}
 										return resultIcon;
 									}
+									
+									private function lockIconFunction(item:Object):Class {
+										var resultIcon:Class = ImgAssets.unlockedIcon;
+										if( item.locked_by != 0 ) {
+											resultIcon = ImgAssets.lockedIcon;
+										}
+										return resultIcon;
+									}
+									
+									private function lockToolTipFunction(item:Object):String {
+										var resultString:String = "Bloquear";
+										if( item.locked_by != 0 ) {
+											resultString = "Desbloquear";
+										}
+										return resultString;
+									}
+									
+									private function showLockIcon(item:Object):Boolean {
+										var result:Boolean = false;
+										if( parentDocument.userRole == AutorFacade.IS_ADMIN ) result = true;
+										else if( item.locked_by != 0 && parentDocument.userID == item.locked_by ) result = true;
+										return result;
+									}
 								]]>
 							</mx:Script>
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
-									toolTip="Editar Tema" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
+									toolTip="Editar Tema" visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Tema" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
+									toolTip="Remover Tema" visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
 							<mx:LinkButton icon="{iconFunction(data)}" click="parentDocument.showPublishPopUp(data)"
-									toolTip="{toolTipFunction(data)}" visible="{parentDocument.userRole==AutorFacade.IS_ADMIN}"/>
+									toolTip="{toolTipFunction(data)}" visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
+							<mx:LinkButton icon="{lockIconFunction(data)}" click="parentDocument.togleLock(data)"
+									toolTip="{lockToolTipFunction(data)}"
+									visible="{showLockIcon(data)}" includeInLayout="{showLockIcon(data)}"/>
 						</mx:HBox>
 					</mx:Component>
 					</mx:itemRenderer>

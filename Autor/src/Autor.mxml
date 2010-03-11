@@ -5,6 +5,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.CallResponder;
 			import br.com.optimedia.autor.view.components.SlideEditor;
 			import br.com.optimedia.autor.view.components.SubjectManager;
 			import mx.managers.PopUpManager;
@@ -13,12 +14,19 @@
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			
+			public static const DO_UNLOCK_EVENT:String = "DO_UNLOCK_EVENT";
+			
 			private function preInit():void {
 				autorFacade.startup( 'model' );
 			}
 			
 			private function init():void {
 				autorFacade.startup( this );
+				ExternalInterface.addCallback("doUnlock", doUnlock);
+			}
+			
+			private function doUnlock():void {
+				dispatchEvent( new Event(DO_UNLOCK_EVENT) );
 			}
 			
 			public function showModuleManager():void {
