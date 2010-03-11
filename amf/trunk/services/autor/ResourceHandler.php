@@ -27,7 +27,7 @@
 						                    "type" => "html",
 						                    "reference" => "",
 						                    "summary" => $presentationName,
-						                    "alltext" => "<script language=\"javascript\" src=\"/Interactive/includeAll.js\"></script><script language=\"javascript\" src=\"/Interactive/AC_OETags.js\"></script><script language=\"javascript\" src=\"/Interactive/history/history.js\"></script><script language=\"javascript\" src=\"/Interactive/testBrowser.js\"></script><embed height=\"512\" align=\"middle\" width=\"800\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.adobe.com/go/getflashplayer\" allowscriptaccess=\"sameDomain\" name=\"Interactive\" bgcolor=\"#869ca7\" quality=\"high\" id=\"Interactive\" src=\"/Interactive/Interactive.swf?_presentation=$presentationID&_idSlide=\"<?php echo 0 ?>\" /> <noscript> <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" id=\"Interactive\" width=\"800\" height=\"512\" codebase=\"http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab\"> <param name=\"movie\" value=\"Interactive.swf\" /> <param name=\"quality\" value=\"high\" /> <param name=\"bgcolor\" value=\"#869ca7\" /> <param name=\"allowScriptAccess\" value=\"sameDomain\" /> <param name=\"flashVars\" value=\"_presentation=18&_idSlide=0\"/> <embed src=\"/Interactive/Interactive.swf\" quality=\"high\" bgcolor=\"#869ca7\" width=\"800\" height=\"512\" name=\"Interactive\" align=\"middle\" play=\"true\" loop=\"false\" quality=\"high\" allowScriptAccess=\"sameDomain\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.adobe.com/go/getflashplayer\"></embed> </object></noscript>",
+						                    "alltext" => "<script language=\"javascript\"> var PRESENTATIONID= $presentationID</script><script language=\"javascript\" src=\"/sinase.moodle/interactive/AC_OETags.js\"></script><script language=\"javascript\" src=\"/sinase.moodle/interactive/history/history.js\"></script><script language=\"javascript\" src=\"/sinase.moodle/interactive/testBrowser.js\"></script> ",
 						                    "popup" =>"",
 						                    "options" =>"",
 						                    "timemodified" =>"1248132589"
@@ -37,10 +37,9 @@
 	        
 	        $this-> instances = $this->insert_id;
 	        
-	        if( $result == true ) {
-		        return $this->insertCourseModule();
-	        }
+	        $this->insertCourseModule();
 			//return $this-> instancesResource;
+			return $result;
 	    }
 
 		function insertCourseModule(){
@@ -67,13 +66,11 @@
 
             $condition="presentation_id=$this->presentationID";
             
-            if( $result == true ){
-            	$result = parent::doUpdate($fieldsAndValuesPresentation,$condition,"ekos2.ath_presentation");
-            }
-            if( $result == true ){
-			    return $this-> insertContext();
-            }
+            $result = parent::doUpdate($fieldsAndValuesPresentation,$condition,"ekos2.ath_presentation");
+            
+		    $this-> insertContext();
 		    
+		    return $result;
 		}
 		
 		function insertContext() {
@@ -91,12 +88,11 @@
 		    
 		    $condition = "id=$this->instances";
 		    
-		    if( $result == true ) {
-			    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "mdl_context" );
-		    }
-		    if( $result == true ) {
-			    return $this->insertCourseSection();
-		    }
+		    $result = parent::doUpdate( $fieldsAndValuesResource, $condition, "mdl_context" );
+		    
+		    $this->insertCourseSection();
+		    
+		    return $result;
 		}
 	
 		function insertCourseSection() {
@@ -116,8 +112,9 @@
 				$fieldsAndValuesResource= array( "sequence" => $newSequence );
 		    }
 			
-		    return parent::doUpdate($fieldsAndValuesResource,$condition,"mdl_course_sections");
+		    $result = parent::doUpdate($fieldsAndValuesResource,$condition,"mdl_course_sections");
 			
+			return $result;
 //		    $fieldsAndValuesResource= array( "section_id" => $this->sectionID );
 //			
 //		    $condition="presentation_id=$this->presentationID";
@@ -150,7 +147,9 @@
             
             $condition = "id=$sectionID";
             
-            return parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
+            $result = parent::doUpdate($fieldsAndValuesSection,$condition,"mdl_course_sections");
+
+            return $result;
 
         }
 	}
