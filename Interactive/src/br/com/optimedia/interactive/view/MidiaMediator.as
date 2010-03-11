@@ -93,7 +93,7 @@ package br.com.optimedia.interactive.view {
 						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						//movie.autoPlay = true;
 						movie.autoRewind = false;
-						movie.skin="br/com/optimedia/interactive/assets/skinOverPlaySeekMute.swf"
+						movie.skin="/sinase.moodle/interactive/br/com/optimedia/interactive/assets/skinOverPlaySeekMute.swf"
 						movie.scaleMode = "maintainAspectRatio";
 						movie.x=view.width/2 -movie.width/2;
 						movie.y=view.height/2 -movie.height/2;
