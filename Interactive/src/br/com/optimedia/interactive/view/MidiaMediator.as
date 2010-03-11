@@ -93,15 +93,13 @@ package br.com.optimedia.interactive.view {
 						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						//movie.autoPlay = true;
 						movie.autoRewind = false;
-						//movie.setStyle("horizontalCenter",0);
-						//movie.setStyle("verticalCenter",0);
 						movie.skin="br/com/optimedia/interactive/assets/skinOverPlaySeekMute.swf"
-						movie.width=300;
-						movie.height = 300;
-						movie.x=20;
+						movie.scaleMode = "maintainAspectRatio";
+						movie.x=view.width/2 -movie.width/2;
+						movie.y=view.height/2 -movie.height/2;
 						movie.skinBackgroundColor = 0x666666;
             			movie.skinAutoHide = true;
-            			movie.scaleMode = "maintainAspectRatio";
+            			
 						view.rawChildren.addChild(movie as FLVPlayback);
 						sendNotification(ApplicationConstants.OPEN_MIDIA_VIEW, media.category_id);
 						break;
