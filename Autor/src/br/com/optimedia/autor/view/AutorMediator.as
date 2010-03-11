@@ -11,10 +11,15 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import flash.events.Event;
+	import br.com.optimedia.autor.view.components.SlideEditor;
+	import br.com.optimedia.autor.model.SubjectManagerProxy;
 
 	public class AutorMediator extends Mediator
 	{
 		public static const NAME:String = 'AutorMediator';
+		
+		private var subjectManagerProxy:SubjectManagerProxy;
 		
 		public function AutorMediator(viewComponent:Object=null)
 		{
@@ -25,7 +30,9 @@ package br.com.optimedia.autor.view
 		{
 			trace(NAME+".onRegister()");
 			view.visible = false;
+			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			whoAmI();
+			view.addEventListener( Autor.DO_UNLOCK_EVENT, doUnlock );
 		}
 		
 		override public function onRemove():void {
@@ -73,25 +80,47 @@ package br.com.optimedia.autor.view
 			view.showSlideEditor();
 			AutorFacade(facade).userRole = AutorFacade.IS_ADMIN;
 			AutorFacade(facade).userID = 1; */
+			
+			
+			var roleID:int = event.result.roleID;
+			var userID:int = event.result.userID;
+			//roleID = 1;
+			//userID = 10;
 			//SE NÃO ESTIVER LOGADO NO MOODLE
-			if( event.result.roleID == 0 ) {
+			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
 			}
 			//SE FOR AUTOR
-			else if( event.result.roleID == 2 || event.result.roleID == 1 ) {
+			else if( roleID == 1 ) {
 				view.visible = true;
 				view.showModuleManager();
 				view.showSlideEditor();
 				AutorFacade(facade).userRole = AutorFacade.IS_ADMIN;
-				AutorFacade(facade).userID = event.result.userID;
+				AutorFacade(facade).userID = userID;
+			}
+			//SE FOR AUTOR
+			else if( roleID == 2 ) {
+				view.visible = true;
+				view.showModuleManager();
+				view.showSlideEditor();
+				AutorFacade(facade).userRole = AutorFacade.IS_AUTHOR;
+				AutorFacade(facade).userID = userID;
 			}
 			//SE FOR CONTEUDISTA (EDITOR)
-			else if( event.result.roleID == 8 ) {
+			else if( roleID == 8 ) {
 				view.visible = true;
 				view.showModuleManager();
 				view.showSlideEditor();
 				AutorFacade(facade).userRole = AutorFacade.IS_EDITOR;
-				AutorFacade(facade).userID = event.result.userID;
+				AutorFacade(facade).userID = userID;
+			}
+			//SE FOR OBSERVADOR
+			else if( roleID == 9 ) {
+				view.visible = true;
+				view.showModuleManager();
+				view.showSlideEditor();
+				AutorFacade(facade).userRole = AutorFacade.IS_OBSERVER;
+				AutorFacade(facade).userID = userID;
 			}
 			//SE NÃO TIVER PREMISSÃO DE ADMIN, AUTOR OU CONTEUDISTA
 			else {
@@ -100,6 +129,12 @@ package br.com.optimedia.autor.view
 		}
 		private function faultHandler(event:FaultHandler):void {
 			trace(event);
+		}
+		
+		private function doUnlock(event:Event):void {
+			if( view.viewStack.selectedChild is SlideEditor ) {
+				subjectManagerProxy.unlockPresentation( SlideEditor(view.viewStack.selectedChild).presentationVO.presentation_id );
+			}
 		}
 	}
 }

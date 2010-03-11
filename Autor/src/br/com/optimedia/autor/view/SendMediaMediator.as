@@ -54,11 +54,11 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.UPLOAD_MEDIA_FILE_RESULT:
-					repositoryProxy.getMedias(view.presentationID);
+					repositoryProxy.getMedias(view.subjectID);
 					closeMe(null);
 					break;
 				case NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT:
-					repositoryProxy.getMedias(view.presentationID);
+					repositoryProxy.getMedias(view.subjectID);
 					closeMe(null);
 					break;
 				default:
@@ -74,7 +74,7 @@ package br.com.optimedia.autor.view
 			var media:MediaVO = new MediaVO();
 			media.category_id = view.category;
 			media.title = view.nameTextInput.text;
-			repositoryProxy.uploadMediaFile(view.fileVO, media, view.presentationID);
+			repositoryProxy.uploadMediaFile(view.fileVO, media, view.subjectID);
 		}
 		
 		private function uploadMediaText(event:Event):void {
@@ -83,7 +83,7 @@ package br.com.optimedia.autor.view
 			media.title = view.nameTextInput.text;
 			if( view.currentState == 'text' ) media.body = view.textArea.text;
 			else media.body = view.fileTextInput.text;
-			repositoryProxy.uploadMediaText( media, view.presentationID );
+			repositoryProxy.uploadMediaText( media, view.subjectID );
 		}
 		
 	}

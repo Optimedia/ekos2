@@ -9,6 +9,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.view.components.SlideEditor;
 	
 	import flash.events.MouseEvent;
+	import flash.external.ExternalInterface;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -44,6 +45,11 @@ package br.com.optimedia.autor.view
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			slideManagerProxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 		}
+		
+		/* private function doUnlock():void {
+			Alert.show('unlock');
+			subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
+		} */
 		
 		override public function onRemove():void {
 			

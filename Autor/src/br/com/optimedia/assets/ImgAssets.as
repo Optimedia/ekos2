@@ -14,6 +14,12 @@ package br.com.optimedia.assets
 		[Embed('img/plusIcon.png')]
 		public static const unpublishedIcon:Class;
 		
+		[Embed('img/lockedIcon.png')]
+		public static const lockedIcon:Class;
+		
+		[Embed('img/unlockedIcon.png')]
+		public static const unlockedIcon:Class;
+		
         [Embed(source="Assets.swf",symbol="TreeFolderClosed")]
 		public static const iconMinimised:Class;
 		

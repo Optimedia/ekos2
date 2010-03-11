@@ -29,6 +29,9 @@
 					slideNum = "1";
 				}
 			}
+			public function get presentationVO():PresentationVO {
+				return _presentationVO;
+			}
 			
 			private function init():void {
 				// Passar somente o id para o player.
@@ -123,20 +126,13 @@
 			public function setNewSlide(slideID:uint):void {
 				this.slideID = slideID;
 				interactive.setSlide(slideID);
-				//Interactive(loadedSM.application).setSlide(slideID);
 			}
-			
-			/* public function teste():void {
-				//if(loadedSM == null) loadedSM = SystemManager(playerLoader.content);
-				Application.application.visible = true;
-				trace("asdfasD");
-			} */
 			
 		]]>
 	</mx:Script>
 	
-	<mx:Panel layout="vertical" cornerRadius="0" backgroundAlpha="0"
-		paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" title="Título do Tema">
+	<mx:Panel layout="vertical" cornerRadius="0" backgroundAlpha="0" title="{_presentationVO.title}"
+		paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 		<Interactive id="interactive" creationComplete="onSwfCreationComplete(event)" width="800" height="512"/>
 				
 		<mx:ControlBar>

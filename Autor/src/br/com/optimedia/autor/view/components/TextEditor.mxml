@@ -37,6 +37,7 @@
 
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.assets.vo.PresentationVO;
 		import br.com.optimedia.assets.vo.MediaVO;
 		import mx.collections.ArrayCollection;
 		import mx.rpc.events.ResultEvent;
@@ -574,7 +575,7 @@
 	<mx:HBox width="100%" height="100%">
 		
 		<mx:Panel layout="vertical" width="100%" height="100%" cornerRadius="0" minWidth="680" minHeight="450"
-			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" title="Título do Tema">					 
+			paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10" id="panel">					 
 					
 			<mx:HBox width="100%" horizontalAlign="center" verticalAlign="middle"> 
 				<mx:TextInput id="txtTitle" themeColor="#FFFFFF" width="100%" textAlign="center" text="{_slideVO.title}"/>
@@ -596,7 +597,6 @@
 				
 				<mx:VBox width="100%">
 					
-					<!--<mx:ToolBar id="toolbar" width="100%" horizontalGap="7">-->
 					<mx:HBox width="100%" horizontalGap="7" verticalAlign="middle">
 					
 						<mx:HBox horizontalGap="0">
@@ -643,16 +643,12 @@
 							</mx:dataProvider>
 						</mx:ToggleButtonBar>
 						
-						<!--<mx:VRule height="10"/>
-							
-						<mx:Button id="btnLink" label="Link" enabled="false" click="makeLink()"/>-->
 						<mx:Spacer width="100%"/>
 						<mx:VRule height="10"/>
 						
 						<mx:Button label="Salvar" click="saveSlide()"/>
 						<mx:Button label="Fechar" click="dispatchEvent(new Event('closeTextEditor', true))"/>
 						
-					<!--</mx:ToolBar>-->
 					</mx:HBox>	
 							
 				</mx:VBox>

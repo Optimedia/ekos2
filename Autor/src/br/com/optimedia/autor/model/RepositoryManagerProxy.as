@@ -38,8 +38,8 @@ package br.com.optimedia.autor.model
 			FaultHandler.handleFault(event);
 		}
 		
-		public function getMedias( presentationID:uint ):void {
-			var asynkToken:AsyncToken = remoteService.getMedias( presentationID );
+		public function getMedias( subjectID:uint ):void {
+			var asynkToken:AsyncToken = remoteService.getMedias( subjectID );
 			asynkToken.addResponder( new Responder(getMediasResult, generalFault) );
 			/* var xml:XML = 	<medias>
 								<cat name="Tabelas">
@@ -88,16 +88,16 @@ package br.com.optimedia.autor.model
 			if( event.result == true ) sendNotification( NotificationConstants.UPLOAD_PRESENTATION_FILE_RESULT, event.result );
 		}
 		
-		public function uploadMediaFile(fileVO:FileVO, mediaVO:MediaVO, presentationID:uint):void {
-			var asynkToken:AsyncToken = remoteService.uploadMediaFile(fileVO, mediaVO, presentationID);
+		public function uploadMediaFile(fileVO:FileVO, mediaVO:MediaVO, subjectID:uint):void {
+			var asynkToken:AsyncToken = remoteService.uploadMediaFile(fileVO, mediaVO, subjectID);
 			asynkToken.addResponder( new Responder(uploadMediaFileResult, generalFault) );
 		}
 		private function uploadMediaFileResult(event:ResultEvent):void {
 			sendNotification( NotificationConstants.UPLOAD_MEDIA_FILE_RESULT, event.result );
 		}
 		
-		public function uploadMediaText(mediaVO:MediaVO, presentationID:uint):void {
-			var asynkToken:AsyncToken = remoteService.uploadMediaText(mediaVO, presentationID);
+		public function uploadMediaText(mediaVO:MediaVO, subjectID:uint):void {
+			var asynkToken:AsyncToken = remoteService.uploadMediaText(mediaVO, subjectID);
 			asynkToken.addResponder( new Responder(uploadMediaTextResult, generalFault) );
 		}
 		private function uploadMediaTextResult(event:ResultEvent):void {

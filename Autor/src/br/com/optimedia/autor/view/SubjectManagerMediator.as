@@ -9,9 +9,12 @@ package br.com.optimedia.autor.view
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.rpc.events.ResultEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -35,6 +38,8 @@ package br.com.optimedia.autor.view
 			view.addEventListener( SubjectManager.SAVE_PRESENTATION_EVENT, savePresentation );
 			view.addEventListener( SubjectManager.DELETE_SUBJECT_EVENT, deleteSubject );
 			view.addEventListener( SubjectManager.DELETE_PRESENTATION_EVENT, deletePresentation );
+			view.addEventListener( SubjectManager.LOCK_UNLOCK_PRESENTATION_EVENT, togleLock );
+			
 			view.newPresentationBtn.addEventListener(MouseEvent.CLICK, getSkins);
 			view.slideEditBtn.addEventListener( MouseEvent.CLICK, slideEditBtnClick );
 			
@@ -43,6 +48,7 @@ package br.com.optimedia.autor.view
 			view.presentationSkins = subjectManagerProxy.presentationSkins;
 			
 			view.setRoleID( AutorFacade(facade).userRole );
+			view.userID = AutorFacade(facade).userID;
 		}
 		
 		override public function onRemove():void {
@@ -88,7 +94,8 @@ package br.com.optimedia.autor.view
 					view.newPresentationPopUp.closeMe();
 					break;
 				case NotificationConstants.LOCK_PRESENTATION_OK:
-					sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+					subjectManagerProxy.getSubjects();
+					//sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
 					break;
 				case NotificationConstants.GET_SKINS_RESULT:
 					view.presentationSkins = new ArrayCollection( note.getBody() as Array );
@@ -120,11 +127,30 @@ package br.com.optimedia.autor.view
 		private function slideEditBtnClick(event:MouseEvent):void {
 			//Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
 			// FALTA COLOCAR O USER ID NO lockPresentation
-			subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
+			if( view.userRole == AutorFacade.IS_OBSERVER ) {
+				navigateToURL( new URLRequest('http://www.educar.tv/sinase.moodle/interactive/observer.php?presentation='+PresentationVO(view.presentationGrid.selectedItem).presentation_id) );
+			}
+			else {
+				if( PresentationVO(view.presentationGrid.selectedItem).locked_by == 0 || PresentationVO(view.presentationGrid.selectedItem).locked_by == view.userID ) {
+					sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+				}
+				subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
+			}
+			
 		}
 		
 		private function getSkins(event:MouseEvent):void {
 			subjectManagerProxy.getSkins();
+		}
+		
+		private function togleLock(event:ResultEvent):void {
+			var presentation:PresentationVO = event.result as PresentationVO;
+			if( presentation.locked_by == 0 ) {
+				subjectManagerProxy.lockPresentation( presentation.presentation_id, view.userID );
+			}
+			else {
+				subjectManagerProxy.unlockPresentation( presentation.presentation_id );
+			}
 		}
 	}
 }

@@ -183,6 +183,7 @@
 					repositoryPanel.linkBtn.visible = false;
 				}
 				else {
+					textEditor.panel.title = presentationVO.title;
 					repositoryPanel.linkBtn.visible = true;
 					repositoryPanel.mediaTree.selectedIndex = -1;
 				}
