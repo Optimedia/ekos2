@@ -24,21 +24,21 @@
 			parent::SqlManager($host, $user, $pass, $db);
 		}
 		
-		public function getMedias($presentation_id) {
+		public function getMedias($subject_id) {
+			/*
+			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND a.presentation_id=$presentation_id";
 			
-//			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND a.presentation_id=$presentation_id";
-//			
-//			$result = parent::doSelect($sql);
-//			
-//			$arrayMedia = array();
-//			$media = new MediaVO();
-//			
-//			while($media = mysql_fetch_object($result, "MediaVO")) {
-//				$arrayMedia[] = $media;
-//			}
-//			
-//			return $arrayMedia;
+			$result = parent::doSelect($sql);
 			
+			$arrayMedia = array();
+			$media = new MediaVO();
+			
+			while($media = mysql_fetch_object($result, "MediaVO")) {
+				$arrayMedia[] = $media;
+			}
+			
+			return $arrayMedia;
+			*/
 			
 			$sql = "SELECT * FROM mda_category";
 			$result = parent::doSelect($sql);
@@ -47,7 +47,7 @@
 			$categoryArray = array();
 			
 			while($category = mysql_fetch_object($result)) {
-				$sql1 = "SELECT m.* FROM mda_media m, ath_media a WHERE m.category_id=". $category->category_id ." AND a.media_id=m.media_id AND a.presentation_id=$presentation_id";
+				$sql1 = "SELECT m.* FROM mda_media m, ath_media a WHERE m.category_id=". $category->category_id ." AND a.media_id=m.media_id AND a.subject_id=$subject_id";
 				
 				$result1 = parent::doSelect($sql1);
 				$array = array();
@@ -79,7 +79,7 @@
 			//return $filename;
 		}
 		
-		public function uploadMediaFile(FileVO $file, MediaVO $media, $presentationID) {
+		public function uploadMediaFile(FileVO $file, MediaVO $media, $subject_id) {
 			
 			$data = $file->filedata->data;
 			$filename = mt_rand() . $file->filename;
@@ -95,7 +95,7 @@
 				$mediaID = $this->insert_id;
 				
 				$array = array	('media_id' => $mediaID,
-								 'presentation_id' => $presentationID);
+								 'subject_id' => $subject_id);
 				
 				return parent::doInsert($array, 'ath_media');
 			}
@@ -103,7 +103,7 @@
 			return false;
 		}
 		
-		public function uploadMediaText(MediaVO $media, $presentationID) {
+		public function uploadMediaText(MediaVO $media, $subject_id) {
 			
 			$arrayMedia = array	('title' => $media -> title,
 							  	 'category_id' => $media -> category_id,
@@ -114,7 +114,7 @@
 				$mediaID = $this->insert_id;
 				
 				$array = array	('media_id' => $mediaID,
-								 'presentation_id' => $presentationID);
+								 'subject_id' => $subject_id);
 				
 				return parent::doInsert($array, 'ath_media');
 			}
