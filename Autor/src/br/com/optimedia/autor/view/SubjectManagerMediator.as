@@ -81,8 +81,13 @@ package br.com.optimedia.autor.view
 					view.subjectGrid.selectedIndex = subjectSelectedIndex;
 					view.presentationGrid.selectedIndex = presentationSelectedIndex;
 					if( view.presentationGrid.selectedIndex != -1 ) {
-						if( PresentationVO(view.presentationGrid.selectedItem).section_id != 0 ) view.slideEditBtn.enabled=false;
-						else view.slideEditBtn.enabled = true;
+						try {
+							if( PresentationVO(view.presentationGrid.selectedItem).section_id != 0 ) view.slideEditBtn.enabled=false;
+							else view.slideEditBtn.enabled = true;
+						}catch(e:Error) {
+							view.presentationGrid.selectedIndex = -1;
+							presentationSelectedIndex = -1;
+						}
 					} 
 					break;
 				case NotificationConstants.SAVE_SUBJECT_OK:

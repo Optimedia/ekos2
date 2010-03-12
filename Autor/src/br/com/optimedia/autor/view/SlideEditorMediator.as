@@ -7,9 +7,9 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SlideEditor;
+	import br.com.optimedia.autor.view.components.TextEditor;
 	
 	import flash.events.MouseEvent;
-	import flash.external.ExternalInterface;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -17,6 +17,7 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import mx.utils.StringUtil;
 
 	public class SlideEditorMediator extends Mediator
 	{
@@ -40,16 +41,12 @@ package br.com.optimedia.autor.view
 			view.addEventListener( SlideEditor.SET_SLIDE_ORDER_EVENT, setOrder );
 			view.addEventListener( SlideEditor.DELETE_SLIDE_EVENT, deleteSlide );
 			view.addEventListener( SlideEditor.SAVE_SLIDE_EVENT, saveSlide );
+			view.textEditor.addEventListener( TextEditor.SELECT_MEDIA_ON_REPOSITORY_EVENT, selectMediaOnRepository);
 			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			slideManagerProxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 		}
-		
-		/* private function doUnlock():void {
-			Alert.show('unlock');
-			subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
-		} */
 		
 		override public function onRemove():void {
 			
@@ -77,7 +74,6 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
-					//presentationVO = PresentationVO( note.getBody() );
 					view.presentationVO = PresentationVO( note.getBody() );
 					proxy.getSlides( view.presentationVO.presentation_id );
 					view.slideSelector.interactive.visible = false;
@@ -114,7 +110,6 @@ package br.com.optimedia.autor.view
 					view.closeTextEditor(null);
 					break;
 				case NotificationConstants.DO_LINK_EVENT:
-					//var aux:Object = note.getBody();
 					if( view.textEditor.beginIndex != view.textEditor.endIndex ) {
 						view.textEditor.currentMediaID = MediaVO( note.getBody() ).media_id;
 						view.textEditor.makeLink();
@@ -147,6 +142,18 @@ package br.com.optimedia.autor.view
 		
 		private function saveSlide(event:ResultEvent):void {
 			slideManagerProxy.saveSlide( event.result as SlideVO );
+		}
+		
+		private function selectMediaOnRepository(event:ResultEvent):void {
+			for each( var item:Object in view.repositoryPanel.mediaTree.dataProvider ) {
+				for each( var media:MediaVO in item.children ) {
+					if( media.media_id.toString() == event.result as String ) {
+						view.repositoryPanel.mediaTree.selectedItem = media;
+						view.repositoryPanel.treeItemClick(null);
+						return;
+					}
+				}
+			}
 		}
 	}
 }

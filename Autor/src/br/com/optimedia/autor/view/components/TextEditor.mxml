@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" width="100%" height="100%"
+	creationComplete="init()">
 
 	<mx:Metadata>
 
@@ -568,7 +569,16 @@
 		public function makeLink():void {
 			setTextStyles('url', 'event:'+String(_currentMediaID));
 		}
-	
+		
+		public static const SELECT_MEDIA_ON_REPOSITORY_EVENT:String = "SELECT_MEDIA_ON_REPOSITORY_EVENT";
+		
+		private function linkClick(event:TextEvent):void {
+			dispatchEvent( new ResultEvent(SELECT_MEDIA_ON_REPOSITORY_EVENT, true, true, event.text) );
+		}
+		
+		private function init():void {
+			textArea.addEventListener(TextEvent.LINK, linkClick);
+		}
 	]]>
 	</mx:Script>
 	
@@ -591,7 +601,8 @@
 						 		textFormatChanged = false;
 						 	}"
 						 mouseDown="systemManager.addEventListener(
-							MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);"/>
+							MouseEvent.MOUSE_UP, systemManager_mouseUpHandler, true);"
+							/>
 			
 			<mx:ControlBar>
 				
