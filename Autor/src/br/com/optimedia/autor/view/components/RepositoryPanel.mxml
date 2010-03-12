@@ -67,7 +67,7 @@
 				return iconClass;
 			}
 			
-			private function treeItemClick(event:ListEvent):void {
+			public function treeItemClick(event:ListEvent):void {
 				previePanel.title = 'Pré-visualização';
 				previewImage.visible = false;
 				previewTextArea.visible = false;
