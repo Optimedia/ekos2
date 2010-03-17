@@ -1,8 +1,11 @@
 package br.com.optimedia.autor.view
 {
-	import br.com.optimedia.assets.FaultHandler;
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.autor.AutorFacade;
+	import br.com.optimedia.autor.model.SubjectManagerProxy;
+	import br.com.optimedia.autor.view.components.SlideEditor;
+	
+	import flash.events.Event;
 	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
@@ -11,9 +14,6 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import flash.events.Event;
-	import br.com.optimedia.autor.view.components.SlideEditor;
-	import br.com.optimedia.autor.model.SubjectManagerProxy;
 
 	public class AutorMediator extends Mediator
 	{
@@ -122,7 +122,7 @@ package br.com.optimedia.autor.view
 				Alert.show("Você não tem permissão para editar", "Atenção");
 			}
 		}
-		private function faultHandler(event:FaultHandler):void {
+		private function faultHandler(event:FaultEvent):void {
 			trace(event);
 		}
 		
