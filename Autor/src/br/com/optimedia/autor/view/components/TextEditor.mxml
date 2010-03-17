@@ -38,6 +38,7 @@
 
 	<mx:Script>
 	<![CDATA[
+		import br.com.optimedia.interactive.view.components.SlideView;
 		import br.com.optimedia.assets.vo.PresentationVO;
 		import br.com.optimedia.assets.vo.MediaVO;
 		import mx.collections.ArrayCollection;
