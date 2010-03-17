@@ -85,7 +85,7 @@ package br.com.optimedia.autor.view
 			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
 			}
-			//SE FOR AUTOR
+			//SE FOR ADMIN
 			else if( roleID == 1 ) {
 				view.visible = true;
 				view.showModuleManager();
