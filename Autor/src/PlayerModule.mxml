@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
-	width="800" height="512" creationComplete="init()" horizontalAlign="center">
+	width="800" height="512" creationComplete="init()" horizontalAlign="center" currentState="1">
+	
+	<mx:states>
+		<mx:State name="1"/>
+		<mx:State name="2">
+			<mx:SetProperty target="{slideSpacer}" name="height" value="140"/>
+			<mx:SetStyle target="{titleTextInput}" name="fontSize" value="32"/>
+			<mx:SetStyle target="{bodyTextArea}" name="fontSize" value="28"/>
+		</mx:State>
+		<mx:State name="3">
+			<mx:RemoveChild target="{slideSpacer}"/>
+			<mx:RemoveChild target="{titleCanvas}"/>
+			<mx:RemoveChild target="{bodyTextArea}"/>
+			<mx:AddChild relativeTo="{slideVBox}" position="lastChild">
+				<mx:Image id="slideImage" source="http://www.educar.tv/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"/>
+			</mx:AddChild>
+			<mx:SetStyle target="{slideVBox}" name="verticalAlign" value="middle"/>
+		</mx:State>
+	</mx:states>
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.assets.vo.SlideVO;
 			import br.com.optimedia.assets.ImgAssets;
 			import mx.controls.Alert;
 			import br.com.optimedia.player.PlayerFacade;
@@ -12,6 +31,30 @@
 			public static const PREVIEW_MODE:String = "PREVIEW_MODE";
 			
 			private var playerFacade:PlayerFacade = PlayerFacade.getInstance();
+			
+			[Bindable]
+			public var presentationID:int;
+			
+			[Bindable]
+			public var slideID:Number;
+			
+			[Bindable]
+			public var mode:String;
+			
+			[Bindable]
+			private var slideVO:SlideVO = new SlideVO();
+			
+			public function setSlide(slideVO:SlideVO):void {
+				slideID = slideVO.slide_id;
+				
+				//gambiarra pra evitar slides q estão sendo salvos com tipo 0
+				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 2;
+				//fim da gambiarra
+				
+				this.currentState = slideVO.type_slide_id.toString();
+				
+				this.slideVO = slideVO;
+			}
 			
 			private function init():void {
 				var titleBackground:Sprite = new Sprite ();
@@ -23,17 +66,16 @@
 			}
 			
 			public function start(presentationID:int, slideID:int, mode:String = PLAYER_MODE ):void {
+				
+				this.presentationID = presentationID;
+				this.slideID = slideID;
+				this.mode = mode;
+				
 				if( mode != PLAYER_MODE && mode != PREVIEW_MODE ) {
 					Alert.show( mode+" não é um modo válido.", "Erro");
 				}
 				else {
 					playerFacade.startup( this );
-					if( mode == PLAYER_MODE ) {
-						
-					}
-					else if( mode == PREVIEW_MODE ) {
-						
-					}
 				}
 			}
 		]]>
@@ -45,10 +87,10 @@
 		
 		<mx:Canvas id="titleCanvas" width="100%" height="50">
 			<mx:TextInput id="titleTextInput" verticalCenter="0" horizontalCenter="0" width="714" backgroundAlpha="0" borderThickness="0"
-				borderStyle="none" fontSize="28"/>
+				borderStyle="none" fontSize="28" text="{slideVO.title}"/>
 		</mx:Canvas>
 		
-		<mx:TextArea id="bodyTextArea" width="784" height="100%" fontSize="22"/>
+		<mx:TextArea id="bodyTextArea" width="784" height="100%" fontSize="22" htmlText="{slideVO.text_body}"/>
 		
 	</mx:VBox>
 	
@@ -77,7 +119,7 @@
 			
 			<mx:Button id="urlBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
 				
-				toolTip="Clique para ver a url deste slide"/>
+				toolTip="Clique para ver a url deste slide" width="30"/>
 			
 		</mx:HBox>
 
