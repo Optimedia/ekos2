@@ -30,5 +30,6 @@ package br.com.optimedia.assets
 		public static const DELETE_SLIDE_RESULT:String = "DELETE_SLIDE_RESULT";
 		public static const SAVE_SLIDE_RESULT:String = "SAVE_SLIDE_RESULT";
 		public static const DO_LINK_EVENT:String = "DO_LINK_EVENT";
+		public static const GET_PRESENTATION_FOR_PLAYER:String = "GET_PRESENTATION_FOR_PLAYER";
 	}
 }

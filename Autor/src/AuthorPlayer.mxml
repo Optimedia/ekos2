@@ -2,8 +2,40 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
 	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
 	width="800" height="512"
-	xmlns:local="*">
+	xmlns:local="*" creationComplete="init()">
 	
-	<local:PlayerModule />
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.managers.IBrowserManager;
+			import mx.managers.BrowserManager;
+		
+			[Bindable]
+    		public var idPresentation:int;
+    		
+    		[Bindable]
+    		public var idSlide:int;
+    		
+			private function init():void {
+				idPresentation = this.parameters._presentation;
+				var end:IBrowserManager = BrowserManager.getInstance(); 
+				end.init();
+				Alert.show(end.url);
+				idSlide = end.url.split("s=")[1];
+				
+				// VALORES APENAS PARA TESTE
+				idPresentation = 1;
+				
+				var playerModule:PlayerModule = new PlayerModule();
+				
+				this.addChild( playerModule );
+				
+				playerModule.start(idPresentation, idSlide);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<!-- <local:PlayerModule /> -->
 	
 </mx:Application>

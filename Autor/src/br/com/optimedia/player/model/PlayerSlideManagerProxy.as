@@ -2,7 +2,6 @@ package br.com.optimedia.player.model
 {
 	import br.com.optimedia.assets.FaultHandler;
 	import br.com.optimedia.assets.NotificationConstants;
-	import br.com.optimedia.assets.vo.SlideVO;
 	
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -35,9 +34,29 @@ package br.com.optimedia.player.model
 			FaultHandler.handleFault(event);
 		}
 		
+		public function getPresentation(presentationID:int):void {
+			var asynkToken:AsyncToken = remoteService.getPlayerSlides(presentationID);
+			asynkToken.addResponder( new Responder(getPresentationResult, generalFault) );
+		}
+		private function getPresentationResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_PRESENTATION_FOR_PLAYER, event.result );
+			}
+		}
+		
 		/* public function getSlides(presentationID:uint):void {
 			var asynkToken:AsyncToken = remoteService.getSlides(presentationID);
 			asynkToken.addResponder( new Responder(getSlidesResult, generalFault) );
+		}
+		private function getSlidesResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
+			}
+		}
+		private function getSlidesResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
+			}
 		}
 		private function getSlidesResult(event:ResultEvent):void {
 			if( event.result is Array ) {

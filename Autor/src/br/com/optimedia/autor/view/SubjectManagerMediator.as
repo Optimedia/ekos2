@@ -130,8 +130,6 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function slideEditBtnClick(event:MouseEvent):void {
-			//Alert.show("FINISH SubjectManagerMediator.slideEditBtnClick")
-			// FALTA COLOCAR O USER ID NO lockPresentation
 			if( view.userRole == AutorFacade.IS_OBSERVER ) {
 				navigateToURL( new URLRequest('http://www.educar.tv/sinase.moodle/interactive/observer.php?presentation='+PresentationVO(view.presentationGrid.selectedItem).presentation_id) );
 			}

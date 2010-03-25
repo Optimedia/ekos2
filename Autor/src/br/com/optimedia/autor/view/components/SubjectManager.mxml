@@ -183,7 +183,7 @@
 			<mx:columns>
 				<mx:DataGridColumn headerText="Módulo" dataField="title"/>
 				<mx:DataGridColumn headerText="Descrição" dataField="description"/>
-				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
+				<!--<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />-->
 				<mx:DataGridColumn headerText="Opções" width="100" textAlign="center" visible="{userRole==AutorFacade.IS_ADMIN || userRole==AutorFacade.IS_AUTHOR}">
 					<mx:itemRenderer>
 					<mx:Component>
@@ -263,7 +263,7 @@
 					</mx:Component>
 					</mx:itemRenderer>
 				</mx:DataGridColumn>
-				<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
+				<!--<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />-->
 				<mx:DataGridColumn headerText="Slides" labelFunction="{slidesNumLabelFunction}" width="50" textAlign="center" />
 				<mx:DataGridColumn headerText="Opções" width="150" textAlign="center" visible="{userRole==AutorFacade.IS_ADMIN || userRole==AutorFacade.IS_AUTHOR}">
 					<mx:itemRenderer>
