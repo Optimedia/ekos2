@@ -8,6 +8,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import org.puremvc.as3.multicore.patterns.facade.Facade;
+			import mx.rpc.events.FaultEvent;
 			import mx.controls.Alert;
 			import mx.managers.BrowserManager;
 			import mx.rpc.events.ResultEvent;
@@ -31,7 +33,7 @@
 			
 			private function init(): void {
 				idPresentation = this.parameters._presentation;
-				//idPresentation = 8;
+				//idPresentation = 73;
 				//idSlide = this.parameters._idSlide;
 				 end = BrowserManager.getInstance(); 
 				 end.init();
@@ -41,15 +43,72 @@
 				
 				this.menuView.visible=false;
 				this.httpService.send();
-				
 				this.interactiveFacade = InteractiveFacade.getInstance();
 				this.interactiveFacade.startup( this );
+				
+				this.whoAmI();
 
 
 			}
 			public function httpService_result(event:ResultEvent):void {
                 styleSh.parseCSS(event.result as String);
             }
+            
+            private function whoAmI():void {
+				var service:HTTPService = new HTTPService();
+				service.url = 'http://www.educar.tv/sinase.moodle/autor/whoami.php';
+				service.resultFormat = "e4x";
+				service.showBusyCursor = true;
+				service.addEventListener(ResultEvent.RESULT, resultHandler);
+				service.addEventListener(FaultEvent.FAULT, faultHandler);
+				service.send();
+			}
+			private function resultHandler(event:ResultEvent):void {
+				
+				var roleID:int = event.result.roleID;
+				var userID:int = event.result.userID;
+				
+				//HABILITE ESSAS DUAS VARIÁVEIS PARA TESTAR LOCALMENTE
+				//roleID = 1;
+				//userID = 10;
+				//SE NÃO ESTIVER LOGADO NO MOODLE
+				if( roleID == 0 ) {
+					//Alert.show("É necessário logar-se no Moodle antes.", "Erro");
+					interactiveFacade.userID = 0;
+				}else {
+					interactiveFacade.userID = userID;
+				}
+				/*
+				//SE FOR Admin
+				else if( roleID == 1 ) {
+					//interactiveFacade.userRole = AutorFacade.IS_ADMIN;
+					interactiveFacade.userID = userID;
+				}
+				//SE FOR AUTOR
+				else if( roleID == 2 ) {
+					//interactiveFacade.userRole = InteractiveFacade.IS_AUTHOR;
+					interactiveFacade.userID = userID;
+				}
+				//SE FOR CONTEUDISTA (EDITOR)
+				else if( roleID == 8 ) {
+					//interactiveFacade.userRole = InteractiveFacade.IS_EDITOR;
+					interactiveFacade.userID = userID;
+				}
+				//SE FOR OBSERVADOR
+				else if( roleID == 9 ) {
+					//interactiveFacade.userRole = InteractiveFacade.IS_OBSERVER;
+					interactiveFacade.userID = userID;
+				}
+				//SE NÃO TIVER PREMISSÃO DE ADMIN, AUTOR OU CONTEUDISTA
+				else {
+					interactiveFacade.userID = userID;
+					//Alert.show("Você não tem permissão para editar", "Atenção");
+				}
+				*/
+			}
+			private function faultHandler(event:FaultEvent):void {
+				trace(event);
+			}
 			
 		]]>
 	</mx:Script>

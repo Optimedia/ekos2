@@ -21,6 +21,10 @@ package br.com.optimedia.interactive
 	
 	public class InteractiveFacade extends Facade{
 		
+		public var userID:int;
+		//public var userRole:String;
+		
+		
 		public function InteractiveFacade(key:String)
 		{
 			super(key);
