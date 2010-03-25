@@ -40,13 +40,12 @@ package br.com.optimedia.interactive.model
 			Alert.show(event.fault.message, " Proxy erro");
 		}
 		
-		public function getSlide(slide:SlideVO):void {
-			getSlideResult(slide);
-			
-		}
-		private function getSlideResult(slideVO:SlideVO ):void {
-			sendNotification( ApplicationConstants.GET_SLIDE_OK, slideVO );
-		}
+		//public function getSlide(slide:SlideVO):void {
+		//	getSlideResult(slide);
+		//}
+		//private function getSlideResult(slideVO:SlideVO ):void {
+		//	sendNotification( ApplicationConstants.GET_SLIDE_OK, slideVO );
+		//}
 		
 		public function getSlides(presentationID:uint, idSlideID:uint):void {
 			idSlide = idSlideID as uint;

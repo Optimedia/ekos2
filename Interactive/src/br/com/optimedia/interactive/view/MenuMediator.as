@@ -1,11 +1,14 @@
 package br.com.optimedia.interactive.view
 {
+	import br.com.optimedia.interactive.InteractiveFacade;
 	import br.com.optimedia.interactive.assets.ApplicationConstants;
 	import br.com.optimedia.interactive.assets.vo.SlideVO;
 	import br.com.optimedia.interactive.model.InteractiveProxy;
 	import br.com.optimedia.interactive.view.components.MenuView;
 	
 	import flash.events.MouseEvent;
+	
+	import mx.controls.Alert;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -100,8 +103,12 @@ package br.com.optimedia.interactive.view
 		 	view.menuList.selectedIndex = view.menuList.selectedIndex+1;
 		 	var vo:SlideVO = view.menuList.selectedItem as SlideVO;
 		 	dumbSlide(vo);
+		 	
+		 	
+		 	
 		 }
 		 public function dumbSlide (vo:SlideVO):void {
+		 	//Alert.show("user: " + InteractiveFacade(facade).userID);
 			if (interactiveProxy.idSlide>0) {
 				for (var i:uint=0;i<slidesPresentation.length; i++) {
 					if (interactiveProxy.idSlide == slidesPresentation[i].slide_id) {

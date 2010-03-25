@@ -109,6 +109,8 @@ package br.com.optimedia.interactive.view {
 						break;
 					case 6:
 						text = new TextArea();
+						text.percentWidth=100;
+						text.percentHeight=100;
 						text.setStyle("backgroundAlpha", 0);
 						text.setStyle("borderSides",0);
 						text.htmlText = "<span class='media'>" + media.body + "</span>";
