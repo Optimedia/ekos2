@@ -79,8 +79,8 @@ package br.com.optimedia.autor.view
 			var roleID:int = event.result.roleID;
 			var userID:int = event.result.userID;
 			//HABILITE ESSAS DUAS VARIÁVEIS PARA TESTAR LOCALMENTE
-			roleID = 1;
-			userID = 10;
+			//roleID = 1;
+			//userID = 10;
 			//SE NÃO ESTIVER LOGADO NO MOODLE
 			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
@@ -88,34 +88,34 @@ package br.com.optimedia.autor.view
 			//SE FOR ADMIN
 			else if( roleID == 1 ) {
 				view.visible = true;
-				view.showModuleManager();
-				view.showSlideEditor();
 				AutorFacade(facade).userRole = AutorFacade.IS_ADMIN;
 				AutorFacade(facade).userID = userID;
+				view.showModuleManager();
+				view.showSlideEditor();
 			}
 			//SE FOR AUTOR
 			else if( roleID == 2 ) {
 				view.visible = true;
-				view.showModuleManager();
-				view.showSlideEditor();
 				AutorFacade(facade).userRole = AutorFacade.IS_AUTHOR;
 				AutorFacade(facade).userID = userID;
+				view.showModuleManager();
+				view.showSlideEditor();
 			}
 			//SE FOR CONTEUDISTA (EDITOR)
 			else if( roleID == 8 ) {
 				view.visible = true;
-				view.showModuleManager();
-				view.showSlideEditor();
 				AutorFacade(facade).userRole = AutorFacade.IS_EDITOR;
 				AutorFacade(facade).userID = userID;
+				view.showModuleManager();
+				view.showSlideEditor();
 			}
 			//SE FOR OBSERVADOR
 			else if( roleID == 9 ) {
 				view.visible = true;
-				view.showModuleManager();
-				view.showSlideEditor();
 				AutorFacade(facade).userRole = AutorFacade.IS_OBSERVER;
 				AutorFacade(facade).userID = userID;
+				view.showModuleManager();
+				view.showSlideEditor();
 			}
 			//SE NÃO TIVER PREMISSÃO DE ADMIN, AUTOR OU CONTEUDISTA
 			else {
