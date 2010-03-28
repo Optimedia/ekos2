@@ -189,6 +189,17 @@
 				}
 			}
 			
+			private var roleID:String;
+			public function setRoleID(roleID:String):void {
+				this.roleID = roleID;
+				if( this.roleID == AutorFacade.IS_ADMIN || this.roleID == AutorFacade.IS_AUTHOR ) {
+					repositoryPanel.deleteBtn.visible = true;
+				}
+				else {
+					repositoryPanel.deleteBtn.visible = false;
+				}
+			}
+			
 		]]>
 	</mx:Script>
 	

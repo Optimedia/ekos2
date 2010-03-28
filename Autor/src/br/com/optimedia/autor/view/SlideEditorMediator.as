@@ -4,6 +4,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.assets.vo.MediaVO;
 	import br.com.optimedia.assets.vo.PresentationVO;
 	import br.com.optimedia.assets.vo.SlideVO;
+	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.SlideEditor;
@@ -17,7 +18,6 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import mx.utils.StringUtil;
 
 	public class SlideEditorMediator extends Mediator
 	{
@@ -46,6 +46,8 @@ package br.com.optimedia.autor.view
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			slideManagerProxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
+			
+			view.setRoleID( AutorFacade(facade).userRole );
 		}
 		
 		override public function onRemove():void {

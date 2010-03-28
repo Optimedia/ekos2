@@ -39,8 +39,8 @@ package br.com.optimedia.autor.model
 			FaultHandler.handleFault(event);
 		}
 		
-		public function getSubjects():void {
-			var asynkToken:AsyncToken = remoteService.getSubjects();
+		public function getSubjects(userID:int=0):void {
+			var asynkToken:AsyncToken = remoteService.getSubjects(userID);
 			asynkToken.addResponder( new Responder(getSubjectsResult, generalFault) );
 		}
 		private function getSubjectsResult(event:ResultEvent):void {
