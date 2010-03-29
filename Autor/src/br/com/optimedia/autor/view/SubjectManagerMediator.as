@@ -44,12 +44,7 @@ package br.com.optimedia.autor.view
 			view.slideEditBtn.addEventListener( MouseEvent.CLICK, slideEditBtnClick );
 			
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
-			if( AutorFacade(facade).userRole == AutorFacade.IS_EDITOR ) {
-				subjectManagerProxy.getSubjects( AutorFacade(facade).userID );
-			}
-			else {
-				subjectManagerProxy.getSubjects();
-			}
+			subjectManagerProxy.getSubjects();
 			view.presentationSkins = subjectManagerProxy.presentationSkins;
 			
 			view.setRoleID( AutorFacade(facade).userRole );

@@ -4,6 +4,7 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.PresentationVO;
 	import br.com.optimedia.assets.vo.SubjectVO;
+	import br.com.optimedia.autor.AutorFacade;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -39,7 +40,11 @@ package br.com.optimedia.autor.model
 			FaultHandler.handleFault(event);
 		}
 		
-		public function getSubjects(userID:int=0):void {
+		public function getSubjects():void {
+			var userID:int = 0;
+			if( AutorFacade(facade).userRole == AutorFacade.IS_EDITOR ) {
+				userID = AutorFacade(facade).userID;
+			}
 			var asynkToken:AsyncToken = remoteService.getSubjects(userID);
 			asynkToken.addResponder( new Responder(getSubjectsResult, generalFault) );
 		}
