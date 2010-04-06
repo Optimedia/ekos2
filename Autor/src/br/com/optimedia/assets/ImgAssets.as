@@ -59,6 +59,12 @@ package br.com.optimedia.assets
 		
 		
 		//IMGS DO PLAYER
+		[Embed('img/backArrow.png')]
+		public static const backArrow:Class;
+		
+		[Embed('img/nextArrow.png')]
+		public static const nextArrow:Class;
+
 		[Embed(source="img/playerSkin.swf",symbol="taskbar")]
 		public static const playerTaskbar:Class;
 
