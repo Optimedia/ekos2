@@ -22,6 +22,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import br.com.optimedia.assets.vo.SlideVO;
 			import br.com.optimedia.assets.ImgAssets;
 			import mx.controls.Alert;
@@ -44,6 +45,9 @@
 			[Bindable]
 			private var slideVO:SlideVO = new SlideVO();
 			
+			[Bindable]
+			public var slidesArray:ArrayCollection = new ArrayCollection();
+			
 			public function setSlide(slideVO:SlideVO):void {
 				slideID = slideVO.slide_id;
 				
@@ -54,6 +58,8 @@
 				this.currentState = slideVO.type_slide_id.toString();
 				
 				this.slideVO = slideVO;
+				
+				this.indexBtn.label = slideVO.page_order+1+"/"+slidesArray.length.toString();
 			}
 			
 			private function init():void {
@@ -100,26 +106,17 @@
 		
 		<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">
 			
-			<mx:Button id="prevBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
-				upIcon="{ImgAssets.arrowBackUp}" overIcon="{ImgAssets.arrowBackOver}" downIcon="{ImgAssets.arrowBackDown}"
-				toolTip="Slide Anterior" />
-			<mx:Button id="indexBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
-				toolTip="Lista de slides" width="120"/>
-			<mx:Button id="nextBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
-				upIcon="{ImgAssets.arrowNextUp}" overIcon="{ImgAssets.arrowNextOver}" downIcon="{ImgAssets.arrowNextDown}"
-				toolTip="Próximo slide" />
+			<mx:Button id="prevBtn" toolTip="Slide Anterior" icon="{ImgAssets.backArrow}"/>
+			<mx:Button id="indexBtn" toolTip="Lista de slides" width="120"/>
+			<mx:Button id="nextBtn" toolTip="Próximo slide" icon="{ImgAssets.nextArrow}"/>
 			
 			<mx:Spacer width="100" />
 			
-			<mx:HBox id="mediaBox">
+			<mx:HBox id="mediaBox"/>
 				
-			</mx:HBox>
-			
 			<mx:Spacer width="100%" />
 			
-			<mx:Button id="urlBtn" upSkin="{ImgAssets.playerBtnUp}" downSkin="{ImgAssets.playerBtnDown}" overSkin="{ImgAssets.playerBtnOver}"
-				
-				toolTip="Clique para ver a url deste slide" width="30"/>
+			<mx:Button id="urlBtn" toolTip="Clique para ver a url deste slide" width="30"/>
 			
 		</mx:HBox>
 

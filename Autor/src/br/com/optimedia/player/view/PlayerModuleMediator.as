@@ -18,7 +18,7 @@ package br.com.optimedia.player.view
 		
 		private var proxy:PlayerSlideManagerProxy;
 		
-		private var slidesArray:ArrayCollection = new ArrayCollection();
+		//private var slidesArray:ArrayCollection = new ArrayCollection();
 		
 		public function PlayerModuleMediator(viewComponent:Object=null)
 		{
@@ -61,16 +61,16 @@ package br.com.optimedia.player.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_PRESENTATION_FOR_PLAYER:
-					slidesArray = new ArrayCollection( note.getBody() as Array );
-					if( slidesArray.length <= 0 ) {
+					view.slidesArray = new ArrayCollection( note.getBody() as Array );
+					if( view.slidesArray.length <= 0 ) {
 						Alert.show("Não há slides nesta apresentação");
 					}
 					else {
 						if( view.slideID == 0 ) {
-							view.setSlide( slidesArray[0] as SlideVO );
+							view.setSlide( view.slidesArray[0] as SlideVO );
 						}
 						else {
-							for each( var slide:SlideVO in slidesArray ) {
+							for each( var slide:SlideVO in view.slidesArray ) {
 								if( slide.slide_id == view.slideID ) {
 									view.setSlide( slide );
 								}
@@ -87,20 +87,20 @@ package br.com.optimedia.player.view
 			var actualSlideIndex:int = getSlideIndex(view.slideID);
 			var nextSlideIndex:int = actualSlideIndex+1;
 			disableButtons( nextSlideIndex );
-			view.setSlide( slidesArray[nextSlideIndex] );
+			view.setSlide( view.slidesArray[nextSlideIndex] );
 		}
 		
 		private function prevBtnClick(event:MouseEvent):void {
 			var actualSlideIndex:int = getSlideIndex(view.slideID);
 			var nextSlideIndex:int = actualSlideIndex-1;
 			disableButtons( nextSlideIndex );
-			view.setSlide( slidesArray[nextSlideIndex] );
+			view.setSlide( view.slidesArray[nextSlideIndex] );
 		}
 		
 		private function getSlideIndex(slideID:Number):Number {
-			for each( var slide:SlideVO in slidesArray ) {
+			for each( var slide:SlideVO in view.slidesArray ) {
 				if( slide.slide_id == slideID ) {
-					return slidesArray.getItemIndex( slide );
+					return view.slidesArray.getItemIndex( slide );
 				}
 			}
 			return 0;
@@ -112,7 +112,7 @@ package br.com.optimedia.player.view
 			if( slideIndex == 0 ) {
 				view.prevBtn.enabled = false;
 			}
-			else if( slideIndex == slidesArray.length-1 ) {
+			else if( slideIndex == view.slidesArray.length-1 ) {
 				view.nextBtn.enabled = false;
 			}
 		}
