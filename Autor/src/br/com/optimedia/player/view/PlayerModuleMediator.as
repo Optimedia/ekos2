@@ -8,6 +8,8 @@ package br.com.optimedia.player.view
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.managers.BrowserManager;
+	import mx.managers.IBrowserManager;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -31,6 +33,7 @@ package br.com.optimedia.player.view
 			
 			view.nextBtn.addEventListener(MouseEvent.CLICK, nextBtnClick);
 			view.prevBtn.addEventListener(MouseEvent.CLICK, prevBtnClick);
+			view.urlBtn.addEventListener(MouseEvent.CLICK, showURL);
 			
 			proxy = facade.retrieveProxy( PlayerSlideManagerProxy.NAME ) as PlayerSlideManagerProxy;
 			
@@ -115,6 +118,14 @@ package br.com.optimedia.player.view
 			else if( slideIndex == view.slidesArray.length-1 ) {
 				view.nextBtn.enabled = false;
 			}
+		}
+		
+		private function showURL(event:MouseEvent):void {
+			var end:IBrowserManager = BrowserManager.getInstance(); 
+			end.init();
+			var url:String;
+			url = end.url.split(".html")[0]+".html?s="+view.slideID;
+			Alert.show(url, "Link para este slide:");
 		}
 	}
 }
