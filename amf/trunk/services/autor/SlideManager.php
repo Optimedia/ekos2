@@ -219,8 +219,6 @@ class SlideManager extends SqlManager {
 				return false;
 			}
 			
-			// TO FINISH SALVAR mediaArray
-			
 			foreach ( $slide->mediaArray as $media_id ) {
 				
 				$this->saveMediaLink ( $media_id, $lastId );
