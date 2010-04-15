@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" roundedBottomCorners="true" borderStyle="solid"
+				cornerRadius="4" horizontalAlign="center" verticalAlign="middle" showCloseButton="true" close="dismissEffect.play()"
+				resizeEffect="{myResize}" creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ResizeEvent;
+			import mx.effects.easing.Elastic;
+			import mx.effects.easing.Bounce;
+			import mx.effects.Resize;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.assets.vo.MediaVO;
+			
+			public var mediaVO:MediaVO;
+			
+			private function init():void {
+				this.addEventListener(ResizeEvent.RESIZE, resizeMe);
+			}
+			
+			private function closeMe():void {
+				PopUpManager.removePopUp( this );
+				System.gc();
+			}
+			
+			private function resizeMe(event:ResizeEvent):void {
+				PopUpManager.centerPopUp( this );
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectEnd="{loadingSwf.visible=false}"/>
+	
+	<mx:Parallel id="dismissEffect" target="{this}" effectEnd="closeMe()">
+		<mx:Blur blurXFrom="0" blurXTo="200"/>
+		<mx:Fade alphaFrom="1" alphaTo="0"/>
+	</mx:Parallel>
+	
+	<mx:SWFLoader id="loadingSwf" source="br/com/optimedia/assets/img/loading.swf"
+		horizontalCenter="0" verticalCenter="0" scaleContent="false" width="50" height="50"/>
+	
+</mx:TitleWindow>
