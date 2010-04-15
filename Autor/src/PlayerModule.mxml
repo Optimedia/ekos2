@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
 	width="800" height="512" creationComplete="init()" horizontalAlign="center" currentState="1">
 	
 	<mx:states>
@@ -22,6 +22,22 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.effects.easing.Elastic;
+			import mx.effects.Fade;
+			import mx.events.ListEvent;
+			import br.com.optimedia.player.view.components.SlideIndexList;
+			import mx.controls.videoClasses.VideoPlayer;
+			import mx.controls.VideoDisplay;
+			import mx.core.UIComponent;
+			import mx.events.ResizeEvent;
+			import mx.core.IFlexDisplayObject;
+			import mx.controls.SWFLoader;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.player.view.components.MediaPopUp;
+			import fl.video.FLVPlayback;
+			import mx.events.CloseEvent;
+			import mx.containers.TitleWindow;
+			import br.com.optimedia.assets.vo.MediaVO;
 			import mx.collections.ArrayCollection;
 			import br.com.optimedia.assets.vo.SlideVO;
 			import br.com.optimedia.assets.ImgAssets;
@@ -48,20 +64,6 @@
 			[Bindable]
 			public var slidesArray:ArrayCollection = new ArrayCollection();
 			
-			public function setSlide(slideVO:SlideVO):void {
-				slideID = slideVO.slide_id;
-				
-				//gambiarra pra evitar slides q estão sendo salvos com tipo 0
-				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 2;
-				//fim da gambiarra
-				
-				this.currentState = slideVO.type_slide_id.toString();
-				
-				this.slideVO = slideVO;
-				
-				this.indexBtn.label = slideVO.page_order+1+"/"+slidesArray.length.toString();
-			}
-			
 			private function init():void {
 				var titleBackground:Sprite = new Sprite ();
 				titleBackground.graphics.lineStyle(1,0x000000);
@@ -84,35 +86,251 @@
 					playerFacade.startup( this );
 				}
 			}
+			
+			public function setSlide(slideVO:SlideVO):void {
+				slideID = slideVO.slide_id;
+				
+				//gambiarra pra evitar slides q estão sendo salvos com tipo 0
+				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 2;
+				//fim da gambiarra
+				
+				this.currentState = slideVO.type_slide_id.toString();
+				
+				this.slideVO = slideVO;
+				
+				indexBtn.label = slideVO.page_order+1+"/"+slidesArray.length.toString();
+				
+				disableButtons( getSlideIndex( slideVO.slide_id ) );
+				createMediaBtns();
+			}
+			
+			private function nextBtnClick():void {
+				var actualSlideIndex:int = getSlideIndex(slideID);
+				var nextSlideIndex:int = actualSlideIndex+1;
+				setSlide( slidesArray[nextSlideIndex] );
+			}
+			
+			private function prevBtnClick():void {
+				var actualSlideIndex:int = getSlideIndex(slideID);
+				var nextSlideIndex:int = actualSlideIndex-1;
+				setSlide( slidesArray[nextSlideIndex] );
+			}
+			
+			private function getSlideIndex(slideID:Number):Number {
+				for each( var slide:SlideVO in slidesArray ) {
+					if( slide.slide_id == slideID ) {
+						return slidesArray.getItemIndex( slide );
+					}
+				}
+				return 0;
+			}
+			
+			private function disableButtons(slideIndex:int):void {
+				prevBtn.enabled = true;
+				nextBtn.enabled = true;
+				if( slideIndex == 0 ) {
+					prevBtn.enabled = false;
+				}
+				if( slideIndex == slidesArray.length-1 ) {
+					nextBtn.enabled = false;
+				}
+			}
+			
+			private function createMediaBtns():void {
+				mediaBox.visible = false;
+				mediaBox.removeAllChildren();
+				for each( var media:MediaVO in slideVO.mediaArray ) {
+					var btn:Button = new Button();
+					btn.width = 24;
+		 			btn.height = 24;
+		 			btn.data = media;
+					btn.addEventListener(MouseEvent.CLICK, openMediaPopUp);
+		 			switch (media.category_id)
+					{
+						case 1:
+							btn.setStyle("icon", ImgAssets.category1Icon);
+							btn.toolTip = "Ver Tabela";
+							break;
+						case 2:
+							btn.setStyle("icon", ImgAssets.category2Icon);
+							btn.toolTip = "Ver Gráfico";
+							break;
+						case 3:
+							btn.setStyle("icon", ImgAssets.category3Icon);
+							btn.toolTip = "Ver Imagem";
+							break;
+						case 4:
+							btn.setStyle("icon", ImgAssets.category4Icon);
+							btn.toolTip = "Ver Vídeo";
+							break;
+						case 5:
+							btn.setStyle("icon", ImgAssets.category5Icon);
+							btn.toolTip = "Abrir URL";
+							break;
+						case 6:
+							btn.setStyle("icon", ImgAssets.category6Icon);
+							btn.toolTip = "Ver Texto";
+							break;
+						case 7:
+							btn.setStyle("icon", ImgAssets.category7Icon);
+							btn.toolTip = "Baixar Arquivo";
+							break;
+						default:
+							btn.setStyle("icon", ImgAssets.category3Icon);
+							btn.toolTip = "Abrir Mídia";
+							break;
+					}
+					mediaBox.addChild( btn );
+				}
+				mediaBox.visible = true;
+			}
+			
+			private function openMediaPopUp(event:Event):void {
+				var popUp:MediaPopUp = new MediaPopUp();
+				popUp.maxHeight = this.height*0.95;
+				popUp.maxWidth = this.width*0.95;
+				
+				var media:MediaVO;
+				if(event is MouseEvent) {
+					//SE O EVENTO VEIO DO BOTÃO
+					media = event.target.data as MediaVO;
+				}
+				else if(event is TextEvent) {
+					//SE O EVENTO VEIO DO LINK NO TEXTO
+					for each( var item:MediaVO in slideVO.mediaArray ) {
+						if( item.media_id.toString() == TextEvent(event).text.toString() ){
+							media = item;
+						}
+					}
+				}
+				switch(media.category_id) {
+					case 4:
+						var movie:FLVPlayback = new FLVPlayback();
+						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
+						movie.autoRewind = false;
+						movie.skin="http://www.educar.tv/sinase.moodle/interactive/br/com/optimedia/interactive/assets/skinOverPlaySeekMute.swf";
+						movie.scaleMode = "maintainAspectRatio";
+						movie.skinBackgroundColor = 0x666666;
+	        			movie.skinAutoHide = true;
+						
+						var aux:UIComponent = new UIComponent();
+						aux.addChild( movie as DisplayObject );
+						popUp.addChild( aux );
+						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); })
+						PopUpManager.addPopUp( popUp, this );
+						PopUpManager.centerPopUp( popUp );
+						aux.width = movie.width;
+						aux.height = movie.height;
+						break;
+					case 5:
+						var url:URLRequest = new URLRequest( media.body );
+						navigateToURL(url,"_blank");
+						break;
+					case 6:
+						var text:TextArea = new TextArea();
+						text.setStyle("backgroundAlpha", 0);
+						text.setStyle("borderSides",0);
+						text.setStyle("fontSize", 22);
+						text.htmlText = "<span class='media'>" + media.body + "</span>";
+						text.wordWrap = true;
+						text.editable = false;
+						text.enabled = true;
+						popUp.addChild( text );
+						PopUpManager.addPopUp( popUp, this );
+						PopUpManager.centerPopUp( popUp );
+						text.width = 500;
+						text.height = 400;
+						break;
+					case 7:
+						var url1:URLRequest = new URLRequest( 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
+						navigateToURL(url1,"_blank");
+						break;
+					default:
+						var arq:Array = media.body.split(".");
+						if (arq[1]=="swf") {
+							var swfLoad:SWFLoader = new SWFLoader();
+							swfLoad.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
+							swfLoad.autoLoad = true;
+							swfLoad.scaleContent = true;
+							popUp.addChild( swfLoad );
+						}else {
+							var imagem:Image = new Image();
+							imagem.autoLoad = true;
+							imagem.maxWidth = this.width*0.95;
+							imagem.maxHeight = this.height*0.95;
+							imagem.scaleContent = true;
+							imagem.setStyle("horizontalCenter",0);
+							imagem.setStyle("verticalCenter",0);
+							imagem.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
+							popUp.addChild( imagem );
+						}
+						PopUpManager.addPopUp( popUp, this );
+						PopUpManager.centerPopUp( popUp );
+						break;
+				}
+			}
+			
+			private function indexBtnClick():void {
+				var obj:Object = this.getChildByName( SlideIndexList.NAME );
+				if( obj ) {
+					removeSlideIndexList( null );
+				}
+				else {
+					var index:SlideIndexList = new SlideIndexList();
+					index.slideArray = slidesArray;
+					index.visible = false;
+					this.addChild( index );
+					index.x = indexBtn.x + 10;
+					index.y = bottomBar.y + 6;
+					index.list.selectedItem = slideVO;
+					index.list.addEventListener(ListEvent.ITEM_CLICK, function(e:ListEvent):void { setSlide(index.list.selectedItem as SlideVO); index.removeMe(); } );
+					bottomImg.addEventListener(MouseEvent.ROLL_OVER, removeSlideIndexList);
+					index.visible = true;
+				}
+			}
+			
+			private function removeSlideIndexList(e:Event):void {
+				var obj:SlideIndexList = this.getChildByName( SlideIndexList.NAME ) as SlideIndexList;
+				if( obj && !obj.showEffect.isPlaying && !obj.hideEffect.isPlaying ) {
+					SlideIndexList(obj).removeMe();
+					bottomImg.removeEventListener(MouseEvent.ROLL_OVER, removeSlideIndexList);
+				}
+				System.gc();
+			}
+			
 		]]>
 	</mx:Script>
 	
-	<mx:VBox id="slideVBox" width="100%" height="100%" horizontalAlign="center">
+	<mx:Fade id="mediaEffect" easingFunction="{Elastic.easeOut}" duration="1000"/>
+	
+	<mx:VBox id="slideVBox" width="100%" height="475" horizontalAlign="center">
 		
 		<mx:Spacer id="slideSpacer" height="0"/>
 		
 		<mx:Canvas id="titleCanvas" width="100%" height="50">
-			<mx:TextInput id="titleTextInput" verticalCenter="0" horizontalCenter="0" width="714" backgroundAlpha="0" borderThickness="0"
-				borderStyle="none" fontSize="28" text="{slideVO.title}"/>
+			<mx:TextInput id="titleTextInput" verticalCenter="0" horizontalCenter="0" width="714"
+				backgroundAlpha="0" borderThickness="0"	borderStyle="none" fontSize="28" text="{slideVO.title}"
+				editable="false"/>
 		</mx:Canvas>
 		
-		<mx:TextArea id="bodyTextArea" width="784" height="100%" fontSize="22" htmlText="{slideVO.text_body}"/>
+		<mx:TextArea id="bodyTextArea" width="784" height="100%" fontSize="22" htmlText="{slideVO.text_body}"
+			link="openMediaPopUp(event)" editable="false"/>
 		
 	</mx:VBox>
 	
-	<mx:Canvas width="100%">
+	<mx:Canvas id="bottomBar" width="100%" bottom="0">
 	
-		<mx:Image source="{ImgAssets.playerTaskbar}" width="784" bottom="0" horizontalCenter="0"/>
+		<mx:Image id="bottomImg" source="{ImgAssets.playerTaskbar}" width="784" bottom="0" horizontalCenter="0"/>
 		
 		<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">
 			
-			<mx:Button id="prevBtn" toolTip="Slide Anterior" icon="{ImgAssets.backArrow}"/>
-			<mx:Button id="indexBtn" toolTip="Lista de slides" width="120"/>
-			<mx:Button id="nextBtn" toolTip="Próximo slide" icon="{ImgAssets.nextArrow}"/>
+			<mx:Button id="prevBtn" toolTip="Slide Anterior" icon="{ImgAssets.backArrow}" click="prevBtnClick()" enabled="false"/>
+			<mx:Button id="indexBtn" toolTip="Lista de slides" width="120" click="indexBtnClick()"/>
+			<mx:Button id="nextBtn" toolTip="Próximo slide" icon="{ImgAssets.nextArrow}" click="nextBtnClick()" enabled="false"/>
 			
 			<mx:Spacer width="100" />
 			
-			<mx:HBox id="mediaBox"/>
+			<mx:HBox id="mediaBox" showEffect="{mediaEffect}"/>
 				
 			<mx:Spacer width="100%" />
 			

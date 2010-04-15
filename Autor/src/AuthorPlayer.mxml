@@ -20,11 +20,11 @@
 				idPresentation = this.parameters._presentation;
 				var end:IBrowserManager = BrowserManager.getInstance(); 
 				end.init();
-				Alert.show(end.url);
 				idSlide = end.url.split("s=")[1];
 				
 				// VALORES APENAS PARA TESTE
-				idPresentation = 1;
+				//Alert.show(end.url);
+				idPresentation = 102;
 				
 				var playerModule:PlayerModule = new PlayerModule();
 				

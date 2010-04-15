@@ -31,8 +31,6 @@ package br.com.optimedia.player.view
 		{
 			trace(NAME+".onRegister()");
 			
-			view.nextBtn.addEventListener(MouseEvent.CLICK, nextBtnClick);
-			view.prevBtn.addEventListener(MouseEvent.CLICK, prevBtnClick);
 			view.urlBtn.addEventListener(MouseEvent.CLICK, showURL);
 			
 			proxy = facade.retrieveProxy( PlayerSlideManagerProxy.NAME ) as PlayerSlideManagerProxy;
@@ -65,8 +63,9 @@ package br.com.optimedia.player.view
 			{
 				case NotificationConstants.GET_PRESENTATION_FOR_PLAYER:
 					view.slidesArray = new ArrayCollection( note.getBody() as Array );
-					if( view.slidesArray.length <= 0 ) {
+					if( view.slidesArray.length <= 1 ) {
 						Alert.show("Não há slides nesta apresentação");
+						view.enabled = false;
 					}
 					else {
 						if( view.slideID == 0 ) {
@@ -83,40 +82,6 @@ package br.com.optimedia.player.view
 					break;
 				default:
 					break;
-			}
-		}
-		
-		private function nextBtnClick(event:MouseEvent):void {
-			var actualSlideIndex:int = getSlideIndex(view.slideID);
-			var nextSlideIndex:int = actualSlideIndex+1;
-			disableButtons( nextSlideIndex );
-			view.setSlide( view.slidesArray[nextSlideIndex] );
-		}
-		
-		private function prevBtnClick(event:MouseEvent):void {
-			var actualSlideIndex:int = getSlideIndex(view.slideID);
-			var nextSlideIndex:int = actualSlideIndex-1;
-			disableButtons( nextSlideIndex );
-			view.setSlide( view.slidesArray[nextSlideIndex] );
-		}
-		
-		private function getSlideIndex(slideID:Number):Number {
-			for each( var slide:SlideVO in view.slidesArray ) {
-				if( slide.slide_id == slideID ) {
-					return view.slidesArray.getItemIndex( slide );
-				}
-			}
-			return 0;
-		}
-		
-		private function disableButtons(slideIndex:int):void {
-			view.prevBtn.enabled = true;
-			view.nextBtn.enabled = true;
-			if( slideIndex == 0 ) {
-				view.prevBtn.enabled = false;
-			}
-			else if( slideIndex == view.slidesArray.length-1 ) {
-				view.nextBtn.enabled = false;
 			}
 		}
 		
