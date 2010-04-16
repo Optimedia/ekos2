@@ -89,7 +89,8 @@ package br.com.optimedia.player.view
 			var end:IBrowserManager = BrowserManager.getInstance(); 
 			end.init();
 			var url:String;
-			url = end.url.split(".html")[0]+".html?s="+view.slideID;
+			//url = end.url.replace('#', '');
+			url = end.url.split("#")[0]+"&s="+view.slideID;
 			Alert.show(url, "Link para este slide:");
 		}
 	}
