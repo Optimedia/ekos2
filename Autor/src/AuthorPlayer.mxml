@@ -24,7 +24,7 @@
 				
 				// VALORES APENAS PARA TESTE
 				//Alert.show(end.url);
-				idPresentation = 102;
+				//idPresentation = 102;
 				
 				var playerModule:PlayerModule = new PlayerModule();
 				
