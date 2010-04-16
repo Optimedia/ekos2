@@ -30,7 +30,7 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectEnd="{loadingSwf.visible=false}"/>
+	<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectStart="{loadingSwf.visible=false}"/>
 	
 	<mx:Parallel id="dismissEffect" target="{this}" effectEnd="closeMe()">
 		<mx:Blur blurXFrom="0" blurXTo="200"/>
