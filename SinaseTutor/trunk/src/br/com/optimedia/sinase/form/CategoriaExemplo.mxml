@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" creationComplete="init()"
+	paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" xmlns:forms="br.com.interludio.flexLib.forms.*">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			/**
+			 * O formHeight deve ser setado novamente sempre que a altura do form for alterada em tempo de execução. 
+			 * 
+			 */
+			 
+			[Embed(source="../assets/imgs/icon/arrow-skip-090.png")]
+			private var upImg:Class;
+			
+			[Embed(source="../assets/imgs/icon/arrow-skip-270.png")]
+			private var downImg:Class;
+			
+			private var formHeight:int;
+			
+			private function init():void {
+				formHeight = form.height;
+			}
+			
+			private function showHide():void {
+				
+				if(form.visible == true) {
+					btnHide.setStyle("icon", downImg);				
+					form.visible = false;
+					form.height = 0;
+				} else {
+					btnHide.setStyle("icon", upImg);
+					form.visible = true;
+					form.height = formHeight;
+				}				
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox width="100%" verticalAlign="middle">
+		<mx:Label text="Dados Pessoais" fontSize="14" fontWeight="bold"/>
+		<mx:HRule width="100%"/>
+		<mx:LinkButton id="btnHide" icon="@Embed('../assets/imgs/icon/arrow-skip-090.png')" click="showHide()" width="25"/>
+	</mx:HBox>
+	
+	
+	<mx:Form width="100%" height="100%" id="form">
+		<mx:FormItem label="CPF">
+			<forms:CpfField editable="false" id="txtCpf"/>
+		</mx:FormItem>
+		<mx:FormItem label="Nome">
+			<forms:NameField width="254" id="txtNome"/>
+		</mx:FormItem>
+		<mx:FormItem label="Nascimento">
+			<mx:HBox>
+				<forms:YearComboBox minYears="1900" maxYears="2000" width="70" id="cbYear"/>
+				<forms:MonthComboBox id="cbMonth" formatType="2" width="60"/>
+				<forms:DayComboBox currentMonth="{cbMonth.selectedItem.data}" width="55" id="cbDay"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Sexo">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgSexo"/>
+				<mx:RadioButton label="Masculino" value="M" groupName="rgSexo" selected="true"/>
+				<mx:RadioButton label="Feminino" value="F" groupName="rgSexo"/>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="Email">
+			<forms:EmailField width="253" id="txtEmail"/>
+		</mx:FormItem>
+		<mx:FormItem label="Telefone">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput width="35" maxChars="2" id="txtDdd"/>
+				<mx:TextInput width="110" id="txtTelefone"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Celular">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput width="35" maxChars="2" id="txtCelDdd"/>
+				<mx:TextInput width="110" id="txtCelular"/>
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	
+</mx:VBox>

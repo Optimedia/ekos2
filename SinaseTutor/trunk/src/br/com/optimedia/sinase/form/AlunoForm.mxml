@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ApplicationControlBar xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:forms="br.com.interludio.flexLib.forms.*">
+	<mx:Form width="100%" height="100%">
+		<mx:Label text="Aluno" fontSize="14" fontWeight="bold"/>
+		<mx:FormHeading label="Dados Básicos"/>
+		<mx:FormItem label="CPF">
+			<forms:CpfField editable="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="Nome">
+			<forms:NameField width="254"/>
+		</mx:FormItem>
+		<mx:FormItem label="Nascimento">
+			<mx:HBox>
+				<forms:YearComboBox minYears="1900" maxYears="2000" width="70"/>
+				<forms:MonthComboBox id="cbMonth" formatType="2" width="60"/>
+				<forms:DayComboBox currentMonth="{cbMonth.selectedItem.data}" width="55"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Sexo">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgSexo"/>
+				<mx:RadioButton label="Masculino" groupName="rgSexo" selected="true"/>
+				<mx:RadioButton label="Feminino" groupName="rgSexo"/>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="Email">
+			<forms:EmailField width="253"/>
+		</mx:FormItem>
+		<mx:FormItem label="Telefone">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput width="35" maxChars="2"/>
+				<mx:TextInput width="110"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Endereço"/>
+		<mx:FormItem label="UF">
+			<mx:HBox verticalAlign="middle">
+				<mx:ComboBox width="55"/>
+				<mx:Label text="Cidade"/>
+				<mx:TextInput width="138"/>
+			</mx:HBox>		
+		</mx:FormItem>
+		<mx:FormItem label="CEP">
+			<forms:CepField width="110"/>
+		</mx:FormItem>
+		<mx:FormItem label="Bairro">
+			<mx:TextInput/>
+		</mx:FormItem>
+		<mx:FormItem label="Logradouro">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput/>
+				<mx:Label text="Nº"/>
+				<mx:TextInput width="60"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Outros dados"/>
+		<mx:FormItem label="Escolaridade">
+			<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="Ramo de Atuação">
+			<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="Atua em um dos seguintes programas/órgãos">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgProgramas"/>
+				<mx:RadioButton label="CREAS" groupName="rgProgramas"/>
+				<mx:RadioButton label="SUAS" groupName="rgProgramas"/>
+				<mx:RadioButton label="CRAS" groupName="rgProgramas"/>
+				<mx:RadioButton label="Nenhum" groupName="rgProgramas" selected="true"/>
+			
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="Já realizou capacitação sobre o assunto?">
+			<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="Carga horária do curso">
+			<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Experiência com EAD"/>
+		<mx:FormItem label="Já fez curso por EAD?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgEad"/>
+				<mx:RadioButton label="Sim" groupName="rgEad"/>
+				<mx:RadioButton label="Não" groupName="rgEad" selected="true"/>
+			
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Tecnologias"/>
+		<mx:FormItem label="Tem acesso a banda larga?">
+			<mx:ComboBox/>
+		</mx:FormItem>
+		<mx:FormItem label="Já participou de WEBconference?">
+			<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="Faz uso da internet">
+			<mx:ComboBox/>
+		</mx:FormItem>
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Equipamentos"/>
+		<mx:FormItem label="Possui Webcam?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgConteudista0"/>
+				<mx:RadioButtonGroup id="rgWebCam"/>
+				<mx:RadioButton label="Sim" groupName="rgWebCam"/>
+				<mx:RadioButton label="Não" groupName="rgWebCam" selected="true"/>
+			
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Possui Head-set?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgConteudista1"/>
+				<mx:RadioButtonGroup id="rgHeadset"/>
+				<mx:RadioButton label="Sim" groupName="rgHeadset"/>
+				<mx:RadioButton label="Não" groupName="rgHeadset" selected="true"/>
+			
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Disponibilidade para trabalho"/>
+		<mx:FormItem label="Nos dias úteis">
+				<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="No final de semana">
+				<mx:ComboBox></mx:ComboBox>
+		</mx:FormItem>
+	</mx:Form>
+	
+</mx:ApplicationControlBar>
