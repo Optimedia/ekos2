@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:forms="br.com.interludio.flexLib.forms.*" creationComplete="init()">
+
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import br.com.optimedia.sinase.vo.Exp_prof;
+			
+			[Bindable] private var _exp:Exp_prof = new Exp_prof();
+			
+			private function init():void {
+				
+				if(_exp.idexp_prof != 0) {
+					var count:int;
+					var obj:Object;
+					
+					var inteiro:int;
+					
+					// Data 1
+					var bdYear:int = int( _exp.data_ini.substr(0, 4) );
+					var bdMonth:String = _exp.data_ini.substr(5, 2);
+					var bdDay:String = _exp.data_ini.substr(8, 2);
+					
+					// Ano
+					count = 0;
+					for each(inteiro in cbYear.dataProvider) {
+						if(inteiro == bdYear) {
+							cbYear.selectedIndex = count;
+							break;
+						}
+						count ++;
+					}
+					
+					// Mês
+					count = 0;
+					for each(obj in cbMonth.dataProvider) {
+						if(obj.label == bdMonth) {
+							cbMonth.selectedIndex = count;
+							break;
+						}
+						count ++;
+					}
+					
+					// Dia
+					count = 0;
+					for each(obj in cbDay.dataProvider) {
+						if(obj.label == bdDay) {
+							cbDay.selectedIndex = count;
+							break;
+						}
+						count ++;
+					}
+					
+					// Data 2
+					var bdYear0:int = int( _exp.data_fim.substr(0, 4) );
+					var bdMonth0:String = _exp.data_fim.substr(5, 2);
+					var bdDay0:String = _exp.data_fim.substr(8, 2);
+					
+					// Ano
+					count = 0;
+					for each(inteiro in cbYear0.dataProvider) {
+						if(inteiro == bdYear0) {
+							cbYear0.selectedIndex = count;
+							break;
+						}
+						count ++;
+					}
+					
+					// Mês
+					count = 0;
+					for each(obj in cbMonth0.dataProvider) {
+						if(obj.label == bdMonth0) {
+							cbMonth0.selectedIndex = count;
+							break;
+						}
+						count ++;
+					}
+					
+					// Dia
+					count = 0;
+					for each(obj in cbDay0.dataProvider) {
+						if(obj.label == bdDay0) {
+							cbDay0.selectedIndex = count;
+							break;
+						}
+						count ++;
+					}
+				}
+			}
+			
+			public function get exp():Exp_prof {
+				
+				_exp.org_nome = txtOrgao.text;
+				_exp.funcao = txtFuncao.text;
+				_exp.data_ini = cbYear.selectedItem + "-" + cbMonth.selectedItem.label + "-" + cbDay.selectedItem.label;
+				_exp.data_fim = cbYear0.selectedItem + "-" + cbMonth0.selectedItem.label + "-" + cbDay0.selectedItem.label;
+				
+				return _exp;
+			}
+			
+			public function set exp(value:Exp_prof):void {
+				_exp = value;
+			}
+			
+			private function removeThis():void {
+				parent.removeChild(this);
+			}
+			
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:FormItem label="Orgão / Empresa">
+		<mx:TextInput width="200" id="txtOrgao" text="{_exp.org_nome}" editable="false"/>
+	</mx:FormItem>
+	<mx:FormItem label="Função">
+		<mx:TextInput width="200" id="txtFuncao" text="{_exp.funcao}" editable="false"/>
+	</mx:FormItem>
+	<mx:FormItem label="De">
+		<mx:HBox>
+			<forms:YearComboBox minYears="1950" maxYears="2010" width="70" id="cbYear" editable="false"/>
+			<forms:MonthComboBox id="cbMonth" formatType="3" width="60" editable="false"/>
+			<forms:DayComboBox currentMonth="{cbMonth.selectedItem.data}" width="55" id="cbDay" editable="false"/>
+		</mx:HBox>
+	</mx:FormItem>
+	<mx:FormItem label="Até">
+		<mx:HBox>
+			<forms:YearComboBox minYears="1950" maxYears="2010" width="70" id="cbYear0" editable="false"/>
+			<forms:MonthComboBox id="cbMonth0" formatType="3" width="60" editable="false"/>
+			<forms:DayComboBox currentMonth="{cbMonth.selectedItem.data}" width="55" id="cbDay0" editable="false"/>
+		</mx:HBox>
+	</mx:FormItem>
+	
+</mx:Form>
