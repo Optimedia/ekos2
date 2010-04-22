@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:forms="br.com.interludio.flexLib.forms.*" 
+	xmlns:form="br.com.optimedia.sinase.form.*"
+	xmlns:validators="br.com.interludio.flexLib.validators.*" width="846" title="Aluno">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import br.com.optimedia.sinase.vo.RespostaVO;
+			
+			import mx.containers.HBox;
+			import mx.collections.ArrayCollection;
+			import mx.messaging.SubscriptionInfo;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import br.com.optimedia.sinase.remote.AlunoRemote;
+			import br.com.optimedia.sinase.vo.AlunoVO;
+			
+			private var alunoRemote:AlunoRemote = AlunoRemote.getInstance();
+			[Bindable] private var _cpf:String;
+			private var emailValid:Boolean = false;
+			
+			[Bindable] private var dpAtividade:ArrayCollection;
+				
+			[Bindable] private var aluno:AlunoVO;
+			
+			public function set cpf(value:String):void {
+				
+				_cpf = value;
+				
+				// Pegar todos os Combos
+				getUf();
+				getEscolaridade();
+				getAtuacao();
+				getTecEad();
+				getBandaLarga();
+				getWebCon();
+				getCapacitacao();
+				
+				getAluno(value);
+				
+			}
+			
+			private function getAluno(cpfString:String):void {				
+				alunoRemote.getAluno(cpfString, resultGetAluno);
+			}
+			
+			private function resultGetAluno(source:ResultEvent):void {
+				
+				if(source.result == false) {
+					Application.application.removeAllChildren();
+					Alert.show("Você já se cadastrou como tutor.", "SINASE");
+				} else {
+				
+					aluno = source.result as AlunoVO;
+					
+					if(aluno.id_pessoa != 0) {
+						emailValid = true;
+						
+						completeForm();
+					}
+					
+				}
+				
+			}
+			
+			private function completeForm():void {
+				var count:int;
+				var obj:Object;
+				
+				var inteiro:int;
+				
+				// 0123456789
+				// 0000-00-00
+				var bdYear:int = int( aluno.data_nasc.substr(0, 4) );
+				var bdMonth:String = aluno.data_nasc.substr(5, 2);
+				var bdDay:String = aluno.data_nasc.substr(8, 2);
+				
+				// Ano
+				count = 0;
+				for each(inteiro in cbYear.dataProvider) {
+					if(inteiro == bdYear) {
+						cbYear.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Mês
+				count = 0;
+				for each(obj in cbMonth.dataProvider) {
+					if(obj.label == bdMonth) {
+						cbMonth.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Dia
+				count = 0;
+				for each(obj in cbDay.dataProvider) {
+					if(obj.label == bdDay) {
+						cbDay.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// arruma os combos
+				// uf
+				count = 0;
+				for each(obj in cbUf.dataProvider) {
+					if(obj.iduf == aluno.iduf) {
+						cbUf.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Escolaridade
+				count = 0;
+				for each(obj in cbEscolaridade.dataProvider) {
+					if(obj.idescolaridade == aluno.idescolaridade) {
+						cbEscolaridade.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Atuação
+				count = 0;
+				for each(obj in cbAtuacao.dataProvider) {
+					if(obj.idram_atuac == aluno.idram_atuac) {
+						cbAtuacao.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Banda larga
+				count = 0;
+				for each(obj in cbInternet.dataProvider) {
+					if(obj.idbanda_larga == aluno.idbanda_larga) {
+						cbInternet.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Conference
+				count = 0;
+				for each(obj in cbConference.dataProvider) {
+					if(obj.idpart_webcon == aluno.idpart_webcon) {
+						cbConference.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// Capacitação
+				count = 0;
+				for each(obj in cbCapacitacao.dataProvider) {
+					if(obj.idcapacitacao_sinase == aluno.idcapacitacao_sinase) {
+						cbCapacitacao.selectedIndex = count;
+						
+						checkCapacitacao();
+						
+						break;
+					}
+					count ++;
+				}
+				
+				// TecEad
+				count = 0;
+				for each(obj in cbTecEad.dataProvider) {
+					if(obj.idtec_ead == aluno.idtec_ead) {
+						cbTecEad.selectedIndex = count;
+						break;
+					}
+					count ++;
+				}
+				
+				// RadioGroups
+				rgSexo.selectedValue = aluno.sexo;
+				rgFds.selectedValue = aluno.disp_fds;
+				rgCargaHoraria.selectedValue = aluno.idcarga_hora;
+				rgComputador.selectedValue = aluno.computador;
+				rgOrgProg.selectedValue = aluno.idatua_org;
+				rgCargaHoraria.selectedValue = aluno.idcarga_hora;
+				rgExpEad.selectedValue = aluno.exp_ead;
+				rgDef.selectedValue = aluno.deficiente;
+				rgFundamental.selectedValue = aluno.presenca_ead;
+				txtJustificativa.text = aluno.just_presenca;
+				rgHeadset.selectedValue = aluno.headset; 
+				rgInternet.selectedValue = aluno.idinternet;
+				rgWebcam.selectedValue = aluno.webcam;
+				rgUteis.selectedValue = aluno.disp_sem;
+				rgMaterial.selectedValue = aluno.material_esp;
+				
+				// Campos de texto
+				txtBairro.text = aluno.bairro;
+				txtCelDdd.text = aluno.ddd_cel;
+				txtCelular.text = aluno.tel_cel;
+				txtCep.text = aluno.cep;
+				txtCidade.text = aluno.cidade;
+				txtCpf.text = aluno.cpf;
+				txtDdd.text = aluno.dddfixo;
+				txtEmail.text = aluno.email;
+				txtConfEmail.text = aluno.email;
+				txtLogradouro.text = aluno.logradouro;
+				txtNome.text = aluno.nome;
+				txtSobrenome.text = aluno.sobrenome;
+				txtNumero.text = String(aluno.numero);
+				txtTelefone.text = aluno.tel_fixo;
+				
+				// Questionário
+				// 24 alternativas
+				for each(var resposta:RespostaVO in aluno.respostas) {
+					this["r"+resposta.idresposta].selected = true;
+					
+					// Verificando descrição
+					if(resposta.idresposta == 6 || resposta.idresposta == 19 || resposta.idresposta == 24) {
+						this["txtR" + resposta.idresposta].text = resposta.descricao;
+					}
+				}							
+			}
+			
+			//----------------------------------------------
+			//
+			//	Gets
+			//
+			//----------------------------------------------
+			
+			private function getUf():void {
+				alunoRemote.getUf(resultGetUf);
+			}
+			
+			private function getEscolaridade():void {
+				alunoRemote.getEscolaridade(resultGetEscolaridade);
+			}
+			
+			private function getAtuacao():void {
+				alunoRemote.getAtuacao(resultGetAtuacao);
+			}
+			
+			public function getCapacitacao():void {
+				alunoRemote.getCapacitacao(resultGetCapacitacao);
+			}
+			
+			public function getTecEad():void {
+				alunoRemote.getTecEad(resultGetTecEad);
+			}
+			
+			private function getBandaLarga():void {
+				alunoRemote.getBandaLarga(resultGetBandaLarga);
+			}
+			
+			private function getWebCon():void {
+				alunoRemote.getWebCon(resultGetWebCon);
+			}
+			
+			//----------------------------------------------
+			//
+			//	Results
+			//
+			//----------------------------------------------
+			
+			private function resultGetUf(source:ResultEvent):void {
+				cbUf.dataProvider = source.result;
+			}
+			
+			private function resultGetEscolaridade(source:ResultEvent):void {
+				cbEscolaridade.dataProvider = source.result;
+			}
+			
+			private function resultGetAtuacao(source:ResultEvent):void {
+				cbAtuacao.dataProvider = source.result;
+			}
+			
+			private function resultGetCapacitacao(source:ResultEvent):void {
+				cbCapacitacao.dataProvider = source.result;				
+			}
+			
+			private function resultGetBandaLarga(source:ResultEvent):void {
+				cbInternet.dataProvider = source.result;
+			}
+			
+			private function resultGetTecEad(source:ResultEvent):void {
+				cbTecEad.dataProvider = source.result;
+			}
+			
+			private function resultGetWebCon(source:ResultEvent):void {
+				cbConference.dataProvider = source.result;
+			}
+			
+			private function validForm():void {
+				
+				if(emailValid == false || txtEmail.text != txtConfEmail.text) {
+					Alert.show("Email incorreto.", "SINASE");					
+				} else {
+					
+					if(txtNome.text != "" && txtSobrenome.text != "" && txtCidade.length > 0 && txtLogradouro.length > 0) {
+						saveAluno();
+					} else {
+						Alert.show("Campos com * são obrigatórios.", "SINASE");
+					}
+					
+					
+				}
+				
+			}
+						
+			private function saveAluno():void {
+				
+				aluno.bairro 					= txtBairro.text;
+				aluno.cep 						= txtCep.text;
+				aluno.cpf 						= txtCpf.text;
+				aluno.data_nasc 				= cbYear.selectedItem + "-" + cbMonth.selectedItem.label + "-" + cbDay.selectedItem.label;
+				aluno.ddd_cel 					= txtCelDdd.text;
+				aluno.dddfixo 					= txtDdd.text;
+				aluno.disp_fds 					= int(rgFds.selectedValue);
+				aluno.disp_sem	 				= int(rgUteis.selectedValue);
+				aluno.email 					= txtEmail.text;
+				
+				aluno.idbanda_larga 			= cbInternet.selectedItem.idbanda_larga;
+				aluno.idescolaridade 			= cbEscolaridade.selectedItem.idescolaridade;
+				aluno.idpart_webcon 			= cbConference.selectedItem.idpart_webcon;
+				
+				// Verificar isso
+				if(cbAtuacao.selectedIndex == 5) {
+					aluno.idram_atuac = txtAtuacao.text;
+				} else {
+					aluno.idram_atuac = cbAtuacao.selectedItem.idram_atuac
+				}			
+				
+				aluno.iduf 						= cbUf.selectedItem.iduf;
+				aluno.cidade					= txtCidade.text;
+				aluno.logradouro 				= txtLogradouro.text;
+				aluno.nome 						= txtNome.text;
+				aluno.sobrenome					= txtSobrenome.text;
+				aluno.numero 					= int(txtNumero.text);
+				aluno.headset	 				= int(rgHeadset.selectedValue);
+				aluno.webcam 					= int(rgWebcam.selectedValue);
+				aluno.sexo 						= String(rgSexo.selectedValue);
+				aluno.tel_cel 					= txtCelular.text;
+				aluno.tel_fixo 					= txtTelefone.text;
+				aluno.idtec_ead					= cbTecEad.selectedItem.idtec_ead;
+				
+				aluno.computador				= int(rgComputador.selectedValue);
+				
+				// Verificar isso
+				if(rgDef.selectedValue == 0) {
+					aluno.deficiente = "Não";
+				} else {
+					aluno.deficiente = txtDeficiencia.text;
+				}				
+				
+				aluno.exp_ead					= int(rgExpEad.selectedValue);
+				aluno.idatua_org				= int(rgOrgProg.selectedValue);
+				aluno.idcapacitacao_sinase		= cbCapacitacao.selectedItem.idcapacitacao_sinase;
+				aluno.idcarga_hora				= int(rgCargaHoraria.selectedValue);
+				aluno.idinternet				= int(rgInternet.selectedValue);
+				aluno.just_presenca				= txtJustificativa.text;
+				aluno.material_esp				= int(rgMaterial.selectedValue);
+				aluno.presenca_ead				= int(rgFundamental.selectedValue);
+				
+				// Questionário
+				// 24 alternativas
+				var arrayResposta:Array = new Array();
+				
+				var i:int = 1;
+				while(i <= 24) {
+					
+					var respostaVO:RespostaVO = new RespostaVO();
+					
+					if(this["r"+i].selected == true) {
+						respostaVO.idresposta = i;
+						
+						// Verificando descrição
+						if(i == 6 || i == 19 || i == 24) {
+							respostaVO.descricao = this["txtR" + i].text;
+						}
+						
+						arrayResposta.push(respostaVO);
+						
+					}
+					
+					i++;
+				}
+				
+				aluno.respostas = arrayResposta;
+				
+				alunoRemote.saveAluno(aluno, resultSaveAluno);
+			}
+			
+			private function resultSaveAluno(source:ResultEvent):void {
+				if(source.result == true) {
+					Application.application.removeAllChildren();
+					Alert.show("Dados enviados com sucesso.", "SINASE");
+				} else {
+					
+					Alert.show(source.result.toString());
+					Alert.show("Não foi possível efetuar o seu cadastro.", "SINASE");
+				}
+			}
+			
+			public function verifEmail():void {
+				if(txtEmail.text != txtConfEmail.text) {
+					txtEmail.errorString = "Os e-mails precisam ser iguais.";
+					txtConfEmail.errorString = "Os e-mails precisam ser iguais.";
+				} else {
+					txtEmail.errorString = "";
+					txtConfEmail.errorString = "";
+				}
+			}
+			
+			public function checkQuestionario():void {
+				// Questionário
+				// 24 alternativas
+				aluno.respostas = new Array();
+				
+				var i:int = 1;
+				while(i <= 24) {
+					
+					var respostaVO:RespostaVO = new RespostaVO();
+					if(this["r"+i].selected == true) {
+						respostaVO.idresposta = i;
+						
+						// Verificando descrição
+						if(i == 6 || i == 19 || i == 24) {
+							respostaVO.descricao = this["txtR" + i].text;
+						}
+						
+					}
+					
+					aluno.respostas.addItem(respostaVO);
+					
+					i++;
+				}
+			}
+			
+			private function checkCapacitacao():void {
+				if(cbCapacitacao.selectedIndex == 0) {
+					carga1.enabled = false;
+					carga2.enabled = false;
+					carga3.enabled = false;
+					
+					carga1.selected = false;
+					carga2.selected = false;
+					carga3.selected = false;
+				} else {
+					carga1.enabled = true;
+					carga2.enabled = true;
+					carga3.enabled = true;
+				}
+			}
+			
+			private function checkAtuacao():void {
+				if(cbAtuacao.selectedIndex == 5) {
+					txtAtuacao.enabled = true;
+				} else {
+					txtAtuacao.enabled = false;
+					txtAtuacao.text = "";
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<validators:EmailValid required="true" property="text" source="{txtEmail}" valid="emailValid = true" invalid="emailValid = false" 
+		triggerEvent="change" trigger="{txtEmail}"/>
+	
+	<mx:Form width="100%" height="100%">
+		<mx:FormHeading label="Dados Básicos"/>
+		
+		<mx:FormItem label="CPF">
+			<forms:CpfField id="txtCpf" editable="false" text="{_cpf}"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Nome *">
+			<forms:NameField width="254" id="txtNome" required="true" maxChars="255"/>
+		</mx:FormItem>
+		<mx:FormItem label="Sobrenome *">
+			<forms:NameField width="254" id="txtSobrenome"  required="true" maxChars="255"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Nascimento">
+			<mx:HBox>
+				<forms:YearComboBox minYears="1900" maxYears="2000" width="70" id="cbYear"/>
+				<forms:MonthComboBox id="cbMonth" formatType="3" width="60"/>
+				<forms:DayComboBox currentMonth="{cbMonth.selectedItem.data}" width="55" id="cbDay"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Sexo">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgSexo"/>
+				<mx:RadioButton label="Masculino" value="M" groupName="rgSexo" selected="true"/>
+				<mx:RadioButton label="Feminino" value="F" groupName="rgSexo"/>
+			</mx:HBox>			
+		</mx:FormItem>
+		
+		<mx:FormItem label="Email *">
+			<forms:EmailField width="253" id="txtEmail" maxChars="255"/>
+		</mx:FormItem>
+		<mx:FormItem label="Confirmar Email *">
+			<forms:EmailField width="253" id="txtConfEmail" maxChars="255"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Telefone">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput width="35" maxChars="2" id="txtDdd"/>
+				<mx:TextInput width="110" id="txtTelefone" maxChars="8"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Celular">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput width="35" maxChars="2" id="txtCelDdd"/>
+				<mx:TextInput width="110" id="txtCelular" maxChars="8"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		<mx:FormHeading label="Endereço"/>
+		
+		<mx:FormItem label="UF *">
+			<mx:HBox verticalAlign="middle">
+				<mx:ComboBox width="55" id="cbUf" labelField="uf"/>
+				<mx:Label text="Cidade *"/>
+				<mx:TextInput width="138" id="txtCidade" maxChars="255"/>
+			</mx:HBox>		
+		</mx:FormItem>
+		
+		<mx:FormItem label="CEP">
+			<forms:CepField width="110" id="txtCep"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Bairro">
+			<mx:TextInput id="txtBairro" maxChars="255"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Logradouro *">
+			<mx:HBox verticalAlign="middle">
+				<mx:TextInput id="txtLogradouro" maxChars="255"/>
+				<mx:Label text="Nº"/>
+				<mx:TextInput width="60" id="txtNumero" restrict="0-9" maxChars="20"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Outros dados"/>
+		<mx:FormItem label="Escolaridade">
+			<mx:ComboBox id="cbEscolaridade" labelField="nome"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Ramo de Atuação">
+			<mx:ComboBox id="cbAtuacao" labelField="nome" change="checkAtuacao()"/>
+		</mx:FormItem>
+		<mx:FormItem label="Qual?">
+			<mx:TextInput maxChars="255" id="txtAtuacao" enabled="false"/>
+		</mx:FormItem>
+		<mx:Label text="Já atua ou atuou nos seguintes orgãos/programas?"/>
+		
+		<mx:FormItem>
+			<mx:HBox>		
+				<mx:RadioButtonGroup id="rgOrgProg"/>
+				<mx:RadioButton label="CREAS" groupName="rgOrgProg" value="1"/>
+				<mx:RadioButton label="SUAS" groupName="rgOrgProg" value="2"/>
+				<mx:RadioButton label="CRAS" groupName="rgOrgProg" value="3"/>
+				<mx:RadioButton label="Nenhum" groupName="rgOrgProg" selected="true" value="4"/>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="Já fez curso de capacitação promovido pela SEDH?">
+			<mx:ComboBox id="cbCapacitacao" labelField="nome" change="checkCapacitacao()"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Carga horária">
+			<mx:RadioButtonGroup id="rgCargaHoraria"/>
+			<mx:HBox>
+				<mx:RadioButton id="carga1" enabled="false" label="Menor que 120h" groupName="rgCargaHoraria"  value="1"/>
+				<mx:RadioButton id="carga2" enabled="false" label="120h" groupName="rgCargaHoraria" value="2"/>
+				<mx:RadioButton id="carga3" enabled="false" label="Maior que 120h" groupName="rgCargaHoraria" value="3"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Experiência com EAD"/>
+		
+		<mx:FormItem label="Possui experiência com EAD">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgExpEad"/>
+				<mx:RadioButton label="Sim" groupName="rgExpEad" click="cbTecEad.enabled = true" value="1"/>
+				<mx:RadioButton label="Não" groupName="rgExpEad" selected="true" click="cbTecEad.enabled = false" value="0"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Qual tecnologia?">
+			<mx:ComboBox id="cbTecEad" labelField="nome"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Possui alguma deficiência">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgDef"/>
+				<mx:RadioButton label="Sim" groupName="rgDef" value="1" click="txtDeficiencia.enabled=true"/>
+				<mx:RadioButton label="Não" groupName="rgDef" selected="true" value="0" click="txtDeficiencia.enabled=false;txtDeficiencia.text=''"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Qual?">
+			<mx:HBox>
+				<mx:TextInput maxChars="255" enabled="false" id="txtDeficiencia"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Necessita de material especial">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgMaterial"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgMaterial"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgMaterial" selected="true"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Tecnologias"/>
+		
+		<mx:FormItem label="Tem acesso a banda larga?">
+			<mx:ComboBox id="cbInternet" labelField="nome"/>
+		</mx:FormItem>
+		
+		<mx:Label text="Já participou de WEBconference ou se relacionou via internet por voz e vídeo?"/>
+		
+		<mx:FormItem>
+			<mx:ComboBox id="cbConference" labelField="nome"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Faz uso da internet">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgInternet"/>
+				<mx:RadioButton label="Não" groupName="rgInternet" value="1"/>
+				<mx:RadioButton label="Pouco" groupName="rgInternet" selected="true" value="2"/>
+				<mx:RadioButton label="Medianamente" groupName="rgInternet" value="3"/>
+				<mx:RadioButton label="Muito" groupName="rgInternet" value="4"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Equipamentos"/>
+		<mx:FormItem label="Possui computador?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgComputador"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgComputador"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgComputador" selected="true" />
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Possui Webcam?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgWebcam"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgWebcam"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgWebcam" selected="true"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Possui Head-set?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgHeadset"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgHeadset"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgHeadset" selected="true"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Disponibilidade para Estudo"/>
+		<mx:FormItem label="Nos dias úteis">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgUteis"/>
+				<mx:RadioButton label="1 Hora" value="1" groupName="rgUteis" selected="true"/>
+				<mx:RadioButton label="2 Horas" value="2" groupName="rgUteis"/>
+				<mx:RadioButton label="3 Horas" value="3" groupName="rgUteis"/>
+				<mx:RadioButton label="4 Horas" value="4" groupName="rgUteis"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="No final de semana">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgFds"/>
+				<mx:RadioButton label="1 Hora" value="1" groupName="rgFds" selected="true"/>
+				<mx:RadioButton label="2 Horas" value="2" groupName="rgFds"/>
+				<mx:RadioButton label="3 Horas" value="3" groupName="rgFds"/>
+				<mx:RadioButton label="4 Horas" value="4" groupName="rgFds"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Conhecimentos Específicos"/>
+		
+		<mx:Text text="1 - O que o motivou a participar do curso de capacitação a distância? Assinale uma ou mais alternativas." width="794"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r1" label="indicação da chefia;"/>
+			<mx:CheckBox id="r2" label="necessidade de me aperfeiçoar profissionalmente; "/>
+			<mx:CheckBox id="r3" label="interesse pelo ensino a distância;"/>
+			<mx:CheckBox id="r4" label="oportunidade para desenvolver minha carreira;"/>
+			<mx:CheckBox id="r5" label="exigência da instituição;"/>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="r6" label="Outro" click="if(r6.selected==true){txtR6.enabled=true}else{txtR6.enabled=false;txtR6.text=''}"/>
+				<mx:Label text="Qual?"/>
+				<mx:TextInput id="txtR6" enabled="false" maxChars="255"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:Text text="2 - Quais são as suas expectativas com relação a um curso EAD? Assinale uma ou mais alternativas." width="795"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r7" label="desenvolver as capacidades de trabalho colaborativo proporcionadas pela internet;"/>
+			<mx:CheckBox id="r8" label="conhecer e caracterizar modelos pedagógicos associados ao EAD;"/>
+			<mx:CheckBox id="r9" label="desenvolver a capacidade de gerenciar meu aprendizado;"/>
+			<mx:CheckBox id="r10" label="desenvolver a capacidade de me auto-avaliar;"/>
+			<mx:CheckBox id="r11" label="melhorar minhas habilidades profissionais;"/>
+			<mx:CheckBox id="r12" label="comparar as potencialidades dos ambientes virtuais de formação relativamente à formação presencial; "/>
+			<mx:CheckBox id="r13" label="interagir com professores e alunos nas salas de bate-papo e em fóruns;"/>
+		</mx:FormItem>
+		
+		<mx:Text text="3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD." width="795"/>
+		
+		<mx:FormItem>
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgFundamental"/>
+				<mx:RadioButton label="Sim" groupName="rgFundamental" value="1"/>
+				<mx:RadioButton label="Não" groupName="rgFundamental" value="0"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Justifique">
+			<mx:TextArea width="380" height="58" id="txtJustificativa"/>
+		</mx:FormItem>
+		
+		<mx:Text text="4 - Em cursos de EAD online, você considera que a aprendizagem do aluno depende: Assinale uma ou mais alternativas" width="795"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r14" label="do conteúdo disponibilizado pelo curso"/>
+			<mx:CheckBox id="r15" label="do esforço pessoal do aluno"/>
+			<mx:CheckBox id="r16" label="da orientação dada pelo professor"/>
+			<mx:CheckBox id="r17" label="da interação entre professor X aluno e aluno X aluno"/>
+			<mx:CheckBox id="r18" label="da quantidade de oportunidades de interação com professor e alunos"/>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="r19" label="Outro" click="if(r19.selected==true){txtR19.enabled=true}else{txtR19.enabled=false;txtR19.text=''}"/>
+				<mx:Label text="Qual?"/>
+				<mx:TextInput id="txtR19" maxChars="255" enabled="false"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:Text text="5 - Quais são as suas expectativas com relação ao curso SINASE? Assinale uma ou mais alternativas." width="795"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r20" label="aplicar o conhecimento teórico adquirido no curso no meu ambiente de trabalho"/>
+			<mx:CheckBox id="r21" label="aprimorar meu conhecimento sobre o sistema sócioeducativo"/>
+			<mx:CheckBox id="r22" label="aprimorar minhas habilidades profissionais"/>
+			<mx:CheckBox id="r23" label="trocar experiência com alunos e/ou professores sobre a vivência no ambiente sócioeducativo "/>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="r24" label="Outro" click="if(r24.selected==true){txtR24.enabled=true}else{txtR24.enabled=false;txtR24.text=''}"/>
+				<mx:Label text="Qual?"/>
+				<mx:TextInput id="txtR24" maxChars="255" enabled="false"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:CheckBox label="Declaro serem verídicas as informações aqui registradas." click="if(btnSalvar.enabled==false) {btnSalvar.enabled=true}else{btnSalvar.enabled=false}"/>
+		
+		<mx:FormItem>
+			<mx:Button id="btnSalvar" label="Enviar Dados" click="validForm()" enabled="false"/>
+		</mx:FormItem>
+		
+	</mx:Form>
+</mx:TitleWindow>

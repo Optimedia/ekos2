@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" xmlns:show="br.com.optimedia.sinase.show.*">
+	
+	<mx:ApplicationControlBar dock="true">
+		<mx:LinkBar dataProvider="vs1">
+		</mx:LinkBar>
+	</mx:ApplicationControlBar>
+	
+	<mx:ViewStack id="vs1" width="100%" height="100%">
+		<show:PesquisaCandidato label="Aluno" showEffect="Fade" hideEffect="Fade"/>
+	</mx:ViewStack>
+
+</mx:Application>

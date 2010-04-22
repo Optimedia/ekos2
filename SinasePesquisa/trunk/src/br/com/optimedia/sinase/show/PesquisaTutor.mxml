@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	xmlns:ns1="br.com.optimedia.sinase.form.*" creationComplete="init()" show="init()">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import br.com.optimedia.sinase.remote.PesquisaRemote;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.sinase.form.TutorForm;
+			
+			private var pesquisaRemote:PesquisaRemote = PesquisaRemote.getInstance();
+			
+			private function init():void {
+				pesquisaRemote.getAll(resultGetAll);
+			}
+			
+			private function resultGetAll(source:ResultEvent):void {
+				listPesquisa.dataProvider = source.result;
+			}
+			
+			private function showPopTutor():void {
+				
+				var tutorForm:TutorForm = new TutorForm();
+					
+				tutorForm.cpf = listPesquisa.selectedItem.cpf;
+
+				PopUpManager.addPopUp(tutorForm, this, true);
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:DataGrid id="listPesquisa" width="100%" height="100%" change="showPopTutor()">
+		<mx:columns>
+			<mx:DataGridColumn headerText="ID" dataField="id_pessoa" width="60"/>
+			<mx:DataGridColumn headerText="Nome" dataField="nome"/>
+			<mx:DataGridColumn headerText="CPF" dataField="cpf"/>
+			<mx:DataGridColumn headerText="Email" dataField="email"/>
+			<mx:DataGridColumn headerText="UF" dataField="uf" width="150"/>
+			<mx:DataGridColumn headerText="Fixo" dataField="tel_fixo" width="140"/>
+			<mx:DataGridColumn headerText="Celular" dataField="tel_cel" width="140"/>
+		</mx:columns>
+	</mx:DataGrid>
+</mx:VBox>
