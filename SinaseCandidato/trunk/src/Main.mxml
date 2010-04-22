@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" verticalAlign="middle"
+	xmlns:form="br.com.optimedia.sinase.form.*" xmlns:forms="br.com.interludio.flexLib.forms.*">
+	
+	<mx:Style source="br/com/optimedia/sinase/assets/style/main.css"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.sinase.form.AlunoForm;
+			
+			private function sendCpf():void {
+				if(txtCpf.error.length == 0) {
+					
+					var alunoForm:AlunoForm = new AlunoForm();
+					
+					alunoForm.cpf = txtCpf.text;
+					
+					this.removeAllChildren();
+					
+					this.addChild(alunoForm);
+					
+				}
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Panel width="312" height="182" layout="vertical" title="SINASE - Inscrição de Aluno" horizontalAlign="center">
+		
+		<mx:Spacer width="10" height="20"/>
+		
+		<mx:Label text="Informe seu CPF" fontWeight="bold"/>
+		
+		<forms:CpfField id="txtCpf" required="true" width="110" textAlign="center" enter="sendCpf()"/>
+		
+		<mx:ControlBar horizontalAlign="right" height="35" paddingTop="5">
+			<mx:Button label="Enviar" click="sendCpf()"/>
+		</mx:ControlBar>
+	</mx:Panel>
+	
+</mx:Application>
