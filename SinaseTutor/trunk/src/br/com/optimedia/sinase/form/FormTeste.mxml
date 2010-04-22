@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ApplicationControlBar xmlns:mx="http://www.adobe.com/2006/mxml" width="542" height="546" xmlns:ns1="br.com.optimedia.sinase.form.*">
+	<mx:VBox width="100%" height="100%">
+		<ns1:CategoriaExemplo>
+		</ns1:CategoriaExemplo>
+		<ns1:CategoriaExemplo>
+		</ns1:CategoriaExemplo>
+	</mx:VBox>
+</mx:ApplicationControlBar>
