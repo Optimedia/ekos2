@@ -114,7 +114,7 @@
 			public function setInteractiveVars(presentationID:uint, slideID:uint):void {
 				//Interactive(loadedSM.application).start(slideID);
 				if(!isStarted) {
-					interactive.start(slideID);
+					playerModule.start(presentationID, slideID, PlayerModule.PREVIEW_MODE);
 					isStarted = true;
 				}
 				else {
@@ -125,7 +125,7 @@
 			public var slideID:uint;
 			public function setNewSlide(slideID:uint):void {
 				this.slideID = slideID;
-				interactive.setSlide(slideID);
+				//playerModule.setSlide(slideID);
 			}
 			
 		]]>
@@ -133,8 +133,10 @@
 	
 	<mx:Panel layout="vertical" cornerRadius="0" backgroundAlpha="0" title="{_presentationVO.title}"
 		paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
-		<Interactive id="interactive" creationComplete="onSwfCreationComplete(event)" width="800" height="512"/>
-				
+		<!--<Interactive id="interactive" creationComplete="onSwfCreationComplete(event)" width="800" height="512"/>-->
+		
+		<PlayerModule id="playerModule" />
+		
 		<mx:ControlBar>
 			
 			<mx:VBox width="100%">

@@ -1,80 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
-	creationComplete="init();"
-	xmlns:v="br.com.optimedia.interactive.view.components.*"
-	xmlns:flash="flash.text.*"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
 	width="800" height="512"
-	backgroundAlpha="0"
-	verticalScrollPolicy="off" horizontalScrollPolicy="off">
+	xmlns:local="*" creationComplete="init()">
 	
 	<mx:Script>
 		<![CDATA[
-			import mx.core.Application;
-			import mx.rpc.events.ResultEvent;
-		
-			import flash.net.URLLoader;
-    		import flash.net.URLRequest;
-    		import flash.text.StyleSheet;
-    		import flash.events.IOErrorEvent;
-		    import flash.events.Event;
-		    import flash.events.MouseEvent;
-
-
 			import mx.controls.Alert;
-			import br.com.optimedia.interactive.InteractiveFacade;
-			
-			import mx.styles.StyleManager;
+			import mx.managers.IBrowserManager;
+			import mx.managers.BrowserManager;
 		
-			public var interactiveFacade:InteractiveFacade = InteractiveFacade.getInstance();
-			
 			[Bindable]
-    		public var idPresentation:uint;
+    		public var idPresentation:int;
     		
     		[Bindable]
-    		public var idSlide:uint = 0;
+    		public var idSlide:int;
     		
-    		public static const GET_SLIDE_EVENT:String = "GET_SLIDE_EVENT";
-    		
-    		/* [Bindable]
-    		public var showNavegation:Boolean; */
-    		
-    		//public var sheet:StyleSheet;
-    		
-    		public function start(slideID:uint):void {
-    			this.idSlide = slideID;
-    			
-				interactiveFacade.startup( this );
-    		}
-    		
-    		public function setSlide(slideID:uint):void {
-    			idSlide = slideID;
-    			dispatchEvent( new Event(GET_SLIDE_EVENT) );
-    		}
-			
-			private function init(): void {
-				this.menuView.visible=false;
-				this.httpService.send();
+			private function init():void {
+				idPresentation = this.parameters._presentation;
+				var end:IBrowserManager = BrowserManager.getInstance(); 
+				end.init();
+				idSlide = end.url.split("s=")[1];
 				
+				// VALORES APENAS PARA TESTE
+				//idPresentation = 102;
+				//Alert.show("modo teste");
+				
+				var playerModule:PlayerModule = new PlayerModule();
+				
+				this.addChild( playerModule );
+				
+				playerModule.start(idPresentation, idSlide);
 			}
-			public function httpService_result(event:ResultEvent):void {
-                styleSh.parseCSS(event.result as String);
-                slideView.styleSh.parseCSS(event.result as String);
-            }
 			
 		]]>
 	</mx:Script>
 	
-	<flash:StyleSheet id="styleSh" />
-  
-  	<mx:HTTPService id="httpService" url="br/com/optimedia/interactive/css/style2.css" resultFormat="text"
-  					result="httpService_result(event)" />
+	<!-- <local:PlayerModule /> -->
 	
-	<v:SlideView id="slideView" width="100%" height="100%" visible="false"/>
-	
-	<v:NavigatorView id="navigatorView" width="100%" visible="false" bottom="0" horizontalCenter="0"/>
-	
-	<v:MidiaView id="midiaViewObj" width="100%"  height="90%" y="0" visible="false" horizontalCenter="0"/>
-	
-	<v:MenuView id="menuView" width="200" height="430" visible="true" y="50" x="10"/>
-	
-</mx:Canvas>
+</mx:Application>

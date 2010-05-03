@@ -1,7 +1,7 @@
 package br.com.optimedia.autor.controller
 {
-	import br.com.optimedia.autor.view.SlideEditorMediator;
-	import br.com.optimedia.autor.view.components.SlideEditor;
+	import br.com.optimedia.autor.view.PresentationEditorMediator;
+	import br.com.optimedia.autor.view.components.PresentationEditor;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
@@ -10,9 +10,9 @@ package br.com.optimedia.autor.controller
 	{
 		override public function execute(note:INotification):void {
 			
-			var instance:SlideEditor = note.getBody() as SlideEditor;
+			var instance:PresentationEditor = note.getBody() as PresentationEditor;
 			
-			facade.registerMediator( new SlideEditorMediator( instance ) );
+			facade.registerMediator( new PresentationEditorMediator( instance ) );
 			
 		}
 	}

@@ -14,7 +14,13 @@
 			<mx:RemoveChild target="{titleCanvas}"/>
 			<mx:RemoveChild target="{bodyTextArea}"/>
 			<mx:AddChild relativeTo="{slideVBox}" position="lastChild">
-				<mx:Image id="slideImage" source="http://www.educar.tv/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"/>
+				<mx:Canvas id="canvas1" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+					<mx:SWFLoader id="loadingSwf1" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
+						scaleContent="false" width="50" height="50" x="350" y="187"/>
+					<mx:Image id="slideImage" source="http://www.educar.tv/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"
+						maxWidth="{slideVBox.width}" maxHeight="{slideVBox.width}"
+						/>
+				</mx:Canvas>
 			</mx:AddChild>
 			<mx:SetStyle target="{slideVBox}" name="verticalAlign" value="middle"/>
 		</mx:State>
@@ -22,6 +28,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.IChildList;
+			import mx.managers.PopUpManagerChildList;
 			import mx.rpc.soap.LoadEvent;
 			import mx.effects.easing.Elastic;
 			import mx.effects.Fade;
@@ -45,6 +53,8 @@
 			import mx.controls.Alert;
 			import br.com.optimedia.player.PlayerFacade;
 			
+			public static const SET_SLIDE_EVENT:String = "SET_SLIDE_EVENT";
+			
 			public static const PLAYER_MODE:String = "PLAYER_MODE";
 			public static const PREVIEW_MODE:String = "PREVIEW_MODE";
 			
@@ -57,10 +67,11 @@
 			public var slideID:Number;
 			
 			[Bindable]
+			[Inspectable(category="General", enumeration="PLAYER_MODE,PREVIEW_MODE", defaultValue="PLAYER_MODE")]
 			public var mode:String;
 			
 			[Bindable]
-			private var slideVO:SlideVO = new SlideVO();
+			public var slideVO:SlideVO;
 			
 			[Bindable]
 			public var slidesArray:ArrayCollection = new ArrayCollection();
@@ -72,6 +83,14 @@
 				titleBackground.graphics.drawRoundRect(20,0,titleCanvas.width*0.95,titleCanvas.height ,20,20);
 				titleBackground.graphics.endFill();
 				titleCanvas.rawChildren.addChildAt(titleBackground, 0);
+				if(mode == PREVIEW_MODE) {
+					playerFacade.startup( this );
+					slideID = 0;
+				}
+				
+				prevBtn.addEventListener(MouseEvent.CLICK, removeAllPopUps);
+				indexBtn.addEventListener(MouseEvent.CLICK, removeAllPopUps);
+				nextBtn.addEventListener(MouseEvent.CLICK, removeAllPopUps);
 			}
 			
 			public function start(presentationID:int, slideID:int, mode:String = PLAYER_MODE ):void {
@@ -91,18 +110,25 @@
 			public function setSlide(slideVO:SlideVO):void {
 				slideID = slideVO.slide_id;
 				
-				//gambiarra pra evitar slides q estão sendo salvos com tipo 0
-				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 2;
+				//gambiarra pra evitar slides antigos q foram salvos com tipo 0
+				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 1;
 				//fim da gambiarra
 				
 				this.currentState = slideVO.type_slide_id.toString();
 				
 				this.slideVO = slideVO;
 				
-				indexBtn.label = 'Slide '+int(slideVO.page_order+1)+'/'+slidesArray.length.toString();
+				if(mode == PREVIEW_MODE) {
+					indexBtn.label = 'Slide '+int(slideVO.page_order)+'/'+slidesArray.length.toString();
+				}
+				else if(mode == PLAYER_MODE) {
+					/* indexBtn.label = 'Slide '+int(slideVO.page_order+1)+'/'+slidesArray.length.toString(); */
+					indexBtn.label = 'Slide '+int(getSlideIndex(slideVO.slide_id)+1)+'/'+slidesArray.length.toString();
+				}
 				
 				disableButtons( getSlideIndex( slideVO.slide_id ) );
 				createMediaBtns();
+				dispatchEvent( new Event(SET_SLIDE_EVENT) );
 			}
 			
 			private function nextBtnClick():void {
@@ -186,10 +212,17 @@
 				mediaBox.visible = true;
 			}
 			
+			private function removeAllPopUps(e:Event):void {
+                popUp.dismissEffect.play();
+			}
+			
+			private var popUp:MediaPopUp = new MediaPopUp();
 			private function openMediaPopUp(event:Event):void {
-				var popUp:MediaPopUp = new MediaPopUp();
-				popUp.maxHeight = this.height*0.95;
-				popUp.maxWidth = this.width*0.95;
+				removeAllPopUps(null);
+				
+				popUp = new MediaPopUp();
+				popUp.maxHeight = slideVBox.height*0.96;
+				popUp.maxWidth = slideVBox.width*0.96;
 				
 				var media:MediaVO;
 				if(event is MouseEvent) {
@@ -204,31 +237,39 @@
 						}
 					}
 				}
+				
+				if( media == null ) {
+					Alert.show("Esta mídia não existe mais.", "Atenção");
+					return;
+				}
 				switch(media.category_id) {
 					case 4:
+						//vídeo
 						var movie:FLVPlayback = new FLVPlayback();
 						var aux:UIComponent = new UIComponent();
 						aux.addChild( movie as DisplayObject );
 						movie.addEventListener(LoadEvent.LOAD, function(e:LoadEvent):void { popUp.addChild( aux ); });
 						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						movie.autoRewind = false;
-						movie.skin="http://www.educar.tv/sinase.moodle/interactive/br/com/optimedia/interactive/assets/skinOverPlaySeekMute.swf";
+						movie.skin="http://www.educar.tv/sinase.moodle/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf";
 						movie.scaleMode = "maintainAspectRatio";
 						movie.skinBackgroundColor = 0x666666;
 	        			movie.skinAutoHide = true;
 						
 						popUp.addChild( aux );
 						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); })
-						PopUpManager.addPopUp( popUp, this );
+						PopUpManager.addPopUp( popUp, this, false, PopUpManagerChildList.POPUP );
 						PopUpManager.centerPopUp( popUp );
 						aux.width = movie.width;
 						aux.height = movie.height;
 						break;
 					case 5:
+						//link
 						var url:URLRequest = new URLRequest( media.body );
 						navigateToURL(url,"_blank");
 						break;
 					case 6:
+						//texto
 						var text:TextArea = new TextArea();
 						text.setStyle("backgroundAlpha", 0);
 						text.setStyle("borderSides",0);
@@ -244,10 +285,12 @@
 						text.height = 400;
 						break;
 					case 7:
+						//link para slide de outra apresentação
 						var url1:URLRequest = new URLRequest( 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						navigateToURL(url1,"_blank");
 						break;
 					default:
+						//imagens
 						var arq:Array = media.body.split(".");
 						if (arq[1]=="swf") {
 							var swfLoad:SWFLoader = new SWFLoader();
@@ -258,9 +301,9 @@
 						}else {
 							var imagem:Image = new Image();
 							imagem.autoLoad = true;
-							imagem.maxWidth = this.width*0.95;
+ 							imagem.maxWidth = this.width*0.95;
 							imagem.maxHeight = this.height*0.95;
-							imagem.scaleContent = true;
+							imagem.scaleContent = false;
 							imagem.setStyle("horizontalCenter",0);
 							imagem.setStyle("verticalCenter",0);
 							imagem.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
@@ -282,8 +325,8 @@
 					index.slideArray = slidesArray;
 					index.visible = false;
 					this.addChild( index );
-					index.x = indexBtn.x + 10;
-					index.y = bottomBar.y + 6;
+					index.listCanvas.x = indexBtn.x + 10;
+					index.listCanvas.y = bottomBar.y + 6;
 					index.list.selectedItem = slideVO;
 					index.list.addEventListener(ListEvent.ITEM_CLICK, function(e:ListEvent):void { setSlide(index.list.selectedItem as SlideVO); index.removeMe(); } );
 					bottomImg.addEventListener(MouseEvent.ROLL_OVER, removeSlideIndexList);
@@ -305,7 +348,7 @@
 	
 	<mx:Fade id="mediaEffect" easingFunction="{Elastic.easeOut}" duration="1000"/>
 	
-	<mx:VBox id="slideVBox" width="100%" height="475" horizontalAlign="center">
+	<mx:VBox id="slideVBox" width="100%" height="475" horizontalAlign="center" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		
 		<mx:Spacer id="slideSpacer" height="0"/>
 		
