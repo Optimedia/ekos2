@@ -9,6 +9,8 @@
 		
 			import mx.managers.PopUpManager;
 			
+			public static const SAVE_NEW_ORDER:String = "SAVE_NEW_ORDER";
+			
 			[Bindable]
 			private var _slideArray:ArrayCollection;
 			
@@ -25,21 +27,11 @@
 			}
 			
 			public function closePop():void {
-				PopUpManager.removePopUp(this);
+				PopUpManager.removePopUp( this );
 			}
 			
 			private function saveOrder():void {
-				/* var i:int = 1;
-				
-				finalSlideArray = new Array();
-				
-				for each (var slide:SlideVO in _slideArray) {
-				    slide.page_order = i;
-				    finalSlideArray.push(slide);
-				    
-				    i++;
-				}	 */		
-				dispatchEvent(new Event("orderChange", true));
+				dispatchEvent( new Event( SAVE_NEW_ORDER, true ) );
 			}
 			
 		]]>

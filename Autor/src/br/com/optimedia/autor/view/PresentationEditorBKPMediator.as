@@ -7,7 +7,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
-	import br.com.optimedia.autor.view.components.SlideEditor;
+	import br.com.optimedia.autor.view.components.PresentationEditor;
 	import br.com.optimedia.autor.view.components.TextEditor;
 	
 	import flash.events.MouseEvent;
@@ -19,7 +19,7 @@ package br.com.optimedia.autor.view
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
-	public class SlideEditorMediator extends Mediator
+	public class PresentationEditorBKPMediator extends Mediator
 	{
 		public static const NAME:String = 'SlideEditorMediator';
 		
@@ -27,7 +27,7 @@ package br.com.optimedia.autor.view
 		private var subjectManagerProxy:SubjectManagerProxy;
 		private var slideManagerProxy:SlideManagerProxy;
 		
-		public function SlideEditorMediator(viewComponent:Object=null)
+		public function PresentationEditorBKPMediator(viewComponent:Object=null)
 		{
 			super(NAME+viewComponent.uid, viewComponent);
 		}
@@ -37,10 +37,10 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.backBtn.addEventListener( MouseEvent.CLICK, backBtnClick );
 			
-			view.addEventListener( SlideEditor.NEW_SLIDE_EVENT, addNewSlide );
-			view.addEventListener( SlideEditor.SET_SLIDE_ORDER_EVENT, setOrder );
-			view.addEventListener( SlideEditor.DELETE_SLIDE_EVENT, deleteSlide );
-			view.addEventListener( SlideEditor.SAVE_SLIDE_EVENT, saveSlide );
+			view.addEventListener( PresentationEditor.NEW_SLIDE_EVENT, addNewSlide );
+			view.addEventListener( PresentationEditor.SET_SLIDE_ORDER_EVENT, setOrder );
+			view.addEventListener( PresentationEditor.DELETE_SLIDE_EVENT, deleteSlide );
+			view.addEventListener( PresentationEditor.SAVE_SLIDE_EVENT, saveSlide );
 			view.textEditor.addEventListener( TextEditor.SELECT_MEDIA_ON_REPOSITORY_EVENT, selectMediaOnRepository);
 			
 			proxy = facade.retrieveProxy( SlideManagerProxy.NAME ) as SlideManagerProxy;
@@ -54,9 +54,9 @@ package br.com.optimedia.autor.view
 			
 		}
 		
-		public function get view():SlideEditor
+		public function get view():PresentationEditor
 		{
-			return viewComponent as SlideEditor;
+			return viewComponent as PresentationEditor;
 		}
 		
 		override public function listNotificationInterests():Array
@@ -78,14 +78,14 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
 					view.presentationVO = PresentationVO( note.getBody() );
 					proxy.getSlides( view.presentationVO.presentation_id );
-					view.slideSelector.interactive.visible = false;
-					view.slideSelector.setInteractiveVars( view.presentationVO.presentation_id, view.presentationVO.slidesArray[0].slide_id );
+					view.slideSelector.playerModule.visible = false;
+					view.slideSelector.setInteractiveVars( view.presentationVO.presentation_id, view.presentationVO.slidesArray[0] );
 					view.repositoryPanel.linkBtn.visible = false;
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
 					view.slideSelector.presentationVO = view.presentationVO;
-					view.slideSelector.interactive.visible = true;
+					view.slideSelector.playerModule.visible = true;
 					if( view.presentationVO.slidesArray.length <= 1 ) {
 						view.slideSelector.slideRemoveBtn.enabled = false;
 					}

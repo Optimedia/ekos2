@@ -16,7 +16,7 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.view.components.RepositoryPanel;
 	import br.com.optimedia.autor.view.components.SendFilePopUp;
 	import br.com.optimedia.autor.view.components.SendMediaPopUp;
-	import br.com.optimedia.autor.view.components.SlideEditor;
+	import br.com.optimedia.autor.view.components.PresentationEditor;
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
@@ -81,7 +81,7 @@ package br.com.optimedia.autor
         	else if (app is RepositoryPanel) sendNotification( CommandConstants.REPOSITORY_PANEL_STARTUP, app );
         	else if (app is SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_STARTUP, app );
         	else if (app is SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_STARTUP, app );
-        	else if (app is SlideEditor) sendNotification( CommandConstants.SLIDE_EDITOR_STARTUP, app );
+        	else if (app is PresentationEditor) sendNotification( CommandConstants.SLIDE_EDITOR_STARTUP, app );
         	else if (app is PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_STARTUP, app );
         }
         

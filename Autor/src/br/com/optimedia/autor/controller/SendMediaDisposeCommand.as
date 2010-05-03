@@ -1,6 +1,6 @@
 package br.com.optimedia.autor.controller
 {
-	import br.com.optimedia.autor.view.SendMediaMediator;
+	import br.com.optimedia.autor.view.SendMediaPopUpMediator;
 	import br.com.optimedia.autor.view.components.SendMediaPopUp;
 	
 	import flash.system.System;
@@ -14,7 +14,7 @@ package br.com.optimedia.autor.controller
 			
 			var instance:SendMediaPopUp =  note.getBody() as SendMediaPopUp;
 			
-			facade.removeMediator( SendMediaMediator.NAME+instance.uid );
+			facade.removeMediator( SendMediaPopUpMediator.NAME+instance.uid );
 			
 			System.gc();
 		}

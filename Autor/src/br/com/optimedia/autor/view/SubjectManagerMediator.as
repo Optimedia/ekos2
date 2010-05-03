@@ -18,12 +18,16 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import flash.utils.Timer;
+	import flash.events.TimerEvent;
 
 	public class SubjectManagerMediator extends Mediator
 	{
 		public static const NAME:String = 'SubjectManagerMediator';
 		
 		private var subjectManagerProxy:SubjectManagerProxy;
+		
+		private var getSubjectsTimer:Timer;
 		
 		public function SubjectManagerMediator(viewComponent:Object=null)
 		{
@@ -43,12 +47,16 @@ package br.com.optimedia.autor.view
 			view.newPresentationBtn.addEventListener(MouseEvent.CLICK, getSkins);
 			view.slideEditBtn.addEventListener( MouseEvent.CLICK, slideEditBtnClick );
 			
+			view.setRoleID( AutorFacade(facade).userRole );
+			view.userID = AutorFacade(facade).userID;
+			
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			subjectManagerProxy.getSubjects();
 			view.presentationSkins = subjectManagerProxy.presentationSkins;
 			
-			view.setRoleID( AutorFacade(facade).userRole );
-			view.userID = AutorFacade(facade).userID;
+			getSubjectsTimer = new Timer(60000, 0);
+			getSubjectsTimer.addEventListener(TimerEvent.TIMER, timerEventHandler);
+			getSubjectsTimer.start();
 		}
 		
 		override public function onRemove():void {
@@ -107,6 +115,7 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.BACK_TO_SUBJECT_MANAGER:
 					subjectManagerProxy.getSubjects();
+					getSubjectsTimer.start();
 					break;
 				default:
 					break;
@@ -139,7 +148,7 @@ package br.com.optimedia.autor.view
 				}
 				subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
 			}
-			
+			getSubjectsTimer.stop();
 		}
 		
 		private function getSkins(event:MouseEvent):void {
@@ -154,6 +163,10 @@ package br.com.optimedia.autor.view
 			else {
 				subjectManagerProxy.unlockPresentation( presentation.presentation_id );
 			}
+		}
+		
+		private function timerEventHandler(e:TimerEvent):void {
+			subjectManagerProxy.getSubjects();
 		}
 	}
 }

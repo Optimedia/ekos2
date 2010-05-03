@@ -39,12 +39,12 @@ package br.com.optimedia.player.view
 				proxy.getPresentation( view.presentationID );
 			}
 			else if( view.mode == PlayerModule.PREVIEW_MODE ) {
-				
+				view.urlBtn.visible = false;
 			}
 		}
 		
 		override public function onRemove():void {
-			
+			trace(NAME+".onRemove'()");
 		}
 		
 		public function get view():PlayerModule
@@ -62,7 +62,8 @@ package br.com.optimedia.player.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_PRESENTATION_FOR_PLAYER:
-					view.slidesArray = new ArrayCollection( note.getBody() as Array );
+					setSlidesArray( new ArrayCollection( note.getBody() as Array ) );
+					/* view.slidesArray = new ArrayCollection( note.getBody() as Array );
 					if( view.slidesArray.length <= 1 ) {
 						Alert.show("Não há slides nesta apresentação");
 						view.enabled = false;
@@ -78,10 +79,31 @@ package br.com.optimedia.player.view
 								}
 							}
 						}
-					}
+					} */
 					break;
 				default:
 					break;
+			}
+		}
+		
+		private function setSlidesArray(slidesArray:ArrayCollection):void {
+			view.slidesArray = slidesArray;
+			if( view.slidesArray.length <= 0 ) {
+				Alert.show("Não há slides nesta apresentação");
+				view.enabled = false;
+			}
+			else {
+				if( view.slideID == 0 ) {
+					view.setSlide( view.slidesArray[0] as SlideVO );
+				}
+				else {
+					for each( var slide:SlideVO in view.slidesArray ) {
+						if( slide.slide_id == view.slideID ) {
+							view.setSlide( slide );
+						}
+					}
+				}
+				view.enabled = true;
 			}
 		}
 		

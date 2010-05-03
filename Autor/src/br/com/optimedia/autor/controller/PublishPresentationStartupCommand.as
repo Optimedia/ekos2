@@ -1,6 +1,6 @@
 package br.com.optimedia.autor.controller
 {
-	import br.com.optimedia.autor.view.PublishPresentationMediator;
+	import br.com.optimedia.autor.view.PublishPresentationPopUpMediator;
 	import br.com.optimedia.autor.view.components.PublishPresentationPopUp;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -12,7 +12,7 @@ package br.com.optimedia.autor.controller
 			
 			var instance:PublishPresentationPopUp = notification.getBody() as PublishPresentationPopUp;
 			
-			facade.registerMediator( new PublishPresentationMediator( instance ) ); 
+			facade.registerMediator( new PublishPresentationPopUpMediator( instance ) ); 
 			
 		}
 	}

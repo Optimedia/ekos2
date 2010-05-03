@@ -1,6 +1,6 @@
 package br.com.optimedia.autor.controller
 {
-	import br.com.optimedia.autor.view.SendMediaMediator;
+	import br.com.optimedia.autor.view.SendMediaPopUpMediator;
 	import br.com.optimedia.autor.view.components.SendMediaPopUp;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -12,7 +12,7 @@ package br.com.optimedia.autor.controller
 			
 			var instance:SendMediaPopUp = note.getBody() as SendMediaPopUp;
 			
-			facade.registerMediator( new SendMediaMediator( instance ) );
+			facade.registerMediator( new SendMediaPopUpMediator( instance ) );
 			
 		}
 	}

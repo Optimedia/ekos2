@@ -41,7 +41,12 @@
 			}
 			
 			private function onSubjectSelectionChange():void {
-				if( subjectGrid.selectedIndex != -1 ) presentationArray = SubjectVO(subjectGrid.selectedItem).presentationArray;
+				if( subjectGrid.selectedIndex != -1 ) {
+					presentationArray = SubjectVO(subjectGrid.selectedItem).presentationArray;
+				}
+				if( presentationGrid.selectedIndex == -1 ) {
+					slideEditBtn.enabled = false;
+				}
 			}
 			
 			private function slidesNumLabelFunction(item:Object, column:DataGridColumn):String {

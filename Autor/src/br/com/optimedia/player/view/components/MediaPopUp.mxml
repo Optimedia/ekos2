@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" roundedBottomCorners="true" borderStyle="solid"
 				cornerRadius="4" horizontalAlign="center" verticalAlign="middle" showCloseButton="true" close="dismissEffect.play()"
-				resizeEffect="{myResize}" creationComplete="init()">
+				resizeEffect="{myResize}" creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 	
 	<mx:Script>
 		<![CDATA[
@@ -37,7 +37,7 @@
 		<mx:Fade alphaFrom="1" alphaTo="0"/>
 	</mx:Parallel>
 	
-	<mx:SWFLoader id="loadingSwf" source="br/com/optimedia/assets/img/loading.swf"
+	<mx:SWFLoader id="loadingSwf" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
 		horizontalCenter="0" verticalCenter="0" scaleContent="false" width="50" height="50"/>
 	
 </mx:TitleWindow>

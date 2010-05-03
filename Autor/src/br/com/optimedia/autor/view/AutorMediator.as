@@ -3,7 +3,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
-	import br.com.optimedia.autor.view.components.SlideEditor;
+	import br.com.optimedia.autor.view.components.PresentationEditor;
 	
 	import flash.events.Event;
 	
@@ -32,7 +32,7 @@ package br.com.optimedia.autor.view
 			view.visible = false;
 			subjectManagerProxy = facade.retrieveProxy( SubjectManagerProxy.NAME ) as SubjectManagerProxy;
 			whoAmI();
-			view.addEventListener( Autor.DO_UNLOCK_EVENT, doUnlock );
+			//view.addEventListener( Autor.DO_UNLOCK_EVENT, doUnlock );
 		}
 		
 		override public function onRemove():void {
@@ -90,32 +90,32 @@ package br.com.optimedia.autor.view
 				view.visible = true;
 				AutorFacade(facade).userRole = AutorFacade.IS_ADMIN;
 				AutorFacade(facade).userID = userID;
-				view.showModuleManager();
-				view.showSlideEditor();
+				view.addModuleManager();
+				view.addSlideEditor();
 			}
 			//SE FOR AUTOR
 			else if( roleID == 2 ) {
 				view.visible = true;
 				AutorFacade(facade).userRole = AutorFacade.IS_AUTHOR;
 				AutorFacade(facade).userID = userID;
-				view.showModuleManager();
-				view.showSlideEditor();
+				view.addModuleManager();
+				view.addSlideEditor();
 			}
 			//SE FOR CONTEUDISTA (EDITOR)
 			else if( roleID == 8 ) {
 				view.visible = true;
 				AutorFacade(facade).userRole = AutorFacade.IS_EDITOR;
 				AutorFacade(facade).userID = userID;
-				view.showModuleManager();
-				view.showSlideEditor();
+				view.addModuleManager();
+				view.addSlideEditor();
 			}
 			//SE FOR OBSERVADOR
 			else if( roleID == 9 ) {
 				view.visible = true;
 				AutorFacade(facade).userRole = AutorFacade.IS_OBSERVER;
 				AutorFacade(facade).userID = userID;
-				view.showModuleManager();
-				view.showSlideEditor();
+				view.addModuleManager();
+				view.addSlideEditor();
 			}
 			//SE NÃO TIVER PREMISSÃO DE ADMIN, AUTOR OU CONTEUDISTA
 			else {
@@ -126,10 +126,10 @@ package br.com.optimedia.autor.view
 			trace(event);
 		}
 		
-		private function doUnlock(event:Event):void {
-			if( view.viewStack.selectedChild is SlideEditor ) {
-				subjectManagerProxy.unlockPresentation( SlideEditor(view.viewStack.selectedChild).presentationVO.presentation_id );
+		/* private function doUnlock(event:Event):void {
+			if( view.viewStack.selectedChild is PresentationEditor ) {
+				subjectManagerProxy.unlockPresentation( PresentationEditor(view.viewStack.selectedChild).presentationVO.presentation_id );
 			}
-		}
+		} */
 	}
 }

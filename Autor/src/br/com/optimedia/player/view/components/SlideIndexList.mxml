@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="{list.width}" height="0" verticalScrollPolicy="off"
-	horizontalScrollPolicy="off" filters="{[glow]}" creationComplete="init()" name="{NAME}">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" verticalScrollPolicy="off"
+	horizontalScrollPolicy="off" creationComplete="init()" name="{NAME}">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.events.ListEvent;
 			import mx.core.Container;
 			import mx.events.EffectEvent;
 			import mx.collections.ArrayCollection;
@@ -14,19 +15,26 @@
 			public var slideArray:ArrayCollection = new ArrayCollection();
 			
 			private function init():void {
-				this.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
+				//this.addEventListener(MouseEvent.CLICK, clickHandler);
+				listCanvas.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
 				showEffect.play();
 			}
 			
 			public function removeMe():void {
-				this.removeEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
+				//this.removeEventListener(MouseEvent.CLICK, clickHandler);
+				listCanvas.removeEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
+				listCanvas.removeEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
 				hideEffect.play();
 				System.gc();
 			}
 			
+			private function listItemClickHandler(e:ListEvent):void {
+				removeMe();
+			}
+			
 			private function rollOverHandler(e:MouseEvent):void {
 				this.removeEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
-				this.addEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
+				listCanvas.addEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
 			}
 			
 			private function rollOutHandler(e:MouseEvent):void {
@@ -36,20 +44,22 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Parallel id="showEffect" target="{this}" effectEnd="{list.scrollToIndex( list.selectedIndex )}" duration="200">
+	<mx:Parallel id="showEffect" target="{listCanvas}" effectEnd="{list.scrollToIndex( list.selectedIndex )}" duration="200">
 		<mx:Resize heightFrom="0" heightTo="100"/>
 		<mx:Move yBy="-100"/>
 	</mx:Parallel>
 	
-	<mx:Parallel id="hideEffect" target="{this}" effectEnd="{PlayerModule(parentDocument).removeChild( this )}" duration="200">
-		<!--<mx:Resize heightFrom="100" heightTo="0"/>
-		<mx:Move yBy="100"/>-->
+	<mx:Parallel id="hideEffect" target="{listCanvas}" effectEnd="{PlayerModule(parentDocument).removeChild( this )}" duration="200">
 		<mx:Blur blurXFrom="0" blurXTo="200"/>
 		<mx:Fade alphaFrom="1" alphaTo="0"/>
 	</mx:Parallel>
 	
-	<mx:GlowFilter id="glow" color="#798f9a"/>
+	<!-- <mx:GlowFilter id="glow" color="#798f9a"/> -->
+	<mx:GlowFilter id="glow" color="#ffffff" blurX="10" blurY="10"/>
 	
-	<mx:List id="list" dataProvider="{slideArray}" labelField="title" height="100"/>
+	<mx:Canvas id="listCanvas" width="{list.width}" height="0" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+		filters="{[glow]}">
+		<mx:List id="list" dataProvider="{slideArray}" labelField="title" height="100" minWidth="100" creationComplete="{list.width += 15}" alternatingItemColors="['#ffffff', '#eeeeee']"/>
+	</mx:Canvas>
 	
 </mx:Canvas>

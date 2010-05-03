@@ -6,7 +6,7 @@
 	<mx:Script>
 		<![CDATA[
 			import mx.rpc.CallResponder;
-			import br.com.optimedia.autor.view.components.SlideEditor;
+			import br.com.optimedia.autor.view.components.PresentationEditor;
 			import br.com.optimedia.autor.view.components.SubjectManager;
 			import mx.managers.PopUpManager;
 			import mx.rpc.soap.LoadEvent;
@@ -29,18 +29,17 @@
 				dispatchEvent( new Event(DO_UNLOCK_EVENT) );
 			}
 			
-			public function showModuleManager():void {
+			public function addModuleManager():void {
 				viewStack.addChild( new SubjectManager );
 			}
 			
-			public function showSlideEditor():void {
-				viewStack.addChild( new SlideEditor );
+			public function addSlideEditor():void {
+				viewStack.addChild( new PresentationEditor );
 			}
 			
 		]]>
 	</mx:Script>
 	
-	<!--<mx:ViewStack id="viewStack" width="1150" height="640" />-->
 	<mx:ViewStack id="viewStack" width="100%" height="100%"/>
 	
 </mx:Application>

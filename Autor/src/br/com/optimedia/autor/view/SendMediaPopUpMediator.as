@@ -13,13 +13,13 @@ package br.com.optimedia.autor.view
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
-	public class SendMediaMediator extends Mediator
+	public class SendMediaPopUpMediator extends Mediator
 	{
 		public static const NAME:String = 'SendMediaMediator';
 		
 		private var repositoryProxy:RepositoryManagerProxy;
 		
-		public function SendMediaMediator(viewComponent:Object=null)
+		public function SendMediaPopUpMediator(viewComponent:Object=null)
 		{
 			super(NAME+viewComponent.uid, viewComponent);
 		}

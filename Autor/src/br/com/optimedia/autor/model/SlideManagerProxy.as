@@ -4,6 +4,7 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.SlideVO;
 	
+	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
 	import mx.rpc.events.FaultEvent;
@@ -11,6 +12,7 @@ package br.com.optimedia.autor.model
 	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+	import mx.collections.ArrayCollection;
 
 	public class SlideManagerProxy extends Proxy
 	{
@@ -46,20 +48,24 @@ package br.com.optimedia.autor.model
 		}
 		
 		public function addNewSlide(slideVO:SlideVO):void {
-			//slideVO.title = "Título";
-			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
+			var asynkToken:AsyncToken = remoteService.saveSlide( slideVO );
 			asynkToken.addResponder( new Responder(addNewSlideResult, generalFault) );
 		}
 		private function addNewSlideResult(event:ResultEvent):void {
-			if( event.result == true ) {
-				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
+			if( event.result == false ) {
+				Alert.show("Não foi possível adicionar o slide", "Erro");
 			}
 			else if( event.result is SlideVO ) {
 				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
 			}
 		}
 		
-		public function setOrder(slideArray:Array):void {
+		public function setOrder(slideArray:ArrayCollection):void {
+			var i:int = 0;
+			for each( var item:SlideVO in slideArray ) {
+				i++;
+				item.page_order = i;
+			}
 			var asynkToken:AsyncToken = remoteService.setOrder(slideArray);
 			asynkToken.addResponder( new Responder(setOrderResult, generalFault) );
 		}
@@ -70,12 +76,15 @@ package br.com.optimedia.autor.model
 		}
 		
 		public function deleteSlide(slideVO:SlideVO):void {
-			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO.slide_id);
+			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO);
 			asynkToken.addResponder( new Responder(deleteSlideResult, generalFault) );
 		}
 		private function deleteSlideResult(event:ResultEvent):void {
-			if( event.result == true ) {
-				sendNotification( NotificationConstants.DELETE_SLIDE_RESULT );
+			if( event.result == false ) {
+				Alert.show("Não foi possível remover o slide", "Erro");
+			}
+			else if( event.result is Array ) {
+				sendNotification( NotificationConstants.DELETE_SLIDE_RESULT, event.result );
 			}
 		}
 		
@@ -84,7 +93,7 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(saveSlideResult, generalFault) );
 		}
 		private function saveSlideResult(event:ResultEvent):void {
-			if( event.result == true ) {
+			if( event.result is SlideVO ) {
 				sendNotification( NotificationConstants.SAVE_SLIDE_RESULT, event.result );
 			}
 		}
