@@ -33,7 +33,7 @@
 			
 			private function init(): void {
 				idPresentation = this.parameters._presentation;
-				//idPresentation = 73;
+				idPresentation = 99;
 				//idSlide = this.parameters._idSlide;
 				 end = BrowserManager.getInstance(); 
 				 end.init();
