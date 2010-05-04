@@ -86,6 +86,10 @@
 					<mx:Button label="Editar" id="slideEditBtn"/>
 					<mx:Button label="Remover Slide" id="slideRemoveBtn"/>
 					<mx:Button label="Ordenar" id="setOrderBtn"/>
+					
+					<mx:Spacer width="100%" />
+					
+					<mx:Button label="Comentários" id="commentsBtn"/>
 				
 				</mx:ControlBar>
 				
