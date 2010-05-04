@@ -79,8 +79,8 @@ package br.com.optimedia.autor.view
 			var roleID:int = event.result.roleID;
 			var userID:int = event.result.userID;
 			//HABILITE ESSAS DUAS VARIÁVEIS PARA TESTAR LOCALMENTE
-			//roleID = 1;
-			//userID = 10;
+			roleID = 1;
+			userID = 10;
 			//SE NÃO ESTIVER LOGADO NO MOODLE
 			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
