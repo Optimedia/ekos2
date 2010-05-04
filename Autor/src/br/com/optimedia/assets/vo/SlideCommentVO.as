@@ -11,6 +11,8 @@ package br.com.optimedia.assets.vo
 		public var body:String;
 		public var date:Date;
 		
+		public var user_name:String;
+		
 		public function clone():* {
 			var copier:ByteArray = new ByteArray();
 			copier.writeObject(this);

@@ -9,12 +9,11 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
-<application path="Autor.mxml"/>
 <application path="Interactive.mxml"/>
-<application path="AuthorPlayer.mxml"/>
+<application path="Autor.mxml"/>
 </applications>
 <modules>
-<module destPath="PlayerModule.swf" optimize="false" sourcePath="src/PlayerModule.mxml"/>
+<module application="src/Interactive.mxml" destPath="PlayerModule.swf" optimize="true" sourcePath="src/PlayerModule.mxml"/>
 </modules>
 <buildCSSFiles/>
 </actionScriptProperties>

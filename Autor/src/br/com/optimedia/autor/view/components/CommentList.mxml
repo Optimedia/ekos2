@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" verticalScrollPolicy="off" horizontalScrollPolicy="off"
-	creationComplete="init()" layout="vertical">
+	creationComplete="init()" layout="vertical" showCloseButton="true">
 	
 	<mx:Script>
 		<![CDATA[
@@ -14,5 +14,28 @@
 			
 		]]>
 	</mx:Script>
+	
+	<mx:List id="commentList" width="100%" height="100%">
+		
+		<mx:itemRenderer>
+		<mx:Component>
+			<mx:VBox>
+				<mx:Script>
+					<![CDATA[
+						import br.com.optimedia.assets.vo.SlideCommentVO;
+					]]>
+				</mx:Script>
+				
+				<mx:HBox width="100%">
+					<mx:Label text="{data.user_name}" />
+					<mx:Spacer width="100%" />
+					<mx:Label text="{data.date}" />
+				</mx:HBox>
+				
+			</mx:VBox>
+		</mx:Component>
+		</mx:itemRenderer>
+		
+	</mx:List>
 	
 </mx:TitleWindow>
