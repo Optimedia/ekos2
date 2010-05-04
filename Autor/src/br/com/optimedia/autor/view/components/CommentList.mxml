@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+	creationComplete="init()" layout="vertical">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.autor.AutorFacade;
+			
+			private var facade:AutorFacade = AutorFacade.getInstance();
+			
+			private function init():void {
+				facade.startup( this );
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:TitleWindow>

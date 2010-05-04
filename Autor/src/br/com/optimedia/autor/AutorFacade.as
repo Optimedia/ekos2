@@ -20,6 +20,8 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
+	import br.com.optimedia.autor.view.components.CommentList;
+	import br.com.optimedia.autor.controller.CommentListDisposeCommand;
 
 	public class AutorFacade extends Facade
 	{
@@ -61,11 +63,13 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.SEND_MEDIA_POPUP_STARTUP, SendMediaStartupCommand );
             registerCommand( CommandConstants.SLIDE_EDITOR_STARTUP, SlideEditorStartupCommand );
             registerCommand( CommandConstants.PUBLISH_PRESENTATION_STARTUP, PublishPresentationStartupCommand );
+            registerCommand( CommandConstants.COMMENT_LIST_STARTUP, PublishPresentationStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.SEND_FILE_POPUP_DISPOSE, SendFilePopUpDisposeCommand );
             registerCommand( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, SendMediaDisposeCommand );
             registerCommand( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, PublishPresentationDisposeCommand );
+            registerCommand( CommandConstants.COMMENT_LIST_DISPOSE, CommentListDisposeCommand );
         }
         
         /**
@@ -83,13 +87,15 @@ package br.com.optimedia.autor
         	else if (app is SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_STARTUP, app );
         	else if (app is PresentationEditor) sendNotification( CommandConstants.SLIDE_EDITOR_STARTUP, app );
         	else if (app is PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_STARTUP, app );
+        	else if (app is CommentList) sendNotification( CommandConstants.COMMENT_LIST_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
         {
         	if (app == SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_DISPOSE, app );
-        	if (app == SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, app );
-        	if (app == PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, app );
+        	else if (app == SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, app );
+        	else if (app == PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, app );
+        	else if (app == CommentList) sendNotification( CommandConstants.COMMENT_LIST_DISPOSE, app );
         }
 	}
 }
