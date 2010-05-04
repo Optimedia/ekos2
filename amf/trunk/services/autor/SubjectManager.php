@@ -32,22 +32,39 @@ class SubjectManager extends SqlManager {
 	 * - Retorna: Array - SubjectVO
 	 * .
 	 */
-	public function getSubjects() {
-		
-		$sql = "SELECT * FROM ath_subject ORDER BY subject_id";
-		$query = parent::doSelect ( $sql );
-		
-		$subject = new SubjectVO ( );
-		$subjectArray = array ();
-		
-		while ( $subject = mysql_fetch_object ( $query, "SubjectVO" ) ) {
-			$subjectArray [] = $subject;
+	public function getSubjects($userID) {
+
+		if( $userID != 0 ) {
+			
+			$sql = "SELECT s.* FROM ath_subject s, ath_subject_user su WHERE s.subject_id=su.subject_id AND su.user_id=$userID ORDER BY subject_id";
+			$query = parent::doSelect ( $sql );
+			
+			$subject = new SubjectVO ( );
+			$subjectArray = array ();
+			
+			while ( $subject = mysql_fetch_object ( $query, "SubjectVO" ) ) {
+				$subjectArray [] = $subject;
+			}
+			
+			foreach ( $subjectArray as $subject ) {
+				$subject->presentationArray = $this->getPresentation ( $subject->subject_id );
+			}
 		}
-		
-		foreach ( $subjectArray as $subject ) {
-			$subject->presentationArray = $this->getPresentation ( $subject->subject_id );
-		}
-		
+		else {
+			$sql = "SELECT * FROM ath_subject ORDER BY subject_id";
+			$query = parent::doSelect ( $sql );
+			
+			$subject = new SubjectVO ( );
+			$subjectArray = array ();
+			
+			while ( $subject = mysql_fetch_object ( $query, "SubjectVO" ) ) {
+				$subjectArray [] = $subject;
+			}
+			
+			foreach ( $subjectArray as $subject ) {
+				$subject->presentationArray = $this->getPresentation ( $subject->subject_id );
+			}
+		}	
 		return $subjectArray;
 	}
 	
@@ -260,9 +277,15 @@ class SubjectManager extends SqlManager {
 	public function deletePresentation($presentation_id) {
 		$condition = "presentation_id=$presentation_id";
 		
-		return parent::doDelete ( $condition, "ath_presentation" );
+		$result = parent::doDelete ( $condition, "ath_presentation" );
 		
-	// FINISH DO DELETE SLIDES
+		$condition = "presentation_id=$presentation_id";
+		
+		if($result == true) {
+			return parent::doDelete($condition, "ath_slide");
+		} else {
+			return false;
+		}
 	}
 	
 	public function publishPresentation($presentationID, $sectionID, $presentationName) {

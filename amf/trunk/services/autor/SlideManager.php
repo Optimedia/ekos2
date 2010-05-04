@@ -125,7 +125,7 @@ class SlideManager extends SqlManager {
 		$query = parent::doSelect ( $sql );
 		
 		$slide = new SlideVO ( );
-		$slideArray = array ();
+		//$slideArray = array ();
 		
 		$slide = mysql_fetch_object ( $query, "SlideVO" );
 		$slide->mediaArray = $this->getMedias($slide->slide_id);
@@ -156,43 +156,51 @@ class SlideManager extends SqlManager {
 	
 	public function setOrder($allSlides) {
 		
-		$presentation_id = 0;
-		
-		foreach ( $allSlides as $slide ) {
-			$slide_id = $slide->slide_id;
-			$order = $slide->page_order;
-			$presentation_id = $slide->presentation_id;
-			
-			if ($slide->title == "" || $slide->title == null) {
-				$title = "Título";
-			} else {
-				$title = $slide->title;
-			}
-			
-			if ($slide->type_slide_id == 0) {
-				$type_slide_id = 2;
-			} else {
-				$type_slide_id = $slide->type_slide_id;
-			}
-			
-			if ($slide->header_id == 0) {
-				$header_id = 1;
-			} else {
-				$header_id = $slide->header_id;
-			}
-			
-			$tempArray = array ("page_order" => $order, "title" => $title, "type_slide_id" => $type_slide_id, "header_id" => $header_id );
-			
-			$condition = "slide_id=$slide_id";
-			
-			$result = parent::doUpdate ( $tempArray, $condition, $this->_table );
-			
-			if ($result != true) {
-				return false;
-			}
+		foreach( $allSlides as $slide ) {
+			$slide = $this->correctSlideName( $slide );
+			$this->saveSlide( $slide );
+			$presentationID = $slide->presentation_id;
 		}
 		
-		return $this->getSlides ( $presentation_id );
+		return $this->getSlides( $presentationID );
+		
+//		$presentation_id = 0;
+//		
+//		foreach ( $allSlides as $slide ) {
+//			$slide_id = $slide->slide_id;
+//			$order = $slide->page_order;
+//			$presentation_id = $slide->presentation_id;
+//			
+//			if ($slide->title == "" || $slide->title == null) {
+//				$title = "Título";
+//			} else {
+//				$title = $slide->title;
+//			}
+//			
+//			if ($slide->type_slide_id == 0) {
+//				$type_slide_id = 1;
+//			} else {
+//				$type_slide_id = $slide->type_slide_id;
+//			}
+//			
+//			if ($slide->header_id == 0) {
+//				$header_id = 1;
+//			} else {
+//				$header_id = $slide->header_id;
+//			}
+//			
+//			$tempArray = array ("page_order" => $order, "title" => $title, "type_slide_id" => $type_slide_id, "header_id" => $header_id );
+//			
+//			$condition = "slide_id=$slide_id";
+//			
+//			$result = parent::doUpdate ( $tempArray, $condition, $this->_table );
+//			
+//			if ($result != true) {
+//				return false;
+//			}
+//		}
+//		
+//		return $this->getSlides ( $presentation_id );
 	
 	}
 	
@@ -202,7 +210,40 @@ class SlideManager extends SqlManager {
 		
 		if ($slide->slide_id == 0) {
 			
-			return parent::doInsert ( $arrayTemp, $this->_table );
+			$allSlides = array();
+			$allSlides = $this->getSlides( $slide->presentation_id );
+			$currentPage = $slide->page_order;
+			
+			//move os slides necessários para frente na page_order
+			foreach ( $allSlides as $item ) {
+				if( $item->page_order == $currentPage ) {
+					$currentPage++;
+					$item->page_order = $currentPage;
+					
+					$item = $this->correctSlideName( $item );
+					
+					$this->saveSlide( $item );
+				}
+			}
+
+			if( parent::doInsert ( $arrayTemp, $this->_table ) ) {
+				return $this->getSlide( $this->insert_id );
+			}
+			// para desfazer a movimentação dos slides caso não consiga inserir o novo slide
+			else {
+				$currentPage = $slide->page_order+1;
+				foreach( $allSlides as $item ) {
+					if( $item->page_order == $currentPage ) {
+						$item->page_order = $currentPage-1;
+						
+						$item = $this->correctSlideName( $item );
+						
+						$this->saveSlide( $item );
+						$currentPage++;
+					}
+				}
+				return false;
+			}
 		} else {
 			
 			$condition = "slide_id=" . $slide->slide_id;
@@ -220,30 +261,56 @@ class SlideManager extends SqlManager {
 			}
 			
 			foreach ( $slide->mediaArray as $media_id ) {
-				
+				if( $media_id instanceof MediaVO ) {
+					$media_id = $media_id->media_id;
+				}
 				$this->saveMediaLink ( $media_id, $lastId );
 			}
 			
-			return true;
+			return $this->getSlide( $lastId );
 		}
-		
-		
-	
 	}
 	
-	public function saveMediaLink($media, $slideID) {
+	public function saveMediaLink($mediaID, $slideID) {
 		
-		$arrayTemp = array ("media_id" => $media, "slide_id" => $slideID );
+		$arrayTemp = array ("media_id" => $mediaID, "slide_id" => $slideID );
 		
 		return parent::doInsert ( $arrayTemp, "ath_link" );
 	}
 	
-	public function deleteSlide($slide_id) {
+	public function deleteSlide(SlideVO $slide) {
 		
-		$where = "slide_id = $slide_id";
+		$where = "slide_id = $slide->slide_id";
 		$table = "ath_slide";
 		
-		return parent::doDelete ( $where, $table );
+		if( parent::doDelete ( $where, $table ) ) {
+			$allSlides = $this->getSlides( $slide->presentation_id );
+			$currentPage = $slide->page_order+1;
+			foreach( $allSlides as $item ) {
+				if( $item->page_order == $currentPage ) {
+					$item->page_order = $currentPage-1;
+					if( stripos($item->title, "Novo Slide ") === 0 ) {
+						$item->title = "Novo Slide ".$item->page_order;
+					}
+					$this->saveSlide( $item );
+					$currentPage++;
+				}
+			}
+			return $this->getSlides( $slide->presentation_id );
+		}
+		else {
+			return false;
+		}
+		
+		//return parent::doDelete ( $where, $table );
 	}
-
+	
+	//para corrigir os nomes dos slides com título não editado e deixar o número do slide = ao número
+	//da page_order
+	private function correctSlideName( $slide ) {
+		if( stripos($slide->title, "Novo Slide ") === 0 ) {
+			$slide->title = "Novo Slide ".$slide->page_order;
+		}
+		return $slide;
+	}
 }
