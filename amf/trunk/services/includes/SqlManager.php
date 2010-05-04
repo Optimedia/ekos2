@@ -8,6 +8,7 @@
 			session_start();
 			mysql_connect($host, $user, $pass);
 			mysql_select_db($db);
+			mysql_query("SET NAMES 'utf8'");
 		}
 
 		/**
@@ -103,7 +104,6 @@
 			}
 			
 			$sql = "INSERT INTO ".$table." $fields $values";
-			
 			if(mysql_query($sql)) {
 				$this->insert_id = mysql_insert_id();
 				return true;
