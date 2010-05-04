@@ -15,13 +15,11 @@
 			public var slideArray:ArrayCollection = new ArrayCollection();
 			
 			private function init():void {
-				//this.addEventListener(MouseEvent.CLICK, clickHandler);
 				listCanvas.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
 				showEffect.play();
 			}
 			
 			public function removeMe():void {
-				//this.removeEventListener(MouseEvent.CLICK, clickHandler);
 				listCanvas.removeEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
 				listCanvas.removeEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
 				hideEffect.play();
@@ -54,7 +52,6 @@
 		<mx:Fade alphaFrom="1" alphaTo="0"/>
 	</mx:Parallel>
 	
-	<!-- <mx:GlowFilter id="glow" color="#798f9a"/> -->
 	<mx:GlowFilter id="glow" color="#ffffff" blurX="10" blurY="10"/>
 	
 	<mx:Canvas id="listCanvas" width="{list.width}" height="0" verticalScrollPolicy="off" horizontalScrollPolicy="off"
