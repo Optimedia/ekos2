@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="100%" height="100%"
+			xmlns:whiteboard="br.com.flexbrasilia.whiteboard.*"
+			creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.flexbrasilia.whiteboard.tools.MyEllipse;
+			import br.com.flexbrasilia.whiteboard.tools.MyRect;
+			import mx.events.NumericStepperEvent;
+			import mx.events.ColorPickerEvent;
+			import br.com.flexbrasilia.whiteboard.tools.MyPen;
+			import br.com.flexbrasilia.whiteboard.tools.DrawingTool;
+			
+			private var myPen:MyPen = new MyPen();
+			private var myRect:MyRect = new MyRect();
+			private var myEllipse:MyEllipse = new MyEllipse();
+			
+			private function init():void {
+				selectedTool = myPen;
+				penBtn.selected = true;
+			}
+			
+			private var _selectedTool:DrawingTool;
+			public function set selectedTool(tool:DrawingTool):void {
+				tool.fillAlpha = fillAlpha.value;
+				tool.fillColor = fillColor.selectedColor;
+				tool.lineAlpha = lineAlpha.value;
+				tool.lineColor = lineColor.selectedColor;
+				tool.lineStroke = lineStroke.value;
+				_selectedTool = tool;
+				whitePaper.selectedTool = _selectedTool;
+			}
+			public function get selectedTool():DrawingTool {
+				return _selectedTool;
+			}
+			
+			private function onLineColorChange():void {
+				var tool:DrawingTool = selectedTool;
+				tool.lineColor = lineColor.selectedColor;
+			}
+			
+			private function onLineStrokeChange():void {
+				var tool:DrawingTool = selectedTool;
+				tool.lineStroke = lineStroke.value;
+			}
+			
+			private function onLineAlphaChange():void {
+				var tool:DrawingTool = selectedTool;
+				tool.lineAlpha = lineAlpha.value;
+			}
+			
+			private function onFillColorChange():void {
+				var tool:DrawingTool = selectedTool;
+				tool.fillColor = fillColor.selectedColor;
+			}
+			
+			private function onFillAlphaChange():void {
+				var tool:DrawingTool = selectedTool;
+				tool.fillAlpha = fillAlpha.value;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<whiteboard:WhitePaper id="whitePaper" width="{this.width-40}" height="{this.height-60}" backgroundColor="#ffffff" backgroundAlpha="0.5"
+							horizontalCenter="0" top="10"/>
+	
+	<mx:ApplicationControlBar id="toolBar" bottom="10" horizontalCenter="0">
+		
+		<mx:Button id="penBtn" label="Lápis" click="selectedTool=myPen" toggle="true"/>
+		<mx:Button id="rectBtn" label="Retângulo" click="selectedTool=myRect" toggle="true"/>
+		<mx:Button id="ellipseBtn" label="Elipse" click="selectedTool=myEllipse" toggle="true"/>
+		
+		<mx:Label text="Linha" />
+		<mx:ColorPicker id="lineColor" change="onLineColorChange()" toolTip="Cor da linha" />
+		<mx:NumericStepper id="lineStroke" change="onLineStrokeChange()" toolTip="Espessura da linha" value="1"/>
+		<mx:NumericStepper id="lineAlpha" change="onLineAlphaChange()" minimum="0" maximum="1" stepSize="0.1" toolTip="Opacidade da linha" value="1"/>
+		
+		<mx:Label text="Preenchimento" />
+		<mx:ColorPicker id="fillColor" change="onFillColorChange()" toolTip="Cor de preenchimento" />
+		<mx:NumericStepper id="fillAlpha" change="onFillAlphaChange()" minimum="0" maximum="1" stepSize="0.1" toolTip="Opacidade do preenchimento" value="1" />
+
+	</mx:ApplicationControlBar>
+	
+</mx:Module>
