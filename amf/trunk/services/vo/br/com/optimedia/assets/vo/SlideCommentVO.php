@@ -7,6 +7,8 @@
 		public $body;
 		public $date;
 		
+		public $user_name;
+		
 		public $_explicitType = "br.com.optimedia.assets.vo.SlideCommentVO";
 		
 	}
