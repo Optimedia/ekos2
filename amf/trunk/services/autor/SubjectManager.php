@@ -357,7 +357,7 @@ class SubjectManager extends SqlManager {
 			
 			$userVO = mysql_fetch_object ( $query1, "CompleteUserVO" );
 			
-			return $userVO->first_name . " " . $userVO->last_name;
+			return $userVO;
 		}
 	}
 	

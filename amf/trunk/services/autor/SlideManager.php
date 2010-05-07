@@ -4,6 +4,7 @@ require_once '../includes/SqlManager.php';
 require_once '../vo/br/com/optimedia/assets/vo/SlideVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/MediaVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/PresentationVO.php';
+require_once '../vo/br/com/optimedia/assets/vo/SlideCommentVO.php';
 
 class SlideManager extends SqlManager {
 	
@@ -296,6 +297,10 @@ class SlideManager extends SqlManager {
 					$currentPage++;
 				}
 			}
+
+			$table1 = "ath_slide_comment";
+			parent::doDelete ( $where, $table1 );
+			
 			return $this->getSlides( $slide->presentation_id );
 		}
 		else {
@@ -312,5 +317,51 @@ class SlideManager extends SqlManager {
 			$slide->title = "Novo Slide ".$slide->page_order;
 		}
 		return $slide;
+	}
+	
+	public function getSlideComments( $slideID ) {
+		$sql = "SELECT * FROM ath_slide_comment WHERE slide_id=$slideID ORDER BY date ASC";
+		$query = parent::doSelect ( $sql );
+		
+		$slideComment = new SlideCommentVO ( );
+		$slideCommentArray = array ();
+		
+		while ( $slideComment = mysql_fetch_object ( $query, "SlideCommentVO" ) ) {
+			
+			$sql1 = "SELECT first_name, last_name FROM eko_user WHERE user_id = $slideComment->user_id";
+			
+			$query1 = parent::doSelect ( $sql1 );
+			$user = mysql_fetch_assoc ( $query1 );
+			
+			$slideComment->user_name = $user['first_name'] . " " . $user['last_name'];
+			
+			$data = $slideComment->date;
+			
+			list ($ano,$mes,$dia,$hora,$minuto,$segundo) = split ('[-.:. ./]', $data);
+			
+			$slideComment->date = "$dia/$mes/$ano $hora:$minuto";
+			
+			$slideCommentArray [] = $slideComment;
+		}
+		
+		return $slideCommentArray;
+	}
+	
+	public function saveSlideComment(SlideCommentVO $comment) {
+		
+		$arrayTemp = array ("user_id" => $comment->user_id, "slide_id" => $comment->slide_id, "body" => $comment->body );
+		
+		return parent::doInsert ( $arrayTemp, "ath_slide_comment" );
+		
+	}
+	
+	public function deleteSlideComment( $commentID ) {
+		
+		$where = "slide_comment_id = $commentID";
+		
+		$table = "ath_slide_comment";
+		
+		return parent::doDelete ( $where, $table );
+		
 	}
 }

@@ -82,7 +82,10 @@
 		public function uploadMediaFile(FileVO $file, MediaVO $media, $subject_id) {
 			
 			$data = $file->filedata->data;
-			$filename = mt_rand() . $file->filename;
+			
+			$finalName = preg_replace( "/[^aA-zZ0-9\-_\.]+/i", "", $file->filename);
+
+			$filename = mt_rand() . $finalName;
 			file_put_contents( 'mediafiles/' . $filename, $data);
 			
 			$arrayMedia = array	('title' => $media -> title,
