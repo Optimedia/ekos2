@@ -1,41 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" verticalScrollPolicy="off" horizontalScrollPolicy="off"
-	creationComplete="init()" layout="vertical" showCloseButton="true">
-	
+	creationComplete="init()" layout="vertical" showCloseButton="true" width="500" height="600">
+	<mx:states>
+		<mx:State name="1">
+			<!--<mx:SetProperty target="{newCommentBtn}" name="includeInLayout" value="false"/>-->
+			<mx:SetProperty target="{newCommentBtn}" name="visible" value="false"/>
+			<!--<mx:SetProperty target="{newCommentTextArea}" name="includeInLayout" value="true"/>-->
+			<mx:SetProperty target="{newCommentTextArea}" name="visible" value="true"/>
+			<!--<mx:SetProperty target="{newCommentHBox}" name="includeInLayout" value="true"/>-->
+			<mx:SetProperty target="{newCommentHBox}" name="visible" value="true"/>
+		</mx:State>
+	</mx:states>
+
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
 			import br.com.optimedia.autor.AutorFacade;
+			
+			public static const DELETE_COMMENT_EVENT:String = 'DELETE_COMMENT_EVENT';
 			
 			private var facade:AutorFacade = AutorFacade.getInstance();
 			
+			public var slideID:int;
+			
+			[Bindable]
+			public var commentListDataProvider:ArrayCollection = new ArrayCollection();
+			
 			private function init():void {
-				facade.startup( this );
+				PopUpManager.centerPopUp( this );
+				if( slideID != 0 ) {
+					facade.startup( this );
+				}
+				else {
+					Alert.show("É necessário informar o ID do slide", "Atenção");
+					removeMe();
+				}
+			}
+			
+			public function removeMe():void {
+				PopUpManager.removePopUp( this );
+				System.gc();
+			}
+			
+			public function deleteComment( commentID:int ):void {
+				Alert.noLabel = "Não";
+				Alert.yesLabel = "Sim";
+				Alert.show("Tem certeza que deseja excluir o comentário selecionado?", "Atenção", 3, null, alertCloseHandler );
+				function alertCloseHandler(event:CloseEvent):void {
+					if(event.detail == Alert.YES) {
+						dispatchEvent( new ResultEvent(DELETE_COMMENT_EVENT, false, true, commentID) );
+					}
+				}
 			}
 			
 		]]>
 	</mx:Script>
 	
-	<mx:List id="commentList" width="100%" height="100%">
+	<mx:Fade id="fadeEffect"/>
+	
+	<mx:Canvas width="100%" height="100%">
+	
+		<mx:List id="commentList" width="100%" height="100%" dataProvider="{commentListDataProvider}" selectable="false"
+			borderStyle="none" variableRowHeight="true">
+			
+			<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox backgroundColor="#000000" backgroundAlpha="0.2" horizontalAlign="center">
+					<mx:Script>
+						<![CDATA[
+							import br.com.optimedia.autor.AutorFacade;
+							import br.com.optimedia.assets.ImgAssets;
+							import br.com.optimedia.assets.vo.SlideCommentVO;
+							
+							private var facade:AutorFacade = AutorFacade.getInstance();
+							
+						]]>
+					</mx:Script>
+					
+					<mx:HBox width="100%">
+						<mx:Label text="{SlideCommentVO(data).user_name}"/>
+						<mx:Spacer width="100%" />
+						<mx:Label text="{SlideCommentVO(data).date}" color="#ffffff"/>
+						<mx:LinkButton id="deleteCommentBtn" icon="{ImgAssets.crosscircle}"
+							visible="{facade.userID == data.user_id || facade.userRole == AutorFacade.IS_ADMIN}"
+							includeInLayout="{facade.userID == data.user_id || facade.userRole == AutorFacade.IS_ADMIN}"
+							click="parentDocument.deleteComment( data.slide_comment_id )"/>
+					</mx:HBox>
+					
+					<mx:HRule width="95%"/>
+					
+					<mx:TextArea width="100%" text="{SlideCommentVO(data).body}" editable="false" paddingLeft="20"
+						borderStyle="none" backgroundAlpha="0"/>
+					
+				</mx:VBox>
+			</mx:Component>
+			</mx:itemRenderer>
+			
+		</mx:List>
 		
-		<mx:itemRenderer>
-		<mx:Component>
-			<mx:VBox>
-				<mx:Script>
-					<![CDATA[
-						import br.com.optimedia.assets.vo.SlideCommentVO;
-					]]>
-				</mx:Script>
-				
-				<mx:HBox width="100%">
-					<mx:Label text="{data.user_name}" />
-					<mx:Spacer width="100%" />
-					<mx:Label text="{data.date}" />
-				</mx:HBox>
-				
-			</mx:VBox>
-		</mx:Component>
-		</mx:itemRenderer>
+		<mx:Text id="noCommentsText" text="Nenhum comentário" horizontalCenter="0" verticalCenter="0"/>
 		
-	</mx:List>
+	</mx:Canvas>
+	
+	<mx:Canvas width="100%">
+		<mx:Button id="newCommentBtn" label="Novo comentário" click="this.currentState='1'"
+			showEffect="{fadeEffect}" hideEffect="{fadeEffect}" bottom="5" left="5"/>
+		<mx:VBox width="100%">
+			<mx:TextArea id="newCommentTextArea" maxChars="200" width="100%" visible="false"
+				text="Deixe seu comentário"
+				click="(newCommentTextArea.text=='Deixe seu comentário')?newCommentTextArea.text='':null"
+				focusOut="(newCommentTextArea.text=='')?(newCommentTextArea.text='Deixe seu comentário'):null"
+				showEffect="{fadeEffect}" hideEffect="{fadeEffect}"/>
+		
+			<mx:HBox id="newCommentHBox" width="100%" visible="false"
+				showEffect="{fadeEffect}" hideEffect="{fadeEffect}">
+				<mx:Text text="{200-newCommentTextArea.text.length} caracteres restantes" visible="{newCommentTextArea.text!='Deixe seu comentário'}"
+					hideEffect="{fadeEffect}" showEffect="{fadeEffect}"/>
+				<mx:Spacer width="100%"/>
+				<mx:Button label="Cancelar" id="cancelBtn"
+					click="this.currentState=''; newCommentTextArea.text='Deixe seu comentário'"/>
+				<mx:Button label="Salvar" id="saveBtn"/>
+			</mx:HBox>
+		</mx:VBox>
+	</mx:Canvas>
 	
 </mx:TitleWindow>

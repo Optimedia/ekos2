@@ -17,6 +17,7 @@ package br.com.optimedia.assets
 		public static const UPLOAD_MEDIA_FILE_RESULT:String = "UPLOAD_MEDIA_FILE_RESULT";
 		public static const UPLOAD_MEDIA_TEXT_RESULT:String = "UPLOAD_MEDIA_TEXT_RESULT";
 		public static const BEGIN_PRESENTATION_EDIT:String = "BEGIN_PRESENTATION_EDIT";
+		//public static const BEGIN_PRESENTATION_VIEW:String = "BEGIN_PRESENTATION_VIEW";
 		public static const BACK_TO_SUBJECT_MANAGER:String = "BACK_TO_SUBJECT_MANAGER";
 		public static const DELETE_MEDIA_OK:String = "DELETE_MEDIA_OK";
 		public static const GET_SLIDES_OK:String = "GET_SLIDES_OK";
@@ -31,5 +32,10 @@ package br.com.optimedia.assets
 		public static const SAVE_SLIDE_RESULT:String = "SAVE_SLIDE_RESULT";
 		public static const DO_LINK_EVENT:String = "DO_LINK_EVENT";
 		public static const GET_PRESENTATION_FOR_PLAYER:String = "GET_PRESENTATION_FOR_PLAYER";
+		public static const SAVE_SLIDE_COMMENT_RESULT:String = "SAVE_SLIDE_COMMENT_RESULT";
+		public static const DELETE_SLIDE_COMMENT_RESULT:String = "DELETE_SLIDE_COMMENT_RESULT";
+		public static const GET_SLIDE_COMMENTS_RESULT:String = "GET_SLIDE_COMMENTS_RESULT";
+		public static const ENABLE_SLIDE_EDITION:String = "ENABLE_SLIDE_EDITION";
+		public static const DISABLE_SLIDE_EDITION:String = "DISABLE_SLIDE_EDITION";
 	}
 }

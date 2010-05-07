@@ -257,7 +257,7 @@
 	        			movie.skinAutoHide = true;
 						
 						popUp.addChild( aux );
-						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); })
+						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); movie.loaderInfo.loader.close(); })
 						PopUpManager.addPopUp( popUp, this, false, PopUpManagerChildList.POPUP );
 						PopUpManager.centerPopUp( popUp );
 						aux.width = movie.width;

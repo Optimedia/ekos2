@@ -1,5 +1,7 @@
 package br.com.optimedia.assets.vo
 {
+	import flash.utils.ByteArray;
+	
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.SlideCommentVO")]
 	
 	public class SlideCommentVO
@@ -9,7 +11,7 @@ package br.com.optimedia.assets.vo
 		public var slide_id:uint;
 		public var user_id:uint;
 		public var body:String;
-		public var date:Date;
+		public var date:String;
 		
 		public var user_name:String;
 		

@@ -268,7 +268,6 @@
 					</mx:Component>
 					</mx:itemRenderer>
 				</mx:DataGridColumn>
-				<!--<mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />-->
 				<mx:DataGridColumn headerText="Slides" labelFunction="{slidesNumLabelFunction}" width="50" textAlign="center" />
 				<mx:DataGridColumn headerText="Opções" width="150" textAlign="center" visible="{userRole==AutorFacade.IS_ADMIN || userRole==AutorFacade.IS_AUTHOR}">
 					<mx:itemRenderer>
@@ -324,7 +323,8 @@
 							<mx:LinkButton icon="{ImgAssets.editIcon}" click="parentDocument.editItem(data)"
 									toolTip="Editar Tema" visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
 							<mx:LinkButton icon="{ImgAssets.deleteIcon}" click="parentDocument.deleteItem(data)"
-									toolTip="Remover Tema" visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
+									toolTip="Remover Tema"
+									visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
 							<mx:LinkButton icon="{iconFunction(data)}" click="parentDocument.showPublishPopUp(data)"
 									toolTip="{toolTipFunction(data)}" visible="{parentDocument.userRole!=AutorFacade.IS_EDITOR}"/>
 							<mx:LinkButton icon="{lockIconFunction(data)}" click="parentDocument.togleLock(data)"

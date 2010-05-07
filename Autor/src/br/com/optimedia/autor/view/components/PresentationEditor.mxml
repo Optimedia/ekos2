@@ -3,6 +3,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.PopUpManager;
 			import mx.controls.textClasses.TextRange;
 			import br.com.optimedia.assets.vo.SlideVO;
 			import br.com.optimedia.assets.vo.PresentationVO;
@@ -13,6 +14,7 @@
 			[Bindable]
 			public var currentSlide:SlideVO;
 			
+			[Bindable]
 			private var _presentationVO:PresentationVO = new PresentationVO();
 			public function set presentationVO(value:PresentationVO):void {
 				_presentationVO = value;
@@ -67,6 +69,12 @@
 				}
 			}
 			
+			private function showCommentList():void {
+				var popUp:CommentList = new CommentList();
+				popUp.slideID = currentSlide.slide_id;
+				PopUpManager.addPopUp(popUp, this, true);
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -76,7 +84,7 @@
 		
 		<mx:ViewStack id="viewStack" width="100%" height="100%" creationPolicy="all" change="onViewChange()">
 			
-			<mx:Panel layout="vertical" width="100%" height="100%" backgroundAlpha="0">
+			<mx:Panel layout="vertical" width="100%" height="100%" backgroundAlpha="0" title="{_presentationVO.title}">
 	
 				<local:PlayerModule id="playerModule" width="800" height="512" mode="PREVIEW_MODE"/>
 				
@@ -89,7 +97,7 @@
 					
 					<mx:Spacer width="100%" />
 					
-					<mx:Button label="Comentários" id="commentsBtn"/>
+					<mx:Button label="Comentários" id="commentsBtn" click="showCommentList()"/>
 				
 				</mx:ControlBar>
 				

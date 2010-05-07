@@ -9,8 +9,10 @@ package br.com.optimedia.autor.view
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
+	import flash.utils.Timer;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -18,8 +20,6 @@ package br.com.optimedia.autor.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import flash.utils.Timer;
-	import flash.events.TimerEvent;
 
 	public class SubjectManagerMediator extends Mediator
 	{
@@ -108,7 +108,6 @@ package br.com.optimedia.autor.view
 					break;
 				case NotificationConstants.LOCK_PRESENTATION_OK:
 					subjectManagerProxy.getSubjects();
-					//sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
 					break;
 				case NotificationConstants.GET_SKINS_RESULT:
 					view.presentationSkins = new ArrayCollection( note.getBody() as Array );
@@ -139,16 +138,31 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function slideEditBtnClick(event:MouseEvent):void {
-			if( view.userRole == AutorFacade.IS_OBSERVER ) {
+			if( AutorFacade(facade).userRole != AutorFacade.IS_OBSERVER ) {
+				sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+				subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
+				getSubjectsTimer.stop();
+			}
+			else {
+				sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+				sendNotification( NotificationConstants.DISABLE_SLIDE_EDITION, 0 );
+				//subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
+				getSubjectsTimer.stop();
+			}
+			
+			/* if( view.userRole == AutorFacade.IS_OBSERVER ) {
 				navigateToURL( new URLRequest('http://www.educar.tv/sinase.moodle/interactive/observer.php?presentation='+PresentationVO(view.presentationGrid.selectedItem).presentation_id) );
 			}
 			else {
 				if( PresentationVO(view.presentationGrid.selectedItem).locked_by == 0 || PresentationVO(view.presentationGrid.selectedItem).locked_by == view.userID ) {
 					sendNotification( NotificationConstants.BEGIN_PRESENTATION_EDIT, PresentationVO(view.presentationGrid.selectedItem) );
+					subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
 				}
-				subjectManagerProxy.lockPresentation( PresentationVO(view.presentationGrid.selectedItem).presentation_id, AutorFacade(facade).userID );
-			}
-			getSubjectsTimer.stop();
+				else {
+					sendNotification( NotificationConstants.BEGIN_PRESENTATION_VIEW, PresentationVO(view.presentationGrid.selectedItem) );
+				}
+				getSubjectsTimer.stop();
+			} */
 		}
 		
 		private function getSkins(event:MouseEvent):void {

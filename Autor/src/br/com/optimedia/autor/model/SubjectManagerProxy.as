@@ -2,6 +2,7 @@ package br.com.optimedia.autor.model
 {
 	import br.com.optimedia.assets.FaultHandler;
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.vo.CompleteUserVO;
 	import br.com.optimedia.assets.vo.PresentationVO;
 	import br.com.optimedia.assets.vo.SubjectVO;
 	import br.com.optimedia.autor.AutorFacade;
@@ -159,12 +160,15 @@ package br.com.optimedia.autor.model
 		private function lockPresentationResult(event:ResultEvent):void {
 			if( event.result == true ) {
 				sendNotification( NotificationConstants.LOCK_PRESENTATION_OK );
+				sendNotification( NotificationConstants.ENABLE_SLIDE_EDITION);
 			}
-			else if( event.result is String ) {
-				Alert.show("Esta apresentação está bloqueada por "+event.result, "Erro");
+			else if( event.result is CompleteUserVO ) {
+				Alert.show("Esta apresentação está bloqueada por "+CompleteUserVO(event.result).first_name+" "+CompleteUserVO(event.result).last_name+". Você não poderá editar os Slides.", "Erro");
+				sendNotification( NotificationConstants.DISABLE_SLIDE_EDITION, CompleteUserVO(event.result).user_id );
 			}
 			else if( event.result == false ) {
 				Alert.show("Erro ao bloquear apresentação", "Erro");
+				sendNotification( NotificationConstants.DISABLE_SLIDE_EDITION, CompleteUserVO(event.result).user_id );
 			}
 		}
 		
