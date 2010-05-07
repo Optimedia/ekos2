@@ -2,6 +2,8 @@ package br.com.optimedia.autor
 {
 	import br.com.optimedia.assets.CommandConstants;
 	import br.com.optimedia.autor.controller.AutorStartupCommand;
+	import br.com.optimedia.autor.controller.CommentListDisposeCommand;
+	import br.com.optimedia.autor.controller.CommentListStartupCommand;
 	import br.com.optimedia.autor.controller.ModelStartupCommand;
 	import br.com.optimedia.autor.controller.PublishPresentationDisposeCommand;
 	import br.com.optimedia.autor.controller.PublishPresentationStartupCommand;
@@ -12,16 +14,15 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.controller.SendMediaStartupCommand;
 	import br.com.optimedia.autor.controller.SlideEditorStartupCommand;
 	import br.com.optimedia.autor.controller.SubjectManagerStartupCommand;
+	import br.com.optimedia.autor.view.components.CommentList;
+	import br.com.optimedia.autor.view.components.PresentationEditor;
 	import br.com.optimedia.autor.view.components.PublishPresentationPopUp;
 	import br.com.optimedia.autor.view.components.RepositoryPanel;
 	import br.com.optimedia.autor.view.components.SendFilePopUp;
 	import br.com.optimedia.autor.view.components.SendMediaPopUp;
-	import br.com.optimedia.autor.view.components.PresentationEditor;
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
-	import br.com.optimedia.autor.view.components.CommentList;
-	import br.com.optimedia.autor.controller.CommentListDisposeCommand;
 
 	public class AutorFacade extends Facade
 	{
@@ -63,7 +64,7 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.SEND_MEDIA_POPUP_STARTUP, SendMediaStartupCommand );
             registerCommand( CommandConstants.SLIDE_EDITOR_STARTUP, SlideEditorStartupCommand );
             registerCommand( CommandConstants.PUBLISH_PRESENTATION_STARTUP, PublishPresentationStartupCommand );
-            registerCommand( CommandConstants.COMMENT_LIST_STARTUP, PublishPresentationStartupCommand );
+            registerCommand( CommandConstants.COMMENT_LIST_STARTUP, CommentListStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.SEND_FILE_POPUP_DISPOSE, SendFilePopUpDisposeCommand );
@@ -92,10 +93,10 @@ package br.com.optimedia.autor
         
         public function dispose( app:Object ):void
         {
-        	if (app == SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_DISPOSE, app );
-        	else if (app == SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, app );
-        	else if (app == PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, app );
-        	else if (app == CommentList) sendNotification( CommandConstants.COMMENT_LIST_DISPOSE, app );
+        	if (app is SendFilePopUp) sendNotification( CommandConstants.SEND_FILE_POPUP_DISPOSE, app );
+        	else if (app is SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, app );
+        	else if (app is PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, app );
+        	else if (app is CommentList) sendNotification( CommandConstants.COMMENT_LIST_DISPOSE, app );
         }
 	}
 }

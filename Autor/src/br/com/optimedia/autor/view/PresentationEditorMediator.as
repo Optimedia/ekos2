@@ -4,6 +4,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.assets.vo.MediaVO;
 	import br.com.optimedia.assets.vo.PresentationVO;
 	import br.com.optimedia.assets.vo.SlideVO;
+	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.PresentationEditor;
@@ -15,11 +16,11 @@ package br.com.optimedia.autor.view
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import flash.sampler.getInvocationCount;
 
 	public class PresentationEditorMediator extends Mediator
 	{
@@ -64,7 +65,9 @@ package br.com.optimedia.autor.view
 					NotificationConstants.DO_LINK_EVENT,
 					NotificationConstants.ADD_NEW_SLIDE_RESULT,
 					NotificationConstants.DELETE_SLIDE_RESULT,
-					NotificationConstants.SET_SLIDE_ORDER_RESULT];
+					NotificationConstants.SET_SLIDE_ORDER_RESULT,
+					NotificationConstants.ENABLE_SLIDE_EDITION,
+					NotificationConstants.DISABLE_SLIDE_EDITION];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -77,6 +80,33 @@ package br.com.optimedia.autor.view
 					view.playerModule.visible = false;
 					view.repositoryPanel.linkBtn.visible = false;
 					view.playerModule.setSlide( ArrayCollection(view.presentationVO.slidesArray).getItemAt(0) as SlideVO );
+					view.newSlideBtn.enabled = false;
+					view.slideEditBtn.enabled = false;
+					view.slideRemoveBtn.enabled = false;
+					view.setOrderBtn.enabled = false;
+					view.repositoryPanel.deleteBtn.enabled = false;
+					break;
+				case NotificationConstants.ENABLE_SLIDE_EDITION:
+					view.presentationVO.locked_by = AutorFacade(facade).userID;
+					view.newSlideBtn.enabled = true;
+					view.slideEditBtn.enabled = true;
+					view.slideRemoveBtn.enabled = true;
+					view.setOrderBtn.enabled = true;
+					view.repositoryPanel.deleteBtn.enabled = true;
+					break;
+				case NotificationConstants.DISABLE_SLIDE_EDITION:
+					view.presentationVO.locked_by = note.getBody() as int;
+					view.newSlideBtn.enabled = false;
+					view.slideEditBtn.enabled = false;
+					view.slideRemoveBtn.enabled = false;
+					view.setOrderBtn.enabled = false;
+					view.repositoryPanel.deleteBtn.enabled = false;
+					if( AutorFacade(facade).userRole == AutorFacade.IS_OBSERVER ) {
+						view.repositoryPanel.addBtn.enabled = false;
+					}
+					else {
+						view.repositoryPanel.addBtn.enabled = true;
+					}
 					break;
 				case NotificationConstants.GET_SLIDES_OK:
 					view.presentationVO.slidesArray = note.getBody() as Array;
@@ -86,7 +116,7 @@ package br.com.optimedia.autor.view
 						view.slideRemoveBtn.enabled = false;
 					}
 					else {
-						view.slideRemoveBtn.enabled = true;
+						view.slideRemoveBtn.enabled = view.newSlideBtn.enabled;
 					}
 					break;
 				case NotificationConstants.UNLOCK_PRESENTATION_OK:
@@ -137,7 +167,12 @@ package br.com.optimedia.autor.view
 		}
 		
 		private function backBtnClick(e:Event):void {
-			subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
+			if( AutorFacade(facade).userID == view.presentationVO.locked_by ) {
+				subjectManagerProxy.unlockPresentation( view.presentationVO.presentation_id );
+			}
+			else {
+				sendNotification( NotificationConstants.BACK_TO_SUBJECT_MANAGER );
+			}
 			view.viewStack.selectedIndex = 0;
 		}
 		
@@ -157,7 +192,14 @@ package br.com.optimedia.autor.view
 			view.viewStack.selectedIndex++;
 		}
 		private function deleteSlide(e:Event):void {
-			slideManagerProxy.deleteSlide( view.currentSlide );
+			Alert.noLabel = "Não";
+			Alert.yesLabel = "Sim";
+			Alert.show("Tem certeza que deseja remover este slide?", "Atenção", 3, null, deleteSlideAlertHandler);
+			function deleteSlideAlertHandler(e:CloseEvent):void {
+				if( e.detail == Alert.YES ) {
+					slideManagerProxy.deleteSlide( view.currentSlide );
+				}
+			}
 		}
 		private function setOrder(e:Event):void {
 			var setOrderPopUp:SetOrderPopUp = new SetOrderPopUp();

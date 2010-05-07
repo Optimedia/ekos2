@@ -58,12 +58,10 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.BEGIN_PRESENTATION_EDIT:
-					//view.presentationID = PresentationVO( note.getBody() ).presentation_id;
 					view.subjectID = PresentationVO( note.getBody() ).subject_id;
 					proxy.getMedias( view.subjectID );
 					break;
 				case NotificationConstants.GET_MEDIAS_RESULT:
-					//view.hd.source = note.getBody() as Array;
 					view.mediaXml = new ArrayCollection(note.getBody() as Array);
 					view.mediaTree.validateNow();
 					for (var i:int = 0; i < view.mediaXml.length; i ++){ 

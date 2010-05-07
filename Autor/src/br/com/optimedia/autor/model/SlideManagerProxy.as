@@ -2,8 +2,10 @@ package br.com.optimedia.autor.model
 {
 	import br.com.optimedia.assets.FaultHandler;
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.vo.SlideCommentVO;
 	import br.com.optimedia.assets.vo.SlideVO;
 	
+	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -12,7 +14,6 @@ package br.com.optimedia.autor.model
 	import mx.rpc.remoting.mxml.RemoteObject;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
-	import mx.collections.ArrayCollection;
 
 	public class SlideManagerProxy extends Proxy
 	{
@@ -95,6 +96,39 @@ package br.com.optimedia.autor.model
 		private function saveSlideResult(event:ResultEvent):void {
 			if( event.result is SlideVO ) {
 				sendNotification( NotificationConstants.SAVE_SLIDE_RESULT, event.result );
+			}
+		}
+		
+		public function saveSlideComment( slideComment:SlideCommentVO ):void {
+			var asynkToken:AsyncToken = remoteService.saveSlideComment( slideComment );
+			asynkToken.addResponder( new Responder(saveSlideCommentResult, generalFault) );
+		}
+		private function saveSlideCommentResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.SAVE_SLIDE_COMMENT_RESULT, event.result );
+			}
+		}
+		
+		public function getSlideComments( slideID:int ):void {
+			var asynkToken:AsyncToken = remoteService.getSlideComments( slideID );
+			asynkToken.addResponder( new Responder(getSlideCommentsResult, generalFault) );
+		}
+		private function getSlideCommentsResult(event:ResultEvent):void {
+			if( event.result is Array ) {
+				sendNotification( NotificationConstants.GET_SLIDE_COMMENTS_RESULT, event.result );
+			}
+		}
+		
+		public function deleteSlideComment( commentID:int ):void {
+			var asynkToken:AsyncToken = remoteService.deleteSlideComment( commentID );
+			asynkToken.addResponder( new Responder(deleteSlideCommentResult, generalFault) );
+		}
+		private function deleteSlideCommentResult(event:ResultEvent):void {
+			if( event.result == true ) {
+				sendNotification( NotificationConstants.DELETE_SLIDE_COMMENT_RESULT, event.result );
+			}
+			else {
+				Alert.show("Não foi possível remover o comentário, tente novamente", "Erro");
 			}
 		}
 	}

@@ -17,7 +17,7 @@ package br.com.optimedia.assets
 					Alert.show('Erro no código PHP ou de Include', 'Erro');
 					break;
 				case 'AMFPHP_RUNTIME_ERROR':
-					Alert.show('Erro no código PHP'+event.fault, 'Erro');
+					Alert.show('Erro no código PHP, por favor reporte esse erro para a Optimedia com detalhes de qual operação você não conseguiu executar.   '+event.fault, 'Erro');
 					break;
 					
 				default:

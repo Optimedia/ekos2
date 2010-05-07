@@ -5,6 +5,9 @@ package br.com.optimedia.assets
 		[Embed('img/trashIcon.png')]
 		public static const deleteIcon:Class;
 		
+		[Embed('img/crosscircle.png')]
+		public static const crosscircle:Class;
+		
 		[Embed('img/editIcon.png')]
 		public static const editIcon:Class;
 		

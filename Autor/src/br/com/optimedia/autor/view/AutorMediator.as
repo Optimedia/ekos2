@@ -3,9 +3,6 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.autor.AutorFacade;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
-	import br.com.optimedia.autor.view.components.PresentationEditor;
-	
-	import flash.events.Event;
 	
 	import mx.controls.Alert;
 	import mx.rpc.events.FaultEvent;
@@ -47,7 +44,7 @@ package br.com.optimedia.autor.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
-					NotificationConstants.BACK_TO_SUBJECT_MANAGER];
+					NotificationConstants.BACK_TO_SUBJECT_MANAGER]
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -79,8 +76,8 @@ package br.com.optimedia.autor.view
 			var roleID:int = event.result.roleID;
 			var userID:int = event.result.userID;
 			//HABILITE ESSAS DUAS VARIÁVEIS PARA TESTAR LOCALMENTE
-			roleID = 1;
 			userID = 10;
+			roleID = 1;
 			//SE NÃO ESTIVER LOGADO NO MOODLE
 			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
