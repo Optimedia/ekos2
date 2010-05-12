@@ -20,8 +20,6 @@ package br.com.optimedia.player.view
 		
 		private var proxy:PlayerSlideManagerProxy;
 		
-		//private var slidesArray:ArrayCollection = new ArrayCollection();
-		
 		public function PlayerModuleMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
@@ -63,23 +61,6 @@ package br.com.optimedia.player.view
 			{
 				case NotificationConstants.GET_PRESENTATION_FOR_PLAYER:
 					setSlidesArray( new ArrayCollection( note.getBody() as Array ) );
-					/* view.slidesArray = new ArrayCollection( note.getBody() as Array );
-					if( view.slidesArray.length <= 1 ) {
-						Alert.show("Não há slides nesta apresentação");
-						view.enabled = false;
-					}
-					else {
-						if( view.slideID == 0 ) {
-							view.setSlide( view.slidesArray[0] as SlideVO );
-						}
-						else {
-							for each( var slide:SlideVO in view.slidesArray ) {
-								if( slide.slide_id == view.slideID ) {
-									view.setSlide( slide );
-								}
-							}
-						}
-					} */
 					break;
 				default:
 					break;
@@ -111,7 +92,6 @@ package br.com.optimedia.player.view
 			var end:IBrowserManager = BrowserManager.getInstance(); 
 			end.init();
 			var url:String;
-			//url = end.url.replace('#', '');
 			url = end.url.split("#")[0]+"&s="+view.slideID;
 			Alert.show(url, "Link para este slide:");
 		}

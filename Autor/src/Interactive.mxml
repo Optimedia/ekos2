@@ -23,8 +23,8 @@
 				idSlide = end.url.split("s=")[1];
 				
 				// VALORES APENAS PARA TESTE
-				idPresentation = 102;
-				Alert.show("modo teste");
+				//idPresentation = 102;
+				//Alert.show("modo teste");
 				
 				var playerModule:PlayerModule = new PlayerModule();
 				
