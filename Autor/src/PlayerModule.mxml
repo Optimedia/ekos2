@@ -122,7 +122,6 @@
 					indexBtn.label = 'Slide '+int(slideVO.page_order)+'/'+slidesArray.length.toString();
 				}
 				else if(mode == PLAYER_MODE) {
-					/* indexBtn.label = 'Slide '+int(slideVO.page_order+1)+'/'+slidesArray.length.toString(); */
 					indexBtn.label = 'Slide '+int(getSlideIndex(slideVO.slide_id)+1)+'/'+slidesArray.length.toString();
 				}
 				
@@ -257,7 +256,7 @@
 	        			movie.skinAutoHide = true;
 						
 						popUp.addChild( aux );
-						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); movie.loaderInfo.loader.close(); })
+						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); });
 						PopUpManager.addPopUp( popUp, this, false, PopUpManagerChildList.POPUP );
 						PopUpManager.centerPopUp( popUp );
 						aux.width = movie.width;

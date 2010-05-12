@@ -40,10 +40,52 @@ var requiredMinorVersion = ${version_minor};
 var requiredRevision = ${version_revision};
 // -----------------------------------------------------------------------------
 // -->
+
+function unlockPresentation(){
+
+//	alert(window.location.host);
+	if(window.location.host == "www.educar.tv"){
+		//alert('A apresentação foi desbloqueada.');
+		window.navigate("http://www.educar.tv/amf/services/autor/DoPresentationUnlock.php");
+		return;
+	}
+	else {
+		//alert('A apresentação foi desbloqueada.');
+		window.navigate("http://10.1.1.10/amf/services/autor/DoPresentationUnlock.php");
+	}
+	
+	delay();
+}
+function delay() {
+	var milliseconds = 10000;
+	
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > milliseconds){
+		  break;
+		}
+	}
+	console.log(new Date());
+	
+	naptime = 10000;
+	var sleeping = true;
+	
+	var now = new Date();
+	var alarm;
+	var startingMSeconds = now.getTime();
+	//alert("starting nap at timestamp: " + startingMSeconds + "\nWill sleep for: " + naptime + " ms");
+	while(sleeping){
+		alarm = new Date();
+		alarmMSeconds = alarm.getTime();
+		if(alarmMSeconds - startingMSeconds > naptime){ sleeping = false; }
+	}
+	//alert('wake');
+}
+
 </script>
 </head>
 
-<body scroll="no">
+<body scroll="no" onbeforeunload="unlockPresentation()" onunload="unlockPresentation()">
 <script language="JavaScript" type="text/javascript">
 <!--
 // Version check for the Flash Player that has the ability to start Player Product Install (6.0r65)
