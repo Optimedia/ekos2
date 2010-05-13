@@ -33,6 +33,8 @@ class SubjectManager extends SqlManager {
 	 * .
 	 */
 	public function getSubjects($userID) {
+		
+		$_SESSION['userID'] = $userID;
 
 		if( $userID != 0 ) {
 			
@@ -337,15 +339,14 @@ class SubjectManager extends SqlManager {
 			$locked = false;
 		} else {
 			$locked = true;
+			
 		}
 		
 		if ($locked == false) {
-			/*$array = array ('locked_by' => $userID,
-								'locked_at' => 'NOW()');
-					
-				$condition = "presentation_id = ".$presentationID;*/
 			
 			$sql = "UPDATE ath_presentation SET locked_at = NOW(), locked_by = $userID WHERE presentation_id = $presentationID";
+			
+			$_SESSION['presentationID'] = $presentationID;
 			
 			return mysql_query ( $sql );
 			
@@ -363,6 +364,8 @@ class SubjectManager extends SqlManager {
 	
 	public function unlockPresentation($presentationID) {
 		$sql = "UPDATE ath_presentation SET locked_at = NOW(), locked_by = 0 WHERE presentation_id = $presentationID";
+
+		$_SESSION['presentationID'] = 0;
 		
 		return mysql_query ( $sql );
 	}
