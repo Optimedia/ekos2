@@ -42,10 +42,10 @@ package br.com.optimedia.autor.model
 		}
 		
 		public function getSubjects():void {
-			var userID:int = 0;
-			if( AutorFacade(facade).userRole == AutorFacade.IS_EDITOR ) {
+			var userID:int;
+			//if( AutorFacade(facade).userRole == AutorFacade.IS_EDITOR ) {
 				userID = AutorFacade(facade).userID;
-			}
+			//}
 			var asynkToken:AsyncToken = remoteService.getSubjects(userID);
 			asynkToken.addResponder( new Responder(getSubjectsResult, generalFault) );
 		}

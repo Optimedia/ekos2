@@ -6,6 +6,10 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import br.com.optimedia.player.PlayerFacade;
 			import mx.controls.Alert;
 			import mx.managers.IBrowserManager;
 			import mx.managers.BrowserManager;
@@ -22,15 +26,40 @@
 				end.init();
 				idSlide = end.url.split("s=")[1];
 				
+				//desabilitar o log da navegação caso tenha aberto o player de um link de mídia
+				if( idSlide == 0 ) {
+					var facade:PlayerFacade = PlayerFacade.getInstance();
+					facade.allowNavigationLog = true;
+				}
+				
 				// VALORES APENAS PARA TESTE
-				//idPresentation = 102;
-				//Alert.show("modo teste");
+				idPresentation = 102;
+				Alert.show("modo teste");
 				
+				start();
+			}
+			
+			private function start():void {
+				var service:HTTPService = new HTTPService();
+				service.url = 'http://www.educar.tv/sinase.moodle/autor/whoami.php';
+				service.resultFormat = "e4x";
+				service.showBusyCursor = true;
+				service.addEventListener(ResultEvent.RESULT, resultHandler);
+				service.addEventListener(FaultEvent.FAULT, faultHandler);
+				service.send();
+			}
+			private function resultHandler(event:ResultEvent):void {
+				// trocar estas linhas para teste ou real
+				PlayerFacade.getInstance().userID = event.result.userID;
+				//PlayerFacade.getInstance().userID = 10;
+
 				var playerModule:PlayerModule = new PlayerModule();
-				
 				this.addChild( playerModule );
 				
 				playerModule.start(idPresentation, idSlide);
+			}
+			private function faultHandler(event:FaultEvent):void {
+				trace(event);
 			}
 			
 		]]>

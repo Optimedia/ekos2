@@ -2,6 +2,7 @@ package br.com.optimedia.player.model
 {
 	import br.com.optimedia.assets.FaultHandler;
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.vo.SlideVO;
 	
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -44,68 +45,30 @@ package br.com.optimedia.player.model
 			}
 		}
 		
-		/* public function getSlides(presentationID:uint):void {
-			var asynkToken:AsyncToken = remoteService.getSlides(presentationID);
-			asynkToken.addResponder( new Responder(getSlidesResult, generalFault) );
+		public function registerNavigation(userID:int, presentationID:int, slideID:int):void {
+			var asynkToken:AsyncToken = remoteService.registerNavigation(userID, presentationID, slideID);
+			asynkToken.addResponder( new Responder(registerNavigationResult, generalFault) );
 		}
-		private function getSlidesResult(event:ResultEvent):void {
-			if( event.result is Array ) {
-				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
-			}
-		}
-		private function getSlidesResult(event:ResultEvent):void {
-			if( event.result is Array ) {
-				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
-			}
-		}
-		private function getSlidesResult(event:ResultEvent):void {
-			if( event.result is Array ) {
-				sendNotification( NotificationConstants.GET_SLIDES_OK, event.result );
-			}
-		}
-		
-		public function addNewSlide(slideVO:SlideVO):void {
-			//slideVO.title = "Título";
-			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
-			asynkToken.addResponder( new Responder(addNewSlideResult, generalFault) );
-		}
-		private function addNewSlideResult(event:ResultEvent):void {
+		private function registerNavigationResult(event:ResultEvent):void {
 			if( event.result == true ) {
-				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
-			}
-			else if( event.result is SlideVO ) {
-				sendNotification( NotificationConstants.ADD_NEW_SLIDE_RESULT, event.result );
+				trace("registerNavigationResult");
 			}
 		}
 		
-		public function setOrder(slideArray:Array):void {
-			var asynkToken:AsyncToken = remoteService.setOrder(slideArray);
-			asynkToken.addResponder( new Responder(setOrderResult, generalFault) );
+		public function getLastViewedSlide(userID:int, presentationID:int):void {
+			var asynkToken:AsyncToken = remoteService.getLastViewedSlide(userID, presentationID);
+			asynkToken.addResponder( new Responder(getLastViewedSlideResult, generalFault) );
 		}
-		private function setOrderResult(event:ResultEvent):void {
-			if( event.result is Array ) {
-				sendNotification( NotificationConstants.SET_SLIDE_ORDER_RESULT, event.result );
+		private function getLastViewedSlideResult(event:ResultEvent):void {
+			if( event.result is SlideVO ) {
+				var slideID:int = SlideVO(event.result).slide_id;
+				sendNotification( NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT, slideID );
+			}
+			else {
+				sendNotification( NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT, 0 );
+				trace("getLastViewedSlideResult == false");
 			}
 		}
 		
-		public function deleteSlide(slideVO:SlideVO):void {
-			var asynkToken:AsyncToken = remoteService.deleteSlide(slideVO.slide_id);
-			asynkToken.addResponder( new Responder(deleteSlideResult, generalFault) );
-		}
-		private function deleteSlideResult(event:ResultEvent):void {
-			if( event.result == true ) {
-				sendNotification( NotificationConstants.DELETE_SLIDE_RESULT );
-			}
-		}
-		
-		public function saveSlide(slideVO:SlideVO):void {
-			var asynkToken:AsyncToken = remoteService.saveSlide(slideVO);
-			asynkToken.addResponder( new Responder(saveSlideResult, generalFault) );
-		}
-		private function saveSlideResult(event:ResultEvent):void {
-			if( event.result == true ) {
-				sendNotification( NotificationConstants.SAVE_SLIDE_RESULT, event.result );
-			}
-		} */
 	}
 }

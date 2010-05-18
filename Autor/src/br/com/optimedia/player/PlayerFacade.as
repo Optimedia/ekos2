@@ -8,6 +8,10 @@ package br.com.optimedia.player
 
 	public class PlayerFacade extends Facade
 	{
+		public var allowNavigationLog:Boolean = false;
+		
+		public var userID:int;
+		
 		public function PlayerFacade(key:String)
 		{
 			super(key);
