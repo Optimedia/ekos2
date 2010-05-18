@@ -2,6 +2,7 @@ package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.assets.CommandConstants;
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.StripHtmlTags;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.PublishPresentationPopUp;
 	
@@ -53,7 +54,16 @@ package br.com.optimedia.autor.view
 			switch (note.getName())
 			{
 				case NotificationConstants.GET_SECTIONS_RESULT:
-					view.sectionsArray = note.getBody() as Array;
+					var array:Array = note.getBody() as Array;
+					var newArray:Array = [];
+					for each( var item:Object in array ) {
+						var obj:Object = new Object();
+						obj.section_id = item.section_id;
+						obj.title = StripHtmlTags.strip( item.title );
+						//var aux:String = StripHtmlTags.strip( item.title );
+						newArray.push( obj );
+					}
+					view.sectionsArray = newArray;
 					break;
 				case NotificationConstants.PUBLISH_PRESENTATION_OK:
 					Alert.show("Tema publicado com sucesso", "OK");

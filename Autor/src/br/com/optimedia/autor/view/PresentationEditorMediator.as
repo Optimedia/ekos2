@@ -148,7 +148,13 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.DELETE_SLIDE_RESULT:
 					var newSlideArray:ArrayCollection = new ArrayCollection( note.getBody() as Array );
 					var pageIndex:int = view.currentSlide.page_order-1;
-					var newSlide:SlideVO = newSlideArray.getItemAt( pageIndex ) as SlideVO;
+					var newSlide:SlideVO;
+					if( pageIndex == newSlideArray.length ) {
+						newSlide = newSlideArray.getItemAt( pageIndex-1 ) as SlideVO;
+					}
+					else {
+						newSlide = newSlideArray.getItemAt( pageIndex ) as SlideVO;
+					}
 					view.presentationVO.slidesArray = newSlideArray;
 					view.playerModule.slidesArray = newSlideArray;
 					view.playerModule.setSlide( newSlide );

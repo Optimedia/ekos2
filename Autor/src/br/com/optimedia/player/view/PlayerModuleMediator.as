@@ -2,6 +2,7 @@ package br.com.optimedia.player.view
 {
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.SlideVO;
+	import br.com.optimedia.player.PlayerFacade;
 	import br.com.optimedia.player.model.PlayerSlideManagerProxy;
 	
 	import flash.events.MouseEvent;
@@ -34,11 +35,17 @@ package br.com.optimedia.player.view
 			proxy = facade.retrieveProxy( PlayerSlideManagerProxy.NAME ) as PlayerSlideManagerProxy;
 			
 			if( view.mode == PlayerModule.PLAYER_MODE ) {
-				proxy.getPresentation( view.presentationID );
+				getLastViewedSlide();
+				//proxy.getPresentation( view.presentationID );
+				if( PlayerFacade(facade).allowNavigationLog ) {
+					view.prevBtn.addEventListener(MouseEvent.CLICK, registerNavigation);
+					view.nextBtn.addEventListener(MouseEvent.CLICK, registerNavigation);
+				}
 			}
 			else if( view.mode == PlayerModule.PREVIEW_MODE ) {
 				view.urlBtn.visible = false;
 			}
+			
 		}
 		
 		override public function onRemove():void {
@@ -52,7 +59,8 @@ package br.com.optimedia.player.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.GET_PRESENTATION_FOR_PLAYER];
+			return [NotificationConstants.GET_PRESENTATION_FOR_PLAYER,
+					NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -61,6 +69,10 @@ package br.com.optimedia.player.view
 			{
 				case NotificationConstants.GET_PRESENTATION_FOR_PLAYER:
 					setSlidesArray( new ArrayCollection( note.getBody() as Array ) );
+					break;
+				case NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT:
+					view.slideID = note.getBody() as int;
+					proxy.getPresentation( view.presentationID );
 					break;
 				default:
 					break;
@@ -94,6 +106,14 @@ package br.com.optimedia.player.view
 			var url:String;
 			url = end.url.split("#")[0]+"&s="+view.slideID;
 			Alert.show(url, "Link para este slide:");
+		}
+		
+		private function registerNavigation(e:MouseEvent):void {
+			proxy.registerNavigation(PlayerFacade(facade).userID, view.presentationID, view.slideID);
+		}
+		
+		private function getLastViewedSlide():void {
+			proxy.getLastViewedSlide(PlayerFacade(facade).userID, view.presentationID);
 		}
 	}
 }

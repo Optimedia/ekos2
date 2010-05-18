@@ -57,7 +57,7 @@
 	<mx:TextInput id="titleTextInput" text="{presentationVO.title}"	editable="false" x="55" y="8" width="255"/>
 	<mx:Label text="Setor" x="13" y="36"/>
 	<mx:ComboBox id="sectionComboBox" prompt="Escolha" dataProvider="{sectionsArray}" labelField="title" x="55" y="34"
-				change="{saveBtn.enabled=true}"/>
+				change="{saveBtn.enabled=true}" maxWidth="255"/>
 	
 	<mx:Button label="Cancelar" id="cancelBtn" left="10" bottom="10"/>
 	<mx:Button label="Publicar" id="saveBtn" enabled="false" right="10" bottom="10"/>
