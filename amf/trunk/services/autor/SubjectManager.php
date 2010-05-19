@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/SqlManager.php';
+require_once '../vo/br/com/optimedia/assets/vo/UserVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/SubjectVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/PresentationVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/SlideVO.php';
@@ -35,8 +36,12 @@ class SubjectManager extends SqlManager {
 	public function getSubjects($userID) {
 		
 		$_SESSION['userID'] = $userID;
-
-		if( $userID != 0 ) {
+		
+		$sql = "SELECT * FROM eko_user WHERE user_id=$userID";
+		$query = parent::doSelect ( $sql );
+		$userVO = mysql_fetch_object ( $query, "UserVO" );
+		
+		if( $userID->role_id == 8 ) {
 			
 			$sql = "SELECT s.* FROM ath_subject s, ath_subject_user su WHERE s.subject_id=su.subject_id AND su.user_id=$userID ORDER BY subject_id";
 			$query = parent::doSelect ( $sql );
@@ -49,7 +54,7 @@ class SubjectManager extends SqlManager {
 			}
 			
 			foreach ( $subjectArray as $subject ) {
-				$subject->presentationArray = $this->getPresentation ( $subject->subject_id );
+				$subject->presentationArray = $this->getPresentations ( $subject->subject_id );
 			}
 		}
 		else {
@@ -64,7 +69,7 @@ class SubjectManager extends SqlManager {
 			}
 			
 			foreach ( $subjectArray as $subject ) {
-				$subject->presentationArray = $this->getPresentation ( $subject->subject_id );
+				$subject->presentationArray = $this->getPresentations ( $subject->subject_id );
 			}
 		}	
 		return $subjectArray;
@@ -76,7 +81,7 @@ class SubjectManager extends SqlManager {
 	 * - Retorna: Array - PresentationVO
 	 * .
 	 */
-	public function getPresentation($subjectID) {
+	public function getPresentations($subjectID) {
 		
 		$sql = "SELECT * FROM ath_presentation WHERE subject_id = $subjectID ORDER BY presentation_id";
 		$query = parent::doSelect ( $sql );
@@ -157,14 +162,27 @@ class SubjectManager extends SqlManager {
 					return false;
 				}
 				
-				return parent::doInsert ( $arraySubject, $this->_table );
+				if( parent::doInsert ( $arraySubject, $this->_table ) ) {
+					// ###############################################################
+					// LOG
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 'subject_id' => $this->insert_id, 'type_event' => 1 );
+					return parent::doInsert ( $arrayLog, 'ath_log_subject' );
+					//FIM LOG
+					// ###############################################################
+				}
 			
 			} else {
 				
 				$condition = "subject_id = " . $subject->subject_id;
 				
-				return parent::doUpdate ( $arraySubject, $condition, $this->_table );
-			
+				if( parent::doUpdate ( $arraySubject, $condition, $this->_table ) ) {
+					// ###############################################################
+					// LOG
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 'subject_id' => $subject->subject_id, 'type_event' => 3 );
+					return parent::doInsert ( $arrayLog, 'ath_log_subject' );
+					//FIM LOG
+					// ###############################################################
+				}
 			}
 		} else {
 			return false;
@@ -198,7 +216,14 @@ class SubjectManager extends SqlManager {
 				// Adicionar presentation no bd;								  
 				if (parent::doInsert ( $arrayPresentation, "ath_presentation" )) {
 					$arraySlide = array ("type_slide_id" => 2, "presentation_id" => $this->insert_id, "header_id" => 1, "page_order" => 0, "title" => 'Título', "title_menu" => '', "text_body" => '', "status" => 0 );
-					return parent::doInsert ( $arraySlide, "ath_slide" );
+					if( parent::doInsert ( $arraySlide, "ath_slide" ) ) {
+						// ###############################################################
+						// LOG
+						$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $this->insert_id, 'type_event' => 1, 'description' => 'novo' );
+						return parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+						//FIM LOG
+						// ###############################################################
+					}
 				}
 				
 				return false;
@@ -219,22 +244,29 @@ class SubjectManager extends SqlManager {
 
 				// Verificando se a presentation está liberada.
 				//if($tempPresentation -> locked_by == null and $tempPresentation -> locked_at == null) {
-				$sql = "SELECT * FROM ath_presentation WHERE presentation_id=" . $presentation->presentation_id;
-				$query = $this->doSelect ( $sql );
-				
-				$presentationVO = mysql_fetch_object ( $query, "PresentationVO" );
-				
-				if ($presentationVO->locked_by == 0 || $presentationVO->locked_by == $userID) {
-					$locked = false;
-				} else {
-					$locked = true;
+					$sql = "SELECT * FROM ath_presentation WHERE presentation_id=" . $presentation->presentation_id;
+					$query = $this->doSelect ( $sql );
+					
+					$presentationVO = mysql_fetch_object ( $query, "PresentationVO" );
+					
+					if ($presentationVO->locked_by == 0 || $presentationVO->locked_by == $userID) {
+						$locked = false;
+					} else {
+						$locked = true;
 				}
 				
 				if ($locked == false) {
 					$condition = "presentation_id =" . $presentation->presentation_id;
 					
 					// Atualizar presentation no bd;
-					return parent::doUpdate ( $arrayPresentation, $condition, "ath_presentation" );
+					if( parent::doUpdate ( $arrayPresentation, $condition, "ath_presentation" ) ) {
+						// ###############################################################
+						// LOG
+						$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentation->presentation_id, 'type_event' => 3, 'description' => 'editou' );
+						return parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+						//FIM LOG
+						// ###############################################################
+					}
 				
 				} else {
 					return $presentationVO->first_name . " " . $presentationVO->last_name;
@@ -270,8 +302,14 @@ class SubjectManager extends SqlManager {
 			// Deletar subject
 			$condition = "subject_id=$subject_id";
 			
-			return parent::doDelete ( $condition, $this->_table );
-		
+			if( parent::doDelete ( $condition, $this->_table ) ) {
+				// ###############################################################
+				// LOG
+				$arrayLog = array ('user_id' => $_SESSION['userID'], 'subject_id' => $subject_id, 'type_event' => 2 );
+				return parent::doInsert ( $arrayLog, 'ath_log_subject' );
+				//FIM LOG
+				// ###############################################################
+			}
 		}
 	
 	}
@@ -284,7 +322,14 @@ class SubjectManager extends SqlManager {
 		$condition = "presentation_id=$presentation_id";
 		
 		if($result == true) {
-			return parent::doDelete($condition, "ath_slide");
+			if( parent::doDelete($condition, "ath_slide") ) {
+				// ###############################################################
+				// LOG
+				$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentation_id, 'type_event' => 2, 'description' => 'delete' );
+				return parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+				//FIM LOG
+				// ###############################################################
+			}
 		} else {
 			return false;
 		}
@@ -299,7 +344,28 @@ class SubjectManager extends SqlManager {
 		if (parent::doUpdate ( $array, $condition, "ath_presentation" ) == true) {
 			require_once 'ResourceHandler.php';
 			$resourceHandler = new ResourceHandler ( );
-			return $resourceHandler->insertResource ( $presentationID, $sectionID, $presentationName );
+			if( $resourceHandler->insertResource ( $presentationID, $sectionID, $presentationName ) ) {
+				// ###############################################################
+				// LOG
+				if($_SERVER['SERVER_ADDR'] == "74.54.27.146") {
+					$host = "74.54.27.146:3309";
+					$user = "root";
+					$pass = "0pt1m3d14SQL";
+					$db = "ekos2";
+				} else {
+					$host = "10.1.1.10";
+					$user = "opti";
+					$pass = "opti";
+					$db = "ekos2";
+				}
+				
+				parent::SqlManager ( $host, $user, $pass, $db );
+				
+				$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentationID, 'type_event' => 3, 'description' => 'publicou' );
+				return parent::doInsert ( $arrayLog, 'ekos2.ath_log_presentation' );
+				//FIM LOG
+				// ###############################################################
+			}
 		}
 	}
 	
@@ -311,7 +377,27 @@ class SubjectManager extends SqlManager {
 		if (parent::doUpdate ( $array, $condition, "ath_presentation" ) == true) {
 			require_once 'ResourceHandler.php';
 			$resourceHandler = new ResourceHandler ( );
-			return $resourceHandler->removeResource ( $sectionID, $presentationID );
+			if( $resourceHandler->removeResource ( $sectionID, $presentationID ) ) {
+				// ###############################################################
+				// LOG
+				if($_SERVER['SERVER_ADDR'] == "74.54.27.146") {
+					$host = "74.54.27.146:3309";
+					$user = "root";
+					$pass = "0pt1m3d14SQL";
+					$db = "ekos2";
+				} else {
+					$host = "10.1.1.10";
+					$user = "opti";
+					$pass = "opti";
+					$db = "ekos2";
+				}
+				
+				parent::SqlManager ( $host, $user, $pass, $db );
+				$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentationID, 'type_event' => 3, 'description' => 'despublicou' );
+				return parent::doInsert ( $arrayLog, 'ekos2.ath_log_presentation' );
+				//FIM LOG
+				// ###############################################################
+			}
 		}
 	}
 	
@@ -348,6 +434,13 @@ class SubjectManager extends SqlManager {
 			
 			$_SESSION['presentationID'] = $presentationID;
 			
+			// ###############################################################
+			// LOG
+			$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentationID, 'type_event' => 3, 'description' => 'lock' );
+			parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+			//FIM LOG
+			// ###############################################################
+			
 			return mysql_query ( $sql );
 			
 		//return parent::doUpdate($array, $condition, "ath_presentation");
@@ -366,6 +459,13 @@ class SubjectManager extends SqlManager {
 		$sql = "UPDATE ath_presentation SET locked_at = NOW(), locked_by = 0 WHERE presentation_id = $presentationID";
 
 		$_SESSION['presentationID'] = 0;
+		
+		// ###############################################################
+		// LOG
+		$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentationID, 'type_event' => 3, 'description' => 'unlock' );
+		parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+		//FIM LOG
+		// ###############################################################
 		
 		return mysql_query ( $sql );
 	}
