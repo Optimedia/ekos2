@@ -163,46 +163,14 @@ class SlideManager extends SqlManager {
 			$presentationID = $slide->presentation_id;
 		}
 		
-		return $this->getSlides( $presentationID );
+		// ###############################################################
+		// LOG
+		$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentationID, 'type_event' => 3, 'description' => 'setOrder' );
+		parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+		//FIM LOG
+		// ###############################################################
 		
-//		$presentation_id = 0;
-//		
-//		foreach ( $allSlides as $slide ) {
-//			$slide_id = $slide->slide_id;
-//			$order = $slide->page_order;
-//			$presentation_id = $slide->presentation_id;
-//			
-//			if ($slide->title == "" || $slide->title == null) {
-//				$title = "Título";
-//			} else {
-//				$title = $slide->title;
-//			}
-//			
-//			if ($slide->type_slide_id == 0) {
-//				$type_slide_id = 1;
-//			} else {
-//				$type_slide_id = $slide->type_slide_id;
-//			}
-//			
-//			if ($slide->header_id == 0) {
-//				$header_id = 1;
-//			} else {
-//				$header_id = $slide->header_id;
-//			}
-//			
-//			$tempArray = array ("page_order" => $order, "title" => $title, "type_slide_id" => $type_slide_id, "header_id" => $header_id );
-//			
-//			$condition = "slide_id=$slide_id";
-//			
-//			$result = parent::doUpdate ( $tempArray, $condition, $this->_table );
-//			
-//			if ($result != true) {
-//				return false;
-//			}
-//		}
-//		
-//		return $this->getSlides ( $presentation_id );
-	
+		return $this->getSlides( $presentationID );
 	}
 	
 	public function saveSlide(SlideVO $slide) {
@@ -228,7 +196,14 @@ class SlideManager extends SqlManager {
 			}
 
 			if( parent::doInsert ( $arrayTemp, $this->_table ) ) {
-				return $this->getSlide( $this->insert_id );
+				// ###############################################################
+				// LOG
+				$slideID = $this->insert_id;
+				$arrayLog = array ('user_id' => $_SESSION['userID'], 'slide_id' => $slideID, 'type_event' => 1 );
+				parent::doInsert ( $arrayLog, 'ath_log_slide' );
+				//FIM LOG
+				// ###############################################################
+				return $this->getSlide( $slideID );
 			}
 			// para desfazer a movimentação dos slides caso não consiga inserir o novo slide
 			else {
@@ -251,6 +226,13 @@ class SlideManager extends SqlManager {
 			$lastId = $slide->slide_id;
 			
 			$result = parent::doUpdate ( $arrayTemp, $condition, $this->_table );
+			
+			// ###############################################################
+			// LOG
+			$arrayLog = array ('user_id' => $_SESSION['userID'], 'slide_id' => $slide->slide_id, 'type_event' => 3 );
+			parent::doInsert ( $arrayLog, 'ath_log_slide' );
+			//FIM LOG
+			// ###############################################################
 			
 			$where = "slide_id=$lastId";
 			$table = "ath_link";
@@ -285,6 +267,12 @@ class SlideManager extends SqlManager {
 		$table = "ath_slide";
 		
 		if( parent::doDelete ( $where, $table ) ) {
+			// ###############################################################
+			// LOG
+			$arrayLog = array ('user_id' => $_SESSION['userID'], 'slide_id' => $slide->slide_id, 'type_event' => 2 );
+			parent::doInsert ( $arrayLog, 'ath_log_slide' );
+			//FIM LOG
+			// ###############################################################
 			$allSlides = $this->getSlides( $slide->presentation_id );
 			$currentPage = $slide->page_order+1;
 			foreach( $allSlides as $item ) {
@@ -363,5 +351,35 @@ class SlideManager extends SqlManager {
 		
 		return parent::doDelete ( $where, $table );
 		
+	}
+	
+	public function registerNavigation($userID, $presentationID, $slideID) {
+		
+		$arrayTemp = array ("user_id" => $userID, "presentation_id" => $presentationID, "slide_id" => $slideID );
+		
+		return parent::doInsert ( $arrayTemp, "ath_log_navigation" );
+		
+	}
+	
+	public function getLastViewedSlide($userID, $presentationID) {
+		$slide = new SlideVO ( );
+		
+		$sql = "SELECT * FROM ath_log_navigation WHERE user_id=$userID AND presentation_id=$presentationID ORDER BY date DESC LIMIT 1";
+		$query = parent::doSelect ( $sql );
+		$result = mysql_fetch_assoc ( $query );
+
+		if( $result ) {
+			$sql = "SELECT * FROM ath_slide WHERE slide_id=".$result['slide_id'];
+			$query = parent::doSelect ( $sql );
+			
+			$slide = mysql_fetch_object ( $query, "SlideVO" );
+			
+			if( $slide ) {
+				return $slide;
+			}
+		}
+		else {
+			return false;
+		}
 	}
 }

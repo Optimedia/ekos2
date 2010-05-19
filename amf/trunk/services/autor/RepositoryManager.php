@@ -25,20 +25,6 @@
 		}
 		
 		public function getMedias($subject_id) {
-			/*
-			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE a.media_id=m.media_id AND a.presentation_id=$presentation_id";
-			
-			$result = parent::doSelect($sql);
-			
-			$arrayMedia = array();
-			$media = new MediaVO();
-			
-			while($media = mysql_fetch_object($result, "MediaVO")) {
-				$arrayMedia[] = $media;
-			}
-			
-			return $arrayMedia;
-			*/
 			
 			$sql = "SELECT * FROM mda_category";
 			$result = parent::doSelect($sql);
@@ -74,7 +60,14 @@
 			
 			$arrayPresentation = array ($type => $filename);
 			$condition = "presentation_id = ".$presentationID;
-			return parent::doUpdate($arrayPresentation, $condition, 'ath_presentation');
+			if( parent::doUpdate($arrayPresentation, $condition, 'ath_presentation') ) {
+				// ###############################################################
+				// LOG
+				$arrayLog = array ('user_id' => $_SESSION['userID'], 'presentation_id' => $presentationID, 'type_event' => 3, 'description' => 'uploadPresentationFile' );
+				return parent::doInsert ( $arrayLog, 'ath_log_presentation' );
+				//FIM LOG
+				// ###############################################################
+			}
 			
 			//return $filename;
 		}
@@ -100,7 +93,14 @@
 				$array = array	('media_id' => $mediaID,
 								 'subject_id' => $subject_id);
 				
-				return parent::doInsert($array, 'ath_media');
+				if( parent::doInsert($array, 'ath_media') ) {
+					// ###############################################################
+					// LOG
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 'media_id' => $mediaID, 'type_event' => 1 );
+					return parent::doInsert ( $arrayLog, 'ath_log_media' );
+					//FIM LOG
+					// ###############################################################
+				}
 			}
 			
 			return false;
@@ -119,7 +119,14 @@
 				$array = array	('media_id' => $mediaID,
 								 'subject_id' => $subject_id);
 				
-				return parent::doInsert($array, 'ath_media');
+				if( parent::doInsert($array, 'ath_media') ) {
+					// ###############################################################
+					// LOG
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 'media_id' => $mediaID, 'type_event' => 1 );
+					return parent::doInsert ( $arrayLog, 'ath_log_media' );
+					//FIM LOG
+					// ###############################################################
+				}
 			}
 			
 			return false;
@@ -143,7 +150,14 @@
 				$where = "media_id=$media_id";
 				$table = "mda_media";
 				
-				return parent::doDelete($where, $table);
+				if( parent::doDelete($where, $table) ) {
+					// ###############################################################
+					// LOG
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 'media_id' => $media_id, 'type_event' => 2 );
+					return parent::doInsert ( $arrayLog, 'ath_log_media' );
+					//FIM LOG
+					// ###############################################################
+				}
 				
 			}
 			
