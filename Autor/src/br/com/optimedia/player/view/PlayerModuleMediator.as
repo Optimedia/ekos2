@@ -35,11 +35,13 @@ package br.com.optimedia.player.view
 			proxy = facade.retrieveProxy( PlayerSlideManagerProxy.NAME ) as PlayerSlideManagerProxy;
 			
 			if( view.mode == PlayerModule.PLAYER_MODE ) {
-				getLastViewedSlide();
-				//proxy.getPresentation( view.presentationID );
 				if( PlayerFacade(facade).allowNavigationLog ) {
+					getLastViewedSlide();
 					view.prevBtn.addEventListener(MouseEvent.CLICK, registerNavigation);
 					view.nextBtn.addEventListener(MouseEvent.CLICK, registerNavigation);
+				}
+				else {
+					proxy.getPresentation( view.presentationID );
 				}
 			}
 			else if( view.mode == PlayerModule.PREVIEW_MODE ) {
