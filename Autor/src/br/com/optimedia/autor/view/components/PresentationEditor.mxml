@@ -40,9 +40,6 @@
 			
 			private function onViewChange():void {
 				if(viewStack.selectedIndex == 0) {
-					/* currentSlide.title = titleTextInput.text;
-					currentSlide.text_body = bodyTextArea.htmlText;
-					playerModule.setSlide( currentSlide ); */
 					repositoryPanel.linkBtn.enabled = false;
 					repositoryPanel.linkBtn.visible = false;
 					repositoryPanel.mediaTree.selectedIndex = -1;
