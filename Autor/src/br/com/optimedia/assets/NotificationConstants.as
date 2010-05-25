@@ -37,6 +37,9 @@ package br.com.optimedia.assets
 		public static const GET_SLIDE_COMMENTS_RESULT:String = "GET_SLIDE_COMMENTS_RESULT";
 		public static const ENABLE_SLIDE_EDITION:String = "ENABLE_SLIDE_EDITION";
 		public static const DISABLE_SLIDE_EDITION:String = "DISABLE_SLIDE_EDITION";
+		public static const GET_QUESTION_RESULT:String = "GET_QUESTION_RESULT";
+		public static const CREATION_QUESTION_RESULT:String = "CREATION_QUESTION_RESULT";
 		public static const GET_LAST_VIEWED_SLIDE_RESULT:String = "GET_LAST_VIEWED_SLIDE_RESULT";
+
 	}
 }
