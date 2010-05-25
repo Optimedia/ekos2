@@ -9,7 +9,7 @@ package br.com.optimedia.assets.vo
 	public class QuestionItemVO
 	{
 		public var question_item_id:uint;
-		public var body:String;
+		public var name:String;
 		public var correct_answer:Boolean;
 		
 		public function clone():* {
