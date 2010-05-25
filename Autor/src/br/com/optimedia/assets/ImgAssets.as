@@ -52,6 +52,9 @@ package br.com.optimedia.assets
 		[Embed('img/fileIcon.png')]
 		public static const category7Icon:Class;
 		
+		[Embed('img/questionIcon.png')]
+		public static const category8Icon:Class;
+		
 		
 		//ÍCONES DA PREVIEW DO REPOSITÓRIO
 		[Embed('img/movieIconLarge.png')]
