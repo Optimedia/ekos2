@@ -2,6 +2,7 @@ package br.com.optimedia.player.model
 {
 	import br.com.optimedia.assets.FaultHandler;
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.vo.QuestionVO;
 	import br.com.optimedia.assets.vo.SlideVO;
 	
 	import mx.rpc.AsyncToken;
@@ -70,5 +71,14 @@ package br.com.optimedia.player.model
 			}
 		}
 		
+		public function getQuestion(questionID:int):void {
+			var asynkToken:AsyncToken = remoteService.getQuestion(questionID);
+			asynkToken.addResponder( new Responder(getQuestionResult, generalFault) );
+		}
+		private function getQuestionResult(event:ResultEvent):void {
+			if( event.result is QuestionVO ) {
+				sendNotification( NotificationConstants.GET_QUESTION_RESULT, event.result );
+			}
+       }
 	}
 }
