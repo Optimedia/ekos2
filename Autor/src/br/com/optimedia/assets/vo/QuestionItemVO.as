@@ -2,8 +2,6 @@ package br.com.optimedia.assets.vo
 {
 	import flash.utils.ByteArray;
 	
-	import mx.collections.ArrayCollection;
-	
 	[Bindable] [RemoteClass(alias="br.com.optimedia.assets.vo.QuestionItemVO")]
 	
 	public class QuestionItemVO
