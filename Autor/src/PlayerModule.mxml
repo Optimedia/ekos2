@@ -28,6 +28,9 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import br.com.optimedia.player.view.components.QuestionView;
+			import mx.core.Repeater;
 			import mx.core.IChildList;
 			import mx.managers.PopUpManagerChildList;
 			import mx.rpc.soap.LoadEvent;
@@ -54,6 +57,7 @@
 			import br.com.optimedia.player.PlayerFacade;
 			
 			public static const SET_SLIDE_EVENT:String = "SET_SLIDE_EVENT";
+			public static const GET_QUESTION_EVENT:String = "GET_QUESTION_EVENT";
 			
 			public static const PLAYER_MODE:String = "PLAYER_MODE";
 			public static const PREVIEW_MODE:String = "PREVIEW_MODE";
@@ -201,6 +205,10 @@
 							btn.setStyle("icon", ImgAssets.category7Icon);
 							btn.toolTip = "Baixar Arquivo";
 							break;
+						case 8:
+							btn.setStyle("icon", ImgAssets.category8Icon);
+							btn.toolTip = "Ver questão";
+							break;
 						default:
 							btn.setStyle("icon", ImgAssets.category3Icon);
 							btn.toolTip = "Abrir Mídia";
@@ -288,6 +296,22 @@
 						var url1:URLRequest = new URLRequest( 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
 						navigateToURL(url1,"_blank");
 						break;
+					case 8:
+						
+						var questionview:QuestionView = new QuestionView();
+						questionview.minWidth = 600;
+						questionview.minHeight = 400;
+						questionview.maxWidth =  slideVBox.width*0.96;
+						questionview.maxHeight = slideVBox.height*0.96;
+						
+						popUp.mediaVO=media;
+						popUp.addChild(questionview);
+						dispatchEvent( new ResultEvent(PlayerModule.GET_QUESTION_EVENT, false,true,popUp));
+					
+						PopUpManager.addPopUp( popUp, this, false, PopUpManagerChildList.POPUP );
+						PopUpManager.centerPopUp( popUp );
+						popUp.removeChild(popUp.loadingSwf);
+						break;	
 					default:
 						//imagens
 						var arq:Array = media.body.split(".");
