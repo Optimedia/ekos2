@@ -1,9 +1,12 @@
 package br.com.optimedia.player.view
 {
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.assets.vo.QuestionVO;
 	import br.com.optimedia.assets.vo.SlideVO;
 	import br.com.optimedia.player.PlayerFacade;
 	import br.com.optimedia.player.model.PlayerSlideManagerProxy;
+	import br.com.optimedia.player.view.components.MediaPopUp;
+	import br.com.optimedia.player.view.components.QuestionView;
 	
 	import flash.events.MouseEvent;
 	
@@ -11,6 +14,7 @@ package br.com.optimedia.player.view
 	import mx.controls.Alert;
 	import mx.managers.BrowserManager;
 	import mx.managers.IBrowserManager;
+	import mx.rpc.events.ResultEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -31,6 +35,7 @@ package br.com.optimedia.player.view
 			trace(NAME+".onRegister()");
 			
 			view.urlBtn.addEventListener(MouseEvent.CLICK, showURL);
+			view.addEventListener(PlayerModule.GET_QUESTION_EVENT,getQuestion);
 			
 			proxy = facade.retrieveProxy( PlayerSlideManagerProxy.NAME ) as PlayerSlideManagerProxy;
 			
@@ -62,7 +67,9 @@ package br.com.optimedia.player.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.GET_PRESENTATION_FOR_PLAYER,
+					NotificationConstants.GET_QUESTION_RESULT,
 					NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT];
+
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -71,6 +78,12 @@ package br.com.optimedia.player.view
 			{
 				case NotificationConstants.GET_PRESENTATION_FOR_PLAYER:
 					setSlidesArray( new ArrayCollection( note.getBody() as Array ) );
+					break;
+				case NotificationConstants.GET_QUESTION_RESULT:
+					var questionView:QuestionView = mediaPopUp.getChildByName(QuestionView.NAME) as QuestionView;
+					var questionVO:QuestionVO = note.getBody() as QuestionVO;
+					questionView.questionVO=questionVO;
+					//view.p( new ArrayCollection( note.getBody() as Array ) );
 					break;
 				case NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT:
 					view.slideID = note.getBody() as int;
@@ -108,6 +121,14 @@ package br.com.optimedia.player.view
 			var url:String;
 			url = end.url.split("#")[0]+"&s="+view.slideID;
 			Alert.show(url, "Link para este slide:");
+		}
+		
+		private var mediaPopUp:MediaPopUp;
+		
+		private function getQuestion(event:ResultEvent):void {
+			mediaPopUp=event.result as MediaPopUp;
+			proxy.getQuestion(mediaPopUp.mediaVO.media_id as int);
+			
 		}
 		
 		private function registerNavigation(e:MouseEvent):void {
