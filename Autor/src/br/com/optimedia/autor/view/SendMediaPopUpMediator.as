@@ -3,6 +3,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.assets.CommandConstants;
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.MediaVO;
+	import br.com.optimedia.assets.vo.QuestionVO;
 	import br.com.optimedia.autor.model.RepositoryManagerProxy;
 	import br.com.optimedia.autor.view.components.SendMediaPopUp;
 	
@@ -29,6 +30,7 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.addEventListener(SendMediaPopUp.UPLOAD_FILE_EVENT, uploadMediaFile);
 			view.addEventListener(SendMediaPopUp.UPLOAD_TEXT_EVENT, uploadMediaText);
+			view.addEventListener(SendMediaPopUp.CREATION_QUESTION_EVENT, saveQuestion);
 			view.addEventListener(CloseEvent.CLOSE, closeMe);
 			
 			repositoryProxy = facade.retrieveProxy( RepositoryManagerProxy.NAME ) as RepositoryManagerProxy;
@@ -46,7 +48,8 @@ package br.com.optimedia.autor.view
 		override public function listNotificationInterests():Array
 		{
 			return [NotificationConstants.UPLOAD_MEDIA_FILE_RESULT,
-					NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT];
+					NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT,
+					NotificationConstants.CREATION_QUESTION_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -58,6 +61,10 @@ package br.com.optimedia.autor.view
 					closeMe(null);
 					break;
 				case NotificationConstants.UPLOAD_MEDIA_TEXT_RESULT:
+					repositoryProxy.getMedias(view.subjectID);
+					closeMe(null);
+					break;
+				case NotificationConstants.CREATION_QUESTION_RESULT:
 					repositoryProxy.getMedias(view.subjectID);
 					closeMe(null);
 					break;
@@ -85,6 +92,16 @@ package br.com.optimedia.autor.view
 			else media.body = view.fileTextInput.text;
 			repositoryProxy.uploadMediaText( media, view.subjectID );
 		}
-		
+		private function saveQuestion(event:Event):void {
+			var question:QuestionVO = new QuestionVO();
+			question=view.questionVO;
+			
+			var media:MediaVO = new MediaVO();
+			media.category_id = view.category;
+			media.title = view.nameTextInput.text;
+			media.body = question.title;
+			
+			repositoryProxy.saveQuestion(media, question, view.subjectID);
+		}
 	}
 }
