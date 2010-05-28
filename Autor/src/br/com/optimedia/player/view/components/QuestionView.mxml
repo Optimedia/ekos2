@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" name="{QuestionView.NAME}" 
+	width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="auto">
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import mx.controls.CheckBox;
+		import mx.managers.PopUpManager;
+		import br.com.optimedia.assets.vo.QuestionItemVO;
+		import mx.collections.ArrayCollection;
+		import br.com.optimedia.assets.vo.QuestionVO;
+		
+		public static const NAME:String="QuestionView";
+		
+		[Bindable]
+		public var _questionVO:QuestionVO;
+		
+		private var responsetItem:Array = new Array();
+		private var CorrectItem:Array = new Array();
+		
+		public function get questionVO():QuestionVO {
+			return _questionVO;	
+		}
+		public function set questionVO(value:QuestionVO):void {
+			_questionVO=value;
+			for (var i:uint=0; i<value.itemArray.length;i++) {
+				responsetItem[i]=false;
+				CorrectItem[i]= value.itemArray[i].correct_answer;
+			}
+		}
+		
+		private function marcaItem(event:Event):void {
+			 //var hbox:HBox = event.currentTarget.parent as HBox;
+			 var selectItem:uint = lista.getChildAt(event.currentTarget.parent);
+			 
+			if (responsetItem[selectItem]==true) {
+				responsetItem[selectItem]=false;
+			}else {
+				responsetItem[selectItem]=true;
+			} 
+		}
+		private function responseQuestion(event:Event):void {
+			var numberErro:uint = 0;
+			for (var i:uint = 0 ; i<responsetItem.length; i++) {
+				if (responsetItem[i]!=CorrectItem[i]) {
+					numberErro ++;
+					
+				}
+			}
+			if (numberErro>0) {
+				Alert.show("Resposta errada \n" + _questionVO.comment);
+			}else {
+				Alert.show("Resposta correta");
+			}
+		}
+	]]>
+</mx:Script>
+<mx:VBox id="item" width="95%" height="100%" x="10" backgroundAlpha="1">
+	<mx:Text  width="100%" id="title"  
+		fontWeight="bold" fontSize="22" htmlText="{_questionVO.description}"/>
+	<mx:Repeater id="itens" dataProvider="{_questionVO.itemArray}">
+		<mx:HBox width="100%" id="lista">
+			<mx:CheckBox click="marcaItem(event)" label="" width="5"/>
+			<mx:Text text="{itens.currentItem.name}" width="100%" fontSize="14" />
+		</mx:HBox>
+	</mx:Repeater>
+	<mx:Button label="Corrigir" click="responseQuestion(event)"  right="10" bottom="10"/>	
+</mx:VBox>
+</mx:Canvas>
+
