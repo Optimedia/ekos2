@@ -61,6 +61,9 @@
 					case 7:
 						iconClass = ImgAssets.category7Icon;
 						break;
+					case 8:
+						iconClass = ImgAssets.category8Icon;
+						break;
 					default:
 						break;
 				}
@@ -109,6 +112,10 @@
 						break;
 					case 7:
 						previewImage.source = ImgAssets.fileIconLarge;
+						previewImage.visible = true;
+						break;
+					case 8:
+						previewImage.source = item.body;
 						previewImage.visible = true;
 						break;
 					default:
