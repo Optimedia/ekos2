@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-		layout="vertical" width="350"
-		showCloseButton="true" creationComplete="init()" horizontalAlign="center">
+		layout="vertical" width="350" maxHeight="512"
+		showCloseButton="true" creationComplete="init()" horizontalAlign="center"
+		horizontalScrollPolicy="off" verticalScrollPolicy="auto">
 	<mx:states>
 		<mx:State name="url">
 			<mx:SetProperty target="{fileTextInput}" name="editable" value="true"/>
@@ -25,6 +26,29 @@
 			<mx:SetStyle target="{fileLabel}" name="top" value="5"/>
 			<mx:SetStyle target="{label1}" name="left" value="5"/>
 		</mx:State>
+		<mx:State name="question">
+			<mx:SetProperty target="{fileLabel}" name="text" value="Pergunta"/>
+			<mx:RemoveChild target="{fileBtn}"/>
+			<mx:RemoveChild target="{preview}"/>
+			<mx:RemoveChild target="{fileTextInput}"/>
+			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
+				<mx:TextInput id="perguntaTextInput" width="245" x="67"/>	
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
+				<mx:Label text="Obs" y="28" x="5"/>	
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
+				<mx:TextArea id="comentTextArea" width="245" x="67" y="29"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
+				<mx:Button label="Adicionar Resposta" click="addQuestionItem()"  horizontalCenter="0" y="77"/>
+			</mx:AddChild>
+			<mx:SetStyle target="{fileLabel}" name="verticalCenter"/>
+			<mx:SetStyle target="{fileLabel}" name="verticalCenter"/>
+			<mx:SetStyle target="{fileLabel}" name="left" value="5"/>
+			<mx:SetStyle target="{fileLabel}" name="top" value="5"/>
+			<mx:SetStyle target="{label1}" name="left" value="5"/>
+		</mx:State>
 		<mx:State name="video">
 			<mx:RemoveChild target="{preview}"/>
 			<mx:SetProperty target="{fileLabel}" name="text" value="Vídeo"/>
@@ -39,6 +63,15 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import flash.text.engine.GroupElement;
+			import br.com.optimedia.assets.ImgAssets;
+			import mx.collections.ArrayCollection;
+			import mx.containers.VBox;
+			import mx.events.FlexEvent;
+			import mx.controls.CheckBox;
+			import mx.containers.HBox;
+			import br.com.optimedia.assets.vo.QuestionItemVO;
+			import br.com.optimedia.assets.vo.QuestionVO;
 			import br.com.optimedia.assets.vo.FileVO;
 			import mx.formatters.SwitchSymbolFormatter;
 			import mx.events.ItemClickEvent;
@@ -49,12 +82,14 @@
 			
 			public static const UPLOAD_FILE_EVENT:String = "UPLOAD_FILE_EVENT";
 			public static const UPLOAD_TEXT_EVENT:String = "UPLOAD_TEXT_EVENT";
+			public static const CREATION_QUESTION_EVENT:String = "CREATION_QUESTION_EVENT";
 			
             [Bindable]
 			private var fr:FileReference;
             private var imageTypes:FileFilter = new FileFilter("Files (*.jpg, *.jpeg, *.png, *.swf)", "*.jpg; *.jpeg; *.png, *.swf");
             private var allTypes:Array = new Array(imageTypes);
             public var fileVO:FileVO;
+            public var questionVO:QuestionVO;
             
             public var category:int;
             //public var presentationID:uint;
@@ -118,6 +153,43 @@
 					}
 					else Alert.show("Os campos de texto não podem estar vazios.", "Atenção");
 				}
+				else if( this.currentState == 'question' ) {
+					
+					if (perguntaTextInput.text!="" && nameTextInput.text!="" ) {
+						if (ArrayCollection(questionVO.itemArray).length>0) {
+							//var numberCorrect:Number = 0;
+							var responseWhite:Boolean = false;
+							for (var i:uint=0;i<ArrayCollection(questionVO.itemArray).length; i++ ) {
+								var questionItem:QuestionItemVO = new QuestionItemVO();
+								questionItem = questionVO.itemArray[i] as QuestionItemVO;
+								//if (questionItem.correct_answer==true){
+								//	numberCorrect++;
+								//} 	
+								if ( questionItem.name==null || questionItem.name.length==0){
+									responseWhite=true;
+								}
+							}
+							//if (numberCorrect>=1 && responseWhite==false) {
+							if ( responseWhite==false) {	
+								questionVO.title=  nameTextInput.text
+								questionVO.comment = comentTextArea.text;
+								questionVO.description = perguntaTextInput.text
+								
+								dispatchEvent( new Event(CREATION_QUESTION_EVENT) );
+							}else {
+								//if (numberCorrect==0) {
+								//	Alert.show("Pelo menos um dos item devem ser verdadeiro");
+								//}else {
+									Alert.show("O texto das respostas deve ser preenchido");
+								//}	
+							}
+						}else {
+							Alert.show("Deve ter pelo menos uma alternativa");
+						}
+					}else {
+						Alert.show("A pergunta e nome são obrigatória");
+					}
+				}
 				
 			}
 			private function generalFault(event:FaultEvent):void {
@@ -159,6 +231,13 @@
 															"*.doc; *.docx; *.xls; *.xlsx; *.ppt; *.pptx; *.pps; *.ppsx; *.pdf; *.zip; *.odt; *.ods; *.odp");
 						allTypes = new Array(imageTypes);
 						break;
+					case 8:
+						this.currentState = 'question';
+						//textArea.text = '';
+						saveBtn.enabled = true;
+						questionVO = new QuestionVO();
+						
+						break;
 					default:
 						this.currentState = '';
 						fileTextInput.text = '';
@@ -168,29 +247,112 @@
 				}
 			}
 			
+			private function addQuestionItem():void {
+				var itemVO:QuestionItemVO = new QuestionItemVO();
+				ArrayCollection(questionVO.itemArray).addItem(itemVO);
+				
+				// caixa da itens das questoes
+				var vBox:VBox= new VBox();
+				vBox.setStyle("borderStyle","solid");
+				vBox.percentWidth = 95;
+				vBox.x=0;
+				vBox.y=0;
+				vBox.setStyle("paddingBottom",5);
+				vBox.setStyle("paddingLeft",5);
+				vBox.setStyle("paddingRight",5);
+				vBox.setStyle("paddingTop",5);
+				
+				// caixa com dos item true ou false
+				
+				var texto:TextInput = new TextInput();
+				texto.percentWidth=98;
+				texto.addEventListener(Event.CHANGE, function (e:Event):void { itemVO.name=texto.text;  });
+				
+				var nameGrupo:String = "nome_"+ArrayCollection(questionVO.itemArray).length;
+				
+				var respostFalse:RadioButton = new RadioButton();
+				respostFalse.selected=true;
+				respostFalse.groupName = nameGrupo;
+				respostFalse.addEventListener(Event.CHANGE, function (e:Event):void { 
+						if (respostFalse.selected==true) { 
+							itemVO.correct_answer=false;
+						}  
+					});
+				
+				var respostTrue:RadioButton = new RadioButton();
+				respostTrue.groupName = nameGrupo;
+				respostTrue.addEventListener(Event.CHANGE, function (e:Event):void { 
+						if (respostTrue.selected==true) { 
+							itemVO.correct_answer=true;
+						} 
+				   });
+				
+				respostFalse.label = "Resposta errada";
+				respostFalse.id = "RadioBtnQuestionItem";
+				
+				respostTrue.label = "Resposta correta"
+				respostTrue.id = "RadioBtnQuestionItem";
+				
+				
+				//botao de apagar itemQuestion
+				var btn:Button = new Button();
+				btn.width = 24;
+		 		btn.height = 24;
+		 		
+		 		//btn.data = media;
+				btn.setStyle("icon", ImgAssets.crosscircle);
+				btn.addEventListener(MouseEvent.CLICK,function ():void {
+					removeChild(vBox);
+					ArrayCollection(questionVO.itemArray).removeItemAt(ArrayCollection(questionVO.itemArray).getItemIndex(itemVO));
+					}
+				);
+				btn.toolTip = "apagar pergunda";
+				
+				// adicionar objs a stage
+				var hBox:HBox = new HBox();
+				var hBoxTextoInput:HBox = new HBox()
+				hBoxTextoInput.percentWidth=100;
+				vBox.addChild(btn);
+				vBox.addChild(hBoxTextoInput);
+				hBoxTextoInput.addChild(texto);
+				hBoxTextoInput.addChild(btn);
+				hBox.addChild(respostFalse);
+				hBox.addChild(respostTrue);
+				vBox.addChild(hBox);
+				
+				this.addChildAt(vBox,this.getChildren().length-1);
+				PopUpManager.centerPopUp(this);
+			}
+			
+			/* private function removeQuestionItem(event:Event):void {
+				this.removeChild(Button(event.currentTarget));
+				 
+			}*/
+			
 		]]>
 	</mx:Script>
 	
 	<mx:RadioButtonGroup id="radioBtnGroup" itemClick="handleRadio(event)"/>
 	
-	<mx:HBox width="100%" horizontalAlign="center">
+	<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 		<mx:RadioButton id="imageRadio" label="Imagem" value="3" groupName="radioBtnGroup"/>
 		<mx:RadioButton id="tableRadio" label="Tabela" value="1" groupName="radioBtnGroup" />
 		<mx:RadioButton id="chartRadio" label="Gráfico" value="2" groupName="radioBtnGroup" />
+		<mx:RadioButton id="questionRadio" label="Questão" value="8" groupName="radioBtnGroup" />
 	</mx:HBox>
-	<mx:HBox width="100%" horizontalAlign="center">
+	<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 		<mx:RadioButton id="linkRadio" label="URL" value="5" groupName="radioBtnGroup" />
 		<mx:RadioButton id="videoRadio" label="Video" value="4" groupName="radioBtnGroup" />
 		<mx:RadioButton id="textRadio" label="Texto" value="6" groupName="radioBtnGroup" />
 		<mx:RadioButton id="fileRadio" label="Arquivo" value="7" groupName="radioBtnGroup" />
 	</mx:HBox>
 	
-	<mx:Canvas width="100%">
+	<mx:Canvas width="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 		<mx:Label text="Nome" verticalCenter="0" id="label1" left="5"/>
 		<mx:TextInput id="nameTextInput"  x="67" width="245" verticalCenter="0"/>
 	</mx:Canvas>
 	
-	<mx:Canvas width="100%" id="hbox1">
+	<mx:Canvas width="100%" id="hbox1" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 		<mx:Label id="fileLabel" text="Imagem" verticalCenter="0" left="5"/>
 		<mx:TextInput id="fileTextInput" editable="false" x="67" verticalCenter="0"  width="161"/>
 		<mx:Button id="fileBtn" label="Procurar" click="browse()" x="236"/>
