@@ -5,6 +5,7 @@ package br.com.optimedia.autor.model
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.FileVO;
 	import br.com.optimedia.assets.vo.MediaVO;
+	import br.com.optimedia.assets.vo.QuestionVO;
 	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
@@ -114,6 +115,17 @@ package br.com.optimedia.autor.model
 			}
 			else {
 				Alert.show("Não foi possível remover a mídia. Ela pode estar associada em algum slide.", "Erro");
+			}
+		}
+		public function saveQuestion(media:MediaVO, question:QuestionVO, subjectID:uint):void {
+			var asynkToken:AsyncToken = remoteService.saveQuestion(media, question, subjectID);
+			asynkToken.addResponder( new Responder(creationQuestionResult, generalFault) );
+		}
+		private function creationQuestionResult(event:ResultEvent):void {
+			if (event.result ==true ) {
+				sendNotification( NotificationConstants.CREATION_QUESTION_RESULT, event.result );
+			}else {
+				Alert.show("erro creation question");
 			}
 		}
 	}
