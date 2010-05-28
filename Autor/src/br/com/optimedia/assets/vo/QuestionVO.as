@@ -10,6 +10,7 @@ package br.com.optimedia.assets.vo
 	{
 		public var question_id:uint;
 		public var title:String;
+		public var description:String;
 		private var _itemArray:ArrayCollection = new ArrayCollection();
 		public var comment:String;
 		
