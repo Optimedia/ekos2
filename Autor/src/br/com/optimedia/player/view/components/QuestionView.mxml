@@ -30,14 +30,15 @@
 		}
 		
 		private function marcaItem(event:Event):void {
-			 //var hbox:HBox = event.currentTarget.parent as HBox;
-			 var selectItem:uint = lista.getChildAt(event.currentTarget.parent);
-			 
+			 var hboxItem:* = event.currentTarget.parent;
+			 var selectItem:uint = item.getChildIndex(event.currentTarget.parent) - 1 ;
+			
 			if (responsetItem[selectItem]==true) {
 				responsetItem[selectItem]=false;
 			}else {
 				responsetItem[selectItem]=true;
-			} 
+			}
+			 
 		}
 		private function responseQuestion(event:Event):void {
 			var numberErro:uint = 0;
@@ -48,9 +49,9 @@
 				}
 			}
 			if (numberErro>0) {
-				Alert.show("Resposta errada \n" + _questionVO.comment);
+				Alert.show("Resposta errada \n" + _questionVO.comment,"", 4,this);
 			}else {
-				Alert.show("Resposta correta");
+				Alert.show("Resposta correta","",4,this);
 			}
 		}
 	]]>
@@ -59,8 +60,8 @@
 	<mx:Text  width="100%" id="title"  
 		fontWeight="bold" fontSize="22" htmlText="{_questionVO.description}"/>
 	<mx:Repeater id="itens" dataProvider="{_questionVO.itemArray}">
-		<mx:HBox width="100%" id="lista">
-			<mx:CheckBox click="marcaItem(event)" label="" width="5"/>
+		<mx:HBox width="100%">
+			<mx:CheckBox click="marcaItem(event)" label="" width="8"/>
 			<mx:Text text="{itens.currentItem.name}" width="100%" fontSize="14" />
 		</mx:HBox>
 	</mx:Repeater>
