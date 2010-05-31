@@ -3,6 +3,8 @@
 	require_once '../includes/SqlManager.php';
 	require_once '../vo/br/com/optimedia/assets/vo/FileVO.php';
 	require_once '../vo/br/com/optimedia/assets/vo/MediaVO.php';
+	require_once '../vo/br/com/optimedia/assets/vo/QuestionItemVO.php';
+	require_once '../vo/br/com/optimedia/assets/vo/QuestionVO.php';
 
 	class RepositoryManager extends SqlManager {
 		
@@ -143,6 +145,8 @@
 			$sql = "SELECT * FROM ath_link WHERE media_id=$media_id";
 			$result = mysql_query($sql);
 			
+			// verificar se o midia esta sendo usado em mais de um lugar;
+			// so apagar quando não esta sendo utilizado
 			if(mysql_num_rows($result) > 0) {
 				return false;
 			} else {
@@ -150,7 +154,12 @@
 				$where = "media_id=$media_id";
 				$table = "mda_media";
 				
+				
+				
 				if( parent::doDelete($where, $table) ) {
+					
+					$this-> deleteQuestionItem($media_id);
+					
 					// ###############################################################
 					// LOG
 					$arrayLog = array ('user_id' => $_SESSION['userID'], 'media_id' => $media_id, 'type_event' => 2 );
@@ -161,5 +170,100 @@
 				
 			}
 			
+		}
+		public function saveQuestion($media, $question, $subject_id) {
+			
+
+			$arrayMedia = array	('title' => $question -> title,
+							  	 'category_id' => $media -> category_id,
+							  	 'description' => $question -> description,
+							  	 'body' => $question -> comment,
+								 'status' => 1);
+								 
+			if( parent::doInsert($arrayMedia, "mda_media") == true ) {
+				
+					$mediaID = $this->insert_id;
+				
+					$array = array	('media_id' => $mediaID,
+								 'subject_id' => $subject_id);
+							
+					
+					if (parent::doInsert($array, 'ath_media')==true ){
+						
+						//$questionItem = new QuetionItemVO();
+						
+						foreach ($question -> itemArray as $questionItem ) {
+							//return $this -> saveQuestionItem($mediaID, $questionItem);
+							if (!$this -> saveQuestionItem($mediaID, $questionItem)) {
+								
+								$this-> deleteMedia($mediaID);
+								$this-> deleteQuestionItem ($mediaID);
+								
+								return false;
+							}
+						}
+						return true;
+					}
+			}
+					
+			return false;
+		}
+		private function saveQuestionItem ($mediaID, QuestionItemVO $questionItem) {
+			//return $question; 
+			
+				$array = array	(   
+							  	 	'name' => $questionItem -> name,
+							  	 	'correct_answer' => $questionItem -> correct_answer,
+							  	 	'media_id' => $mediaID);
+			
+				  	 	
+				if (parent::doInsert($array, "ath_question_item")){
+					return true;
+				}else {
+					return false;
+				}
+		
+		}
+		private function deleteQuestionItem ($media_id) {
+			
+			$sql = "SELECT * FROM ath_link WHERE media_id=$media_id";
+			$result = mysql_query($sql);
+			
+			// verificar se o questionario esta sendo usado em mais de um lugar;
+			// so apagar quando não esta sendo utilizado
+			if(mysql_num_rows($result) > 0) {
+				return false;
+			} else {
+				$sql = "SELECT * FROM ath_question_item WHERE media_id=$media_id";
+				$result = mysql_query($sql);
+				
+				if(mysql_num_rows($result) > 0) {
+					
+					$questionItem = array ();
+					while ( $section = mysql_fetch_array ( $result ) ) {
+						$questionItem[] = $section["question_item_id"];
+					}
+					//return $questionItem;
+					
+					$where = "media_id=$media_id";
+					$table = "ath_question_item";
+					
+					if( parent::doDelete($where, $table) ) {
+						// ###############################################################
+						// LOG
+						foreach ($questionItem  as $item ) {	
+							$arrayLog = array ('user_id' => $_SESSION['userID'], 'question_item_id' => $item, 'type_event' => 2 );
+							parent::doInsert ( $arrayLog, 'ath_log_question_item' );
+								//return false;
+							//}
+						}
+						
+						return true;
+						//FIM LOG
+						// ###############################################################
+					}
+					
+				}
+			}
 		}
 	}
