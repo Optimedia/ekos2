@@ -3,6 +3,7 @@
 		
 		public $question_id;
 		public $title;
+		public $description;
 		public $itemArray;
 		public $comment;
 		
