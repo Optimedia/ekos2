@@ -171,6 +171,7 @@
 				mediaBox.removeAllChildren();
 				for each( var media:MediaVO in slideVO.mediaArray ) {
 					var btn:Button = new Button();
+					btn..styleName = "MediaButton";
 					btn.width = 24;
 		 			btn.height = 24;
 		 			btn.data = media;
