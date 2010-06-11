@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
-	horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundAlpha="1" backgroundColor="#ffffff"
 	width="800" height="512" creationComplete="init()" horizontalAlign="center" currentState="1">
+	<mx:backgroundImage>@Embed(source='br/com/optimedia/assets/skins/playerBackground.png')</mx:backgroundImage>
 	
 	<mx:states>
 		<mx:State name="1"/>
 		<mx:State name="2">
+			<mx:SetProperty target="{slideSpacer}" name="height" value="140"/>
 			<mx:SetStyle target="{titleTextInput}" name="fontSize" value="32"/>
 			<mx:SetStyle target="{bodyTextArea}" name="fontSize" value="28"/>
 		</mx:State>
 		<mx:State name="3">
+			<mx:RemoveChild target="{slideSpacer}"/>
+			<mx:RemoveChild target="{titleCanvas}"/>
 			<mx:RemoveChild target="{bodyTextArea}"/>
-			<mx:AddChild relativeTo="{this}" position="lastChild">
-				<mx:Canvas id="canvas1" width="780" height="414" x="10" y="49" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:AddChild relativeTo="{slideVBox}" position="lastChild">
+				<mx:Canvas id="canvas1" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 					<mx:SWFLoader id="loadingSwf1" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
 						scaleContent="false" width="50" height="50" x="350" y="187"/>
 					<mx:Image id="slideImage" source="http://www.educar.tv/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"
-						maxWidth="{bodyTextArea.width}" maxHeight="{bodyTextArea.width}"
+						maxWidth="{slideVBox.width}" maxHeight="{slideVBox.width}"
 						/>
 				</mx:Canvas>
 			</mx:AddChild>
+			<mx:SetStyle target="{slideVBox}" name="verticalAlign" value="middle"/>
 		</mx:State>
 	</mx:states>
 	
@@ -78,12 +82,12 @@
 			public var slidesArray:ArrayCollection = new ArrayCollection();
 			
 			private function init():void {
-				/* var titleBackground:Sprite = new Sprite ();
+				var titleBackground:Sprite = new Sprite ();
 				titleBackground.graphics.lineStyle(1,0x000000);
 				titleBackground.graphics.beginFill(0xFFFFFF,0.5);
 				titleBackground.graphics.drawRoundRect(20,0,titleCanvas.width*0.95,titleCanvas.height ,20,20);
 				titleBackground.graphics.endFill();
-				titleCanvas.rawChildren.addChildAt(titleBackground, 0); */
+				titleCanvas.rawChildren.addChildAt(titleBackground, 0);
 				if(mode == PREVIEW_MODE) {
 					playerFacade.startup( this );
 					slideID = 0;
@@ -120,12 +124,10 @@
 				this.slideVO = slideVO;
 				
 				if(mode == PREVIEW_MODE) {
-					indexBtn.label = slideVO.page_order.toString()+' de '+slidesArray.length.toString();
-					slideNumText.text = slideVO.page_order.toString();
+					indexBtn.label = 'Slide '+int(slideVO.page_order)+'/'+slidesArray.length.toString();
 				}
 				else if(mode == PLAYER_MODE) {
-					indexBtn.label = (getSlideIndex(slideVO.slide_id)+1).toString()+' de '+slidesArray.length.toString();
-					slideNumText.text = (slideVO.page_order+1).toString();
+					indexBtn.label = 'Slide '+int(getSlideIndex(slideVO.slide_id)+1)+'/'+slidesArray.length.toString();
 				}
 				
 				disableButtons( getSlideIndex( slideVO.slide_id ) );
@@ -228,8 +230,8 @@
 				removeAllPopUps(null);
 				
 				popUp = new MediaPopUp();
-				popUp.maxHeight = bodyTextArea.height*0.96;
-				popUp.maxWidth = bodyTextArea.width*0.96;
+				popUp.maxHeight = slideVBox.height*0.96;
+				popUp.maxWidth = slideVBox.width*0.96;
 				
 				var media:MediaVO;
 				if(event is MouseEvent) {
@@ -299,12 +301,10 @@
 					case 8:
 						
 						var questionview:QuestionView = new QuestionView();
-						popUp.minWidth = 600;
-						popUp.minHeight = 400;
-						/* questionview.minWidth = 600;
+						questionview.minWidth = 600;
 						questionview.minHeight = 400;
-						questionview.maxWidth =  popUp.;
-						questionview.maxHeight = bodyTextArea.height*0.96; */
+						questionview.maxWidth =  slideVBox.width*0.96;
+						questionview.maxHeight = slideVBox.height*0.96;
 						
 						popUp.mediaVO=media;
 						popUp.addChild(questionview);
@@ -350,11 +350,11 @@
 					index.slideArray = slidesArray;
 					index.visible = false;
 					this.addChild( index );
-					index.listCanvas.x = indexBtn.x;
-					index.listCanvas.y = indexBtn.y;
-					index.listCanvas.maxWidth = indexBtn.width+40;
+					index.listCanvas.x = indexBtn.x + 10;
+					index.listCanvas.y = bottomBar.y + 6;
 					index.list.selectedItem = slideVO;
 					index.list.addEventListener(ListEvent.ITEM_CLICK, function(e:ListEvent):void { setSlide(index.list.selectedItem as SlideVO); index.removeMe(); } );
+					bottomImg.addEventListener(MouseEvent.ROLL_OVER, removeSlideIndexList);
 					index.visible = true;
 				}
 			}
@@ -363,6 +363,7 @@
 				var obj:SlideIndexList = this.getChildByName( SlideIndexList.NAME ) as SlideIndexList;
 				if( obj && !obj.showEffect.isPlaying && !obj.hideEffect.isPlaying ) {
 					SlideIndexList(obj).removeMe();
+					bottomImg.removeEventListener(MouseEvent.ROLL_OVER, removeSlideIndexList);
 				}
 				System.gc();
 			}
@@ -372,36 +373,45 @@
 	
 	<mx:Fade id="mediaEffect" easingFunction="{Elastic.easeOut}" duration="1000"/>
 	
-	<mx:Image id="backgroundImage" >
-		<mx:source>br/com/optimedia/assets/skins/playerBackground.png</mx:source>
-	</mx:Image>
-	
-	<mx:Text id="slideNumText" horizontalCenter="-372" verticalCenter="-232" color="#666666" fontSize="14"/>
-	
-	<mx:TextInput id="titleTextInput" verticalCenter="-232" horizontalCenter="15" width="714"
-		backgroundAlpha="0" borderThickness="0"	borderStyle="none" fontSize="16" text="{slideVO.title}"
-		editable="false" textAlign="center" color="#ffffff" fontWeight="bold"/>
-	
-	<mx:TextArea id="bodyTextArea" width="780" height="414" fontSize="14" htmlText="{slideVO.text_body}" color="#000000"
-		link="openMediaPopUp(event)" editable="false" backgroundAlpha="0" borderStyle="none" x="10" y="49"/>
-	
-	<!--<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">-->
-	<mx:HBox id="mediaHBox" width="542" verticalAlign="middle" paddingLeft="2" paddingRight="2" height="31" x="29" y="471">
+	<mx:VBox id="slideVBox" width="100%" height="475" horizontalAlign="center" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		
-		<mx:Spacer width="100" />
+		<mx:Spacer id="slideSpacer" height="0"/>
 		
-		<mx:HBox id="mediaBox" showEffect="{mediaEffect}"/>
+		<mx:Canvas id="titleCanvas" width="100%" height="50">
+			<mx:TextInput id="titleTextInput" verticalCenter="0" horizontalCenter="0" width="714"
+				backgroundAlpha="0" borderThickness="0"	borderStyle="none" fontSize="28" text="{slideVO.title}"
+				editable="false" textAlign="center"/>
+		</mx:Canvas>
+		
+		<mx:TextArea id="bodyTextArea" width="760" height="100%" fontSize="22" htmlText="{slideVO.text_body}"
+			link="openMediaPopUp(event)" editable="false" backgroundAlpha="0" borderStyle="none"/>
+		
+	</mx:VBox>
+	
+	<mx:Canvas id="bottomBar" width="100%" bottom="0">
+	
+		<!--<mx:Image id="bottomImg" source="{ImgAssets.playerTaskbar}" width="784" bottom="0" horizontalCenter="0"/>-->
+		
+		<!--<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">-->
+		<mx:HBox id="bottomImg" width="784" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">
 			
-		<mx:Spacer width="100%" />
-		
-	</mx:HBox>
-	<mx:Button id="urlBtn" icon="@Embed(source='br/com/optimedia/assets/img/chain.png')" toolTip="Clique para ver a url deste slide"
-		styleName="LinkBtn" x="757" y="469" width="36" height="36"/>
-	<mx:Button id="indexBtn" toolTip="Lista de slides" width="96" click="indexBtnClick()" x="628" y="472" styleName="IndexBtn" height="32"
-		fontSize="16" fontWeight="bold" color="#666666"/>
-	<mx:Button id="nextBtn" toolTip="Próximo slide" click="nextBtnClick()" enabled="false"
-		styleName="NextBtn" x="724" y="472" width="24" height="32"/>
-	<mx:Button id="prevBtn" toolTip="Slide Anterior" click="prevBtnClick()" enabled="false"
-		styleName="PrevBtn" x="604" y="472" width="24" height="32"/>
+			<mx:Button id="prevBtn" toolTip="Slide Anterior" click="prevBtnClick()" enabled="false"
+				styleName="PrevBtn"/>
+			<mx:Button id="indexBtn" toolTip="Lista de slides" width="110" click="indexBtnClick()"/>
+			<mx:Button id="nextBtn" toolTip="Próximo slide" click="nextBtnClick()" enabled="false"
+				styleName="NextBtn"/>
+			
+			<mx:Spacer width="100" />
+			
+			<mx:HBox id="mediaBox" showEffect="{mediaEffect}"/>
+				
+			<mx:Spacer width="100%" />
+			
+			<mx:Button id="urlBtn" icon="@Embed(source='br/com/optimedia/assets/img/chain.png')" toolTip="Clique para ver a url deste slide"
+				styleName="LinkBtn"/>
+			
+		</mx:HBox>
+
+	</mx:Canvas>
 	
 </mx:Module>

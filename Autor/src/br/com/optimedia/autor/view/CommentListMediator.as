@@ -6,17 +6,17 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.autor.model.SlideManagerProxy;
 	import br.com.optimedia.autor.view.components.CommentList;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.system.System;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.events.CloseEvent;
+	import mx.rpc.events.ResultEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import mx.events.CloseEvent;
-	import flash.events.Event;
-	import flash.system.System;
-	import mx.rpc.events.ResultEvent;
 
 	public class CommentListMediator extends Mediator
 	{

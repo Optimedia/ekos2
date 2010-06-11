@@ -1,0 +1,21 @@
+
+.MediaBtn
+{
+	skin: Embed(skinClass="AttachBtn");
+}
+.IndexBtn
+{
+	skin: Embed(skinClass="IndexBtn");
+}
+.LinkBtn
+{
+	skin: Embed(skinClass="LinkBtn");
+}
+.NextBtn
+{
+	skin: Embed(skinClass="NextBtn");
+}
+.PrevBtn
+{
+	skin: Embed(skinClass="PrevBtn");
+}
