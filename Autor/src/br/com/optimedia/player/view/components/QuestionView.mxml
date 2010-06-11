@@ -59,7 +59,7 @@
 <mx:VBox id="item" width="95%" height="100%" x="10" backgroundAlpha="1">
 	<mx:Text  width="100%" id="title"  
 		fontWeight="bold" fontSize="22" htmlText="{_questionVO.description}"/>
-	<mx:Repeater id="itens" dataProvider="{_questionVO.itemArray}">
+	<mx:Repeater id="itens" dataProvider="{_questionVO.itemArray}" height="100%">
 		<mx:HBox width="100%">
 			<mx:CheckBox click="marcaItem(event)" label="" width="8"/>
 			<mx:Text text="{itens.currentItem.name}" width="100%" fontSize="14" />

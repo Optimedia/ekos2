@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
 	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
-	width="800" height="512"
+	width="800" height="512" backgroundAlpha="1" backgroundColor="#ffffff"
 	xmlns:local="*" creationComplete="init()">
 	
 	<mx:Script>
@@ -33,8 +33,8 @@
 				}
 				
 				// VALORES APENAS PARA TESTE
-				idPresentation = 102;
-				Alert.show("modo teste");
+				//idPresentation = 102;
+				//Alert.show("modo teste");
 				
 				start();
 			}
@@ -64,6 +64,8 @@
 			
 		]]>
 	</mx:Script>
+	
+	<mx:Style source="PlayerSkin.css"/>
 	
 	<!-- <local:PlayerModule /> -->
 	
