@@ -155,6 +155,13 @@
 				$table = "mda_media";
 				
 				if( parent::doDelete($where, $table) ) {
+					
+					$where = "media_id=$media_id";
+					$table = "ath_media";
+											
+					parent::doDelete($where, $table);
+					
+						
 					$this-> deleteQuestionItem($media_id);
 					// ###############################################################
 					// LOG
@@ -162,6 +169,9 @@
 					return parent::doInsert ( $arrayLog, 'ath_log_media' );
 					//FIM LOG
 					// ###############################################################
+					
+					
+			
 				}
 			}
 		}
