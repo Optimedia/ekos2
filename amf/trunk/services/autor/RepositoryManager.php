@@ -154,12 +154,8 @@
 				$where = "media_id=$media_id";
 				$table = "mda_media";
 				
-				
-				
 				if( parent::doDelete($where, $table) ) {
-					
 					$this-> deleteQuestionItem($media_id);
-					
 					// ###############################################################
 					// LOG
 					$arrayLog = array ('user_id' => $_SESSION['userID'], 'media_id' => $media_id, 'type_event' => 2 );
@@ -167,12 +163,9 @@
 					//FIM LOG
 					// ###############################################################
 				}
-				
 			}
-			
 		}
 		public function saveQuestion($media, $question, $subject_id) {
-			
 
 			$arrayMedia = array	('title' => $question -> title,
 							  	 'category_id' => $media -> category_id,
@@ -205,24 +198,20 @@
 						return true;
 					}
 			}
-					
 			return false;
 		}
 		private function saveQuestionItem ($mediaID, QuestionItemVO $questionItem) {
-			//return $question; 
 			
-				$array = array	(   
-							  	 	'name' => $questionItem -> name,
-							  	 	'correct_answer' => $questionItem -> correct_answer,
-							  	 	'media_id' => $mediaID);
-			
-				  	 	
-				if (parent::doInsert($array, "ath_question_item")){
-					return true;
-				}else {
-					return false;
-				}
+			$array = array	(   
+						  	 	'name' => $questionItem -> name,
+						  	 	'correct_answer' => $questionItem -> correct_answer,
+						  	 	'media_id' => $mediaID);
 		
+			if (parent::doInsert($array, "ath_question_item")){
+				return true;
+			}else {
+				return false;
+			}
 		}
 		private function deleteQuestionItem ($media_id) {
 			
@@ -243,7 +232,6 @@
 					while ( $section = mysql_fetch_array ( $result ) ) {
 						$questionItem[] = $section["question_item_id"];
 					}
-					//return $questionItem;
 					
 					$where = "media_id=$media_id";
 					$table = "ath_question_item";
@@ -257,12 +245,10 @@
 								//return false;
 							//}
 						}
-						
 						return true;
 						//FIM LOG
 						// ###############################################################
 					}
-					
 				}
 			}
 		}
