@@ -198,12 +198,17 @@ package br.com.optimedia.autor.view
 			view.viewStack.selectedIndex++;
 		}
 		private function deleteSlide(e:Event):void {
-			Alert.noLabel = "Não";
-			Alert.yesLabel = "Sim";
-			Alert.show("Tem certeza que deseja remover este slide?", "Atenção", 3, null, deleteSlideAlertHandler);
-			function deleteSlideAlertHandler(e:CloseEvent):void {
-				if( e.detail == Alert.YES ) {
-					slideManagerProxy.deleteSlide( view.currentSlide );
+			if( view.playerModule.slidesArray.length <= 1 ) {
+				Alert.show("Não foi possível remover o slide, a apresentação precisa ter pelo menos 1 slide.", "Atenção");
+			}
+			else {
+				Alert.noLabel = "Não";
+				Alert.yesLabel = "Sim";
+				Alert.show("Tem certeza que deseja remover este slide?", "Atenção", 3, null, deleteSlideAlertHandler);
+				function deleteSlideAlertHandler(e:CloseEvent):void {
+					if( e.detail == Alert.YES ) {
+						slideManagerProxy.deleteSlide( view.currentSlide );
+					}
 				}
 			}
 		}

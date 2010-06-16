@@ -23,6 +23,7 @@
 			
 			public static const DELETE_COMMENT_EVENT:String = 'DELETE_COMMENT_EVENT';
 			
+			[Bindable]
 			private var facade:AutorFacade = AutorFacade.getInstance();
 			
 			public var slideID:int;

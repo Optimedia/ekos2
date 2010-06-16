@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="1150" height="640" creationComplete="init()" xmlns:components="br.com.optimedia.autor.view.components.*" xmlns:local="*">
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="1150" height="640" creationComplete="init()"
+	xmlns:components="br.com.optimedia.autor.view.components.*" xmlns:local="*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -79,11 +80,11 @@
 	
 	<mx:HBox>
 		
-		<mx:ViewStack id="viewStack" width="100%" height="100%" creationPolicy="all" change="onViewChange()">
+		<mx:ViewStack id="viewStack" width="100%" height="100%" creationPolicy="all" change="onViewChange()" backgroundAlpha="0">
 			
 			<mx:Panel layout="vertical" width="100%" height="100%" backgroundAlpha="0" title="{_presentationVO.title}">
 	
-				<local:PlayerModule id="playerModule" width="800" height="512" mode="PREVIEW_MODE"/>
+				<local:PlayerModule id="playerModule" width="800" height="512" mode="PREVIEW_MODE" backgroundAlpha="0"/>
 				
 				<mx:ControlBar width="100%" verticalAlign="middle">
 					
