@@ -29,7 +29,7 @@ package br.com.optimedia.player.model
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
 			remoteService.source = "autor.SlideManager";
-			remoteService.showBusyCursor = true;
+			remoteService.showBusyCursor = false;
 		}
 		
 		private function generalFault(event:FaultEvent):void {

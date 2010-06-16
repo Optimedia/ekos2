@@ -119,8 +119,10 @@
 					slideNumText.text = (slideVO.page_order).toString();
 				}
 				else if(mode == PLAYER_MODE) {
-					indexBtn.label = (int(slideVO.page_order)+1).toString()+' de '+slidesArray.length.toString();
-					slideNumText.text = (slideVO.page_order+1).toString();
+					indexBtn.label = (slidesArray.getItemIndex(slideVO)+1).toString()+' de '+slidesArray.length.toString();
+					slideNumText.text = (slidesArray.getItemIndex(slideVO)+1).toString();
+					/* indexBtn.label = (int(slideVO.page_order)+1).toString()+' de '+slidesArray.length.toString();
+					slideNumText.text = (slideVO.page_order+1).toString(); */
 				}
 				
 				disableButtons( getSlideIndex( slideVO.slide_id ) );

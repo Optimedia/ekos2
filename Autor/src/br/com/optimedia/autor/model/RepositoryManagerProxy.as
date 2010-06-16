@@ -32,7 +32,7 @@ package br.com.optimedia.autor.model
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
 			remoteService.source = "autor.RepositoryManager";
-			remoteService.showBusyCursor = true;
+			remoteService.showBusyCursor = false;
 		}
 		
 		private function generalFault(event:FaultEvent):void {
