@@ -63,6 +63,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Container;
+			import mx.events.StateChangeEvent;
 			import flash.text.engine.GroupElement;
 			import br.com.optimedia.assets.ImgAssets;
 			import mx.collections.ArrayCollection;
@@ -206,6 +208,7 @@
 				category = event.currentTarget.selectedValue;
 				saveBtn.enabled = false;
 				fileTextInput.editable = false;
+				questionVO = new QuestionVO();
 				switch( event.currentTarget.selectedValue ) {
 					case 4:
 						this.currentState = '';
@@ -235,8 +238,6 @@
 						this.currentState = 'question';
 						//textArea.text = '';
 						saveBtn.enabled = true;
-						questionVO = new QuestionVO();
-						
 						break;
 					default:
 						this.currentState = '';
@@ -319,8 +320,18 @@
 				hBox.addChild(respostFalse);
 				hBox.addChild(respostTrue);
 				vBox.addChild(hBox);
+				vBox.name = "questionAnswersVBox";
 				
 				this.addChildAt(vBox,this.getChildren().length-1);
+				
+				this.addEventListener(StateChangeEvent.CURRENT_STATE_CHANGE, removeQuestionAnswers);
+				
+				//função para remover lista de respostas se o currentState mudar de question para outro
+				function removeQuestionAnswers(e:StateChangeEvent):void {
+					Container(e.currentTarget).removeChild( Container(e.currentTarget).getChildByName("questionAnswersVBox") );
+					Container(e.currentTarget).removeEventListener(StateChangeEvent.CURRENT_STATE_CHANGE, removeQuestionAnswers);
+				}
+				
 				PopUpManager.centerPopUp(this);
 			}
 			

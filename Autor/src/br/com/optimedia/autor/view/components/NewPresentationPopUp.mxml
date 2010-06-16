@@ -41,7 +41,7 @@
 		<mx:FormItem label="Descrição" width="100%">
 			<mx:TextInput id="descriptionTextInput" text="{presentationVO.description}" change="presentationVO.description=descriptionTextInput.text" width="100%" />
 		</mx:FormItem>
-		<mx:FormItem label="Skin" width="100%">
+		<mx:FormItem label="Skin" width="100%" visible="false" includeInLayout="false">
 			<mx:ComboBox id="skinComboBox" dataProvider="{presentationSkins}" width="100%" labelField="title" change="presentationVO.skin_id=SkinVO(skinComboBox.selectedItem).skin_id"/>
 		</mx:FormItem>
 	</mx:Form>

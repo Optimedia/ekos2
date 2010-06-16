@@ -5,10 +5,10 @@
 	
 	<mx:states>
 		<mx:State name="1"/>
-		<mx:State name="2">
+		<!--<mx:State name="2">
 			<mx:SetStyle target="{titleTextInput}" name="fontSize" value="32"/>
 			<mx:SetStyle target="{bodyTextArea}" name="fontSize" value="28"/>
-		</mx:State>
+		</mx:State>-->
 		<mx:State name="3">
 			<mx:RemoveChild target="{bodyTextArea}"/>
 			<mx:AddChild relativeTo="{this}" position="lastChild">
@@ -78,12 +78,6 @@
 			public var slidesArray:ArrayCollection = new ArrayCollection();
 			
 			private function init():void {
-				/* var titleBackground:Sprite = new Sprite ();
-				titleBackground.graphics.lineStyle(1,0x000000);
-				titleBackground.graphics.beginFill(0xFFFFFF,0.5);
-				titleBackground.graphics.drawRoundRect(20,0,titleCanvas.width*0.95,titleCanvas.height ,20,20);
-				titleBackground.graphics.endFill();
-				titleCanvas.rawChildren.addChildAt(titleBackground, 0); */
 				if(mode == PREVIEW_MODE) {
 					playerFacade.startup( this );
 					slideID = 0;
@@ -111,8 +105,9 @@
 			public function setSlide(slideVO:SlideVO):void {
 				slideID = slideVO.slide_id;
 				
-				//gambiarra pra evitar slides antigos q foram salvos com tipo 0
+				//gambiarra pra corrigir mudança do layout no fim do projeto
 				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 1;
+				if( slideVO.type_slide_id == 2 ) slideVO.type_slide_id = 1;
 				//fim da gambiarra
 				
 				this.currentState = slideVO.type_slide_id.toString();
@@ -121,10 +116,10 @@
 				
 				if(mode == PREVIEW_MODE) {
 					indexBtn.label = slideVO.page_order.toString()+' de '+slidesArray.length.toString();
-					slideNumText.text = slideVO.page_order.toString();
+					slideNumText.text = (slideVO.page_order).toString();
 				}
 				else if(mode == PLAYER_MODE) {
-					indexBtn.label = (getSlideIndex(slideVO.slide_id)+1).toString()+' de '+slidesArray.length.toString();
+					indexBtn.label = (int(slideVO.page_order)+1).toString()+' de '+slidesArray.length.toString();
 					slideNumText.text = (slideVO.page_order+1).toString();
 				}
 				
