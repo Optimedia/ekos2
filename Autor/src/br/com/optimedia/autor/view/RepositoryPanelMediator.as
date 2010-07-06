@@ -64,9 +64,10 @@ package br.com.optimedia.autor.view
 				case NotificationConstants.GET_MEDIAS_RESULT:
 					view.mediaXml = new ArrayCollection(note.getBody() as Array);
 					view.mediaTree.validateNow();
-					for (var i:int = 0; i < view.mediaXml.length; i ++){ 
+					//habilite para a tree aparecer toda aberta
+					/* for (var i:int = 0; i < view.mediaXml.length; i ++){ 
 						view.mediaTree.expandItem(view.mediaXml[i], true) 
-					}
+					} */
 					break;
 				case NotificationConstants.DELETE_MEDIA_OK:
 					proxy.getMedias( view.subjectID );

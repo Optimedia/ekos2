@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" roundedBottomCorners="true" borderStyle="solid"
 				cornerRadius="4" horizontalAlign="center" verticalAlign="middle" showCloseButton="true" close="dismissEffect.play()"
-				resizeEffect="{myResize}" creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				resizeEffect="{myResize}" creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+				filters="{[glowFilter]}">
 	
 	<mx:Script>
 		<![CDATA[
@@ -29,6 +30,8 @@
 			
 		]]>
 	</mx:Script>
+	
+	<mx:GlowFilter id="glowFilter" color="#0FA6DD" />
 	
 	<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectStart="{loadingSwf.visible=false}"/>
 	
