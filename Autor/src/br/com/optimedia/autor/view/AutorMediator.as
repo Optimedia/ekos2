@@ -64,7 +64,7 @@ package br.com.optimedia.autor.view
 		
 		private function whoAmI():void {
 			var service:HTTPService = new HTTPService();
-			service.url = 'http://www.educar.tv/sinase.moodle/autor/whoami.php';
+			service.url = 'http://174.122.24.74/sinase.moodle/autor/whoami.php';
 			service.resultFormat = "e4x";
 			service.showBusyCursor = true;
 			service.addEventListener(ResultEvent.RESULT, resultHandler);

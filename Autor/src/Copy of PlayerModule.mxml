@@ -18,7 +18,7 @@
 				<mx:Canvas id="canvas1" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 					<mx:SWFLoader id="loadingSwf1" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
 						scaleContent="false" width="50" height="50" x="350" y="187"/>
-					<mx:Image id="slideImage" source="http://www.educar.tv/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"
+					<mx:Image id="slideImage" source="http://174.122.24.74/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"
 						maxWidth="{slideVBox.width}" maxHeight="{slideVBox.width}"
 						/>
 				</mx:Canvas>
@@ -258,9 +258,9 @@
 						var aux:UIComponent = new UIComponent();
 						aux.addChild( movie as DisplayObject );
 						movie.addEventListener(LoadEvent.LOAD, function(e:LoadEvent):void { popUp.addChild( aux ); });
-						movie.play('http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
+						movie.play('http://174.122.24.74/amf/services/autor/mediafiles/'+media.body);
 						movie.autoRewind = false;
-						movie.skin="http://www.educar.tv/sinase.moodle/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf";
+						movie.skin="http://174.122.24.74/sinase.moodle/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf";
 						movie.scaleMode = "maintainAspectRatio";
 						movie.skinBackgroundColor = 0x666666;
 	        			movie.skinAutoHide = true;
@@ -295,7 +295,7 @@
 						break;
 					case 7:
 						//link para slide de outra apresentação
-						var url1:URLRequest = new URLRequest( 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body);
+						var url1:URLRequest = new URLRequest( 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body);
 						navigateToURL(url1,"_blank");
 						break;
 					case 8:
@@ -319,7 +319,7 @@
 						var arq:Array = media.body.split(".");
 						if (arq[1]=="swf") {
 							var swfLoad:SWFLoader = new SWFLoader();
-							swfLoad.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
+							swfLoad.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body;
 							swfLoad.autoLoad = true;
 							swfLoad.scaleContent = true;
 							popUp.addChild( swfLoad );
@@ -331,7 +331,7 @@
 							imagem.scaleContent = false;
 							imagem.setStyle("horizontalCenter",0);
 							imagem.setStyle("verticalCenter",0);
-							imagem.source = 'http://www.educar.tv/amf/services/autor/mediafiles/'+media.body;
+							imagem.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body;
 							popUp.addChild( imagem );
 						}
 						PopUpManager.addPopUp( popUp, this );
