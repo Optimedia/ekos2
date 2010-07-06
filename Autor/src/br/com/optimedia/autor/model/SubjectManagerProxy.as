@@ -33,7 +33,7 @@ package br.com.optimedia.autor.model
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
 			remoteService.source = "autor.SubjectManager";
-			remoteService.showBusyCursor = true;
+			remoteService.showBusyCursor = false;
 			getSkins();
 		}
 		

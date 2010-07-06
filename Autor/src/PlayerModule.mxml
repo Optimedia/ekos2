@@ -285,8 +285,12 @@
 						popUp.addChild( text );
 						PopUpManager.addPopUp( popUp, this );
 						PopUpManager.centerPopUp( popUp );
-						text.width = 500;
-						text.height = 400;
+						popUp.height = bodyTextArea.height*0.96;
+						popUp.width = bodyTextArea.width*0.96;
+						text.percentWidth = 100;
+						text.percentHeight = 100;
+						/* text.width = 500;
+						text.height = 400; */
 						break;
 					case 7:
 						//link para slide de outra apresentação
@@ -294,7 +298,6 @@
 						navigateToURL(url1,"_blank");
 						break;
 					case 8:
-						
 						var questionview:QuestionView = new QuestionView();
 						popUp.minWidth = 600;
 						popUp.minHeight = 400;
