@@ -35,6 +35,9 @@ class SubjectManager extends SqlManager {
 	 */
 	public function getSubjects($userID) {
 		
+		//dá unlock nas apresentações bloqueadas no dia anterior
+		$this->resetLocks();
+		
 		$_SESSION['userID'] = $userID;
 		
 		$sql = "SELECT * FROM eko_user WHERE user_id=$userID";
@@ -468,5 +471,14 @@ class SubjectManager extends SqlManager {
 		// ###############################################################
 		
 		return mysql_query ( $sql );
+	}
+	
+	private function resetLocks() {
+		$sql = "SELECT * FROM ath_presentation WHERE TO_DAYS(NOW()) - TO_DAYS(locked_at) > 0 AND locked_by <> 0";
+		$query = parent::doSelect ( $sql );
+		
+		while ( $presentation = mysql_fetch_object ( $query, "PresentationVO" ) ) {
+			$this->unlockPresentation( $presentation->presentation_id );
+		}
 	}
 }
