@@ -115,8 +115,7 @@
 						previewImage.visible = true;
 						break;
 					case 8:
-						previewImage.source = item.body;
-						previewImage.visible = true;
+						previewTextArea.text = item.description;
 						break;
 					default:
 						previewImage.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+item.body;
