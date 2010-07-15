@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   backgroundColor="#89B3C9" preloaderChromeColor="#89B3C9" xmlns:view="br.com.optimedia.idm.view.*" minWidth="960" frameRate="12">
+	
+	<fx:Style source="Main.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import br.com.optimedia.idm.vo.UserVO;
+			
+			[Bindable] public var user:UserVO = new UserVO();
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<mx:SWFLoader id="loader" y="0" source="http://www.i-brasil.net/template/denatran/images/TOPO_AZUL_FIM.swf" horizontalCenter="0"/>
+	<view:Login y="225" horizontalCenter="0">
+	</view:Login>
+	
+</s:Application>

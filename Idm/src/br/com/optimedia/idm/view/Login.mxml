@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="346" height="204" creationComplete="init()">
+	
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.idm.remote.UserRemote;
+			import br.com.optimedia.idm.view.login.ConfirmarEmail;
+			import br.com.optimedia.idm.view.login.NewUser;
+			import br.com.optimedia.idm.vo.UserVO;
+			
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			private var newUser:NewUser = new NewUser();
+			private var userRemote:UserRemote = UserRemote.getInstance();
+			
+			[Bindable] private var user:UserVO = new UserVO();
+			
+			private var sharedObj:SharedObject;
+			
+			private function init():void {
+				sharedObj = SharedObject.getLocal("idm.login");
+				if(sharedObj.size > 0) {
+					txtLogin.text = sharedObj.data.login;
+					txtSenha.text = sharedObj.data.senha;
+					cbSalvar.selected = true;
+				}
+				
+				txtLogin.addEventListener(Event.CHANGE, verifForm);
+				txtSenha.addEventListener(Event.CHANGE, verifForm);
+				
+				userRemote.getSession(resultGetSession);
+			}
+			
+			private function resultGetSession(source:ResultEvent):void {
+				if(source.result is UserVO) {
+					mx.core.FlexGlobals.topLevelApplication.user = source.result as UserVO;
+				}
+			}
+			
+			private function verifForm(event:Event):void {
+				if(txtLogin.text.length >= 4 && txtSenha.text.length >= 6) {
+					btnEntrar.enabled = true;
+				} else {
+					btnEntrar.enabled = false;
+				}
+			}
+			
+			private function showNewUser():void {
+				newUser = new NewUser();
+				
+				newUser.addEventListener("newUserComplete", newUserComplete);
+				
+				PopUpManager.addPopUp(newUser, this, true);
+			}
+			
+			private function showConfirmarEmail():void {
+				var confirmarEmail:ConfirmarEmail = new ConfirmarEmail();
+				
+				PopUpManager.addPopUp(confirmarEmail, this, true);
+			}
+			
+			private function newUserComplete(event:Event):void {
+				user = mx.core.FlexGlobals.topLevelApplication.user;
+				this.currentState = "loginComplete";
+			}
+			
+			private function doLogin():void {
+				if(cbSalvar.selected == true) {
+					sharedObj.data.login = txtLogin.text;
+					sharedObj.data.senha = txtSenha.text;
+					sharedObj.flush();
+				} else {
+					sharedObj.clear();
+				}
+				
+				userRemote.doLogin(txtLogin.text, txtSenha.text, "denatran", resultDoLogin);
+			}
+			
+			private function resultDoLogin(source:ResultEvent):void {
+				if(source.result === 1 || source.result === 2) {
+					Alert.show("Dados inválidos.", "Ecossistema");
+				} else if(source.result == 3) {
+					Alert.show("Seu usuário está bloqueado.", "Ecossistema");
+				} else {
+					// com next_url  redireciona a página
+					var url:URLRequest = new URLRequest(source.result.toString()); 
+					navigateToURL(url,"_self"); 
+				}
+			}
+			
+			private function doLogout():void {
+				userRemote.doLogout(resultDoLogout);
+			}
+			
+			private function resultDoLogout(source:ResultEvent):void {
+				if(source.result === true) {
+					this.currentState = "";
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="State1"/>
+		<s:State name="loginComplete"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Label text="usuário" horizontalCenter="-68" y="56" includeIn="State1"/>
+	<s:Label text="senha" horizontalCenter="-63" y="87" includeIn="State1"/>
+	<s:TextInput horizontalCenter="27" y="50" id="txtLogin" includeIn="State1"/>
+	<s:TextInput horizontalCenter="27" y="81" id="txtSenha" includeIn="State1" displayAsPassword="true"/>
+	<s:Label y="10" text="Acesso Restrito" textAlign="center" fontWeight="bold" fontSize="14" horizontalCenter="0"/>
+	<s:CheckBox x="136" y="111" label="Salvar Dados" id="cbSalvar" includeIn="State1"/>
+	<s:Button x="194" y="145" id="btnEntrar" label="Entrar" includeIn="State1" click="doLogin()" enabled="false"/>
+	<mx:LinkButton x="0" y="183" label="Nova Conta" click="showNewUser()" includeIn="State1"/>
+	<mx:LinkButton x="228" y="183" label="Confirmar Email" includeIn="State1" click="showConfirmarEmail()"/>
+	<s:Label includeIn="loginComplete" x="43" y="60" text="Bem vindo,"/>
+	<s:Label includeIn="loginComplete" x="96" y="80" text="{user.nome}" fontWeight="bold"/>
+	<mx:LinkButton includeIn="loginComplete" x="302" y="183" label="Sair" click="doLogout()"/>
+	
+</s:Group>

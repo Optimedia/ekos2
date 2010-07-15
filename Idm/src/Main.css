@@ -1,0 +1,15 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+
+global
+{
+	font-family: Verdana;
+	font-size: 12;
+	content-background-color: #FFFFFF;
+	focus-color: #A7D3EA;
+	selection-color: #789DB0;
+	roll-over-color: #A7D9F3;
+}
+	

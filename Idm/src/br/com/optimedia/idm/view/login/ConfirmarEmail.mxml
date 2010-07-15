@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="298" height="194" close="closePop()" title="Confirmar E-mail" creationComplete="init()">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.idm.remote.UserRemote;
+			import br.com.optimedia.idm.vo.UserVO;
+			
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			private var userRemote:UserRemote = new UserRemote();
+			[Bindable] private var user:UserVO = new UserVO();
+			
+			private function init():void {
+				PopUpManager.centerPopUp(this);
+				user = mx.core.FlexGlobals.topLevelApplication.user;
+			}
+			
+			private function closePop():void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function confirmarEmail():void {
+				userRemote.confirmarEmail(txtUsuario.text, txtCodigo.text, resultConfirmarEmail);
+			}
+			
+			private function resultConfirmarEmail(source:ResultEvent):void {
+				if(source.result === true) {
+					PopUpManager.removePopUp(this);
+					Alert.show("Email confirmado. Você já pode entrar no sistema.");
+				} else {
+					Alert.show(source.result.toString());
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:controlBarContent>
+		<mx:Spacer width="100%" height="10"/>
+		<s:Button label="Enviar" click="confirmarEmail()"/>
+	</s:controlBarContent>
+	
+	<s:Label x="10" y="10" text="usuário"/>
+	<s:TextInput id="txtUsuario" x="10" y="26" width="276" text="{user.login}"/>
+	<s:Label x="10" y="60" text="código"/>
+	<s:TextInput id="txtCodigo" x="10" y="76" width="276"/>
+	
+</s:TitleWindow>
