@@ -40,6 +40,8 @@ package br.com.optimedia.assets
 		public static const GET_QUESTION_RESULT:String = "GET_QUESTION_RESULT";
 		public static const CREATION_QUESTION_RESULT:String = "CREATION_QUESTION_RESULT";
 		public static const GET_LAST_VIEWED_SLIDE_RESULT:String = "GET_LAST_VIEWED_SLIDE_RESULT";
+		
+		public static const GET_QUESTION_EDIT_RESULT:String = "GET_QUESTION_EDIT_RESULT";
 
 	}
 }
