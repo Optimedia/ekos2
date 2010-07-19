@@ -3,6 +3,7 @@ package br.com.optimedia.autor.view
 	import br.com.optimedia.assets.NotificationConstants;
 	import br.com.optimedia.assets.vo.MediaVO;
 	import br.com.optimedia.assets.vo.PresentationVO;
+	import br.com.optimedia.assets.vo.QuestionVO;
 	import br.com.optimedia.autor.model.RepositoryManagerProxy;
 	import br.com.optimedia.autor.view.components.RepositoryPanel;
 	
@@ -10,7 +11,9 @@ package br.com.optimedia.autor.view
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.controls.Button;
 	import mx.events.CloseEvent;
+	import mx.rpc.events.ResultEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -33,6 +36,7 @@ package br.com.optimedia.autor.view
 			trace(NAME+".onRegister()");
 			view.deleteBtn.addEventListener( MouseEvent.CLICK, deleteMedia );
 			view.linkBtn.addEventListener( MouseEvent.CLICK, doLink);
+			view.addEventListener(RepositoryPanel.GET_QUESTION_EVENT, getQuestion);
 			
 			proxy = facade.retrieveProxy( RepositoryManagerProxy.NAME ) as RepositoryManagerProxy;
 		}
@@ -50,7 +54,8 @@ package br.com.optimedia.autor.view
 		{
 			return [NotificationConstants.BEGIN_PRESENTATION_EDIT,
 					NotificationConstants.GET_MEDIAS_RESULT,
-					NotificationConstants.DELETE_MEDIA_OK];
+					NotificationConstants.DELETE_MEDIA_OK,
+					NotificationConstants.GET_QUESTION_EDIT_RESULT];
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -73,12 +78,17 @@ package br.com.optimedia.autor.view
 					proxy.getMedias( view.subjectID );
 					Alert.show("Mídia removida com sucesso", "OK");
 					break;
+				case NotificationConstants.GET_QUESTION_EDIT_RESULT:
+					var questionVO:QuestionVO = note.getBody() as QuestionVO;
+					view.getQuestionResult(questionVO);
+					break;
 				default:
 					break;
 			}
 		}
 		
 		private function deleteMedia(event:MouseEvent):void {
+			view.edtBtn.visible=false;
 			Alert.noLabel = "Não";
 			Alert.yesLabel = "Sim";
 			Alert.show("Tem certeza que deseja apagar a media "+MediaVO(view.mediaTree.selectedItem).title+"?", "Atenção",Alert.YES|Alert.NO, null, deleteSubject, null, Alert.NO);
@@ -98,6 +108,11 @@ package br.com.optimedia.autor.view
 			view.mediaTree.selectedIndex = -1;
 			view.previewImage.visible = false;
 			view.previewTextArea.visible = false;
+		}
+		private function getQuestion(event:ResultEvent):void {
+			//var item:* = new MediaVO
+			var item:MediaVO= event.result as MediaVO
+			proxy.getQuestionVO(item);
 		}
 	}
 }
