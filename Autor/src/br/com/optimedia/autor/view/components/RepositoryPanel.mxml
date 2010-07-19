@@ -4,6 +4,11 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.assets.vo.QuestionVO;
+			import mx.events.ScrollEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
 			import br.com.optimedia.assets.ImgAssets;
 			import br.com.optimedia.assets.vo.MediaVO;
 			import mx.core.Application;
@@ -12,6 +17,8 @@
 			import mx.collections.ArrayCollection;
 			
 			import br.com.optimedia.autor.AutorFacade;
+			
+			public static const GET_QUESTION_EVENT:String = "GET_QUESTION_EVENT";
 			
 			private var autorFacade:AutorFacade = AutorFacade.getInstance();
 			
@@ -24,8 +31,24 @@
 			[Bindable]
 			public var mediaXml:ArrayCollection = new ArrayCollection();
 			
+			[Bindable]
+			private var mediaVO:MediaVO = new MediaVO();
+			
+			
+			public var edtBtn:Button = new Button();
+			
 			private function init():void {
 				autorFacade.startup( this );
+				
+				edtBtn.addEventListener(MouseEvent.CLICK,openPopUpEdit);
+				mediaTree.addEventListener(ScrollEvent.SCROLL,edtBntDiseble);
+				edtBtn.label = "alterar";
+				edtBtn.includeInLayout = false
+				edtBtn.visible=false;
+				edtBtn.name = "EditQuestion";
+				this.addChildAt(edtBtn,this.getChildren().length-1);
+			
+				
 			}
 			
 			private function setIcon(item:Object):Class {
@@ -76,14 +99,18 @@
 				previewTextArea.visible = false;
 				linkBtn.enabled = false;
 				
-				var item:Object = mediaTree.selectedItem;
+				var item:Object = mediaTree.selectedItem
                 if (mediaTree.dataDescriptor.isBranch(item)) {
                     mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
                     deleteBtn.enabled = false;
+                    edtBtn.visible = false;
                     
                 }
                 else {
                 	deleteBtn.enabled = true;
+                	//edtBtn.enabled = true;
+                	var currentMediaCategory:int = MediaVO(item).category_id;
+                	
                 	currentMediaID = item.media_id;
                 	
                 	trace("-------------------------------------");
@@ -92,10 +119,25 @@
                 	
                 	dispatchEvent(new Event("currentMediaChange", true));
                 	
+                	// mostrar btn de alterar dados
+               		showBtnEdir(event.itemRenderer.y, currentMediaCategory);
+                	// mostar preview
                 	showPreview(item as MediaVO);
                 }
 			}
-			
+			private function showBtnEdir(y:int, currentMediaCategory:int):void {
+				if ((currentMediaCategory == 5) || (currentMediaCategory == 6 )|| (currentMediaCategory == 8)){
+					edtBtn.y=y - 2;
+					edtBtn.x=195;
+					edtBtn.visible = true;
+				}else {
+					edtBtn.visible = false;
+				}
+				
+			}
+			private function edtBntDiseble(event:ScrollEvent):void {
+				edtBtn.visible = false;
+			}
 			private function showPreview(item:MediaVO):void {
 				previewTextArea.text = '';
 				previePanel.title = item.title;
@@ -136,9 +178,48 @@
 				var popUp:SendMediaPopUp = new SendMediaPopUp();
 				//popUp.presentationID = presentationID;
 				popUp.subjectID = subjectID;
+				popUp.mediaVO = new MediaVO();
 				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
 				PopUpManager.centerPopUp( popUp );
+				edtBtn.visible = false;
 			}
+			private function openPopUpEdit(event:Event):void {
+				
+				mediaVO = mediaTree.selectedItem as MediaVO;
+				
+				var popUp:SendMediaPopUp = new SendMediaPopUp();				
+				//popUp.presentationID = presentationID;
+				popUp.subjectID = subjectID;
+				if (mediaVO.category_id!=8) {
+					PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+					popUp.questionRadio.selected = true;
+					popUp.radioBtnGroup.selection = popUp.questionRadio;
+					popUp.radio1.visible = false;
+					popUp.radio1.includeInLayout = false;
+					popUp.radio2.visible = false;
+					popUp.radio2.includeInLayout = false;
+					popUp.setType(mediaVO.category_id , mediaVO, null);
+					PopUpManager.centerPopUp( popUp );
+				}else {
+					dispatchEvent(new ResultEvent(GET_QUESTION_EVENT, false,true, mediaVO));
+				}
+				edtBtn.visible = false;
+			}
+			public function getQuestionResult (questionVO:QuestionVO):void {
+				var popUp:SendMediaPopUp = new SendMediaPopUp();
+				popUp.subjectID = subjectID;
+				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+				popUp.questionRadio.selected = true;
+				popUp.radioBtnGroup.selection = popUp.questionRadio;
+				popUp.radio1.visible = false;
+				popUp.radio1.includeInLayout = false;
+				popUp.radio2.visible = false;
+				popUp.radio2.includeInLayout = false;
+				
+				popUp.setType(8, mediaVO, questionVO);
+				PopUpManager.centerPopUp( popUp );
+			}
+			 
 			
 		]]>
 	</mx:Script>
@@ -163,8 +244,8 @@
 		<mx:Spacer width="100%"/>
 		<mx:VRule height="10"/>
 		<mx:Spacer width="100%"/>
-		<mx:Button id="addBtn" label="Adicionar" click="openPopUp()" />
+		
+		<mx:Button id="addBtn" label="Adicionar" click="openPopUp()"/>
 		<mx:Button id="deleteBtn" label="Remover" />
 	</mx:ControlBar>
-	
 </mx:Panel>
