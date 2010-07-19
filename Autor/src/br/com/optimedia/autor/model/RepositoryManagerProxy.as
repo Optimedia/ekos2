@@ -122,11 +122,19 @@ package br.com.optimedia.autor.model
 			asynkToken.addResponder( new Responder(creationQuestionResult, generalFault) );
 		}
 		private function creationQuestionResult(event:ResultEvent):void {
-			if (event.result ==true ) {
-				sendNotification( NotificationConstants.CREATION_QUESTION_RESULT, event.result );
-			}else {
+			if (event.result == false ) {
 				Alert.show("erro creation question");
+			}else {
+				sendNotification( NotificationConstants.CREATION_QUESTION_RESULT, event.result );
+				Alert.show("" + event.result);
 			}
+		}
+		public function getQuestionVO(item:MediaVO):void {
+			var asynkToken:AsyncToken = remoteService.getQuestion(item);
+			asynkToken.addResponder( new Responder(getQuestionVOResult, generalFault) );
+		}
+		private function getQuestionVOResult(event:ResultEvent):void{
+				sendNotification(NotificationConstants.GET_QUESTION_EDIT_RESULT, event.result);
 		}
 	}
 }
