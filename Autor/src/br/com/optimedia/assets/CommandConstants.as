@@ -23,5 +23,8 @@ package br.com.optimedia.assets
 		public static const SEND_MEDIA_POPUP_DISPOSE:String = 'SEND_MEDIA_POPUP_DISPOSE';
 		public static const PUBLISH_PRESENTATION_DISPOSE:String = 'PUBLISH_PRESENTATION_DISPOSE';
 		public static const COMMENT_LIST_DISPOSE:String = 'COMMENT_LIST_DISPOSE';
+		
+		// 
+		public static const GET_QUESTION_EVENT:String = 'GET_QUESTION_EVENT';
 	}
 }
