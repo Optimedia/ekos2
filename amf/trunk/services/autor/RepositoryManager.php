@@ -115,7 +115,16 @@
 							  	 'body' => $media -> body,
 								 'status' => 1);
 							  
-			if( parent::doInsert($arrayMedia, $this -> _table) == true ) {
+			if ($media -> media_id != 0 ) {
+					
+				$condition = "media_id = ". $media ->media_id;
+					
+				if( parent::doUpdate($arrayMedia, $condition , 'mda_media')) {
+					return true;
+				}
+			
+				
+			}else if( parent::doInsert($arrayMedia, $this -> _table) == true ) {
 				$mediaID = $this->insert_id;
 				
 				$array = array	('media_id' => $mediaID,
@@ -176,14 +185,18 @@
 			}
 		}
 		public function saveQuestion($media, $question, $subject_id) {
-
+			
+			//return $media->media_id; 
+			
+			if($media->media_id==0) {
+				
 			$arrayMedia = array	('title' => $question -> title,
 							  	 'category_id' => $media -> category_id,
 							  	 'description' => $question -> description,
 							  	 'body' => $question -> comment,
 								 'status' => 1);
 								 
-			if( parent::doInsert($arrayMedia, "mda_media") == true ) {
+				if( parent::doInsert($arrayMedia, "mda_media") == true ) {
 				
 					$mediaID = $this->insert_id;
 				
@@ -192,31 +205,86 @@
 							
 					
 					if (parent::doInsert($array, 'ath_media')==true ){
-						
-						//$questionItem = new QuetionItemVO();
-						
+												
 						foreach ($question -> itemArray as $questionItem ) {
-							//return $this -> saveQuestionItem($mediaID, $questionItem);
+							
+							if($questionItem-> correct_answer==false){
+								$questionItem -> correct_answer="false";
+							}else {
+								$questionItem->correct_answer="true";
+							}
+
 							if (!$this -> saveQuestionItem($mediaID, $questionItem)) {
-								
-								$this-> deleteMedia($mediaID);
+									
+									$this-> deleteMedia($mediaID);
+									$this-> deleteQuestionItem ($mediaID);
+									
+									return false;
+								}
+						}
+						return "Questionario cadastrado com sucesso.";
+					}
+				}					 
+			}else {
+				
+				$sql = "SELECT * FROM ath_link WHERE media_id=" . $media->media_id;
+				$result = mysql_query($sql);
+				
+				// verificar se o midia esta sendo usado em mais de um lugar;
+				// so apagar quando não esta sendo utilizado
+				if(mysql_num_rows($result) > 0) {
+					return "questionário sendo utilizado, não pode ser alterado";
+				} else {
+					$arrayMedia = array	('media_id' => $media ->media_id,
+									 'title' => $question -> title,
+								  	 'category_id' => $media -> category_id,
+								  	 'description' => $question -> description,
+								  	 'body' => $question -> comment,
+									 'status' => 1);
+									 
+									 
+					$condition = "media_id = ". $media ->media_id;
+					$mediaID = $media->media_id;
+					
+					$this-> deleteQuestionItem ($mediaID);	
+					if( parent::doUpdate($arrayMedia, $condition , 'mda_media')) {
+						
+						foreach ($question -> itemArray as $questionItem ) {	
+							
+							if($questionItem-> correct_answer==false){
+								$questionItem -> correct_answer="false";
+							}else {
+								$questionItem->correct_answer="true";
+							}				
+							if (!$this -> saveQuestionItem($mediaID, $questionItem)) {
 								$this-> deleteQuestionItem ($mediaID);
-								
 								return false;
 							}
 						}
-						return true;
+						return "Questão alterado com sucesso. ";
+	
 					}
+				}
+				
 			}
 			return false;
 		}
 		private function saveQuestionItem ($mediaID, QuestionItemVO $questionItem) {
+								
 			
-			$array = array	(   
-						  	 	'name' => $questionItem -> name,
-						  	 	'correct_answer' => $questionItem -> correct_answer,
+			if($questionItem-> question_item_id>=1) {									
+				$array = array	(	
+								'question_item_id'=>$questionItem ->question_item_id,   
+								'name' => $questionItem -> name,
+						 		'correct_answer' => $questionItem -> correct_answer,
 						  	 	'media_id' => $mediaID);
-		
+			} else {
+				$array = array	(	
+								'name' => $questionItem -> name,
+						 		'correct_answer' => $questionItem -> correct_answer,
+						  	 	'media_id' => $mediaID);
+				
+			}
 			if (parent::doInsert($array, "ath_question_item")){
 				return true;
 			}else {
@@ -261,5 +329,35 @@
 					}
 				}
 			}
+		}
+		public function getQuestion(MediaVO $media) {
+		//public function getQuestion() {	
+			
+			 
+			$question = new QuestionVO();
+			$question->title = $media->title;
+			$question->description = $media->description;
+			$question->comment = $media->body;
+			$question->question_id = $media->media_id;
+			
+			
+			$sql = "SELECT * FROM ath_question_item where media_id = " . $media -> media_id;
+			
+			$result = parent::doSelect($sql);
+			
+			$array = array();
+			$item = new QuestionItemVO();
+				
+			while($item = mysql_fetch_object($result, "QuestionItemVO")) {
+				if($item->correct_answer=="false"){
+					$item->correct_answer=false;
+				}else {
+					$item->correct_answer=true;
+				}
+				$array[] = $item;
+			}	
+			$question->itemArray = $array;
+			
+			return $question;	
 		}
 	}
