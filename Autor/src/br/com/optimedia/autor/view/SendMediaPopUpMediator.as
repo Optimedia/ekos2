@@ -9,6 +9,7 @@ package br.com.optimedia.autor.view
 	
 	import flash.events.Event;
 	
+	import mx.controls.Alert;
 	import mx.events.CloseEvent;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -31,6 +32,8 @@ package br.com.optimedia.autor.view
 			view.addEventListener(SendMediaPopUp.UPLOAD_FILE_EVENT, uploadMediaFile);
 			view.addEventListener(SendMediaPopUp.UPLOAD_TEXT_EVENT, uploadMediaText);
 			view.addEventListener(SendMediaPopUp.CREATION_QUESTION_EVENT, saveQuestion);
+			//view.addEventListener(SendMediaPopUp.GET_QUESTION_EVENT, getQuestion);
+			
 			view.addEventListener(CloseEvent.CLOSE, closeMe);
 			
 			repositoryProxy = facade.retrieveProxy( RepositoryManagerProxy.NAME ) as RepositoryManagerProxy;
@@ -84,23 +87,33 @@ package br.com.optimedia.autor.view
 			repositoryProxy.uploadMediaFile(view.fileVO, media, view.subjectID);
 		}
 		
-		private function uploadMediaText(event:Event):void {
+		private function uploadMediaText(event:Event):void { 
 			var media:MediaVO = new MediaVO();
+			if(view.mediaVO!=null){
+				media=view.mediaVO;	
+			}
 			media.category_id = view.category;
 			media.title = view.nameTextInput.text;
-			if( view.currentState == 'text' ) media.body = view.textArea.text;
-			else media.body = view.fileTextInput.text;
+			if( view.currentState == 'text' ) {
+				media.body = view.textArea.text;
+			}else{
+			 	media.body = view.fileTextInput.text;
+			}
 			repositoryProxy.uploadMediaText( media, view.subjectID );
 		}
 		private function saveQuestion(event:Event):void {
-			var question:QuestionVO = new QuestionVO();
-			question=view.questionVO;
+			//var question:QuestionVO = new QuestionVO();
+			var question:QuestionVO = view.questionVO;
 			
 			var media:MediaVO = new MediaVO();
+			if(view.mediaVO){
+				media.media_id = view.mediaVO.media_id
+			}
 			media.category_id = view.category;
 			media.title = view.nameTextInput.text;
 			media.body = question.title;
 			
+	//		Alert.show("descomente a linha 114 para salvar no sendMediaPop...");
 			repositoryProxy.saveQuestion(media, question, view.subjectID);
 		}
 	}
