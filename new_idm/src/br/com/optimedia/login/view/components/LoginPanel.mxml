@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="282" height="198"
+	title="Login" creationComplete="init()"
+	borderStyle="solid" roundedBottomCorners="true">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.LoginAppFacade;
+			
+			private var facade:LoginAppFacade = LoginAppFacade.getInstance();
+			
+			private function init():void {
+				facade.startup( this );
+			}
+			
+			private function lembrarSenhaBtnHandler():void {
+				var pop:LembrarSenhaPopup = new LembrarSenhaPopup();
+				PopUpManager.addPopUp( pop, Application.application as DisplayObject, true );
+			}
+			
+			private function ativarContaBtnHandler():void {
+				var pop:AtivarContaPopUp = new AtivarContaPopUp();
+				PopUpManager.addPopUp( pop, Application.application as DisplayObject, true );
+				pop.loginInput.text = loginInput.text;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Label x="32" y="12" text="Login"/>
+	<mx:TextInput x="75" y="10" id="loginInput"/>
+
+	<mx:Label x="27" y="38" text="Senha"/>
+	<mx:TextInput x="75" y="36" id="senhaInput"/>
+
+	<mx:CheckBox x="76.5" y="66" label="Lembrar dados"/>
+
+	<mx:Button x="173" y="96" label="Entrar" id="entrarBtn"/>
+
+	<mx:LinkButton label="Lembrar senha" id="lembrarSenhaBtn" x="0" y="132" click="lembrarSenhaBtnHandler()"/>
+
+	<mx:LinkButton id="ativarContaBtn" x="171" y="132" label="Ativar conta" click="ativarContaBtnHandler()"/>
+	
+</mx:Panel>
