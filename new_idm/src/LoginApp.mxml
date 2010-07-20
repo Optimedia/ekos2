@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	creationComplete="init()" xmlns:components="br.com.optimedia.login.view.components.*"
+	width="100%" height="100%">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.LoginAppFacade;
+			
+			private var facade:LoginAppFacade = LoginAppFacade.getInstance();
+			
+			private function init():void {
+				facade.startup( this );
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<components:LoginPanel horizontalCenter="0" verticalCenter="0" />
+	
+</mx:Application>

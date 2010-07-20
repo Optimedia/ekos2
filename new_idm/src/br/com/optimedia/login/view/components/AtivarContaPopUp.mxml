@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="356" height="136" title="Ativar conta"
+	creationComplete="init()" borderStyle="solid" roundedBottomCorners="true">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.LoginAppFacade;
+			
+			private var facade:LoginAppFacade = LoginAppFacade.getInstance();
+			
+			private function init():void {
+				facade.startup( this );
+			}
+			
+			private function codigoInputFocusInHandler():void {
+				if( codigoInput.text == "Insira aqui o código recebido por e-mail") {
+					codigoInput.text = "";
+					codigoInput.setStyle("fontStyle", "normal");
+					codigoInput.setStyle("color", "#000000");
+				}
+			}
+			
+			private function codigoInputFocusOutHandler():void {
+				if( codigoInput.text.length == 0) {
+					codigoInput.text = "Insira aqui o código recebido por e-mail";
+					codigoInput.setStyle("fontStyle", "italic");
+					codigoInput.setStyle("color", "#666666");
+				}
+			}
+			
+			private function closePopUp():void {
+				facade.dispose( this );
+				PopUpManager.removePopUp( this );
+				System.gc();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Parallel id="myHideEffect" target="{this}" effectEnd="closePopUp()" duration="200">
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Blur blurXTo="300" />
+	</mx:Parallel>
+	
+	<mx:Label x="34" y="12" text="Login"/>
+	<mx:TextInput x="77" y="10" id="loginInput"/>
+	
+	<mx:Label x="25" y="38" text="Código"/>
+	<mx:TextInput x="77" y="36" id="codigoInput" width="245" text="Insira aqui o código recebido por e-mail"
+		focusIn="codigoInputFocusInHandler()" focusOut="codigoInputFocusOutHandler()"
+		fontStyle="italic" color="#AAAAAA"/>
+	
+	<mx:Button x="274" y="74" label="Ativar"/>
+	
+	<mx:Button x="0" y="74" label="Cancelar" click="myHideEffect.play()"/>
+	
+</mx:Panel>
