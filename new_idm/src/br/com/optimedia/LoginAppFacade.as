@@ -10,6 +10,7 @@ package br.com.optimedia
 	import br.com.optimedia.login.controller.LoginAppStartupCommand;
 	import br.com.optimedia.login.controller.LoginPanelDisposeCommand;
 	import br.com.optimedia.login.controller.LoginPanelStartupCommand;
+	import br.com.optimedia.login.model.ConnectManagerProxy;
 	import br.com.optimedia.login.view.components.AtivarContaPopUp;
 	import br.com.optimedia.login.view.components.LembrarSenhaPopup;
 	import br.com.optimedia.login.view.components.LoginPanel;
@@ -30,7 +31,7 @@ package br.com.optimedia
 		/**
          * Singleton ApplicationFacade Factory Method
          */
-        public static function getInstance( key:String = "default" ) : LoginAppFacade
+        public static function getInstance( key:String = "LoginAppFacade" ) : LoginAppFacade
         {
             if ( instanceMap[ key ] == null ) instanceMap[ key ] = new LoginAppFacade( key );
             return instanceMap[ key ] as LoginAppFacade;
@@ -43,7 +44,7 @@ package br.com.optimedia
         {
             super.initializeController();
             //STARTUP DOS PROXYES
-            
+            registerProxy( new ConnectManagerProxy() );
             
             //STARTUP COMMANDS
 			registerCommand( CommandConstants.LOGIN_APP_STARTUP, LoginAppStartupCommand );

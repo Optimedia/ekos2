@@ -8,6 +8,8 @@ package br.com.optimedia.login.view
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import br.com.optimedia.assets.NotificationConstants;
+	import mx.controls.Alert;
 
 	public class LembrarSenhaPopUpMediator extends Mediator
 	{
@@ -37,16 +39,17 @@ package br.com.optimedia.login.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return []
+			return [NotificationConstants.LEMBRAR_SENHA_OK]
 		}
 		
 		override public function handleNotification(note:INotification):void
 		{
 			switch (note.getName())
 			{
-				/* case NotificationConstants.BEGIN_PRESENTATION_EDIT:
-					view.viewStack.selectedIndex++;
-					break; */
+				case NotificationConstants.LEMBRAR_SENHA_OK:
+					Alert.show("Lembrar senha OK, FINISH ME!!!");
+					view.myHideEffect.play();
+					break;
 				default:
 					break;
 			}
