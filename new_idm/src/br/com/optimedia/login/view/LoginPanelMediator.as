@@ -1,7 +1,10 @@
 package br.com.optimedia.login.view
 {
 	import br.com.optimedia.assets.NotificationConstants;
+	import br.com.optimedia.login.model.ConnectManagerProxy;
 	import br.com.optimedia.login.view.components.LoginPanel;
+	
+	import flash.events.MouseEvent;
 	
 	import mx.controls.Alert;
 	
@@ -12,6 +15,8 @@ package br.com.optimedia.login.view
 	{
 		public static const NAME:String = 'LoginPanelMediator';
 		
+		private var connectManagerProxy:ConnectManagerProxy;
+		
 		public function LoginPanelMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
@@ -20,6 +25,8 @@ package br.com.optimedia.login.view
 		override public function onRegister():void
 		{
 			trace(NAME+".onRegister()");
+			connectManagerProxy = facade.retrieveProxy( ConnectManagerProxy.NAME ) as ConnectManagerProxy;
+			view.entrarBtn.addEventListener(MouseEvent.CLICK, doLogin);
 		}
 		
 		override public function onRemove():void {
@@ -33,7 +40,8 @@ package br.com.optimedia.login.view
 		
 		override public function listNotificationInterests():Array
 		{
-			return [NotificationConstants.DO_LOGIN_OK]
+			return [NotificationConstants.DO_LOGIN_OK,
+					NotificationConstants.ATIVAR_CONTA_OK]
 		}
 		
 		override public function handleNotification(note:INotification):void
@@ -42,10 +50,17 @@ package br.com.optimedia.login.view
 			{
 				case NotificationConstants.DO_LOGIN_OK:
 					Alert.show("login OK, FINISH ME!!!");
+					view.myHideEffect.play();
 					break;
+				case NotificationConstants.ATIVAR_CONTA_OK:
+					view.myHideEffect.play();
 				default:
 					break;
 			}
+		}
+		
+		private function doLogin(e:MouseEvent):void {
+			connectManagerProxy.doLogin( view.loginInput.text, view.senhaInput.text );
 		}
 	}
 }

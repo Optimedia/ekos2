@@ -5,17 +5,19 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import br.com.optimedia.login.view.components.LoginPanel;
+			import mx.managers.PopUpManager;
 			import br.com.optimedia.LoginAppFacade;
 			
 			private var facade:LoginAppFacade = LoginAppFacade.getInstance();
 			
 			private function init():void {
 				facade.startup( this );
+				var pop:LoginPanel = new LoginPanel();
+				PopUpManager.addPopUp( pop, this );
 			}
 			
 		]]>
 	</mx:Script>
-	
-	<components:LoginPanel horizontalCenter="0" verticalCenter="0" />
 	
 </mx:Application>

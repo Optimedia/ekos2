@@ -51,7 +51,7 @@
 		focusIn="codigoInputFocusInHandler()" focusOut="codigoInputFocusOutHandler()"
 		fontStyle="italic" color="#AAAAAA"/>
 	
-	<mx:Button x="274" y="74" label="Ativar"/>
+	<mx:Button x="274" y="74" label="Ativar" id="ativarBtn"/>
 	
 	<mx:Button x="0" y="74" label="Cancelar" click="myHideEffect.play()"/>
 	

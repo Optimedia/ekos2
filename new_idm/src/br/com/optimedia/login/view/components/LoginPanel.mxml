@@ -13,6 +13,7 @@
 			
 			private function init():void {
 				facade.startup( this );
+				PopUpManager.centerPopUp( this );
 			}
 			
 			private function lembrarSenhaBtnHandler():void {
@@ -26,8 +27,19 @@
 				pop.loginInput.text = loginInput.text;
 			}
 			
+			private function closePopUp():void {
+				facade.dispose( this );
+				PopUpManager.removePopUp( this );
+				System.gc();
+			}
+			
 		]]>
 	</mx:Script>
+	
+	<mx:Parallel id="myHideEffect" target="{this}" effectEnd="closePopUp()" duration="200">
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Blur blurXTo="300" />
+	</mx:Parallel>
 	
 	<mx:Label x="32" y="12" text="Login"/>
 	<mx:TextInput x="75" y="10" id="loginInput"/>
