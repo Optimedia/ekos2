@@ -5,10 +5,6 @@
 	
 	<mx:states>
 		<mx:State name="1"/>
-		<!--<mx:State name="2">
-			<mx:SetStyle target="{titleTextInput}" name="fontSize" value="32"/>
-			<mx:SetStyle target="{bodyTextArea}" name="fontSize" value="28"/>
-		</mx:State>-->
 		<mx:State name="3">
 			<mx:RemoveChild target="{bodyTextArea}"/>
 			<mx:AddChild relativeTo="{this}" position="lastChild">
@@ -25,6 +21,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import flash.net.navigateToURL;
 			import mx.rpc.events.ResultEvent;
 			import br.com.optimedia.player.view.components.QuestionView;
 			import mx.core.Repeater;
@@ -367,6 +364,10 @@
 				System.gc();
 			}
 			
+			private function printBtnHandler():void {
+				navigateToURL( new URLRequest("http://174.122.24.74/sinase.moodle/interactive/pdf/?id="+presentationID));
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -388,11 +389,12 @@
 	<!--<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">-->
 	<mx:HBox id="mediaHBox" width="542" verticalAlign="middle" paddingLeft="2" paddingRight="2" height="31" x="29" y="471">
 		
-		<mx:Spacer width="100" />
+		<mx:Button id="printBtn" icon="@Embed(source='br/com/optimedia/assets/img/pdf.png')" toolTip="Clique para imprimir este tema"
+		styleName="PdfBtn" width="30" height="30" click="printBtnHandler()" visible="{mode==PLAYER_MODE}"/>
+			
+		<mx:Spacer width="50" />
 		
 		<mx:HBox id="mediaBox" showEffect="{mediaEffect}"/>
-			
-		<mx:Spacer width="100%" />
 		
 	</mx:HBox>
 	<mx:Button id="urlBtn" icon="@Embed(source='br/com/optimedia/assets/img/chain.png')" toolTip="Clique para ver a url deste slide"

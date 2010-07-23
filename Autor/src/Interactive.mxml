@@ -33,8 +33,8 @@
 				}
 				
 				// VALORES APENAS PARA TESTE
-				//idPresentation = 103;
-				//Alert.show("modo teste");
+				idPresentation = 102;
+				Alert.show("modo teste");
 				
 				start();
 			}

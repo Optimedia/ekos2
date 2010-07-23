@@ -15,10 +15,6 @@
 {
 	skin: Embed(skinClass="NextBtn");
 }
-.PdfBtn
-{
-	skin: Embed(skinClass="PdfBtn");
-}
 .PrevBtn
 {
 	skin: Embed(skinClass="PrevBtn");
