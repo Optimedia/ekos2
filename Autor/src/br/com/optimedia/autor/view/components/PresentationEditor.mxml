@@ -37,6 +37,7 @@
 				controlBar.addChildAt(bodyTextArea.toolBar2, 0);
 				controlBar.addChildAt(bodyTextArea.bulletButton, 1);
 				controlBar.addChildAt(bodyTextArea.alignButtons, 2);
+				controlBar.addChildAt(bodyTextArea.colorPicker, 3);
 			}
 			
 			private function onViewChange():void {
