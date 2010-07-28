@@ -402,7 +402,7 @@ class SlideManager extends SqlManager {
 		$questionItem = array ();
 		$questionItemVO = new QuestionItemVO();
 		while ( $section = mysql_fetch_object ( $result , "QuestionItemVO" ) ) {
-			if ($section->correct_answer == 1){
+			if ($section->correct_answer == "true"){
 				$section->correct_answer = true;
 			}else {
 				$section->correct_answer = false;
