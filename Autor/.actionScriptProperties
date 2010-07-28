@@ -6,6 +6,7 @@
 <libraryPathEntry kind="4" path=""/>
 <libraryPathEntry kind="1" linkType="1" path="libs"/>
 <libraryPathEntry kind="3" linkType="1" path="src/br/com/optimedia/assets/skins/AuthorSkin (2).swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="src/br/com/optimedia/assets/skins/AuthorSkin.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
@@ -14,7 +15,7 @@
 <application path="Autor.mxml"/>
 </applications>
 <modules>
-<module application="src/Interactive.mxml" destPath="PlayerModule.swf" optimize="true" sourcePath="src/PlayerModule.mxml"/>
+<module application="src/Autor.mxml" destPath="PlayerModule.swf" optimize="true" sourcePath="src/PlayerModule.mxml"/>
 </modules>
 <buildCSSFiles/>
 </actionScriptProperties>
