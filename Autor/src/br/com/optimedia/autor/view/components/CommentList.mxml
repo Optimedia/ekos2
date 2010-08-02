@@ -23,7 +23,6 @@
 			
 			public static const DELETE_COMMENT_EVENT:String = 'DELETE_COMMENT_EVENT';
 			
-			[Bindable]
 			private var facade:AutorFacade = AutorFacade.getInstance();
 			
 			public var slideID:int;
@@ -77,6 +76,7 @@
 							import br.com.optimedia.assets.ImgAssets;
 							import br.com.optimedia.assets.vo.SlideCommentVO;
 							
+							[Bindable]
 							private var facade:AutorFacade = AutorFacade.getInstance();
 							
 						]]>

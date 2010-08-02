@@ -32,7 +32,9 @@ package br.com.optimedia.autor
 		public static const IS_EDITOR:String = "IS_EDITOR";
 		public static const IS_OBSERVER:String = "IS_OBSERVER";
 		
+		[Bindable]
 		public var userID:int;
+		[Bindable]
 		public var userRole:String;
 		
 		public function AutorFacade(key:String)
