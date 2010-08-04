@@ -350,10 +350,10 @@ class SubjectManager extends SqlManager {
 			if( $resourceHandler->insertResource ( $presentationID, $sectionID, $presentationName ) ) {
 				// ###############################################################
 				// LOG
-				if($_SERVER['SERVER_ADDR'] == "74.54.27.146") {
-					$host = "74.54.27.146:3309";
+				if($_SERVER['SERVER_ADDR'] == "174.122.24.74") {
+					$host = "localhost";
 					$user = "root";
-					$pass = "0pt1m3d14SQL";
+					$pass = "p0lyd4m4sSQL";
 					$db = "ekos2";
 				} else {
 					$host = "10.1.1.10";
