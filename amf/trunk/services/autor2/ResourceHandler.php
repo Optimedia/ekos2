@@ -11,9 +11,9 @@
         protected $presentationID;
         
 		public function ResourceHandler() {
-			$host = "74.54.27.146:3309";
+			$host = "localhost";
 			$user = "root";
-			$pass = "0pt1m3d14SQL";
+			$pass = "p0lyd4m4sSQL";
 			$db = "sinasemdl_sinase2";
 	
 			parent::SqlManager($host, $user, $pass, $db);
