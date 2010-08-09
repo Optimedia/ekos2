@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="1150" height="640" creationComplete="init()"
+	xmlns:components="br.com.optimedia.autor.view.components.*" xmlns:local="*">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.controls.textClasses.TextRange;
+			import br.com.optimedia.assets.vo.SlideVO;
+			import br.com.optimedia.assets.vo.PresentationVO;
+			import br.com.optimedia.autor.AutorFacade;
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			[Bindable]
+			public var currentSlide:SlideVO;
+			
+			[Bindable]
+			private var _presentationVO:PresentationVO = new PresentationVO();
+			public function set presentationVO(value:PresentationVO):void {
+				_presentationVO = value;
+			}
+			public function get presentationVO():PresentationVO {
+				return _presentationVO;
+			}
+			
+			private function init():void {
+				autorFacade.startup( this );
+				playerModule.addEventListener( PlayerModule.SET_SLIDE_EVENT, setSlide);
+			}
+			
+			private function setSlide(e:Event):void {
+				currentSlide = playerModule.slideVO;
+			}
+			
+			private function moveTextEditBtn():void {
+				controlBar.addChildAt(bodyTextArea.toolBar2, 0);
+				controlBar.addChildAt(bodyTextArea.bulletButton, 1);
+				controlBar.addChildAt(bodyTextArea.alignButtons, 2);
+				controlBar.addChildAt(bodyTextArea.colorPicker, 3);
+			}
+			
+			private function onViewChange():void {
+				if(viewStack.selectedIndex == 0) {
+					repositoryPanel.linkBtn.enabled = false;
+					repositoryPanel.linkBtn.visible = false;
+					repositoryPanel.mediaTree.selectedIndex = -1;
+				}
+				else if(viewStack.selectedIndex == 1) {
+					repositoryPanel.linkBtn.visible = true;
+					repositoryPanel.mediaTree.selectedIndex = -1;
+					if( bodyTextArea.selection.beginIndex != bodyTextArea.selection.endIndex ) {
+						repositoryPanel.linkBtn.enabled = true;
+					}
+					else {
+						repositoryPanel.linkBtn.enabled = false;
+					}
+				}
+			}
+			
+			private function togleLinkBtn(e:MouseEvent):void {
+				var textRange:TextRange = RichTextEditor(e.currentTarget).selection;
+				if( textRange.beginIndex != textRange.endIndex && repositoryPanel.mediaTree.selectedIndex != -1) {
+					repositoryPanel.linkBtn.enabled = true;
+				}
+				else {
+					repositoryPanel.linkBtn.enabled = false;
+				}
+			}
+			
+			private function showCommentList():void {
+				var popUp:CommentList = new CommentList();
+				popUp.slideID = currentSlide.slide_id;
+				PopUpManager.addPopUp(popUp, this, true);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Button id="backBtn" label="Voltar" />
+	
+	<mx:HBox>
+		
+		<mx:ViewStack id="viewStack" width="100%" height="100%" creationPolicy="all" change="onViewChange()" backgroundAlpha="0">
+			
+			<mx:Panel layout="vertical" width="100%" height="100%" backgroundAlpha="0" title="{_presentationVO.title}">
+	
+				<local:PlayerModule id="playerModule" width="800" height="512" mode="PREVIEW_MODE" backgroundAlpha="0"/>
+				
+				<mx:ControlBar width="100%" verticalAlign="middle">
+					
+					<mx:Button label="Novo slide" id="newSlideBtn"/>
+					<mx:Button label="Editar" id="slideEditBtn"/>
+					<mx:Button label="Remover Slide" id="slideRemoveBtn"/>
+					<mx:Button label="Ordenar" id="setOrderBtn"/>
+					
+					<mx:Spacer width="100%" />
+					
+					<mx:Button label="Comentários" id="commentsBtn" click="showCommentList()"/>
+				
+				</mx:ControlBar>
+				
+			</mx:Panel>
+			
+			<mx:Panel layout="vertical" width="100%" height="100%" horizontalAlign="center" paddingTop="10" paddingBottom="10">
+						
+				<mx:TextInput id="titleTextInput" themeColor="#FFFFFF" width="780" textAlign="center" text="{currentSlide.title}"
+					fontSize="28"/>
+				
+				<mx:RichTextEditor id="bodyTextArea" height="100%" width="100%" htmlText="{currentSlide.text_body}" fontSize="22" fontFamily="Arial"
+							 themeColor="#FFFFFF" creationComplete="moveTextEditBtn()" showControlBar="false"
+							 borderStyle="none" borderThickness="0" headerHeight="0" mouseUp="togleLinkBtn(event)"/>
+				
+				<mx:ControlBar id="controlBar">
+					
+					<mx:Spacer width="100%" />
+					
+					<mx:Button id="saveSlideBtn" label="Salvar"/>
+					
+					<mx:Button id="closeEditorBtn" label="Cancelar" click="viewStack.selectedIndex--"/>
+					
+				</mx:ControlBar>
+				
+			</mx:Panel>
+			
+		</mx:ViewStack>
+		
+		<components:RepositoryPanel id="repositoryPanel" />
+		
+	</mx:HBox>
+	
+</mx:VBox>
