@@ -80,5 +80,8 @@ package br.com.optimedia.player.model
 				sendNotification( NotificationConstants.GET_QUESTION_RESULT, event.result );
 			}
        }
+       public function saveResposeQuestion(userID:uint, slideID:uint, responseQuestion:Array, questionVO:QuestionVO):void{
+       		var asynkToken:AsyncToken = remoteService.saveResposeQuestion(userID,slideID,responseQuestion, questionVO);
+       }
 	}
 }
