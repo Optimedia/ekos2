@@ -414,4 +414,25 @@ class SlideManager extends SqlManager {
 		
 		return 	$question;
 	}
+	public function saveResposeQuestion($userID, $slideID,$responseQuestion, QuestionVO $questionVO){
+		
+
+			$i=0;
+			while($i < count($responseQuestion)) {
+				
+				if ($responseQuestion[$i] == true){
+					$responseQuestion[$i] = "true";
+				}else {
+					$responseQuestion[$i] = "false";
+				}	
+				$array = array	(	
+								'user_id'=>$userID,
+						 		'slide_id' => $slideID,
+								'question_item_id' => $questionVO -> itemArray[$i] -> question_item_id ,
+						 		'answer' => $responseQuestion[$i]	 		
+				);
+				parent::doInsert($array, "ath_log_answer");
+				$i++;
+			}		
+	}
 }
