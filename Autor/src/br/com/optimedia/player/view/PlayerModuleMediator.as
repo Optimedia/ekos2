@@ -8,6 +8,7 @@ package br.com.optimedia.player.view
 	import br.com.optimedia.player.view.components.MediaPopUp;
 	import br.com.optimedia.player.view.components.QuestionView;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.collections.ArrayCollection;
@@ -24,6 +25,7 @@ package br.com.optimedia.player.view
 		public static const NAME:String = 'PlayerModuleMediator';
 		
 		private var proxy:PlayerSlideManagerProxy;
+		
 		
 		public function PlayerModuleMediator(viewComponent:Object=null)
 		{
@@ -83,6 +85,7 @@ package br.com.optimedia.player.view
 					var questionView:QuestionView = mediaPopUp.getChildByName(QuestionView.NAME) as QuestionView;
 					var questionVO:QuestionVO = note.getBody() as QuestionVO;
 					questionView.questionVO=questionVO;
+					questionView.addEventListener(QuestionView.RESPONSE_QUESTION, saveResponseQuestion);
 					//view.p( new ArrayCollection( note.getBody() as Array ) );
 					break;
 				case NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT:
@@ -137,6 +140,11 @@ package br.com.optimedia.player.view
 		
 		private function getLastViewedSlide():void {
 			proxy.getLastViewedSlide(PlayerFacade(facade).userID, view.presentationID);
+		}
+		private function saveResponseQuestion(event:Event):void{
+			var responteQuestion:Array = QuestionView(event.target).responsetItem as Array;
+			var questionVO:QuestionVO = event.target._questionVO as QuestionVO;
+			proxy.saveResposeQuestion(PlayerFacade(facade).userID,view.slideID,responteQuestion,questionVO);
 		}
 	}
 }
