@@ -85,7 +85,11 @@ package br.com.optimedia.player.view
 					var questionView:QuestionView = mediaPopUp.getChildByName(QuestionView.NAME) as QuestionView;
 					var questionVO:QuestionVO = note.getBody() as QuestionVO;
 					questionView.questionVO=questionVO;
-					questionView.addEventListener(QuestionView.RESPONSE_QUESTION, saveResponseQuestion);
+					
+					
+					if(view.mode == "PLAYER_MODE"){
+						questionView.addEventListener(QuestionView.RESPONSE_QUESTION, saveResponseQuestion);
+					}
 					//view.p( new ArrayCollection( note.getBody() as Array ) );
 					break;
 				case NotificationConstants.GET_LAST_VIEWED_SLIDE_RESULT:
