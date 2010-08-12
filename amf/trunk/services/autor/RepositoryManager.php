@@ -247,6 +247,7 @@
 					$mediaID = $media->media_id;
 					
 					$this-> deleteQuestionItem ($mediaID);	
+					
 					if( parent::doUpdate($arrayMedia, $condition , 'mda_media')) {
 						
 						foreach ($question -> itemArray as $questionItem ) {	
@@ -278,6 +279,7 @@
 								'name' => $questionItem -> name,
 						 		'correct_answer' => $questionItem -> correct_answer,
 						  	 	'media_id' => $mediaID);
+						  	 	
 			} else {
 				$array = array	(	
 								'name' => $questionItem -> name,
@@ -285,7 +287,28 @@
 						  	 	'media_id' => $mediaID);
 				
 			}
+			
+				
 			if (parent::doInsert($array, "ath_question_item")){
+				// ###############################################################
+				// LOG
+				if($questionItem-> question_item_id>=1) {
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 
+													'question_item_id' => $questionItem ->question_item_id,
+													'media_id'=> $mediaID,
+													'type_event' => 3 );
+				} else {
+					$questionItemID = $this->insert_id;
+					$arrayLog = array ('user_id' => $_SESSION['userID'], 
+													'question_item_id' => $questionItemID,
+													'media_id'=> $mediaID,
+													'type_event' => 1 );
+				}									
+				parent::doInsert ( $arrayLog, 'ath_log_question_item' );
+				//return false;
+				//FIM LOG
+				// ###############################################################
+				
 				return true;
 			}else {
 				return false;
@@ -318,7 +341,10 @@
 						// ###############################################################
 						// LOG
 						foreach ($questionItem  as $item ) {	
-							$arrayLog = array ('user_id' => $_SESSION['userID'], 'question_item_id' => $item, 'type_event' => 2 );
+							$arrayLog = array ('user_id' => $_SESSION['userID'], 
+												'question_item_id' => $item, 
+												'media_id'=> $media_id,
+												'type_event' => 2 );
 							parent::doInsert ( $arrayLog, 'ath_log_question_item' );
 								//return false;
 							//}
