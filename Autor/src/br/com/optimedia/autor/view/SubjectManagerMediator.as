@@ -10,8 +10,6 @@ package br.com.optimedia.autor.view
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
-	import flash.net.URLRequest;
-	import flash.net.navigateToURL;
 	import flash.utils.Timer;
 	
 	import mx.collections.ArrayCollection;
