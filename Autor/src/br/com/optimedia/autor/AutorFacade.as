@@ -31,6 +31,7 @@ package br.com.optimedia.autor
 		public static const IS_AUTHOR:String = "IS_AUTHOR";
 		public static const IS_EDITOR:String = "IS_EDITOR";
 		public static const IS_OBSERVER:String = "IS_OBSERVER";
+		public static const IS_REVISOR:String = "IS_REVISOR";
 		
 		[Bindable]
 		public var userID:int;
