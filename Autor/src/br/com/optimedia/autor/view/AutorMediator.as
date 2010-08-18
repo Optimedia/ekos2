@@ -114,7 +114,7 @@ package br.com.optimedia.autor.view
 				view.addModuleManager();
 				view.addSlideEditor();
 			}
-			//SE FOR OBSERVADOR
+			//SE FOR REVISOR
 			else if( roleID == 14 ) {
 				view.visible = true;
 				AutorFacade(facade).userRole = AutorFacade.IS_REVISOR;
