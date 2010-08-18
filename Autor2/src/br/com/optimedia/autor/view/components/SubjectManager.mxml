@@ -144,6 +144,11 @@
 					newSubjectBtn.visible = false;
 					newPresentationBtn.visible = false;
 				}
+				else if( userRole == AutorFacade.IS_REVISOR ) {
+					newSubjectBtn.visible = false;
+					newPresentationBtn.visible = false;
+					slideEditBtn.label = "Ver slides";
+				}
 				else if( userRole == AutorFacade.IS_ADMIN ) {
 					newSubjectBtn.visible = true;
 					newPresentationBtn.visible = true;

@@ -78,7 +78,7 @@ package br.com.optimedia.autor.view
 			var userID:int = event.result.userID;
 			//HABILITE ESSAS DUAS VARIÁVEIS PARA TESTAR LOCALMENTE
 			//userID = 10;
-			//roleID = 1;
+			//roleID = 14;
 			//SE NÃO ESTIVER LOGADO NO MOODLE
 			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");
@@ -111,6 +111,14 @@ package br.com.optimedia.autor.view
 			else if( roleID == 9 ) {
 				view.visible = true;
 				AutorFacade(facade).userRole = AutorFacade.IS_OBSERVER;
+				AutorFacade(facade).userID = userID;
+				view.addModuleManager();
+				view.addSlideEditor();
+			}
+			//SE FOR REVISOR
+			else if( roleID == 14 ) {
+				view.visible = true;
+				AutorFacade(facade).userRole = AutorFacade.IS_REVISOR;
 				AutorFacade(facade).userID = userID;
 				view.addModuleManager();
 				view.addSlideEditor();
