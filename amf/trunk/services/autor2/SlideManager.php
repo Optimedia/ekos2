@@ -5,6 +5,8 @@ require_once '../vo/br/com/optimedia/assets/vo/SlideVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/MediaVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/PresentationVO.php';
 require_once '../vo/br/com/optimedia/assets/vo/SlideCommentVO.php';
+require_once '../vo/br/com/optimedia/assets/vo/QuestionVO.php';
+require_once '../vo/br/com/optimedia/assets/vo/QuestionItemVO.php';
 
 class SlideManager extends SqlManager {
 	
@@ -384,5 +386,56 @@ class SlideManager extends SqlManager {
 		else {
 			return false;
 		}
+	}
+	public function getQuestion ($media_id) {
+		$question = new QuestionVO();
+		
+		$sql = "SELECT * FROM mda_media WHERE media_id=$media_id";
+		$result = mysql_query($sql);
+		$result = mysql_fetch_array ( $result );
+		
+		$question->question_id = $media_id;
+		$question->title = $result['title'];
+		$question->description = $result['description'];
+		$question->comment = $result['body'];
+		
+		$sql = "SELECT * FROM ath_question_item WHERE media_id=$media_id";
+		$result = mysql_query($sql);
+					
+		$questionItem = array ();
+		$questionItemVO = new QuestionItemVO();
+		while ( $section = mysql_fetch_object ( $result , "QuestionItemVO" ) ) {
+			if ($section->correct_answer == "true"){
+				$section->correct_answer = true;
+			}else {
+				$section->correct_answer = false;
+			}
+			$questionItem[] = $section;
+			
+		}
+		$question -> itemArray = $questionItem;
+		
+		return 	$question;
+	}
+	public function saveResposeQuestion($userID, $slideID,$responseQuestion, QuestionVO $questionVO){
+		
+
+			$i=0;
+			while($i < count($responseQuestion)) {
+				
+				if ($responseQuestion[$i] == true){
+					$responseQuestion[$i] = "true";
+				}else {
+					$responseQuestion[$i] = "false";
+				}	
+				$array = array	(	
+								'user_id'=>$userID,
+						 		'slide_id' => $slideID,
+								'question_item_id' => $questionVO -> itemArray[$i] -> question_item_id ,
+						 		'answer' => $responseQuestion[$i]	 		
+				);
+				parent::doInsert($array, "ath_log_answer");
+				$i++;
+			}		
 	}
 }
