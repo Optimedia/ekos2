@@ -2,10 +2,11 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" roundedBottomCorners="true" borderStyle="solid"
 				cornerRadius="4" horizontalAlign="center" verticalAlign="middle" showCloseButton="true" close="dismissEffect.play()"
 				resizeEffect="{myResize}" creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off"
-				filters="{[glowFilter]}">
+				filters="{[glowFilter]}" showEffect="{Fade}">
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.effects.Fade;
 			import mx.events.ResizeEvent;
 			import mx.effects.easing.Elastic;
 			import mx.effects.easing.Bounce;
@@ -33,7 +34,7 @@
 	
 	<mx:GlowFilter id="glowFilter" color="#0FA6DD" />
 	
-	<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectStart="{loadingSwf.visible=false}"/>
+	<mx:Resize id="myResize" target="{this}" effectStart="{loadingSwf.visible=false}"/>
 	
 	<mx:Parallel id="dismissEffect" target="{this}" effectEnd="closeMe()">
 		<mx:Blur blurXFrom="0" blurXTo="200"/>
