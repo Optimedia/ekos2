@@ -171,44 +171,45 @@
 					btn.width = 24;
 		 			btn.height = 24;
 		 			btn.data = media;
+		 			btn.toolTip = btn.data.title;
 					btn.addEventListener(MouseEvent.CLICK, openMediaPopUp);
 		 			switch (media.category_id)
 					{
 						case 1:
 							btn.setStyle("icon", ImgAssets.category1Icon);
-							btn.toolTip = "Ver Tabela";
+							//btn.toolTip = "Ver Tabela";
 							break;
 						case 2:
 							btn.setStyle("icon", ImgAssets.category2Icon);
-							btn.toolTip = "Ver Gráfico";
+							//btn.toolTip = "Ver Gráfico";
 							break;
 						case 3:
 							btn.setStyle("icon", ImgAssets.category3Icon);
-							btn.toolTip = "Ver Imagem";
+							//btn.toolTip = "Ver Imagem";
 							break;
 						case 4:
 							btn.setStyle("icon", ImgAssets.category4Icon);
-							btn.toolTip = "Ver Vídeo";
+							//btn.toolTip = "Ver Vídeo";
 							break;
 						case 5:
 							btn.setStyle("icon", ImgAssets.category5Icon);
-							btn.toolTip = "Abrir URL";
+							//btn.toolTip = "Abrir URL";
 							break;
 						case 6:
 							btn.setStyle("icon", ImgAssets.category6Icon);
-							btn.toolTip = "Ver Texto";
+							//btn.toolTip = "Ver Texto";
 							break;
 						case 7:
 							btn.setStyle("icon", ImgAssets.category7Icon);
-							btn.toolTip = "Baixar Arquivo";
+							//btn.toolTip = "Baixar Arquivo";
 							break;
 						case 8:
 							btn.setStyle("icon", ImgAssets.category8Icon);
-							btn.toolTip = "Ver questão";
+							//btn.toolTip = "Ver questão";
 							break;
 						default:
 							btn.setStyle("icon", ImgAssets.category3Icon);
-							btn.toolTip = "Abrir Mídia";
+							//btn.toolTip = "Abrir Mídia";
 							break;
 					}
 					mediaBox.addChild( btn );
