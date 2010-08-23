@@ -12,10 +12,12 @@
 		
 		public static const NAME:String="QuestionView";
 		
+		public static const RESPONSE_QUESTION:String = "RESPONSE_QUESTION";
+		
 		[Bindable]
 		public var _questionVO:QuestionVO;
 		
-		private var responsetItem:Array = new Array();
+		public var responsetItem:Array = new Array();
 		private var CorrectItem:Array = new Array();
 		
 		public function get questionVO():QuestionVO {
@@ -53,6 +55,7 @@
 			}else {
 				Alert.show("Resposta correta","",4,this);
 			}
+			dispatchEvent(new Event(RESPONSE_QUESTION,true));
 		}
 	]]>
 </mx:Script>
