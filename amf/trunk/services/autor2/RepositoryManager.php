@@ -388,4 +388,19 @@
 			
 			return $question;	
 		}
+		
+		public function getAllImgs( $subject_id ) {
+			
+			$sql = "SELECT m.* FROM mda_media m, ath_media a WHERE m.category_id=3 AND a.media_id=m.media_id AND a.subject_id=$subject_id";
+			
+			$result = parent::doSelect($sql);
+			$array = array();
+			$media = new MediaVO();
+			
+			while($media = mysql_fetch_object($result, "MediaVO")) {
+				$array[] = $media;
+			}	
+			
+			return $array;
+		}
 	}
