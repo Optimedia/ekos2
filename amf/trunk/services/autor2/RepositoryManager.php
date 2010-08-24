@@ -458,8 +458,6 @@
 			}
 			return true;
 		}
-		// ########
-}
 		
 		public function getAllImgs( $subject_id ) {
 			
