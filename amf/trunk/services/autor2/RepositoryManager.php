@@ -63,6 +63,8 @@
 			}
 			file_put_contents( $presentationID . '/' . $filename, $data);
 			
+			resizeImg ($presentationID . '/' . $filename);
+				
 			$arrayPresentation = array ($type => $filename);
 			$condition = "presentation_id = ".$presentationID;
 			if( parent::doUpdate($arrayPresentation, $condition, 'ath_presentation') ) {
@@ -85,6 +87,9 @@
 
 			$filename = mt_rand() . $finalName;
 			file_put_contents( 'mediafiles/' . $filename, $data);
+			
+			resizeImg ('mediafiles/' . $filename);
+			
 			
 			$arrayMedia = array	('title' => $media -> title,
 							  	 'category_id' => $media -> category_id,
@@ -388,6 +393,73 @@
 			
 			return $question;	
 		}
+		//########### resize img
+		public function resizeImg ($file){
+			
+			$tipo =  exif_imagetype ($file);
+			/*
+			Tipos da img
+			 	1	IMAGETYPE_GIF
+				2	IMAGETYPE_JPEG
+				3	IMAGETYPE_PNG
+				4	IMAGETYPE_SWF
+				5	IMAGETYPE_PSD
+				6	IMAGETYPE_BMP
+				7	IMAGETYPE_TIFF_II (intel byte order)
+				8	IMAGETYPE_TIFF_MM (motorola byte order)
+				9	IMAGETYPE_JPC
+				10	IMAGETYPE_JP2
+				11	IMAGETYPE_JPX
+				12	IMAGETYPE_JB2
+				13	IMAGETYPE_SWC
+				14	IMAGETYPE_IFF
+				15	IMAGETYPE_WBMP
+				16	IMAGETYPE_XBM
+*/
+			
+			if (($tipo == 9) || ($tipo == 2) || ($tipo == 3)){
+					
+				$maxWidth = 700;
+				$maxHeight = 300;
+				
+				if ($tipo == 3) {
+					$img = imagecreatefrompng($file);
+				}else {
+			     	$img = imagecreatefromjpeg($file);
+				}  
+			      $width = imagesx( $img );
+			      $height = imagesy( $img );
+				  
+			      // calculate thumbnail size
+			      if ($width>$maxWidth) {
+				      $new_width = $maxWidth;
+				      $new_height = floor( $height * ( $maxWidth / $width ));
+			      }
+			      if ($new_height>$maxHeight){
+				      $new_width = floor( $width * ( $maxHeight / $height ));
+				      $new_height = $maxHeight;		      	
+			      }
+			
+			      // create a new temporary image
+				if(($maxWidth < $width) || ($maxHeight < $height)) {
+			    	$tmp_img = @imagecreatetruecolor( $new_width, $new_height );
+				    // copy and resize old image into new image
+				    imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+				
+				      // save thumbnail into a file
+				     if ($tipo == 3) {
+				     	imagepng( $tmp_img, $file);
+				     }else {
+				      	imagejpeg( $tmp_img, $file);
+				     }
+				}else {
+					return false;
+				}
+			}
+			return true;
+		}
+		// ########
+}
 		
 		public function getAllImgs( $subject_id ) {
 			
