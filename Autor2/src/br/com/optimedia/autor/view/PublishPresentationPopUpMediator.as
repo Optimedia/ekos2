@@ -2,7 +2,7 @@ package br.com.optimedia.autor.view
 {
 	import br.com.optimedia.assets.CommandConstants;
 	import br.com.optimedia.assets.NotificationConstants;
-	import br.com.optimedia.assets.StripHtmlTags;
+	import br.com.optimedia.assets.HtmlHelper;
 	import br.com.optimedia.autor.model.SubjectManagerProxy;
 	import br.com.optimedia.autor.view.components.PublishPresentationPopUp;
 	
@@ -59,7 +59,7 @@ package br.com.optimedia.autor.view
 					for each( var item:Object in array ) {
 						var obj:Object = new Object();
 						obj.section_id = item.section_id;
-						obj.title = StripHtmlTags.strip( item.title );
+						obj.title = HtmlHelper.strip( item.title );
 						//var aux:String = StripHtmlTags.strip( item.title );
 						newArray.push( obj );
 					}

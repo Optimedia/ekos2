@@ -118,6 +118,7 @@ package br.com.optimedia.autor.model
 				Alert.show("Não foi possível remover a mídia. Ela pode estar associada em algum slide.", "Erro");
 			}
 		}
+		
 		public function saveQuestion(media:MediaVO, question:QuestionVO, subjectID:uint):void {
 			var asynkToken:AsyncToken = remoteService.saveQuestion(media, question, subjectID);
 			asynkToken.addResponder( new Responder(creationQuestionResult, generalFault) );
@@ -130,12 +131,21 @@ package br.com.optimedia.autor.model
 				Alert.show("" + event.result);
 			}
 		}
+		
 		public function getQuestionVO(item:MediaVO):void {
 			var asynkToken:AsyncToken = remoteService.getQuestion(item);
 			asynkToken.addResponder( new Responder(getQuestionVOResult, generalFault) );
 		}
 		private function getQuestionVOResult(event:ResultEvent):void{
-				sendNotification(NotificationConstants.GET_QUESTION_EDIT_RESULT, event.result);
+			sendNotification(NotificationConstants.GET_QUESTION_EDIT_RESULT, event.result);
+		}
+		
+		public function getAllImgs(subjectID:int):void {
+			var asynkToken:AsyncToken = remoteService.getAllImgs( subjectID );
+			asynkToken.addResponder( new Responder(getAllImgsResult, generalFault) );
+		}
+		private function getAllImgsResult(event:ResultEvent):void{
+			sendNotification(NotificationConstants.GET_ALL_IMGS_RESULT, event.result);
 		}
 	}
 }

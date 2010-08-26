@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="400" height="210"
+	title="Inserir imagem" showCloseButton="true" creationComplete="init()" resizeEffect="{Resize}"
+	moveEffect="{Move}">
+	<mx:states>
+		<mx:State name="preview">
+			<mx:SetProperty name="height" value="338"/>
+			<mx:SetProperty target="{rbEsquerda}" name="y" value="231"/>
+			<mx:SetProperty target="{cancelBtn}" name="y" value="266"/>
+			<mx:SetProperty target="{rbCentro}" name="y" value="231"/>
+			<mx:SetProperty target="{rbDireita}" name="y" value="231"/>
+			<mx:SetProperty target="{insertBtn}" name="y" value="266"/>
+			<mx:SetProperty target="{loading}" name="visible" value="true"/>
+			<mx:SetProperty target="{preview}" name="visible" value="true"/>
+		</mx:State>
+	</mx:states>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.effects.Move;
+			import mx.effects.Resize;
+			import br.com.optimedia.autor.AutorFacade;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			
+			public static const ESQUERDA:String = "left";
+			public static const CENTRO:String = "center";
+			public static const DIREITA:String = "right";
+			
+			private var facade:AutorFacade = AutorFacade.getInstance();
+			
+			public var subjectID:int;
+			
+			[Bindable]
+			public var imgArray:ArrayCollection = new ArrayCollection();
+			
+			private function init():void {
+				facade.startup( this );
+			}
+			
+			public function removeMe():void {
+				PopUpManager.removePopUp( this );
+				System.gc();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Label x="10" y="10" text="Imagem"/>
+	
+	<mx:ComboBox x="71" y="10" width="299" dataProvider="{imgArray}" id="comboBox" enabled="false" labelField="title"
+		prompt="Carregando..."/>
+	
+	<mx:Image id="loading" horizontalCenter="0" y="40" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
+		visible="false"/>
+	<mx:Image id="preview" x="131" y="40" width="118" height="118" visible="false"/>
+	
+	<mx:RadioButtonGroup id="radioButtonGroup" change="insertBtn.enabled=true"/>
+	
+	<mx:RadioButton x="28" y="103" label="esquerda" value="{ESQUERDA}" groupName="radioButtonGroup" id="rbEsquerda" moveEffect="{Move}"/>
+	<mx:RadioButton x="160.5" y="103" label="centro" value="{CENTRO}" groupName="radioButtonGroup" id="rbCentro" moveEffect="{Move}"/>
+	<mx:RadioButton x="290" y="103" label="direita" value="{DIREITA}" groupName="radioButtonGroup" id="rbDireita" moveEffect="{Move}"/>
+	
+	<mx:Button x="10" y="138" label="Cancelar" id="cancelBtn" moveEffect="{Move}"/>
+
+	<mx:Button x="305" y="138" label="Inserir" id="insertBtn" moveEffect="{Move}" enabled="false"/>
+	
+</mx:TitleWindow>

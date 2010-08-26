@@ -302,6 +302,7 @@
 						navigateToURL(url1,"_blank");
 						break;
 					case 8:
+						//question
 						var questionview:QuestionView = new QuestionView();
 						popUp.minWidth = 600;
 						popUp.minHeight = 400;
@@ -321,13 +322,21 @@
 					default:
 						//imagens
 						var arq:Array = media.body.split(".");
+						var source:String = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+media.body;
 						if (arq[1]=="swf") {
 							var swfLoad:SWFLoader = new SWFLoader();
 							/* swfLoad.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body; */
-							swfLoad.source = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+media.body;
+							swfLoad.source = source;
 							swfLoad.autoLoad = true;
 							swfLoad.scaleContent = true;
+							swfLoad.addEventListener(MouseEvent.CLICK, imgClickHandler);
+							swfLoad.addEventListener(Event.COMPLETE, function(e:Event):void {popUp.loadingSwf.visible=false});
 							popUp.addChild( swfLoad );
+							function imgClickHandler(e:MouseEvent):void {
+								var urlRequest:URLRequest = new URLRequest();
+								urlRequest.url = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+media.body;
+								navigateToURL(urlRequest, '_blank');
+							}
 						}else {
 							var imagem:Image = new Image();
 							imagem.autoLoad = true;
@@ -337,11 +346,20 @@
 							imagem.setStyle("horizontalCenter",0);
 							imagem.setStyle("verticalCenter",0);
 							/* imagem.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body; */
-							imagem.source = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+media.body;
+							imagem.source = source;
+							imagem.addEventListener(MouseEvent.CLICK, imgClickHandler1);
+							imagem.addEventListener(Event.COMPLETE, function(e:Event):void {popUp.loadingSwf.visible=false});
 							popUp.addChild( imagem );
+							function imgClickHandler1(e:MouseEvent):void {
+								var urlRequest:URLRequest = new URLRequest();
+								urlRequest.url = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+media.body;
+								navigateToURL(urlRequest, '_blank');
+							}
 						}
 						PopUpManager.addPopUp( popUp, this );
 						PopUpManager.centerPopUp( popUp );
+						popUp.title = "Clique na imagem para ver em outra janela";
+						/* popUp.clickLabel.visible = true; */
 						break;
 				}
 			}
