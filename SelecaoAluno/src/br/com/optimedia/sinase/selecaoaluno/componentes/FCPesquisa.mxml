@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" 
+	width="100%" height="100%" borderStyle="solid" roundedBottomCorners="true" creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ResizeEvent;
+			import br.com.optimedia.sinase.selecaoaluno.vo.FilterVO;
+			import br.com.optimedia.sinase.selecaoaluno.remotes.SelecaoRemote;
+			import br.com.optimedia.sinase.selecaoaluno.remotes.AlunoRemote;
+			import br.com.optimedia.sinase.selecaoaluno.vo.AlunoVO;
+			import mx.core.Application;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import mx.collections.ArrayCollection;
+			
+			private var alunoRemote:AlunoRemote = AlunoRemote.getInstance();
+			private var selecaoRemote:SelecaoRemote = SelecaoRemote.getInstance();
+
+			[Bindable]
+			private var listDataProvider:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var listAllUf:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var listAllAtuacao:ArrayCollection = new ArrayCollection();
+									
+			private function init():void {
+				alunoRemote.getUF(getUFResult);
+				alunoRemote.getAtuacao(getAtuacaoResult);
+				//selecaoRemote.getAllAluno(getAllAlunoResult);
+				selecaoRemote.getCountAluno(getCountAlunoResult);
+				contaLabels();
+			}
+			 
+			private function ufLabelFunction(item:Object, col:DataGridColumn):String {
+				var result:String;
+				for each (var i:Object in listAllUf) {
+					if(i.iduf == item.iduf){
+						result = i.uf;
+						return result;
+					}
+				}
+				return result; 
+			}
+			
+			private function contaLabels():void {
+				selecaoRemote.getCountSelecionado(getCountSelecionadoResult);
+				if(listDataProvider.length > 0) {
+					var contador:int = 0;
+					for each(var item:AlunoVO in listDataProvider) {
+						if(item.selecionado == 6) contador++;
+					}
+					lbNumSelFiltro.text = contador.toString();
+				}
+			}
+			
+			private function filtraAllSelecionado():void {
+				selecaoRemote.getAllSelecionado(getAllSelecionadoResult);
+			}
+			
+			public function toggleSelecionado(e:MouseEvent, data:AlunoVO):void {
+				if(data.selecionado == 6) {
+					selecaoRemote.setSelecionadoAluno(data.id_pessoa, 0, setSelecionadoAlunoResult);
+					e.target.selected = true;
+				} else if (data.selecionado == 0) {
+					e.target.selected = false;
+					selecaoRemote.setSelecionadoAluno(data.id_pessoa, 6, setSelecionadoAlunoResult);
+				}
+			}
+			
+			private function enviaFiltro():void {
+				var filter:FilterVO = new FilterVO();
+				
+				var ufArray:Array = [];
+				for each(var uf:Object in listAllUf) {
+					if(uf.isSelected == true) {
+						ufArray.push( uf.iduf );
+					}
+				}
+				
+				var atuacArray:Array = [];
+				for each(var atuac:Object in listAllAtuacao) {
+					if(atuac.isSelected == true) {
+						atuacArray.push( atuac.idram_atuac );
+					}
+				}
+				
+				var orgaoArray:Array = [];
+				if(chOr01.selected == true) orgaoArray.push( 1 );
+				if(chOr02.selected == true) orgaoArray.push( 2 );
+				if(chOr03.selected == true) orgaoArray.push( 3 );
+				
+				var fdsArray:Array = [];
+				if(chFs01.selected == true) fdsArray.push( 1 );
+				if(chFs02.selected == true) fdsArray.push( 2 );
+				if(chFs03.selected == true) fdsArray.push( 3 );
+				if(chFs04.selected == true) fdsArray.push( 4 );
+				
+				var utsArray:Array = [];
+				if(chDs01.selected == true) utsArray.push( 1 );
+				if(chDs02.selected == true) utsArray.push( 2 );
+				if(chDs03.selected == true) utsArray.push( 3 );
+				if(chDs04.selected == true) utsArray.push( 4 );
+
+				filter.uteis = utsArray;
+				filter.fds = fdsArray;
+				filter.atuacao =  atuacArray;
+				filter.atuaorg = orgaoArray;
+				filter.bandalarga = rgBandaLarga.selectedValue as int;
+				filter.uf = ufArray;
+				filter.moodle = rgIndicMoodle.selectedValue as int;
+				
+				selecaoRemote.getAllFilter(filter, getAllFilterResult);
+				
+			}
+			
+			private function getCountAlunoResult(source:ResultEvent):void {
+				if(source.result != null){
+					lbNumTotCand.text = source.result.toString();
+				} else {
+					Alert.show("getCountAlunoResult" + source.result);
+				}
+			}
+			
+			/* private function getAllAlunoResult(source:ResultEvent):void {
+				if(source.result is Array){
+					listDataProvider =  new ArrayCollection(source.result as Array);
+				} else {
+					Alert.show(source.result.toString());
+				}
+			} */
+			
+			private function getAtuacaoResult(source:ResultEvent):void {
+				if(source.result is Array){
+					listAllAtuacao =  new ArrayCollection(source.result as Array);
+					for each(var item:Object in listAllAtuacao) {
+						item.isSelected = false;
+					}
+				} else {
+					Alert.show(source.result.toString());
+				}				
+			}			
+			
+			private function getUFResult(source:ResultEvent):void {
+				if(source.result is Array){
+					listAllUf =  new ArrayCollection(source.result as Array);
+					for each(var item:Object in listAllUf) {
+						item.isSelected = false;
+					}
+					ufCol.labelFunction = ufLabelFunction;
+				} else {
+					Alert.show(source.result.toString());
+				}
+			}
+			
+			private function setSelecionadoAlunoResult(e:ResultEvent):void {
+				if( e.result != false ) {
+					for each(var aluno:AlunoVO in listDataProvider) {
+						if(aluno.id_pessoa == e.result.id_pessoa) {
+							aluno.selecionado = e.result.int;
+						}
+					}
+				}
+				else {
+					Alert.show("Erro:setSelecionadoAlunoResult");
+				}
+				contaLabels();
+			}
+			
+			
+			private function getAllSelecionadoResult(source:ResultEvent):void {
+				if(source.result is Array){
+					listDataProvider =  new ArrayCollection(source.result as Array);
+				} else {
+					Alert.show(source.result.toString());
+				}
+				contaLabels();
+			}
+			
+			private function getAllFilterResult(source:ResultEvent):void {
+				if(source.result is Array){
+					listDataProvider =  new ArrayCollection(source.result as Array);
+				} else {
+					Alert.show(source.result.toString());
+				}
+				contaLabels();
+			}
+			
+			private function getCountSelecionadoResult(source:ResultEvent):void {
+				if(source.result != null){
+					lbNumTotSelecionados.text = source.result.toString();
+				} else {
+					Alert.show("GetCountSelecionadoResult:" + source.result);
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:RadioButtonGroup id="rgIndicMoodle" />
+	<mx:RadioButtonGroup id="rgBandaLarga" />
+	
+	<mx:HBox width="100%" backgroundColor="#EAEAEA" borderStyle="solid">
+		<mx:VBox>
+		<mx:Label text="UF" fontSize="14" fontWeight="bold"/>			
+		<mx:List id="listaUF" dataProvider="{listAllUf}" width="180" borderStyle="none"  backgroundColor="#EAEAEA">
+			<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox>
+						<mx:Script>
+							<![CDATA[
+								import mx.controls.Alert;
+							]]>
+						</mx:Script>
+						<mx:CheckBox label="{data.nome}" selected="{data.isSelected}" click="data.isSelected==true?data.isSelected=false:data.isSelected=true"/>
+				</mx:VBox>
+			</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+		</mx:VBox>
+		<mx:VBox>
+		<mx:Label text="Área de Atuação" fontSize="14" fontWeight="bold"/> 			
+		<mx:List id="listaAtuacao" dataProvider="{listAllAtuacao}" width="180" borderStyle="none"  backgroundColor="#EAEAEA"> 
+			<mx:itemRenderer>
+				<mx:Component>
+				<mx:VBox>
+						<mx:CheckBox label="{data.nome}" selected="{data.isSelected}" click="data.isSelected==true?data.isSelected=false:data.isSelected=true" id="checkAtuacao" />
+				</mx:VBox>
+				</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+		</mx:VBox>
+		<mx:VBox height="100%">
+			<mx:Label text="Órgão" fontSize="14" fontWeight="bold"/>
+			<mx:HBox>
+				<mx:CheckBox label="CREAS" id="chOr01"/>
+				<mx:CheckBox label="SUAS" id="chOr02"/>
+				<mx:CheckBox label="CRAS" id="chOr03"/>
+			</mx:HBox>
+			<mx:Label text="Banda Larga" fontSize="14" fontWeight="bold" />
+			<mx:HBox>
+				<mx:RadioButton groupName="rgBandaLarga" label="Sim" value="1"/>
+				<mx:RadioButton groupName="rgBandaLarga" label="Não" value="0"/>
+			</mx:HBox>
+			<mx:Label text="Indicador Especial" fontSize="14" fontWeight="bold" />
+			<mx:HBox>
+				<mx:RadioButton groupName="rgIndicMoodle" label="Sim" value="1"/>
+				<mx:RadioButton groupName="rgIndicMoodle" label="Não" value="2"/>
+				<mx:RadioButton groupName="rgIndicMoodle" label="Todos" value="3"/>
+			</mx:HBox>
+			
+		</mx:VBox>
+		<mx:VRule height="100%"/>
+		<mx:VBox height="100%">
+			<mx:Label text="Finais de Semana" fontSize="14" fontWeight="bold"/>
+			<mx:HBox>
+				<mx:CheckBox label="01 hora " id="chFs01" />
+				<mx:CheckBox label="02 horas" id="chFs02" />
+			</mx:HBox>
+			<mx:HBox>
+				<mx:CheckBox label="03 horas" id="chFs03" />
+				<mx:CheckBox label="04 horas" id="chFs04" />
+			</mx:HBox>
+			<mx:Label text="Dias da Semana" fontSize="14" fontWeight="bold" />
+			<mx:HBox label="Nome">
+				<mx:CheckBox label="01 hora " id="chDs01"/>
+				<mx:CheckBox label="02 horas" id="chDs02" />
+			</mx:HBox>
+			<mx:HBox>
+				<mx:CheckBox label="03 horas" id="chDs03" />
+				<mx:CheckBox label="04 horas" id="chDs04" />
+			</mx:HBox>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button label="Selecionados" click="filtraAllSelecionado()" />
+				<mx:Button label="Filtrar" click="enviaFiltro()"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+	</mx:HBox>
+	
+	<mx:HBox>
+		<mx:Label text="Número total de candidatos:" fontWeight="bold" width="200"/>
+		<mx:Label text="0" id="lbNumTotCand" width="100"/>
+		<mx:Label text="Número total de selecionados:" fontWeight="bold"/>
+		<mx:Label text="0" id="lbNumTotSelecionados"/>
+	</mx:HBox>
+	<mx:HBox>		
+		<mx:Label text="Número de candidatos do filtro:"  fontWeight="bold" width="200"/>
+		<mx:Label text="{listDataProvider.length}"  width="100"/>
+		<mx:Label text="Número de selecionados do filtro:"  fontWeight="bold"/>
+		<mx:Label text="0" id="lbNumSelFiltro"/>
+	</mx:HBox>
+	
+	<mx:DataGrid id="dataPesquisa" width="100%" dataProvider="{listDataProvider}" height="100%">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Selecionado">
+				<mx:itemRenderer>
+					<mx:Component>
+					<mx:Box horizontalAlign="center">
+						<mx:CheckBox selected="{data.selecionado==6?true:false}" click="parentDocument.toggleSelecionado(event, data)"/>
+					</mx:Box>
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+			<mx:DataGridColumn headerText="ID" dataField="id_pessoa"/>
+			<mx:DataGridColumn headerText="Nome" dataField="nome"/>
+			<mx:DataGridColumn headerText="CPF" dataField="cpf" />
+			<mx:DataGridColumn headerText="UF" id="ufCol"/>
+			<mx:DataGridColumn headerText="Email" dataField="email"/>
+			<mx:DataGridColumn headerText="Detalhes">
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:HBox horizontalAlign="center">
+							<mx:Button label="Detalhar" click="click()" width="50%">
+								<mx:Script>
+									<![CDATA[
+										import mx.controls.Alert;
+										import br.com.optimedia.sinase.selecaoaluno.vo.AlunoVO;
+										import mx.core.Application;
+										import mx.preloaders.DownloadProgressBar;
+										import mx.managers.PopUpManager;
+										private function click():void {
+											var pop:FCDetalhe = new FCDetalhe();
+											
+											pop._aluno = parentDocument.dataPesquisa.selectedItem as AlunoVO;
+											
+											PopUpManager.addPopUp(pop, Application.application as DisplayObject, true);
+											
+										}
+									]]>
+								</mx:Script>
+							</mx:Button>
+						</mx:HBox>
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+		</mx:columns>
+	</mx:DataGrid>
+	
+	
+</mx:Panel>
