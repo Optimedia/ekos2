@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" roundedBottomCorners="true" borderStyle="solid"
 				cornerRadius="4" horizontalAlign="center" verticalAlign="middle" showCloseButton="true" close="dismissEffect.play()"
-				resizeEffect="{myResize}" creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+				creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off"
 				filters="{[glowFilter]}">
 	
 	<mx:Script>
@@ -32,8 +32,9 @@
 	</mx:Script>
 	
 	<mx:GlowFilter id="glowFilter" color="#0FA6DD" />
+	<!--<mx:GlowFilter id="glowFilter1" color="#ffffff" />-->
 	
-	<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectStart="{loadingSwf.visible=false}"/>
+	<!--<mx:Resize id="myResize" target="{this}" easingFunction="{Elastic.easeIn}" effectStart="{loadingSwf.visible=false}"/>-->
 	
 	<mx:Parallel id="dismissEffect" target="{this}" effectEnd="closeMe()">
 		<mx:Blur blurXFrom="0" blurXTo="200"/>
@@ -42,5 +43,7 @@
 	
 	<mx:SWFLoader id="loadingSwf" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
 		horizontalCenter="0" verticalCenter="0" scaleContent="false" width="50" height="50"/>
-	
+		
+	<!--<mx:Label id="clickLabel" text="Clique na imagem para abrir em outra janela" filters="{[glowFilter1]}"
+		bottom="10" horizontalCenter="0" visible="false"/>-->
 </mx:TitleWindow>
