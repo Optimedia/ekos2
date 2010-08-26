@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="1024" height="600" 
+	borderStyle="solid" roundedBottomCorners="true" creationComplete="init()" showCloseButton="true"
+	close="PopUpManager.removePopUp(this)">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.sinase.selecaoaluno.vo.RespostaVO;
+			import mx.skins.halo.PopUpIcon;
+			import mx.effects.Fade;
+			import br.com.optimedia.sinase.selecaoaluno.remotes.SelecaoRemote;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.sinase.selecaoaluno.remotes.AlunoRemote;
+			import br.com.optimedia.sinase.selecaoaluno.vo.AlunoVO;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			public var arrayAluno:ArrayCollection =  new ArrayCollection();
+			
+			[Bindable]
+			public var _aluno:AlunoVO = new AlunoVO();
+			
+			private var alunoRemote:AlunoRemote = AlunoRemote.getInstance();
+			private var selecaoRemote:SelecaoRemote = SelecaoRemote.getInstance();
+			
+			private function init():void {
+				PopUpManager.centerPopUp(this);
+				selecaoRemote.getAluno(_aluno.id_pessoa, getAlunoResult);
+				alunoRemote.getUF(getUFResult);
+				alunoRemote.getAtuacao(getAtuacaoResult);
+				alunoRemote.getEscolaridade(getEscolaridadeResult);
+				alunoRemote.getCapacitacao(getCapacitacaoResult);
+				alunoRemote.getTecEad(getTecEadResult);
+				alunoRemote.getBandaLarga(getBandaLargaResult);
+				alunoRemote.getWebCon(getWebConResult);
+			
+			}
+			
+			private function setDetalhe():void {
+				rgFds.selectedValue = _aluno.disp_fds;
+				rgCargaHoraria.selectedValue = _aluno.idcarga_hora;
+				rgComputador.selectedValue = _aluno.computador;
+				rgOrgProg.selectedValue = _aluno.idatua_org;
+				rgCargaHoraria.selectedValue = _aluno.idcarga_hora;
+				rgExpEad.selectedValue = _aluno.exp_ead;
+				rgDef.selectedValue = _aluno.deficiente;
+				rgFundamental.selectedValue = _aluno.presenca_ead;
+				txtJustificativa.text = _aluno.just_presenca;
+				rgHeadset.selectedValue = _aluno.headset; 
+				rgInternet.selectedValue = _aluno.idinternet;
+				rgWebcam.selectedValue = _aluno.webcam;
+				rgUteis.selectedValue = _aluno.disp_sem;
+				rgMaterial.selectedValue = _aluno.material_esp;
+				
+				
+				for each(var resposta:RespostaVO in _aluno.respostas) {
+					this["r"+resposta.idresposta].selected = true;
+					// Verificando descrição
+					if(resposta.idresposta == 6 || resposta.idresposta == 19 || resposta.idresposta == 24) {
+						this["txtR" + resposta.idresposta].text = resposta.descricao;
+					}
+				}
+				
+			}
+			
+
+			
+			private function getCapacitacaoResult(source:ResultEvent):void {
+				if(source.result is Array){
+					tiposCapacitacao = new ArrayCollection(source.result as Array);
+					for each(var item:Object in tiposCapacitacao){
+						if(item.idcapacitacao_sinase == _aluno.idcapacitacao_sinase){
+							txiCapacitacao.text = item.nome;
+						}
+					}					
+					
+				} else {
+					Alert.show("ErroCapacitação");
+				}
+			}
+			
+			private function getTecEadResult(source:ResultEvent):void {
+				if(source.result is Array){
+					tiposTecEad = new ArrayCollection(source.result as Array);
+					for each(var item:Object in tiposTecEad){
+						if(item.idtec_ead == _aluno.idtec_ead){
+							txiTecEad.text = item.nome;
+						}
+					}					
+					
+				} else {
+					Alert.show("ErroGetTecEadResult");
+				}
+			}
+			
+			private function getBandaLargaResult(source:ResultEvent):void {
+				if(source.result is Array){
+					tiposBandaLarga = new ArrayCollection(source.result as Array);
+					for each(var item:Object in tiposBandaLarga){
+						if(item.idbanda_larga == _aluno.idbanda_larga){
+							txiInternet.text = item.nome;
+						}
+					}					
+					
+				} else {
+					Alert.show("ErroGetBandaLargaResult");
+				}
+			}
+			
+			private function getWebConResult(source:ResultEvent):void {
+				if(source.result is Array){
+					tiposWebCon = new ArrayCollection(source.result as Array);
+					for each(var item:Object in tiposWebCon){
+						if(item.idpart_webcon == _aluno.idpart_webcon){
+							txiConference.text = item.nome;
+						}
+					}					
+					
+				} else {
+					Alert.show("ErroGetWebConResult");
+				}
+			}
+			
+			private function getAlunoResult(source:ResultEvent):void {
+				if(source.result is AlunoVO) {
+					//arrayAluno = new ArrayCollection(source.result as Array);
+					//Alert.show(source.result.toString());
+					_aluno = source.result as AlunoVO;
+					setDetalhe();
+				} else {
+					Alert.show("Erro getAlunoResult");
+				}
+			}
+			
+			private function getEscolaridadeResult(e:ResultEvent):void {
+				if(e.result is Array) {
+					tiposEscolaridade = new ArrayCollection(e.result as Array);
+					for each(var item:Object in tiposEscolaridade){
+						if(item.idescolaridade == _aluno.idescolaridade){
+							lbEscolaridade.text = item.nome;
+						}
+					}
+				} else {
+					Alert.show("Erro getEscolaridadeResult");
+				}
+			}
+				
+			private function getAtuacaoResult(e:ResultEvent):void {
+				if(e.result is Array) {
+					tiposAtuacao = new ArrayCollection(e.result as Array);
+					for each(var item:Object in tiposAtuacao){
+						if(item.idram_atuac == _aluno.idram_atuac){
+							lbAtuacao.text = item.nome;
+						} 
+					}
+				} else {
+					Alert.show("Erro getAtuacaoResult");
+				}
+			}	
+			
+			private function getUFResult(e:ResultEvent):void {
+			if(e.result is Array) {
+				tiposUF = new ArrayCollection(e.result as Array);
+				 for each(var item:Object in tiposUF){
+					if(item.iduf == _aluno.iduf){
+						lbUF.text = item.uf;
+					}
+				} 
+			} else {
+				Alert.show("Erro getUFResult");
+			}
+		}
+		
+		]]>
+	</mx:Script>
+	
+
+	<mx:ArrayCollection id="tiposEscolaridade" />
+	<mx:ArrayCollection id="tiposAtuacao" />
+	<mx:ArrayCollection id="tiposUF" />
+	<mx:ArrayCollection id="tiposCapacitacao" />
+	<mx:ArrayCollection id="tiposTecEad" />
+	<mx:ArrayCollection id="tiposBandaLarga" />
+	<mx:ArrayCollection id="tiposWebCon" />
+	
+	
+	<mx:Form width="100%" height="100%">
+		
+		<mx:Label text="Aluno" fontSize="14" fontWeight="bold"/>
+		
+		<mx:FormHeading label="Dados Básicos" />
+		<mx:FormItem label="CPF:">
+			<mx:Label width="100" id="lbCPF" text="{_aluno.cpf}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Nome: ">
+			<mx:Label width="200" id="lbNome" text="{_aluno.nome}"/>
+		</mx:FormItem>	
+		<mx:FormItem label="Email: ">
+			<mx:Label width="255" id="lbEmail" text="{_aluno.email}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Confirmar email: " >
+			<mx:Label width="255" id="lbConfEmail" text="{_aluno.email}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Sexo: ">
+				<mx:Label id="lbSexo" text="{_aluno.sexo == 'F' ? 'F' : 'M'}" />
+		</mx:FormItem>			
+		<mx:FormItem label="Data Nascimento: ">
+			<!--
+			<mx:DateField id="dtNasc" formatString="DD/MM/YYYY" yearNavigationEnabled="true" selectedDate="{_aluno.data_nasc}"
+				showToday="true"/>-->
+			<mx:Label text="{_aluno.data_nasc}" />	
+		</mx:FormItem>
+		<mx:FormItem label="Telefone fixo: ">
+			<mx:HBox>
+				<mx:Label id="lbDDDFixo" width="30" text="{_aluno.dddfixo}"/>
+				<mx:Label id="lbTelefone" width="150" text="{_aluno.tel_fixo}"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Celular: ">
+			<mx:HBox>
+				<mx:Label id="lbDDDCel" width="30" text="{_aluno.ddd_cel}"/>
+				<mx:Label id="lbCelular" width="150" text="{_aluno.tel_cel}"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormHeading label="Endereço" />
+		<mx:FormItem label="Logradouro: " >
+			<mx:Label id="lbLogradouro" width="255" text="{_aluno.logradouro}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Número: " >
+			<mx:Label id="lbNumero" width="50" text="{_aluno.numero}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Bairro: " >
+			<mx:Label id="lbBairro" width="255" text="{_aluno.bairro}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Cidade: " >
+			<mx:Label id="lbCidade" width="150" text="{_aluno.cidade}"/>
+		</mx:FormItem>
+		<mx:FormItem label="CEP: " >
+			<mx:Label id="lbCEP" width="150" text="{_aluno.cep}"/>
+		</mx:FormItem>				
+		<mx:FormItem label="UF: " >
+			<mx:Label id="lbUF" text="{tiposUF}"/>
+		</mx:FormItem>			
+		<mx:FormHeading label="Outros Dados" />					
+		<mx:FormItem label="Escolaridade: " >
+			<mx:Label id="lbEscolaridade" text="{tiposEscolaridade}"/>
+		</mx:FormItem>								
+		<mx:FormItem label="Ramo de atuação: " >
+			<mx:Label id="lbAtuacao" text="{(_aluno.idram_atuac is String)?_aluno.idram_atuac:''}"/>
+		</mx:FormItem>
+
+		
+		<!-- -->
+		<mx:Label text="Já atua ou atuou nos seguintes orgãos/programas?"/>	
+		<mx:FormItem>
+			<mx:HBox>		
+				<mx:RadioButtonGroup id="rgOrgProg"/>
+				<mx:RadioButton label="CREAS" groupName="rgOrgProg" value="1"/>
+				<mx:RadioButton label="SUAS" groupName="rgOrgProg" value="2"/>
+				<mx:RadioButton label="CRAS" groupName="rgOrgProg" value="3"/>
+				<mx:RadioButton label="Nenhum" groupName="rgOrgProg" selected="true" value="4"/>
+			</mx:HBox>			
+		</mx:FormItem>		
+
+		<mx:FormItem label="Já fez curso de capacitação promovido pela SEDH?">
+			<mx:TextInput id="txiCapacitacao" editable="false"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Carga horária">
+			<mx:RadioButtonGroup id="rgCargaHoraria"/>
+			<mx:HBox>
+				<mx:RadioButton id="carga1" enabled="false" label="Menor que 120h" groupName="rgCargaHoraria"  value="1"/>
+				<mx:RadioButton id="carga2" enabled="false" label="120h" groupName="rgCargaHoraria" value="2"/>
+				<mx:RadioButton id="carga3" enabled="false" label="Maior que 120h" groupName="rgCargaHoraria" value="3"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Experiência com EAD"/>
+		
+		<mx:FormItem label="Possui experiência com EAD">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgExpEad"/>
+				<mx:RadioButton label="Sim" groupName="rgExpEad" value="1"/>
+				<mx:RadioButton label="Não" groupName="rgExpEad" value="0"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Qual tecnologia?">
+			<mx:TextInput id="txiTecEad" editable="false"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Possui alguma deficiência">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgDef"/>
+				<mx:RadioButton label="Sim" groupName="rgDef" value="1" click="txtDeficiencia.enabled=true"/>
+				<mx:RadioButton label="Não" groupName="rgDef" selected="true" value="0" click="txtDeficiencia.enabled=false;txtDeficiencia.text=''"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="Qual?">
+			<mx:HBox>
+				<mx:TextInput maxChars="255" id="txtDeficiencia" editable="false"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Necessita de material especial">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgMaterial"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgMaterial"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgMaterial"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Tecnologias"/>
+		
+		<mx:FormItem label="Tem acesso a banda larga?">
+			<mx:TextInput id="txiInternet" editable="false"/>
+		</mx:FormItem>
+		
+		<mx:Label text="Já participou de WEBconference ou se relacionou via internet por voz e vídeo?"/>
+		
+		<mx:FormItem>
+			<mx:TextInput id="txiConference" editable="false"/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Faz uso da internet">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgInternet"/>
+				<mx:RadioButton label="Não" groupName="rgInternet" value="1"/>
+				<mx:RadioButton label="Pouco" groupName="rgInternet" selected="true" value="2"/>
+				<mx:RadioButton label="Medianamente" groupName="rgInternet" value="3"/>
+				<mx:RadioButton label="Muito" groupName="rgInternet" value="4"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Equipamentos"/>
+		<mx:FormItem label="Possui computador?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgComputador"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgComputador"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgComputador" selected="true" />
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Possui Webcam?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgWebcam"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgWebcam"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgWebcam" selected="true"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Possui Head-set?">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgHeadset"/>
+				<mx:RadioButton label="Sim" value="1" groupName="rgHeadset"/>
+				<mx:RadioButton label="Não" value="0" groupName="rgHeadset" selected="true"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Disponibilidade para Estudo"/>
+		<mx:FormItem label="Nos dias úteis">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgUteis"/>
+				<mx:RadioButton label="1 Hora" value="1" groupName="rgUteis" selected="true"/>
+				<mx:RadioButton label="2 Horas" value="2" groupName="rgUteis"/>
+				<mx:RadioButton label="3 Horas" value="3" groupName="rgUteis"/>
+				<mx:RadioButton label="4 Horas" value="4" groupName="rgUteis"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="No final de semana">
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgFds"/>
+				<mx:RadioButton label="1 Hora" value="1" groupName="rgFds" selected="true"/>
+				<mx:RadioButton label="2 Horas" value="2" groupName="rgFds"/>
+				<mx:RadioButton label="3 Horas" value="3" groupName="rgFds"/>
+				<mx:RadioButton label="4 Horas" value="4" groupName="rgFds"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:HBox width="100%" height="10" verticalAlign="middle" horizontalAlign="center">
+			<mx:HRule width="300"/>
+		</mx:HBox>
+		
+		<mx:FormHeading label="Conhecimentos Específicos"/>
+		
+		<mx:Text text="1 - O que o motivou a participar do curso de capacitação a distância? Assinale uma ou mais alternativas." width="794"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r1" label="indicação da chefia;"/>
+			<mx:CheckBox id="r2" label="necessidade de me aperfeiçoar profissionalmente; "/>
+			<mx:CheckBox id="r3" label="interesse pelo ensino a distância;"/>
+			<mx:CheckBox id="r4" label="oportunidade para desenvolver minha carreira;"/>
+			<mx:CheckBox id="r5" label="exigência da instituição;"/>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="r6" label="Outro" click="if(r6.selected==true){txtR6.enabled=true}else{txtR6.enabled=false;txtR6.text=''}"/>
+				<mx:Label text="Qual?"/>
+				<mx:TextInput id="txtR6" enabled="false" maxChars="255" editable="false"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:Text text="2 - Quais são as suas expectativas com relação a um curso EAD? Assinale uma ou mais alternativas." width="795"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r7" label="desenvolver as capacidades de trabalho colaborativo proporcionadas pela internet;"/>
+			<mx:CheckBox id="r8" label="conhecer e caracterizar modelos pedagógicos associados ao EAD;"/>
+			<mx:CheckBox id="r9" label="desenvolver a capacidade de gerenciar meu aprendizado;"/>
+			<mx:CheckBox id="r10" label="desenvolver a capacidade de me auto-avaliar;"/>
+			<mx:CheckBox id="r11" label="melhorar minhas habilidades profissionais;"/>
+			<mx:CheckBox id="r12" label="comparar as potencialidades dos ambientes virtuais de formação relativamente à formação presencial; "/>
+			<mx:CheckBox id="r13" label="interagir com professores e alunos nas salas de bate-papo e em fóruns;"/>
+		</mx:FormItem>
+		
+		<mx:Text text="3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD." width="795"/>
+		
+		<mx:FormItem>
+			<mx:HBox>
+				<mx:RadioButtonGroup id="rgFundamental"/>
+				<mx:RadioButton label="Sim" groupName="rgFundamental" value="1"/>
+				<mx:RadioButton label="Não" groupName="rgFundamental" value="0"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Justifique">
+			<mx:TextArea width="380" height="58" id="txtJustificativa"/>
+		</mx:FormItem>
+		
+		<mx:Text text="4 - Em cursos de EAD online, você considera que a aprendizagem do aluno depende: Assinale uma ou mais alternativas" width="795"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r14" label="do conteúdo disponibilizado pelo curso"/>
+			<mx:CheckBox id="r15" label="do esforço pessoal do aluno"/>
+			<mx:CheckBox id="r16" label="da orientação dada pelo professor"/>
+			<mx:CheckBox id="r17" label="da interação entre professor X aluno e aluno X aluno"/>
+			<mx:CheckBox id="r18" label="da quantidade de oportunidades de interação com professor e alunos"/>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="r19" label="Outro" click="if(r19.selected==true){txtR19.enabled=true}else{txtR19.enabled=false;txtR19.text=''}"/>
+				<mx:Label text="Qual?"/>
+				<mx:TextInput id="txtR19" maxChars="255" enabled="false" editable="false"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:Text text="5 - Quais são as suas expectativas com relação ao curso SINASE? Assinale uma ou mais alternativas." width="795"/>
+		
+		<mx:FormItem>
+			<mx:CheckBox id="r20" label="aplicar o conhecimento teórico adquirido no curso no meu ambiente de trabalho"/>
+			<mx:CheckBox id="r21" label="aprimorar meu conhecimento sobre o sistema sócioeducativo"/>
+			<mx:CheckBox id="r22" label="aprimorar minhas habilidades profissionais"/>
+			<mx:CheckBox id="r23" label="trocar experiência com alunos e/ou professores sobre a vivência no ambiente sócioeducativo "/>
+			<mx:HBox verticalAlign="middle">
+				<mx:CheckBox id="r24" label="Outro" click="if(r24.selected==true){txtR24.enabled=true}else{txtR24.enabled=false;txtR24.text=''}"/>
+				<mx:Label text="Qual?"/>
+				<mx:TextInput id="txtR24" maxChars="255" enabled="false" editable="false"/>
+			</mx:HBox>
+		</mx:FormItem>
+
+		<!-- -->
+		
+		<mx:FormItem label="" >
+			<mx:Button label="Fechar" id="btnFechar" click="PopUpManager.removePopUp(this)"/>
+		</mx:FormItem>
+
+	</mx:Form>
+	
+</mx:TitleWindow>
