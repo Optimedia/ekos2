@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Application;
 			import mx.managers.PopUpManager;
 			import mx.controls.textClasses.TextRange;
 			import br.com.optimedia.assets.vo.SlideVO;
@@ -74,6 +75,13 @@
 				PopUpManager.addPopUp(popUp, this, true);
 			}
 			
+			private function insertImgBtnHandler():void {
+				var popUp:InsertImgPopUp = new InsertImgPopUp();
+				popUp.subjectID = presentationVO.subject_id;
+				PopUpManager.addPopUp(popUp, this, true);
+				PopUpManager.centerPopUp( popUp );
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -112,6 +120,8 @@
 							 borderStyle="none" borderThickness="0" headerHeight="0" mouseUp="togleLinkBtn(event)"/>
 				
 				<mx:ControlBar id="controlBar">
+				
+					<mx:Button id="insertImgBtn" click="insertImgBtnHandler()" visible="false"/>
 					
 					<mx:Spacer width="100%" />
 					

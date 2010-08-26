@@ -23,6 +23,9 @@ package br.com.optimedia.autor
 	import br.com.optimedia.autor.view.components.SubjectManager;
 	
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
+	import br.com.optimedia.autor.controller.InsertImgPopUpStartupCommand;
+	import br.com.optimedia.autor.controller.InsertImgPopUpDisposeCommand;
+	import br.com.optimedia.autor.view.components.InsertImgPopUp;
 
 	public class AutorFacade extends Facade
 	{
@@ -68,12 +71,14 @@ package br.com.optimedia.autor
             registerCommand( CommandConstants.SLIDE_EDITOR_STARTUP, SlideEditorStartupCommand );
             registerCommand( CommandConstants.PUBLISH_PRESENTATION_STARTUP, PublishPresentationStartupCommand );
             registerCommand( CommandConstants.COMMENT_LIST_STARTUP, CommentListStartupCommand );
+            registerCommand( CommandConstants.INSERT_IMG_POPUP_STARTUP, InsertImgPopUpStartupCommand );
             
             //DISPOSE COMMANDS
             registerCommand( CommandConstants.SEND_FILE_POPUP_DISPOSE, SendFilePopUpDisposeCommand );
             registerCommand( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, SendMediaDisposeCommand );
             registerCommand( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, PublishPresentationDisposeCommand );
             registerCommand( CommandConstants.COMMENT_LIST_DISPOSE, CommentListDisposeCommand );
+            registerCommand( CommandConstants.INSERT_IMG_POPUP_DISPOSE, InsertImgPopUpDisposeCommand );
         }
         
         /**
@@ -92,6 +97,7 @@ package br.com.optimedia.autor
         	else if (app is PresentationEditor) sendNotification( CommandConstants.SLIDE_EDITOR_STARTUP, app );
         	else if (app is PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_STARTUP, app );
         	else if (app is CommentList) sendNotification( CommandConstants.COMMENT_LIST_STARTUP, app );
+        	else if (app is InsertImgPopUp) sendNotification( CommandConstants.INSERT_IMG_POPUP_STARTUP, app );
         }
         
         public function dispose( app:Object ):void
@@ -100,6 +106,7 @@ package br.com.optimedia.autor
         	else if (app is SendMediaPopUp) sendNotification( CommandConstants.SEND_MEDIA_POPUP_DISPOSE, app );
         	else if (app is PublishPresentationPopUp) sendNotification( CommandConstants.PUBLISH_PRESENTATION_DISPOSE, app );
         	else if (app is CommentList) sendNotification( CommandConstants.COMMENT_LIST_DISPOSE, app );
+        	else if (app is InsertImgPopUp) sendNotification( CommandConstants.INSERT_IMG_POPUP_DISPOSE, app );
         }
 	}
 }
