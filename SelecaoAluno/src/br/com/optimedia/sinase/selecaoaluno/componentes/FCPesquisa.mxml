@@ -4,6 +4,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Container;
 			import mx.events.ResizeEvent;
 			import br.com.optimedia.sinase.selecaoaluno.vo.FilterVO;
 			import br.com.optimedia.sinase.selecaoaluno.remotes.SelecaoRemote;
@@ -32,6 +33,7 @@
 				//selecaoRemote.getAllAluno(getAllAlunoResult);
 				selecaoRemote.getCountAluno(getCountAlunoResult);
 				contaLabels();
+				selecaoRemote.getListAllFilter(getListAllFilterResult);
 			}
 			 
 			private function ufLabelFunction(item:Object, col:DataGridColumn):String {
@@ -116,6 +118,135 @@
 				
 			}
 			
+			private function saveFilter ():void {
+				if(txtFilter.length>0) {
+					var filter:FilterVO = new FilterVO();
+					
+					var ufArray:Array = [];
+					for each(var uf:Object in listAllUf) {
+						if(uf.isSelected == true) {
+							ufArray.push( uf.iduf );
+						}
+					}
+					
+					var atuacArray:Array = [];
+					for each(var atuac:Object in listAllAtuacao) {
+						if(atuac.isSelected == true) {
+							atuacArray.push( atuac.idram_atuac );
+						}
+					}
+					
+					var orgaoArray:Array = [];
+					if(chOr01.selected == true) orgaoArray.push( 1 );
+					if(chOr02.selected == true) orgaoArray.push( 2 );
+					if(chOr03.selected == true) orgaoArray.push( 3 );
+					
+					var fdsArray:Array = [];
+					if(chFs01.selected == true) fdsArray.push( 1 );
+					if(chFs02.selected == true) fdsArray.push( 2 );
+					if(chFs03.selected == true) fdsArray.push( 3 );
+					if(chFs04.selected == true) fdsArray.push( 4 );
+					
+					var utsArray:Array = [];
+					if(chDs01.selected == true) utsArray.push( 1 );
+					if(chDs02.selected == true) utsArray.push( 2 );
+					if(chDs03.selected == true) utsArray.push( 3 );
+					if(chDs04.selected == true) utsArray.push( 4 );
+	
+					filter.uteis = utsArray;
+					filter.fds = fdsArray;
+					filter.atuacao =  atuacArray;
+					filter.atuaorg = orgaoArray;
+					filter.bandalarga = rgBandaLarga.selectedValue as int;
+					filter.uf = ufArray;
+					filter.moodle = rgIndicMoodle.selectedValue as int;
+					
+					filter.name = txtFilter.text;
+					
+					selecaoRemote.saveFilter(filter, saveFilterResult);
+				}else {
+					Alert.show("O filtro deve ter um nome");
+				}
+				
+			}
+			private function saveFilterResult(result:ResultEvent):void{
+				selecaoRemote.getListAllFilter(getListAllFilterResult);
+			}
+			private function getListAllFilterResult(result:ResultEvent):void {
+				listFiltor.dataProvider = result.result;
+			}
+			private function clearCheckBoxes(object:*):void {
+				if(object is List) {
+					for each(var child:Object in List(object).dataProvider) {
+						child.isSelected = false;
+					}
+				}
+				else if(object is Container) {
+					for each(var child:Object in object.getChildren()) {
+						if(child is Container || child is List) {
+							clearCheckBoxes( child );
+						}
+						else if(child is CheckBox) {
+							CheckBox(child).selected = false;
+						}
+					}
+				}
+				listAllUf.refresh();
+				listAllAtuacao.refresh();
+			}
+			private function selectFilter():void{
+				
+				var filterSelec:FilterVO = listFiltor.selectedItem as FilterVO;
+				
+							
+				clearCheckBoxes( this as Container );
+				
+				for each(var uf:String in filterSelec.uf) {
+					for each(var listUf:Object in listAllUf) {
+						if( listUf.iduf == uf ) {
+							listUf.isSelected = true;
+						}
+					}
+				}
+				 
+				 for each(var atuacao:String in filterSelec.atuacao) {
+					for each(var listAtuacao:Object in listAllAtuacao) {
+						 if( listAtuacao.idram_atuac == atuacao ) {
+							listAtuacao.isSelected = true;
+						} 
+					}
+				} 
+				for each (var fds:Number in filterSelec.fds) {
+
+					
+					if(fds==1) chFs01.selected = true;
+					if(fds==2) chFs02.selected = true;
+					if(fds==3) chFs03.selected = true;
+					if(fds==4) chFs04.selected = true; 
+				}
+				for each (var uteis:Number in filterSelec.uteis) {					
+					if(uteis==1) chDs01.selected = true;
+					if(uteis==2) chDs02.selected = true;
+					if(uteis==3) chDs03.selected = true;
+					if(uteis==4) chDs04.selected = true; 
+				}
+				for each (var atuaorg:Number in filterSelec.atuaorg) {					
+					if(atuaorg==1) chOr01.selected = true;
+					if(atuaorg==2) chOr02.selected = true;
+					if(atuaorg==3) chOr03.selected = true;
+				}
+				if(filterSelec.bandalarga==0) bandaNao.selected = true;
+				if(filterSelec.bandalarga==1) bandaSim.selected = true;
+				if(filterSelec.bandalarga==2) bandaTodos.selected = true;
+				
+				if (filterSelec.moodle==0) indicMoodelNao.selected = true;
+				if (filterSelec.moodle==1) indicMoodelSim.selected = true;
+				if (filterSelec.moodle==2) indicMoodelTodos.selected = true;
+				listAllUf.refresh();
+				listAllAtuacao.refresh();
+				
+			}
+				
 			private function getCountAlunoResult(source:ResultEvent):void {
 				if(source.result != null){
 					lbNumTotCand.text = source.result.toString();
@@ -198,8 +329,8 @@
 			
 		]]>
 	</mx:Script>
-	<mx:RadioButtonGroup id="rgIndicMoodle" />
-	<mx:RadioButtonGroup id="rgBandaLarga" />
+	<mx:RadioButtonGroup id="rgIndicMoodle"  selectedValue="3"/>
+	<mx:RadioButtonGroup id="rgBandaLarga" selectedValue="3" />
 	
 	<mx:HBox width="100%" backgroundColor="#EAEAEA" borderStyle="solid">
 		<mx:VBox>
@@ -240,14 +371,15 @@
 			</mx:HBox>
 			<mx:Label text="Banda Larga" fontSize="14" fontWeight="bold" />
 			<mx:HBox>
-				<mx:RadioButton groupName="rgBandaLarga" label="Sim" value="1"/>
-				<mx:RadioButton groupName="rgBandaLarga" label="Não" value="0"/>
+				<mx:RadioButton groupName="rgBandaLarga" label="Sim" value="2" id="bandaSim"/>
+				<mx:RadioButton groupName="rgBandaLarga" label="Não" value="1" id="bandaNao"/>
+				<mx:RadioButton groupName="rgBandaLarga" label="Todos" value="3" id="bandaTodos"/>
 			</mx:HBox>
-			<mx:Label text="Indicador Especial" fontSize="14" fontWeight="bold" />
+			<mx:Label text="Indicado Especial" fontSize="14" fontWeight="bold" />
 			<mx:HBox>
-				<mx:RadioButton groupName="rgIndicMoodle" label="Sim" value="1"/>
-				<mx:RadioButton groupName="rgIndicMoodle" label="Não" value="2"/>
-				<mx:RadioButton groupName="rgIndicMoodle" label="Todos" value="3"/>
+				<mx:RadioButton groupName="rgIndicMoodle" label="Sim" value="2" id="indicMoodelSim"/>
+				<mx:RadioButton groupName="rgIndicMoodle" label="Não" value="1" id="indicMoodelNao"/>
+				<mx:RadioButton groupName="rgIndicMoodle" label="Todos" value="3" id="indicMoodelTodos"/>
 			</mx:HBox>
 			
 		</mx:VBox>
@@ -275,6 +407,19 @@
 				<mx:Button label="Selecionados" click="filtraAllSelecionado()" />
 				<mx:Button label="Filtrar" click="enviaFiltro()"/>
 			</mx:HBox>
+			<mx:Button label="Limplar filtro" click="clearCheckBoxes(this as Container)"/>
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%">
+			
+				<mx:Label text="Nome do filtro" fontWeight="bold" fontSize="14"/>
+				<mx:TextInput id="txtFilter"/>
+				<mx:Button label="salvar filtro" click="saveFilter()"/>
+			
+			<mx:DataGrid id="listFiltor" width="200" change="selectFilter()">
+				<mx:columns>
+					<mx:DataGridColumn headerText="Filtro" dataField="name"/>
+				</mx:columns>
+			</mx:DataGrid>
 		</mx:VBox>
 		
 	</mx:HBox>
@@ -298,7 +443,7 @@
 				<mx:itemRenderer>
 					<mx:Component>
 					<mx:Box horizontalAlign="center">
-						<mx:CheckBox selected="{data.selecionado==6?true:false}" click="parentDocument.toggleSelecionado(event, data)"/>
+						<mx:CheckBox selected="{data.selecionado>=6?true:false}" click="parentDocument.toggleSelecionado(event, data)"/>
 					</mx:Box>
 					</mx:Component>
 				</mx:itemRenderer>
