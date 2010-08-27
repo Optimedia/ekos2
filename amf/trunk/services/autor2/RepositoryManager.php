@@ -88,7 +88,7 @@
 			$filename = mt_rand() . $finalName;
 			file_put_contents( 'mediafiles/' . $filename, $data);
 			
-			resizeImg ('mediafiles/' . $filename);
+			$this->resizeImg ('mediafiles/' . $filename);
 			
 			
 			$arrayMedia = array	('title' => $media -> title,
@@ -420,7 +420,7 @@
 			if (($tipo == 9) || ($tipo == 2) || ($tipo == 3)){
 					
 				$maxWidth = 700;
-				$maxHeight = 300;
+				$maxHeight = 2000;
 				
 				if ($tipo == 3) {
 					$img = imagecreatefrompng($file);
