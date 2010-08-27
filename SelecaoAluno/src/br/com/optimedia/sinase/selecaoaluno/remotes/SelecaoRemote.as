@@ -77,6 +77,16 @@ package br.com.optimedia.sinase.selecaoaluno.remotes
 			var async:AsyncToken = bridge.getCountSelecionado();
 			async.addResponder(new Responder(result, defaultFaultHandler));
 		}
+		public function saveFilter(filter:FilterVO, result:Function):void {
+			bridge.showBusyCursor = false;
+			var async:AsyncToken = bridge.saveFilter(filter);
+			async.addResponder(new Responder(result, defaultFaultHandler));
+		}
+		public function getListAllFilter(result:Function):void {
+			bridge.showBusyCursor = false;
+			var async:AsyncToken = bridge.getListAllFilter();
+			async.addResponder(new Responder(result, defaultFaultHandler));
+		}
 
 	}
 }
