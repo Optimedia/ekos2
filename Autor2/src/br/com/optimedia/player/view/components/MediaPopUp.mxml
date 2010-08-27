@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" roundedBottomCorners="true" borderStyle="solid"
 				cornerRadius="4" horizontalAlign="center" verticalAlign="middle" showCloseButton="true" close="dismissEffect.play()"
-				creationComplete="init()" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+				creationComplete="init()" verticalScrollPolicy="auto" horizontalScrollPolicy="off"
 				filters="{[glowFilter]}">
 	
 	<mx:Script>
