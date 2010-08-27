@@ -174,12 +174,7 @@ package br.com.optimedia.autor.view
 					var source:String = note.getBody().source as String;
 					var align:String = note.getBody().align as String;
 					var img:String;
-					if(align == InsertImgPopUp.CENTRO) {
-						img = "<br/><p><img src=\""+source+"\" align=\"center\"/></p><br/>";
-					}
-					else {
-						img = "<img src=\""+source+"\" align=\""+align+"\"/>";
-					}
+					img = "<img src=\""+source+"\" align=\""+align+"\"/>";
 					var original:String = view.bodyTextArea.htmlText;
 					var beginIndex:int = view.bodyTextArea.selection.beginIndex;
 					var endIndex:int = view.bodyTextArea.selection.endIndex;
