@@ -341,7 +341,9 @@
 							var imagem:Image = new Image();
 							imagem.autoLoad = true;
  							imagem.maxWidth = this.width*0.95;
-							imagem.maxHeight = this.height*0.95;
+							//imagem.maxHeight = this.height*0.95;
+							imagem.x = 0;
+							imagem.y = 0;
 							imagem.scaleContent = false;
 							imagem.setStyle("horizontalCenter",0);
 							imagem.setStyle("verticalCenter",0);
