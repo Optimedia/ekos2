@@ -151,6 +151,7 @@
 				}
 				else if( this.currentState == 'url' ) {
 					if( fileTextInput.text != '' && nameTextInput.text != '' ) {
+						fileTextInput.text = fileTextInput.text.replace("http://http://", "http://")
 						dispatchEvent( new Event(UPLOAD_TEXT_EVENT) );
 					}
 					else Alert.show("É necessário digitar uma URL.", "Atenção");
