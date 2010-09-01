@@ -56,7 +56,9 @@
 		public function uploadPresentationFile(FileVO $file, $presentationID, $type) {
 			
 			$data = $file->filedata->data;
-			$filename = $file->filename;
+			$finalName = substr($file->filename, strlen($file->filename)-4, 4);
+
+			$filename = mt_rand() . mt_rand() . $finalName;
 			chdir('presentationfiles');
 			if( !is_dir($presentationID) ){
 				mkdir($presentationID);
@@ -83,9 +85,10 @@
 			
 			$data = $file->filedata->data;
 			
-			$finalName = preg_replace( "/[^aA-zZ0-9\-_\.]+/i", "", $file->filename);
+			//$finalName = preg_replace( "/[^aA-zZ0-9\-_\.]+/i", "", $file->filename);
+			$finalName = substr($file->filename, strlen($file->filename)-4, 4);
 
-			$filename = mt_rand() . $finalName;
+			$filename = mt_rand() . mt_rand() . $finalName;
 			file_put_contents( 'mediafiles/' . $filename, $data);
 			
 			$this->resizeImg ('mediafiles/' . $filename);
