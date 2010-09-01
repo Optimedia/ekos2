@@ -56,16 +56,15 @@
 		public function uploadPresentationFile(FileVO $file, $presentationID, $type) {
 			
 			$data = $file->filedata->data;
-			$finalName = substr($file->filename, strlen($file->filename)-4, 4);
-
-			$filename = mt_rand() . mt_rand() . $finalName;
+			$filename = $file->filename;
+			
 			chdir('presentationfiles');
 			if( !is_dir($presentationID) ){
 				mkdir($presentationID);
 			}
 			file_put_contents( $presentationID . '/' . $filename, $data);
 			
-			resizeImg ($presentationID . '/' . $filename);
+			$this->resizeImg ($presentationID . '/' . $filename);
 				
 			$arrayPresentation = array ($type => $filename);
 			$condition = "presentation_id = ".$presentationID;
