@@ -49,13 +49,13 @@
 			
 			private function contaLabels():void {
 				selecaoRemote.getCountSelecionado(getCountSelecionadoResult);
+				var contador:int = 0;
 				if(listDataProvider.length > 0) {
-					var contador:int = 0;
 					for each(var item:AlunoVO in listDataProvider) {
-						if(item.selecionado == 6) contador++;
+						if(item.selecionado >= 6) contador++;
 					}
-					lbNumSelFiltro.text = contador.toString();
 				}
+				lbNumSelFiltro.text = contador.toString();
 			}
 			
 			private function filtraAllSelecionado():void {
@@ -175,6 +175,7 @@
 			private function getListAllFilterResult(result:ResultEvent):void {
 				listFiltor.dataProvider = result.result;
 			}
+
 			private function clearCheckBoxes(object:*):void {
 				if(object is List) {
 					for each(var child:Object in List(object).dataProvider) {
@@ -407,7 +408,7 @@
 				<mx:Button label="Selecionados" click="filtraAllSelecionado()" />
 				<mx:Button label="Filtrar" click="enviaFiltro()"/>
 			</mx:HBox>
-			<mx:Button label="Limplar filtro" click="clearCheckBoxes(this as Container)"/>
+			<mx:Button label="Limpar filtro" click="clearCheckBoxes(this as Container)"/>
 		</mx:VBox>
 		<mx:VBox width="100%" height="100%">
 			
