@@ -18,7 +18,8 @@
  
     <channels> 
         <channel-definition id="my-amfphp" class="mx.messaging.channels.AMFChannel"> 
-            <endpoint uri="http://74.54.27.146/amf/gateway.php" class="flex.messaging.endpoints.AMFEndpoint"/> 
+           <!--<endpoint uri="http://10.1.1.10/amf/gateway.php" class="flex.messaging.endpoints.AMFEndpoint"/>-->
+           <endpoint uri="http://74.54.27.146/amf/gateway.php" class="flex.messaging.endpoints.AMFEndpoint"/>
         </channel-definition> 
     </channels> 
 </services-config>
