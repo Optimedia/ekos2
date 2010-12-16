@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundAlpha="1" backgroundColor="#ffffff"
+	width="800" height="512" creationComplete="init()" horizontalAlign="center" currentState="1">
+	
+	<mx:states>
+		<mx:State name="1"/>
+		<mx:State name="3">
+			<mx:RemoveChild target="{bodyTextArea}"/>
+			<mx:AddChild relativeTo="{this}" position="lastChild">
+				<mx:Canvas id="canvas1" width="780" height="414" x="10" y="49" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+					<mx:SWFLoader id="loadingSwf1" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
+						scaleContent="false" width="50" height="50" x="350" y="187"/>
+					<!--<mx:Image id="slideImage" source="http://174.122.24.74/amf/services/autorbbs/presentationfiles/{presentationID}/{slideVO.text_body}"
+						maxWidth="{bodyTextArea.width}" maxHeight="{bodyTextArea.width}"
+						/>-->
+					<mx:Image id="slideImage" source="http://174.122.24.74/amf/services/autorbbs/presentationfiles/{presentationID}/{slideVO.text_body}"
+						maxWidth="{bodyTextArea.width}" maxHeight="{bodyTextArea.width}"
+						/>
+				</mx:Canvas>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	
+	<mx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			import mx.rpc.events.ResultEvent;
+			import br.com.optimedia.player.view.components.QuestionView;
+			import mx.core.Repeater;
+			import mx.core.IChildList;
+			import mx.managers.PopUpManagerChildList;
+			import mx.rpc.soap.LoadEvent;
+			import mx.effects.easing.Elastic;
+			import mx.effects.Fade;
+			import mx.events.ListEvent;
+			import br.com.optimedia.player.view.components.SlideIndexList;
+			import mx.controls.videoClasses.VideoPlayer;
+			import mx.controls.VideoDisplay;
+			import mx.core.UIComponent;
+			import mx.events.ResizeEvent;
+			import mx.core.IFlexDisplayObject;
+			import mx.controls.SWFLoader;
+			import mx.managers.PopUpManager;
+			import br.com.optimedia.player.view.components.MediaPopUp;
+			import fl.video.FLVPlayback;
+			import mx.events.CloseEvent;
+			import mx.containers.TitleWindow;
+			import br.com.optimedia.assets.vo.MediaVO;
+			import mx.collections.ArrayCollection;
+			import br.com.optimedia.assets.vo.SlideVO;
+			import br.com.optimedia.assets.ImgAssets;
+			import mx.controls.Alert;
+			import br.com.optimedia.player.PlayerFacade;
+			
+			public static const SET_SLIDE_EVENT:String = "SET_SLIDE_EVENT";
+			public static const GET_QUESTION_EVENT:String = "GET_QUESTION_EVENT";
+			
+			public static const PLAYER_MODE:String = "PLAYER_MODE";
+			public static const PREVIEW_MODE:String = "PREVIEW_MODE";
+			
+			private var playerFacade:PlayerFacade = PlayerFacade.getInstance();
+			
+			[Bindable]
+			public var presentationID:int;
+			
+			[Bindable]
+			public var slideID:Number;
+			
+			[Bindable]
+			[Inspectable(category="General", enumeration="PLAYER_MODE,PREVIEW_MODE", defaultValue="PLAYER_MODE")]
+			public var mode:String;
+			
+			[Bindable]
+			public var slideVO:SlideVO;
+			
+			[Bindable]
+			public var slidesArray:ArrayCollection = new ArrayCollection();
+			
+			private function init():void {
+				if(mode == PREVIEW_MODE) {
+					playerFacade.startup( this );
+					slideID = 0;
+				}
+				
+				prevBtn.addEventListener(MouseEvent.CLICK, removeAllPopUps);
+				indexBtn.addEventListener(MouseEvent.CLICK, removeAllPopUps);
+				nextBtn.addEventListener(MouseEvent.CLICK, removeAllPopUps);
+			}
+			
+			public function start(presentationID:int, slideID:int, mode:String = PLAYER_MODE ):void {
+				
+				this.presentationID = presentationID;
+				this.slideID = slideID;
+				this.mode = mode;
+				
+				if( mode != PLAYER_MODE && mode != PREVIEW_MODE ) {
+					Alert.show( mode+" não é um modo válido.", "Erro");
+				}
+				else {
+					playerFacade.startup( this );
+				}
+			}
+			
+			public function setSlide(slideVO:SlideVO):void {
+				slideID = slideVO.slide_id;
+				
+				//gambiarra pra corrigir mudança do layout no fim do projeto
+				if( slideVO.type_slide_id == 0 ) slideVO.type_slide_id = 1;
+				if( slideVO.type_slide_id == 2 ) slideVO.type_slide_id = 1;
+				//fim da gambiarra
+				
+				this.currentState = slideVO.type_slide_id.toString();
+				
+				this.slideVO = slideVO;
+				
+				if(mode == PREVIEW_MODE) {
+					indexBtn.label = slideVO.page_order.toString()+' de '+slidesArray.length.toString();
+					slideNumText.text = (slideVO.page_order).toString();
+				}
+				else if(mode == PLAYER_MODE) {
+					indexBtn.label = (slidesArray.getItemIndex(slideVO)+1).toString()+' de '+slidesArray.length.toString();
+					slideNumText.text = (slidesArray.getItemIndex(slideVO)+1).toString();
+					/* indexBtn.label = (int(slideVO.page_order)+1).toString()+' de '+slidesArray.length.toString();
+					slideNumText.text = (slideVO.page_order+1).toString(); */
+				}
+				
+				disableButtons( getSlideIndex( slideVO.slide_id ) );
+				createMediaBtns();
+				dispatchEvent( new Event(SET_SLIDE_EVENT) );
+			}
+			
+			private function nextBtnClick():void {
+				var actualSlideIndex:int = getSlideIndex(slideID);
+				var nextSlideIndex:int = actualSlideIndex+1;
+				setSlide( slidesArray[nextSlideIndex] );
+			}
+			
+			private function prevBtnClick():void {
+				var actualSlideIndex:int = getSlideIndex(slideID);
+				var nextSlideIndex:int = actualSlideIndex-1;
+				setSlide( slidesArray[nextSlideIndex] );
+			}
+			
+			private function getSlideIndex(slideID:Number):Number {
+				for each( var slide:SlideVO in slidesArray ) {
+					if( slide.slide_id == slideID ) {
+						return slidesArray.getItemIndex( slide );
+					}
+				}
+				return 0;
+			}
+			
+			private function disableButtons(slideIndex:int):void {
+				prevBtn.enabled = true;
+				nextBtn.enabled = true;
+				if( slideIndex == 0 ) {
+					prevBtn.enabled = false;
+				}
+				if( slideIndex == slidesArray.length-1 ) {
+					nextBtn.enabled = false;
+				}
+			}
+			
+			private function createMediaBtns():void {
+				mediaBox.visible = false;
+				mediaBox.removeAllChildren();
+				for each( var media:MediaVO in slideVO.mediaArray ) {
+					var btn:Button = new Button();
+					btn..styleName = "MediaBtn";
+					btn.width = 24;
+		 			btn.height = 24;
+		 			btn.data = media;
+					btn.addEventListener(MouseEvent.CLICK, openMediaPopUp);
+		 			switch (media.category_id)
+					{
+						case 1:
+							btn.setStyle("icon", ImgAssets.category1Icon);
+							btn.toolTip = "Ver Tabela";
+							break;
+						case 2:
+							btn.setStyle("icon", ImgAssets.category2Icon);
+							btn.toolTip = "Ver Gráfico";
+							break;
+						case 3:
+							btn.setStyle("icon", ImgAssets.category3Icon);
+							btn.toolTip = "Ver Imagem";
+							break;
+						case 4:
+							btn.setStyle("icon", ImgAssets.category4Icon);
+							btn.toolTip = "Ver Vídeo";
+							break;
+						case 5:
+							btn.setStyle("icon", ImgAssets.category5Icon);
+							btn.toolTip = "Abrir URL";
+							break;
+						case 6:
+							btn.setStyle("icon", ImgAssets.category6Icon);
+							btn.toolTip = "Ver Texto";
+							break;
+						case 7:
+							btn.setStyle("icon", ImgAssets.category7Icon);
+							btn.toolTip = "Baixar Arquivo";
+							break;
+						case 8:
+							btn.setStyle("icon", ImgAssets.category8Icon);
+							btn.toolTip = "Ver questão";
+							break;
+						default:
+							btn.setStyle("icon", ImgAssets.category3Icon);
+							btn.toolTip = "Abrir Mídia";
+							break;
+					}
+					mediaBox.addChild( btn );
+				}
+				mediaBox.visible = true;
+			}
+			
+			private function removeAllPopUps(e:Event):void {
+                popUp.dismissEffect.play();
+			}
+			
+			private var popUp:MediaPopUp = new MediaPopUp();
+			private function openMediaPopUp(event:Event):void {
+				removeAllPopUps(null);
+				
+				popUp = new MediaPopUp();
+				popUp.maxHeight = bodyTextArea.height*0.96;
+				popUp.maxWidth = bodyTextArea.width*0.96;
+				
+				var media:MediaVO;
+				if(event is MouseEvent) {
+					//SE O EVENTO VEIO DO BOTÃO
+					media = event.target.data as MediaVO;
+				}
+				else if(event is TextEvent) {
+					//SE O EVENTO VEIO DO LINK NO TEXTO
+					for each( var item:MediaVO in slideVO.mediaArray ) {
+						if( item.media_id.toString() == TextEvent(event).text.toString() ){
+							media = item;
+						}
+					}
+				}
+				
+				if( media == null ) {
+					Alert.show("Esta mídia não existe mais.", "Atenção");
+					return;
+				}
+				switch(media.category_id) {
+					case 4:
+						//vídeo
+						var movie:FLVPlayback = new FLVPlayback();
+						var aux:UIComponent = new UIComponent();
+						aux.addChild( movie as DisplayObject );
+						movie.addEventListener(LoadEvent.LOAD, function(e:LoadEvent):void { popUp.addChild( aux ); });
+						/* movie.play('http://174.122.24.74/amf/services/autor/mediafiles/'+media.body); */
+						movie.play('http://174.122.24.74/amf/services/autorbbs/mediafiles/'+media.body);
+						movie.autoRewind = false;
+						/* movie.skin="http://174.122.24.74/sinase.moodle/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf"; */
+						movie.skin="http://174.122.24.74/bbs/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf";
+						movie.scaleMode = "maintainAspectRatio";
+						movie.skinBackgroundColor = 0x666666;
+	        			movie.skinAutoHide = true;
+						
+						popUp.addChild( aux );
+						popUp.addEventListener(CloseEvent.CLOSE, function(e:CloseEvent):void { movie.stop(); });
+						PopUpManager.addPopUp( popUp, this, false, PopUpManagerChildList.POPUP );
+						PopUpManager.centerPopUp( popUp );
+						aux.width = movie.width;
+						aux.height = movie.height;
+						break;
+					case 5:
+						//link
+						var url:URLRequest = new URLRequest( media.body );
+						navigateToURL(url,"_blank");
+						break;
+					case 6:
+						//texto
+						var text:TextArea = new TextArea();
+						text.setStyle("backgroundAlpha", 0);
+						text.setStyle("borderSides",0);
+						text.setStyle("fontSize", 22);
+						text.htmlText = "<span class='media'>" + media.body + "</span>";
+						text.wordWrap = true;
+						text.editable = false;
+						text.enabled = true;
+						popUp.addChild( text );
+						PopUpManager.addPopUp( popUp, this );
+						PopUpManager.centerPopUp( popUp );
+						popUp.height = bodyTextArea.height*0.96;
+						popUp.width = bodyTextArea.width*0.96;
+						text.percentWidth = 100;
+						text.percentHeight = 100;
+						/* text.width = 500;
+						text.height = 400; */
+						break;
+					case 7:
+						//link para slide de outra apresentação
+						/* var url1:URLRequest = new URLRequest( 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body); */
+						var url1:URLRequest = new URLRequest( 'http://174.122.24.74/amf/services/autorbbs/mediafiles/'+media.body);
+						navigateToURL(url1,"_blank");
+						break;
+					case 8:
+						var questionview:QuestionView = new QuestionView();
+						popUp.minWidth = 600;
+						popUp.minHeight = 400;
+						/* questionview.minWidth = 600;
+						questionview.minHeight = 400;
+						questionview.maxWidth =  popUp.;
+						questionview.maxHeight = bodyTextArea.height*0.96; */
+						
+						popUp.mediaVO=media;
+						popUp.addChild(questionview);
+						dispatchEvent( new ResultEvent(PlayerModule.GET_QUESTION_EVENT, false,true,popUp));
+					
+						PopUpManager.addPopUp( popUp, this, false, PopUpManagerChildList.POPUP );
+						PopUpManager.centerPopUp( popUp );
+						popUp.removeChild(popUp.loadingSwf);
+						break;	
+					default:
+						//imagens
+						var arq:Array = media.body.split(".");
+						if (arq[1]=="swf") {
+							var swfLoad:SWFLoader = new SWFLoader();
+							/* swfLoad.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body; */
+							swfLoad.source = 'http://174.122.24.74/amf/services/autorbbs/mediafiles/'+media.body;
+							swfLoad.autoLoad = true;
+							swfLoad.scaleContent = true;
+							popUp.addChild( swfLoad );
+						}else {
+							var imagem:Image = new Image();
+							imagem.autoLoad = true;
+ 							imagem.maxWidth = this.width*0.95;
+							imagem.maxHeight = this.height*0.95;
+							imagem.scaleContent = false;
+							imagem.setStyle("horizontalCenter",0);
+							imagem.setStyle("verticalCenter",0);
+							/* imagem.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body; */
+							imagem.source = 'http://174.122.24.74/amf/services/autorbbs/mediafiles/'+media.body;
+							popUp.addChild( imagem );
+						}
+						PopUpManager.addPopUp( popUp, this );
+						PopUpManager.centerPopUp( popUp );
+						break;
+				}
+			}
+			
+			private function indexBtnClick():void {
+				var obj:Object = this.getChildByName( SlideIndexList.NAME );
+				if( obj ) {
+					removeSlideIndexList( null );
+				}
+				else {
+					var index:SlideIndexList = new SlideIndexList();
+					index.slideArray = slidesArray;
+					index.visible = false;
+					this.addChild( index );
+					index.listCanvas.x = indexBtn.x;
+					index.listCanvas.y = indexBtn.y;
+					index.listCanvas.maxWidth = indexBtn.width+40;
+					index.list.selectedItem = slideVO;
+					index.list.addEventListener(ListEvent.ITEM_CLICK, function(e:ListEvent):void { setSlide(index.list.selectedItem as SlideVO); index.removeMe(); } );
+					index.visible = true;
+				}
+			}
+			
+			private function removeSlideIndexList(e:Event):void {
+				var obj:SlideIndexList = this.getChildByName( SlideIndexList.NAME ) as SlideIndexList;
+				if( obj && !obj.showEffect.isPlaying && !obj.hideEffect.isPlaying ) {
+					SlideIndexList(obj).removeMe();
+				}
+				System.gc();
+			}
+			
+			private function printBtnHandler():void {
+				/* navigateToURL( new URLRequest("http://174.122.24.74/sinase.moodle/interactive/pdf/?id="+presentationID)); */
+				navigateToURL( new URLRequest("http://174.122.24.74/bbs/interactive/pdf/?id="+presentationID));
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Fade id="mediaEffect" easingFunction="{Elastic.easeOut}" duration="1000"/>
+	
+	<mx:Image id="backgroundImage" >
+		<mx:source>br/com/optimedia/assets/skins/playerBackground.png</mx:source>
+	</mx:Image>
+	
+	<mx:Text id="slideNumText" horizontalCenter="-372" verticalCenter="-232" color="#666666" fontSize="14"/>
+	
+	<mx:TextInput id="titleTextInput" verticalCenter="-232" horizontalCenter="15" width="714"
+		backgroundAlpha="0" borderThickness="0"	borderStyle="none" fontSize="16" text="{slideVO.title}"
+		editable="false" textAlign="center" color="#ffffff" fontWeight="bold"/>
+	
+	<mx:TextArea id="bodyTextArea" width="780" height="414" fontSize="14" htmlText="{slideVO.text_body}" color="#000000"
+		link="openMediaPopUp(event)" editable="false" backgroundAlpha="0" borderStyle="none" x="10" y="49"/>
+	
+	<!--<mx:HBox width="784" height="30" bottom="0" verticalAlign="middle" paddingLeft="2" paddingRight="2" horizontalCenter="0">-->
+	<mx:HBox id="mediaHBox" width="542" verticalAlign="middle" paddingLeft="2" paddingRight="2" height="31" x="29" y="471">
+		
+		<mx:Button id="printBtn" icon="@Embed(source='br/com/optimedia/assets/img/pdf.png')" toolTip="Clique para imprimir este tema"
+		styleName="PdfBtn" width="30" height="30" click="printBtnHandler()" visible="{mode==PLAYER_MODE}"/>
+			
+		<mx:Spacer width="50" />
+		
+		<mx:HBox id="mediaBox" showEffect="{mediaEffect}"/>
+		
+	</mx:HBox>
+	<mx:Button id="urlBtn" icon="@Embed(source='br/com/optimedia/assets/img/chain.png')" toolTip="Clique para ver a url deste slide"
+		styleName="LinkBtn" x="757" y="469" width="36" height="36"/>
+	<mx:Button id="indexBtn" toolTip="Lista de slides" width="96" click="indexBtnClick()" x="628" y="472" styleName="IndexBtn" height="32"
+		fontSize="16" fontWeight="bold" color="#666666"/>
+	<mx:Button id="nextBtn" toolTip="Próximo slide" click="nextBtnClick()" enabled="false"
+		styleName="NextBtn" x="724" y="472" width="24" height="32"/>
+	<mx:Button id="prevBtn" toolTip="Slide Anterior" click="prevBtnClick()" enabled="false"
+		styleName="PrevBtn" x="604" y="472" width="24" height="32"/>
+	
+</mx:Module>
