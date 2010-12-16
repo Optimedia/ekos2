@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="300" height="100%"
+	creationComplete="init()" title="Repositório de Mídias" xmlns:assets="br.com.optimedia.assets.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import br.com.optimedia.assets.vo.QuestionVO;
+			import mx.events.ScrollEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
+			import br.com.optimedia.assets.ImgAssets;
+			import br.com.optimedia.assets.vo.MediaVO;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import mx.events.ListEvent;
+			import mx.collections.ArrayCollection;
+			
+			import br.com.optimedia.autor.AutorFacade;
+			
+			public static const GET_QUESTION_EVENT:String = "GET_QUESTION_EVENT";
+			
+			private var autorFacade:AutorFacade = AutorFacade.getInstance();
+			
+			//public var presentationID:uint;
+			public var subjectID:uint;
+			
+			[Bindable]
+			public var currentMediaID:int;
+			
+			[Bindable]
+			public var mediaXml:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var mediaVO:MediaVO = new MediaVO();
+			
+			
+			public var edtBtn:Button = new Button();
+			
+			private function init():void {
+				autorFacade.startup( this );
+				
+				edtBtn.addEventListener(MouseEvent.CLICK,openPopUpEdit);
+				mediaTree.addEventListener(ScrollEvent.SCROLL,edtBntDiseble);
+				edtBtn.label = "alterar";
+				edtBtn.includeInLayout = false
+				edtBtn.visible=false;
+				edtBtn.name = "EditQuestion";
+				this.addChildAt(edtBtn,this.getChildren().length-1);
+			
+				
+			}
+			
+			private function setIcon(item:Object):Class {
+				var iconClass:Class;
+				
+				if( mediaTree.dataDescriptor.isBranch(item) ) {
+					iconClass = ImgAssets.iconMinimised;
+					for each( var openItem:Object in mediaTree.openItems ) {
+						if(item == openItem) iconClass = ImgAssets.iconMaximised;
+					}
+					return iconClass;
+				}
+				var categoryID:uint= item.category_id;
+				switch( categoryID ) {
+					case 1:
+						iconClass = ImgAssets.category1Icon;
+						break;
+					case 2:
+						iconClass = ImgAssets.category2Icon;
+						break;
+					case 3:
+						iconClass = ImgAssets.category3Icon;
+						break;
+					case 4:
+						iconClass = ImgAssets.category4Icon;
+						break;
+					case 5:
+						iconClass = ImgAssets.category5Icon;
+						break;
+					case 6:
+						iconClass = ImgAssets.category6Icon;
+						break;
+					case 7:
+						iconClass = ImgAssets.category7Icon;
+						break;
+					case 8:
+						iconClass = ImgAssets.category8Icon;
+						break;
+					default:
+						break;
+				}
+				return iconClass;
+			}
+			
+			public function treeItemClick(event:ListEvent):void {
+				previePanel.title = 'Pré-visualização';
+				previewImage.visible = false;
+				previewTextArea.visible = false;
+				linkBtn.enabled = false;
+				
+				var item:Object = mediaTree.selectedItem
+                if (mediaTree.dataDescriptor.isBranch(item)) {
+                    mediaTree.expandItem(item, !mediaTree.isItemOpen(item), true);
+                    deleteBtn.enabled = false;
+                    edtBtn.visible = false;
+                    
+                }
+                else {
+                	deleteBtn.enabled = true;
+                	//edtBtn.enabled = true;
+                	var currentMediaCategory:int = MediaVO(item).category_id;
+                	
+                	currentMediaID = item.media_id;
+                	
+                	trace("-------------------------------------");
+                	trace("ID da média é - " + currentMediaID);
+                	trace("-------------------------------------");
+                	
+                	dispatchEvent(new Event("currentMediaChange", true));
+                	
+                	// mostrar btn de alterar dados
+               		showBtnEdir(event.itemRenderer.y, currentMediaCategory);
+                	// mostar preview
+                	showPreview(item as MediaVO);
+                }
+			}
+			private function showBtnEdir(y:int, currentMediaCategory:int):void {
+				if ((currentMediaCategory == 5) || (currentMediaCategory == 6 )|| (currentMediaCategory == 8)){
+					edtBtn.y=y - 2;
+					edtBtn.x=195;
+					edtBtn.visible = true;
+				}else {
+					edtBtn.visible = false;
+				}
+				
+			}
+			private function edtBntDiseble(event:ScrollEvent):void {
+				edtBtn.visible = false;
+			}
+			private function showPreview(item:MediaVO):void {
+				previewTextArea.text = '';
+				previePanel.title = item.title;
+				
+				switch( item.category_id ) {
+					case 4:
+						previewImage.source = ImgAssets.movieIconLarge;
+						break;
+					case 5:
+						previewTextArea.text = item.body;
+						break;
+					case 6:
+						previewTextArea.text = item.body;
+						break;
+					case 7:
+						previewImage.source = ImgAssets.fileIconLarge;
+						previewImage.visible = true;
+						break;
+					case 8:
+						previewTextArea.text = item.description;
+						break;
+					default:
+						/* previewImage.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+item.body; */
+						previewImage.source = 'http://174.122.24.74/amf/services/autorbbs/mediafiles/'+item.body;
+						break;
+				}
+				if( previewTextArea.text == '' ) {
+					previewImage.visible = true;
+					previewTextArea.visible = false;
+				}
+				else {
+					previewImage.visible = false;
+					previewTextArea.visible = true;
+				}
+				linkBtn.enabled = true;
+			}
+			
+			private function openPopUp():void {
+				var popUp:SendMediaPopUp = new SendMediaPopUp();
+				//popUp.presentationID = presentationID;
+				popUp.subjectID = subjectID;
+				popUp.mediaVO = new MediaVO();
+				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+				PopUpManager.centerPopUp( popUp );
+				edtBtn.visible = false;
+			}
+			private function openPopUpEdit(event:Event):void {
+				
+				mediaVO = mediaTree.selectedItem as MediaVO;
+				
+				var popUp:SendMediaPopUp = new SendMediaPopUp();				
+				//popUp.presentationID = presentationID;
+				popUp.subjectID = subjectID;
+				if (mediaVO.category_id!=8) {
+					PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+					popUp.questionRadio.selected = true;
+					popUp.radioBtnGroup.selection = popUp.questionRadio;
+					popUp.radio1.visible = false;
+					popUp.radio1.includeInLayout = false;
+					popUp.radio2.visible = false;
+					popUp.radio2.includeInLayout = false;
+					popUp.setType(mediaVO.category_id , mediaVO, null);
+					PopUpManager.centerPopUp( popUp );
+				}else {
+					dispatchEvent(new ResultEvent(GET_QUESTION_EVENT, false,true, mediaVO));
+				}
+				edtBtn.visible = false;
+			}
+			public function getQuestionResult (questionVO:QuestionVO):void {
+				var popUp:SendMediaPopUp = new SendMediaPopUp();
+				popUp.subjectID = subjectID;
+				PopUpManager.addPopUp( popUp, Application.application as DisplayObject, true );
+				popUp.questionRadio.selected = true;
+				popUp.radioBtnGroup.selection = popUp.questionRadio;
+				popUp.radio1.visible = false;
+				popUp.radio1.includeInLayout = false;
+				popUp.radio2.visible = false;
+				popUp.radio2.includeInLayout = false;
+				
+				popUp.setType(8, mediaVO, questionVO);
+				PopUpManager.centerPopUp( popUp );
+			}
+			 
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Tree id="mediaTree" dataProvider="{mediaXml}" labelField="title" showRoot="false" itemClick="treeItemClick(event)"
+		width="100%" height="100%" iconFunction="setIcon" disclosureClosedIcon="{null}" disclosureOpenIcon="{null}" borderStyle="none"
+		focusEnabled="false"/>
+		
+	<mx:Panel id="previePanel" width="280" height="180" dropShadowEnabled="false" cornerRadius="10"
+		verticalScrollPolicy="off" horizontalScrollPolicy="off"
+		borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0" layout="absolute" title="Pré-visualização">
+		
+		<mx:TextArea id="previewTextArea" width="100%" height="100%" editable="false"/>
+		
+		<assets:ImageWithProgressBar id="previewImage" maxWidth="280" maxHeight="150" scaleContent="true" maintainAspectRatio="false"
+			horizontalCenter="0" verticalCenter="0"/>
+		
+	</mx:Panel>
+	
+	<mx:ControlBar height="35" paddingTop="5">
+		<mx:Button id="linkBtn" label="Associar" focusEnabled="false"/>
+		<mx:Spacer width="100%"/>
+		<mx:VRule height="10"/>
+		<mx:Spacer width="100%"/>
+		
+		<mx:Button id="addBtn" label="Adicionar" click="openPopUp()"/>
+		<mx:Button id="deleteBtn" label="Remover" />
+	</mx:ControlBar>
+</mx:Panel>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+	width="800" height="512" backgroundAlpha="1" backgroundColor="#ffffff"
+	xmlns:local="*" creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import br.com.optimedia.player.PlayerFacade;
+			import mx.controls.Alert;
+			import mx.managers.IBrowserManager;
+			import mx.managers.BrowserManager;
+		
+			[Bindable]
+    		public var idPresentation:int;
+    		
+    		[Bindable]
+    		public var idSlide:int;
+    		
+			private function init():void {
+				idPresentation = this.parameters._presentation;
+				var end:IBrowserManager = BrowserManager.getInstance(); 
+				end.init();
+				idSlide = end.url.split("s=")[1];
+				
+				//desabilitar o log da navegação caso tenha aberto o player de um link de mídia
+				if( idSlide == 0 ) {
+					var facade:PlayerFacade = PlayerFacade.getInstance();
+					facade.allowNavigationLog = true;
+				}
+				
+				// VALORES APENAS PARA TESTE
+				//idPresentation = 103;
+				//Alert.show("modo teste");
+				
+				start();
+			}
+			
+			private function start():void {
+				var service:HTTPService = new HTTPService();
+				//service.url = 'http://174.122.24.74/sinase.moodle/autor/whoami.php';
+				service.url = 'http://174.122.24.74/bbs/autor/whoami.php';
+				service.resultFormat = "e4x";
+				service.showBusyCursor = true;
+				service.addEventListener(ResultEvent.RESULT, resultHandler);
+				service.addEventListener(FaultEvent.FAULT, faultHandler);
+				service.send();
+			}
+			private function resultHandler(event:ResultEvent):void {
+				// trocar estas linhas para teste ou real
+				PlayerFacade.getInstance().userID = event.result.userID;
+				//PlayerFacade.getInstance().userID = 10;
+
+				var playerModule:PlayerModule = new PlayerModule();
+				this.addChild( playerModule );
+				
+				playerModule.start(idPresentation, idSlide);
+			}
+			private function faultHandler(event:FaultEvent):void {
+				trace(event);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Style source="PlayerSkin.css"/>
+	
+	<!-- <local:PlayerModule /> -->
+	
+</mx:Application>
