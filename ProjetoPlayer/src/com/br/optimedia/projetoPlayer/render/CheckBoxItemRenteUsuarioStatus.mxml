@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MXDataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						  xmlns:s="library://ns.adobe.com/flex/spark" 
+						  xmlns:mx="library://ns.adobe.com/flex/mx" 
+						  focusEnabled="true">
+	<fx:Script>
+		<![CDATA[
+			import com.br.optimedia.projetoPlayer.assest.event.UserEvent;
+			import com.br.optimedia.projetoPlayer.assest.vo.UserVO;
+			
+			import mx.core.FlexGlobals;
+		]]>
+	</fx:Script>
+	<s:CheckBox id="cb" selected="{data.status}" horizontalCenter="0" label="sim">
+		<s:click>
+			<![CDATA[
+			
+			data.status = cb.selected;
+			var loginStatus:UserEvent = new UserEvent(UserEvent.STATUS_ITEM);
+			loginStatus.user = data as UserVO;
+			FlexGlobals.topLevelApplication.dispatchEvent(loginStatus);
+			
+			
+			]]>
+		</s:click>
+	</s:CheckBox>
+</s:MXDataGridItemRenderer>

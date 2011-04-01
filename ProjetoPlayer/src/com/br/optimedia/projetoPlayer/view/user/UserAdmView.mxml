@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" show="init(event)" creationComplete="init(event)">
+	<s:layout>
+		<s:VerticalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			import com.br.optimedia.projetoPlayer.assest.event.UserEvent;
+			import com.br.optimedia.projetoPlayer.assest.vo.InstanciaVO;
+			import com.br.optimedia.projetoPlayer.assest.vo.UserVO;
+			import com.br.optimedia.projetoPlayer.remote.RemoteObj;
+			import com.br.optimedia.projetoPlayer.view.login.UsuarioLogado;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var listUser:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			private var listInstancia:ArrayCollection = new ArrayCollection();
+			
+			private var remote:RemoteObj = new RemoteObj();
+			private var user:UserVO = new UserVO();
+			private var instancia:InstanciaVO = new InstanciaVO();
+			
+
+			protected function init(event:FlexEvent):void{
+				getUser(event);
+				getlistInstanciaFiltro(event);
+				FlexGlobals.topLevelApplication.addEventListener(UserEvent.STATUS_ITEM, mudarStatusUser);
+				FlexGlobals.topLevelApplication.addEventListener(UserEvent.ON_SALVAR, getUser);
+				if(UsuarioLogado.login.permissao==1){
+					btdel.visible = true;
+					btdel.includeInLayout = true;
+					
+					spDel.visible = true;
+					spDel.includeInLayout = true;
+					
+				}
+				
+			}
+			private function getlistInstanciaFiltro(event:Event):void{
+				remote.getlistInstanciaFiltro(getInstancia_result);
+			}
+			private function getInstancia_result(event:ResultEvent):void{
+				listInstancia = new ArrayCollection (event.result as Array);
+			}
+			private function filtroInstancia(event:Event):void{
+				instancia = cb_instancia.selectedItem;			
+				if (instancia.id_instancia !=0) {
+					remote.getUser(getUser_result, instancia.id_instancia);
+				}else {
+					remote.getUser(getUser_result);
+				}
+			}
+			private function getUser(event:Event):void {
+				remote.getUser(getUser_result);
+			}
+			private function getUser_result(event:ResultEvent):void{
+				listUser = new ArrayCollection (event.result as Array);
+				listUser.refresh();
+			}
+			private function mudarStatusUser(event:UserEvent):void{
+				 user = event.user as UserVO;
+				 remote.mudarStatusUser(user, salvarUser_result);
+			}
+			private function salvarUser_result(event:ResultEvent):void{
+				
+			}
+			private function add_user():void{
+				var formUser:FormUserView = new FormUserView();
+				PopUpManager.addPopUp(formUser,this,true);
+				PopUpManager.centerPopUp(formUser);
+				formUser.title = "Adicionar Usuário";
+			}
+			private function edit_user():void{
+				if (dgListaUser.selectedItem!="") {
+					var formUser:FormUserView = new FormUserView();
+					formUser.user = dgListaUser.selectedItem as UserVO;
+					PopUpManager.addPopUp(formUser,this,true);
+					PopUpManager.centerPopUp(formUser);
+					formUser.title = "Alterar Usuário";
+				}else{
+					Alert.show("Selecione o usuário que você deseja alterar");
+				}
+			}
+			private function del_user():void{
+				if (dgListaUser.selectedItem) {
+					user = dgListaUser.selectedItem as UserVO;
+					remote.delUse(user,getUser);
+				}else{
+					Alert.show("Selecione o usuário que você deseja deletar");
+				}
+			}
+			private function vis_user():void{
+				var formUser:FormUserView = new FormUserView();
+				formUser.user = dgListaUser.selectedItem as UserVO;
+				PopUpManager.addPopUp(formUser,this,true);
+				PopUpManager.centerPopUp(formUser);
+				
+				formUser.title = "Visualizar Usuário";
+				formUser.itemSalvar.visible = false;
+				formUser.itemSalvar.includeInLayout = false;
+				
+				formUser.txtNome.editable = false;
+				formUser.txtMail.editable = false;
+				formUser.txtSenha.editable = false;
+				formUser.txtTel.editable = false;
+				formUser.txtCel.editable = false;
+				formUser.txtPais.editable = false;
+				formUser.txtUF.editable = false;
+				formUser.txtCidade.editable = false;
+				formUser.txtEnd.editable = false;
+				formUser.txtBarrio.editable = false;
+				formUser.txtComplemento.editable = false;
+				formUser.txtCep.editable = false;
+				
+			}
+			private function getUserDel():void {
+					instancia = cb_instancia.selectedItem;			
+					if (cb_instancia.selectedItem !=0) {
+						remote.getUserDel(getUser_result, instancia.id_instancia);
+					}else {
+						remote.getUserDel(getUser_result);
+					}
+			}
+			private function onfiltarChange():void{
+				listUser.filterFunction = buscaDev;
+				listUser.refresh();
+				
+			}
+			private function buscaDev(item:UserVO):Boolean {
+				if ((txtBusca.text=="")){
+					return true;
+				}else if ((item.nome.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) || (item.email.toLowerCase().search(txtBusca.text.toLowerCase()) != -1)
+					|| (item.tel.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) || (item.celular.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) 
+					|| (item.estado.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) || (item.cidade.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) 
+					|| (item.endereco.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) || (item.barrio.toLowerCase().search(txtBusca.text.toLowerCase()) != -1)
+					|| (item.complemento.toLowerCase().search(txtBusca.text.toLowerCase()) != -1) || (item.cep.toLowerCase().search(txtBusca.text.toLowerCase()) != -1)){
+					return true;
+				}else {
+					return false;
+				}	
+			}
+			
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup x="0" y="0" width="100%" height="40" verticalAlign="middle">
+		<s:Label text="Busca:"/>
+		<s:TextInput id="txtBusca" width="100%" change="onfiltarChange()"/>
+		<mx:Spacer width="5"/>
+		<s:Label text="Instancia:"/>
+		<s:ComboBox id="cb_instancia" dataProvider="{listInstancia}" labelField="titulo" change="filtroInstancia(event)"/>
+		<mx:Spacer width="5"/>
+
+		<mx:VRule height="100%"/>
+		<mx:Spacer width="5" id="spDel" includeInLayout="false" visible="false"/>
+		<s:Button label="Usuários deletados" click="getUserDel()" id="btdel" includeInLayout="false" visible="false"/>
+		<mx:Spacer width="5"/>
+		<s:Button label="Adiciona" click="add_user()"/>
+		<mx:Spacer width="5"/>
+		<s:Button label="Alterar" click="edit_user()"/>
+		<mx:Spacer width="5"/>
+		<mx:VRule height="100%"/>
+		<mx:Spacer width="5"/>
+		<s:Button label="Apagar" click="del_user()"/>
+		<mx:Spacer width="5"/>
+	</s:HGroup>
+	<mx:DataGrid id="dgListaUser" width="100%" height="100%" dataProvider="{listUser}" doubleClick="vis_user()">
+		<mx:columns>
+			<mx:DataGridColumn  dataField="nome" headerText="Nome"/>
+			<mx:DataGridColumn dataField="email" headerText="E-mail"/>
+			<mx:DataGridColumn  dataField="tel" headerText="Tel"/>
+			<mx:DataGridColumn  dataField="celular" headerText="Celular"/>
+			<mx:DataGridColumn  dataField="status" headerText="Ativo" itemRenderer="com.br.optimedia.projetoPlayer.render.CheckBoxItemRenteUsuarioStatus"/>
+		</mx:columns>
+	</mx:DataGrid>
+</s:NavigatorContent>

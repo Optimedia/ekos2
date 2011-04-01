@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" show="init(event)" xmlns:user="com.br.optimedia.projetoPlayer.view.user.*" xmlns:instancias="com.br.optimedia.projetoPlayer.view.instancias.*">
+	<fx:Script>
+		<![CDATA[
+			import com.br.optimedia.projetoPlayer.view.login.UsuarioLogado;
+			
+			import mx.events.FlexEvent;
+			
+			private var login:String;
+
+			protected function init(event:FlexEvent):void{
+				login = UsuarioLogado.login.nome
+			}
+			private function logoff():void {
+				
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:MenuBar x="0" y="0" width="100%" height="25">
+	</mx:MenuBar>
+	<s:Label left="10" top="6" text="{login}"/>
+	<s:Label right="10" top="6" text="Sair" buttonMode="true" click="logoff()"/>
+	<s:Group x="0" y="25" width="100%" height="100%">
+		<s:layout>
+			<s:HorizontalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"/>
+		</s:layout>
+		<s:VGroup width="250" height="100%">
+			<s:Panel width="100%" height="100%">
+			</s:Panel>
+			<s:Panel width="100%" height="100%">
+			</s:Panel>
+		</s:VGroup>
+		<mx:TabNavigator width="100%" height="100%">
+			<user:UserAdmView id="viewUser" width="100%" height="100%" label="Admin dos usuários"/>
+			<instancias:InstanciaAdmView id="viewInstacia" width="100%" height="100%" label="Admin instacias"/>
+		</mx:TabNavigator>
+		
+	</s:Group>
+	
+</s:NavigatorContent>

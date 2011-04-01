@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" close="close(event)" creationComplete="init(event)">
+	<fx:Declarations>
+		<s:RadioButtonGroup id="Status"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			
+			import com.br.optimedia.projetoPlayer.assest.ToolTipUtil;
+			import com.br.optimedia.projetoPlayer.assest.event.InstanciaEvent;
+			import com.br.optimedia.projetoPlayer.assest.vo.InstanciaVO;
+			import com.br.optimedia.projetoPlayer.assest.vo.TemaVO;
+			import com.br.optimedia.projetoPlayer.remote.RemoteObj;
+			import com.br.optimedia.projetoPlayer.view.login.UsuarioLogado;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.Text;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			public var instancia:InstanciaVO = new InstanciaVO();
+
+			[Bindable]
+			private var listTema:ArrayCollection = new ArrayCollection();
+			private var remote:RemoteObj = new RemoteObj();
+			private var tema:TemaVO = new TemaVO();
+			
+			private var dataIncio:String 
+			private var novaDataInicio:String
+			private var dataFim:String 
+			private var novaDataFim:String
+			
+			private function init(event:FlexEvent):void{
+				getTema(event);
+				if (instancia.validade_inicio) {
+					txtDataInicio.text = instancia.validade_inicio.day+"-"+ instancia.validade_inicio.month+"-"+instancia.validade_inicio.fullYear;
+				}
+				if (instancia.validade_fim) {
+					txtDataInicio.text = instancia.validade_fim.day+"-"+ instancia.validade_fim.month+"-"+instancia.validade_fim.fullYear;
+				}
+			}
+			private function getTema(event:Event):void{
+				remote.getTema(getTema_result);
+			}
+			private function getTema_result(event:ResultEvent):void{
+				listTema = new ArrayCollection (event.result as Array);
+			}
+			private function validaCampo():Boolean{
+				if(txtTitulo.text == ""){
+					ToolTipUtil.createToolTip(txtTitulo,"Nome é obrigatorio.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if(txtTitulo.text.length < 5 ){
+					ToolTipUtil.createToolTip(txtTitulo,"Nome teve ter mais de 5 caracterios.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if(txtMax.value < 1 ){
+					ToolTipUtil.createToolTip(txtMax,"Numero máximo de usários é obrigatório.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if ((txtDataInicio.selectedDate>txtDataFim.selectedDate) && (txtDataFim.selectedDate!=null)) {
+					ToolTipUtil.createToolTip(txtDataFim,"Data fim deve ser maior que a data de início.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				return true;	
+			}
+			private function on_salvar():void{
+				if (validaCampo()){
+					
+					instancia.max_usuarios = txtMax.value;
+					instancia.titulo = txtTitulo.text;
+					instancia.subTitulo = txtSub.text;
+					if (cb_tema.selectedItem){
+						tema = cb_tema.selectedItem as TemaVO;
+						instancia.tema_id_tema = tema.id_tema
+					}
+					if(rb_ativo.selected){
+						instancia.status = 1;
+					}else {
+						instancia.status = 0;
+					}
+					
+					if (txtDataInicio.text!="") {
+						instancia.validade_inicio = txtDataInicio.selectedDate
+						instancia.dataInicioMysql =  MySQLDateFormatter.formatToMySQL(txtDataInicio.selectedDate);
+					}
+					
+					if (txtDataFim.text!="") {
+						instancia.validade_fim =txtDataFim.selectedDate;
+						instancia.dataFimMysql =  MySQLDateFormatter.formatToMySQL(txtDataFim.selectedDate);
+					}
+							
+					remote.salvarInstancia(instancia, salvarInstancia_result)
+				}
+			}
+			private function salvarInstancia_result(event:ResultEvent):void {
+				if (event.result==true) {
+					var instanciaSalvo:InstanciaEvent = new InstanciaEvent(InstanciaEvent.ON_SALVAR);
+					FlexGlobals.topLevelApplication.dispatchEvent(instanciaSalvo);
+					close(event);
+				}else {
+					Alert.show(event.result as String);
+				}
+			}
+			protected function close(event:Event):void{
+				PopUpManager.removePopUp(this);
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:Form width="100%" height="100%">
+		<mx:FormItem width="100%" label="Tema:">
+			<s:ComboBox id="cb_tema" labelField="titulo" dataProvider="{listTema}" />
+		</mx:FormItem>
+		<mx:FormItem label="Titulo:" width="100%">
+			<s:TextInput id="txtTitulo" width="100%" text="{instancia.titulo}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Sub Titulo:" width="100%">
+			<s:TextInput id="txtSub" width="100%" text="{instancia.subTitulo}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Maximo de usuários:">
+			<s:NumericStepper id="txtMax" maximum="10000" minimum="1" stepSize="1" value="{instancia.max_usuarios}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Data Início:">
+			<mx:DateField id="txtDataInicio"   formatString="DD-MM-YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']" 
+						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio','Juho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"
+						  yearNavigationEnabled="true"
+			/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Data fim:">
+			<mx:DateField id="txtDataFim" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"
+						  formatString="DD-MM-YYYY"
+						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio','Juho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"
+						  yearNavigationEnabled="true"
+						  showToday="false"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Status:">
+			<s:HGroup>
+				<s:RadioButton id="rb_ativo" label="Ativo" groupName="Status"/>
+				<s:RadioButton id="rb_desativado" label="Desativado" groupName="Status"
+							   selected="true"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem width="100%" id="itemSalvar">
+			<s:Button label="Enviar" click="on_salvar()" id="btSalvar"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   width="100%" height="100%" close="close(event)" creationComplete="init(event)">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			import com.br.optimedia.projetoPlayer.assest.ToolTipUtil;
+			import com.br.optimedia.projetoPlayer.assest.event.UserEvent;
+			import com.br.optimedia.projetoPlayer.assest.vo.TypeUserVO;
+			import com.br.optimedia.projetoPlayer.assest.vo.UserVO;
+			import com.br.optimedia.projetoPlayer.remote.RemoteObj;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var tipoUsuario:ArrayCollection = new ArrayCollection();
+			
+			public var user:UserVO = new UserVO();
+			
+			private var remote:RemoteObj = new RemoteObj();
+	
+
+			protected function init(event:FlexEvent):void{
+				remote.getTipoUser(getTipoUser_Result);
+				
+			}
+			private function getTipoUser_Result(event:ResultEvent):void{
+				tipoUsuario = new ArrayCollection (event.result as Array);
+				
+				txtNome.text = user.nome;
+				txtMail.text = user.email;
+				txtSenha.text = user.senha;
+				txtTel.text = user.tel;
+				txtCel.text = user.celular;
+				txtPais.text = user.pais;
+				txtUF.text = user.estado;
+				txtCidade.text = user.cidade;
+				txtEnd.text = user.endereco;
+				txtBarrio.text = user.barrio;
+				txtComplemento.text = user.complemento;
+				txtCep.text = user.cep;
+			}
+			private function validaCampo():Boolean{
+				if(txtNome.text == ""){
+					ToolTipUtil.createToolTip(txtNome,"Nome é obrigatorio.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if(txtMail.text == ""){
+					ToolTipUtil.createToolTip(txtMail,"E-mail é obrigatorio.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if(txtSenha.text == ""){
+					ToolTipUtil.createToolTip(txtSenha,"Senha é obrigatorio.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if(txtConfSenha.text == ""){
+					ToolTipUtil.createToolTip(txtConfSenha,"Confirmar senha é obrigatorio.",null,true,ToolTipUtil.TOP);					
+					return false;
+				}
+				if(txtSenha.text != txtConfSenha.text){
+					ToolTipUtil.createToolTip(txtSenha,"As senhas devem ser iguais.",null,true,ToolTipUtil.TOP);	
+					return false;
+				}
+				return true;	
+			}
+
+			private function on_salvar():void{
+				if(validaCampo()){
+					user.nome = txtNome.text;
+					user.email = txtMail.text;
+					user.senha =txtSenha.text;
+					user.tel = txtTel.text;
+					user.celular = txtCel.text;
+					user.pais = txtPais.text;
+					user.estado = txtUF.text;
+					user.cidade = txtCidade.text;
+					user.endereco = txtEnd.text
+					user.barrio = txtBarrio.text;
+					user.complemento = txtComplemento.text;
+					user.cep = txtCep.text;
+					
+					var tipoUser:TypeUserVO = txtTipo.selectedItem as TypeUserVO;
+					user.tipo = tipoUser.id_tipoUsuario;
+					if(rb_ativo.selected){
+						user.status = 1;
+					}else {
+						user.status = 0;
+					}
+					remote.salvarUser(user, salvarUser_Result)
+					
+				}
+			}
+			private function salvarUser_Result(event:ResultEvent):void{
+				if (event.result==true) {
+					var userSalvo:UserEvent = new UserEvent(UserEvent.ON_SALVAR);
+					FlexGlobals.topLevelApplication.dispatchEvent(userSalvo);
+					close(event);
+				}else {
+					Alert.show(event.result as String);
+				}
+			}
+			protected function close(event:Event):void{
+				PopUpManager.removePopUp(this);
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="Status"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:Form width="100%" height="100%">
+		<mx:FormItem  width="100%" label="Tipo Usuário:">
+			<s:ComboBox id="txtTipo" dataProvider="{tipoUsuario}" labelField="tipoUsuario"/>
+			<s:Label id="labelTipo" includeInLayout="false" visible="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="Nome:" width="100%">
+			<s:TextInput width="100%" id="txtNome"/>
+		</mx:FormItem>
+		<mx:FormItem label="E-mail:" width="100%">
+			<s:TextInput width="100%" id="txtMail"/>
+		</mx:FormItem>
+		<mx:FormItem label="Senha:" width="100%">
+			<s:HGroup verticalAlign="middle" width="100%">				
+				<s:TextInput width="100%" maxChars="32" displayAsPassword="true" id="txtSenha"/>
+				<s:Label text="Confirmar senha:"/>
+				<s:TextInput width="100%" maxChars="32" displayAsPassword="true" id="txtConfSenha"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem label="Telefone:" width="100%">
+			<s:HGroup verticalAlign="middle" width="100%">				
+				<s:TextInput width="100%" maxChars="14" id="txtTel"/>
+				<s:Label text="Celular"/>
+				<s:TextInput width="100%" maxChars="14" id="txtCel"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem  width="100%" label="Pais:">
+			<s:TextInput width="100%" id="txtPais"/>
+		</mx:FormItem>
+		<mx:FormItem label="UF:" width="100%">
+			<s:TextInput width="100%" id="txtUF"/>
+		</mx:FormItem>
+		<mx:FormItem label="Cidade:" width="100%">
+			<s:TextInput width="100%" id="txtCidade"/>
+		</mx:FormItem>
+		<mx:FormItem label="Endereço:" width="100%">
+			<s:TextInput width="100%" id="txtEnd"/>
+		</mx:FormItem>
+		<mx:FormItem  width="100%" label="Barrio:">
+			<s:TextInput width="100%" id="txtBarrio"/>
+		</mx:FormItem>
+		<mx:FormItem label="Complemento:" width="100%">
+			<s:TextInput id="txtComplemento" width="100%"/>
+		</mx:FormItem>
+		<mx:FormItem label="CEP:" width="100%">
+			<s:TextInput id="txtCep" maxChars="9"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Status:">
+			<s:HGroup>
+				<s:RadioButton id="rb_ativo" label="Ativo" groupName="Status"/>
+				<s:RadioButton id="rb_desativado" label="Desativado" groupName="Status"/>
+			</s:HGroup>
+		</mx:FormItem>
+		<mx:FormItem width="100%" id="itemSalvar">
+			<s:Button label="Enviar" click="on_salvar()" id="btSalvar"/>
+		</mx:FormItem>
+		
+	</mx:Form>
+</s:TitleWindow>
