@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:client="br.com.optimedia.atendimento.view.client.*"
+			   width="100%" height="100%" minWidth="800" minHeight="600"
+			   creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+
+			protected function init(event:FlexEvent):void {
+			}
+
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+
+		<mx:ViewStack id="atendimentoApp" width="100%" height="100%" horizontalCenter="0"
+					  verticalCenter="0">
+			<client:identificationView id="loginCliente" height="50%"/>
+			<client:AtendimentoView id="video" width="100%" height="100%" />
+		</mx:ViewStack>
+
 </s:Application>

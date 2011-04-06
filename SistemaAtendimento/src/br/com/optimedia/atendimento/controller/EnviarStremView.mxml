@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" creationComplete="init(event)">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			private var nc:NetConnection;
+			private var video:Video;
+			private var stream:NetStream;
+			
+			[Bindable]
+			private var connected:Boolean = false;
+			
+			protected function init(event:FlexEvent):void
+			{
+				nc = MyNetConnection.nc;
+				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+				MyNetConnection.connect(this);
+			}
+			
+			private function onNetStatus(e:NetStatusEvent):void{
+				switch(e.info.code){
+					case "NetConnection.Connect.Success":
+						btn_publica.enabled = true;
+						break;
+					case "NetConnection.Connect.Failed":
+					//	Alert.show(e.info.code.toString());
+						break;
+					case "NetConnection.Connect.Rejected":
+					//	Alert.show(e.info.code.toString());
+						break;
+					case "NetStream.Publish.Start":
+						btn_publica.enabled = true;
+						break;
+					case "NetStream.Record.Start":
+						Alert.show(e.info.code.toString());
+						break;
+					case "NetStream.Unpublish.Success":
+						btn_publica.enabled = true;						
+						btn_publica.label = "Publicar";
+						lb_status.text = "";
+					//	Alert.show(e.info.code.toString());
+						break;
+					case "NetStream.Record.Stop":
+						break;
+					case "NetStream.Record.Failed":
+						break;
+					case "NetStream.Record.DiskQuotaExceeded":
+						break;
+					case "NetStream.Record.NoAccess":
+						break;
+					case "NetStream.Publish.BadName":
+						btn_publica.enabled = true;						
+						break;
+					default:
+						//Alert.show(e.info.code.toString());
+						break;
+				}
+			}
+			
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				if(connected==false){
+					connected=true;
+					video = new Video();
+					stream = new NetStream( nc );
+					uiComponent.addChild(video);
+					video.attachCamera(Camera.getCamera());
+					stream.attachAudio(Microphone.getMicrophone());
+					stream.attachCamera(Camera.getCamera());
+					stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
+					stream.publish("teste1");
+					
+				} else {
+					connected=false;
+					stream.close();
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:UIComponent id="uiComponent" width="320" height="240">
+		
+	</mx:UIComponent>
+	<s:Button id="btn_publica" label="Publicar" click="button1_clickHandler(event)" enabled="false"/>
+	<s:Label id="lb_status" />
+	<s:Label id="lb_statusConn" text="{connected?'conectado':'desconectado'}"/>
+</s:Group>
