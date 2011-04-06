@@ -14,6 +14,7 @@
   </compiler>
   <applications>
     <application path="SistemaAtendimento.mxml"/>
+    <application path="SistemaAtendimentoAdm.mxml"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

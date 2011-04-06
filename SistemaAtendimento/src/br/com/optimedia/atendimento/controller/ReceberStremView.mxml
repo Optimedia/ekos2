@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" creationComplete="init(event)">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			private var nc:NetConnection;
+			private var video:Video;
+			private var stream:NetStream;
+			
+			[Bindable]
+			private var conectado:Boolean = false;
+			
+			protected function init(event:FlexEvent):void
+			{
+				nc = MyNetConnection.nc;
+				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+				MyNetConnection.connect(this);
+			}
+			
+			private function onNetStatus(e:NetStatusEvent):void{
+				switch(e.info.code){
+					  case "NetConnection.Connect.Success":
+						break;
+					case "NetConnection.Connect.Closed":
+						//Alert.show("r "+e.info.code.toString());
+						break;
+					case "NetConnection.Connect.Failed":
+						//Alert.show(e.info.code.toString());
+						break;
+					case "NetConnection.Connect.Rejected":
+						//Alert.show(e.info.code.toString());
+						break;
+					case "NetStream.Play.Start":
+						uiComponent.visible = true;
+						uiComponent.includeInLayout = true
+						break;
+					case "NetStream.Play.Stop":
+						uiComponent.visible = false;
+						uiComponent.includeInLayout = false
+						break;
+					case "NetStream.Play.PublishNotify":
+						uiComponent.visible = true;
+						uiComponent.includeInLayout = true
+						bt_play.visible = true;
+						bt_play.includeInLayout = true
+						
+						break;
+					case "NetStream.Play.UnpublishNotify":
+						uiComponent.visible = false;
+						uiComponent.includeInLayout = false
+						
+						bt_play.visible = false;
+						bt_play.includeInLayout = false
+						break;
+					case "NetStream.Publish.BadName":					
+						break;
+					default: 
+						//Alert.show("receber " + e.info.code.toString());
+						break;
+				}
+			}
+			
+			
+			protected function playVideo(event:Event):void {
+				if(conectado){
+					conectado = false;
+					stream.close();
+				} else {
+					conectado = true;
+					video = new Video();
+					stream = new NetStream( nc );
+					uiComponent.addChild(video);
+					video.attachNetStream( stream ); 
+					stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
+					stream.play("teste1");
+					
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:UIComponent id="uiComponent" width="320" height="240">
+	</mx:UIComponent>
+	<s:Button label="muda" click="playVideo(event)" id="bt_play"/>
+</s:Group>
