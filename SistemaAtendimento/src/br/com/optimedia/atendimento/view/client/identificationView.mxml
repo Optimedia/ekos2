@@ -26,9 +26,7 @@
 			private var connected:Boolean = false;
 						
 			private function init(event:FlexEvent):void {
-				nc = MyNetConnection.nc;
-				MyNetConnection.connect(this);
-				nc.addEventListener(NetStatusEvent.NET_STATUS,  MyNetConnection.onNetStatus);
+				
 			}
 			private function validaCampo():Boolean{
 				if(txtNome.text == ""){
@@ -37,27 +35,42 @@
 				}
 				return true;
 			}
-			private function iniciaAtendimento (event:ValidationResultEvent):void {
+			public function iniciaAtendimento (event:ValidationResultEvent):void {
 				if (validaCampo()){
+					
+					//
+					
 					atendimento = new AtendimentoVO();
 					atendimento.email = txtEmail.text;
 					atendimento.cliente = txtNome.text;
-					//new Responder (iniciaAtendimento_Result, MyNetConnection.defaultfault)
-					nc.call("iniciaFila", new Responder (iniciaAtendimento_Result), atendimento);
+
+					MyNetConnection.connect(this);
+					nc = MyNetConnection.nc;
 					nc.addEventListener(NetStatusEvent.NET_STATUS, MyNetConnection.onNetStatus);
+					nc.call("iniciaFila", null, atendimento);
+					//new Responder (iniciaAtendimento_Result, MyNetConnection.defaultfault)
+					//new Responder (iniciaAtendimento_Result)
 					
 				}
 				
 			}
-			private function iniciaAtendimento_Result (event:*):void {
-				Alert.show("result: " + event);
-				//ClienteAtendimento.atendimento = event.result as AtendimentoVO; 
-				//FlexGlobals.topLevelApplication.atendimentoApp.selectedIndex = 1;
+			public function iniciaAtendimento_Result (event:*):void {
+				atendimento = new AtendimentoVO;
+				atendimento.atendente_id_atendente = event['atendente_id_atendente'];
+				atendimento.cliente = event['cliente'];
+				atendimento.dt_fila = event['dt_fila'];
+				atendimento.dt_fim = event['dt_fim'];
+				atendimento.dt_inicio = event['dt_inicio'];
+				atendimento.email = event['email'];
+				atendimento.id_atendimento = event['id_atendimento'];
+				atendimento.protocolo = event['protocolo'];
+				
+				//Alert.show("result: " + obj.cliente);
+				ClienteAtendimento.atendimento = atendimento; 
+				FlexGlobals.topLevelApplication.atendimentoApp.selectedIndex = 1;
 			}
 			private function defaultfault_result (event:*):void {
 				Alert.show("result: " + event.fault);
-				//ClienteAtendimento.atendimento = event.result as AtendimentoVO; 
-				//FlexGlobals.topLevelApplication.atendimentoApp.selectedIndex = 1;
 			}
 
 		]]>
