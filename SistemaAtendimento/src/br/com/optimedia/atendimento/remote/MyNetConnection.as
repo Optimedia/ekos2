@@ -19,7 +19,7 @@ package br.com.optimedia.atendimento.remote
 				nc.objectEncoding = 0;
 				//nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 				//nc.connect("rtmp://10.1.1.26/author4/");
-				nc.connect("rtmp://10.1.1.20/testefila/");
+				nc.connect("rtmp://10.1.1.20/atendimento/");
 				
 			}
 		}
@@ -30,7 +30,7 @@ package br.com.optimedia.atendimento.remote
 		public static function onNetStatus(e:NetStatusEvent):void{
 			switch(e.info.code){
 				default:
-					Alert.show(e.info.code.toString());
+					//Alert.show(e.info.code.toString());
 					break;
 			}
 		}
