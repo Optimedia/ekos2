@@ -30,7 +30,7 @@ package br.com.optimedia.atendimento.remote
 		public static function onNetStatus(e:NetStatusEvent):void{
 			switch(e.info.code){
 				default:
-					//Alert.show(e.info.code.toString());
+					Alert.show(e.info.code.toString());
 					break;
 			}
 		}
