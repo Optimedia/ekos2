@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:login="br.com.optimedia.atendimento.view.login.*">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:login="br.com.optimedia.atendimento.view.login.*" 
+			   creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.atendimento.assets.events.LoginEvent;
+			
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+
+			protected function init(event:FlexEvent):void{
+				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.ON_LOGAR, AtendenteLogado);
+			}
+			private function AtendenteLogado(event:LoginEvent):void {
+				atendimentoAdmApp.selectedIndex = 1;
+			}
+
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
 	<mx:ViewStack id="atendimentoAdmApp" width="100%" height="100%" horizontalCenter="0">
-		<login:LoginView id="loginAdm" width="100%" height="100%" horizontalCenter="0"/>
+		<login:LoginView id="viewLogin" width="100%" height="100%" horizontalCenter="0"/>
+		<login:AtendenteView id="viewAtendente" width="100%" height="100%" horizontalCenter="0"/>
 	</mx:ViewStack>
 </s:Application>

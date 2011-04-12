@@ -48,8 +48,6 @@
 					nc = MyNetConnection.nc;
 					nc.addEventListener(NetStatusEvent.NET_STATUS, MyNetConnection.onNetStatus);
 					nc.call("iniciaFila", null, atendimento);
-					//new Responder (iniciaAtendimento_Result, MyNetConnection.defaultfault)
-					//new Responder (iniciaAtendimento_Result)
 					
 				}
 				

@@ -9,11 +9,78 @@
 	</s:layout>
 	<fx:Script>
 		<![CDATA[
+			import br.com.optimedia.atendimento.assets.events.ListaAtendimentoEvent;
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.view.login.UsuarioLogado;
 			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var usersObj:Object = new Object();
+			
+			public var usersSo:SharedObject;
+			private var nc:NetConnection;
+			private var i:Number = 0;
+			
 
 			protected function init(event:FlexEvent):void {
+				//nc = new NetConnection();
+				MyNetConnection.connect(this);
+				nc = MyNetConnection.nc;
+				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+				
+			}	
+			
+			public function clickBt():void {
+				var str:String = ClienteAtendimento.atendimento.cliente +"_"+ClienteAtendimento.atendimento.id_atendimento;
+				usersSo.setProperty(str,"false");
+				Alert.show("ok");
+				
 			}
+			private function handleSync(event:SyncEvent):void {
+				for(var user:Object in event.target.data){
+					//if(!usersObj[user]){
+						//usersObj[user] = event.target.data[user]
+						//users.addItem({id: user, nome: event.target.data[user]});
+					//}
+				}
+				
+			}
+			
+			
+			private function onNetStatus(e:NetStatusEvent):void{
+				switch(e.info.code){
+					case "NetConnection.Connect.Success":
+						nc.removeEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+						usersSo = SharedObject.getRemote("filaAtendimento", nc.uri,false);
+						usersSo.connect(nc);
+						usersSo.client = this;
+						usersSo.addEventListener(SyncEvent.SYNC, handleSync);
+						//clickBt();
+						break;
+					
+					default:
+						Alert.show(e.info.code.toString());
+						break;
+				}
+			}
+			/* private function onNetStatus(e:NetStatusEvent):void{
+				if (e.info.code == "NetConnection.Connect.Success"){
+						nc.removeEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+						usersSo = SharedObject.getRemote("filaAtendimento", nc.uri,false);
+						usersSo.connect(nc);
+						usersSo.client = this;
+			
+						usersSo.addEventListener(SyncEvent.SYNC, handleSync);
+						var eventLista:ListaAtendimentoEvent = new ListaAtendimentoEvent(ListaAtendimentoEvent.ADD_USER_LIST)
+						this.dispatchEvent(eventLista)
+						//Alert.show(e.info.code.toString());
+				}else {
+						Alert.show(e.info.code.toString());
+					
+				}
+			} */
 
 		]]>
 	</fx:Script>
@@ -56,4 +123,5 @@
 	</s:VGroup>
 	</s:Panel>
 	</s:Group>
+	<s:Button click="clickBt()" label="ok"/>
 </s:NavigatorContent>

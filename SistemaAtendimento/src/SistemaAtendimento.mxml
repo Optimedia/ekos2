@@ -7,7 +7,11 @@
 			   creationComplete="init(event)">
 	<fx:Script>
 		<![CDATA[
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			
 			import mx.events.FlexEvent;
+			
+			
 
 			protected function init(event:FlexEvent):void {
 			}
