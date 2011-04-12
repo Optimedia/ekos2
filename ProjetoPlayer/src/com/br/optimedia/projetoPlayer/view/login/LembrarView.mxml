@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					xmlns:s="library://ns.adobe.com/flex/spark" 
-					xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
+					xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" creationComplete="init(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import com.br.optimedia.projetoPlayer.assest.ToolTipUtil;
-			import com.br.optimedia.projetoPlayer.assest.event.LoginEvent;
-			import com.br.optimedia.projetoPlayer.remote.RemoteObj;
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.rpc.Responder;
 			import mx.rpc.events.ResultEvent;
 			
-			private var remote:RemoteObj = new RemoteObj();
+			private var nc:NetConnection;
 			
+			protected function init(event:FlexEvent):void{
+				nc = MyNetConnection.nc;
+				MyNetConnection.connect(this);
+			}
 			private function validaCampo ():Boolean{
 				if(email.text == ""){
 					ToolTipUtil.createToolTip(email,"E-mail é obrigatorio.",null,true,ToolTipUtil.TOP);					
@@ -28,7 +32,7 @@
 			private function rememberLogin():void{
 				var mail:String = email.text;
 				if(validaCampo()){
-					remote.rememberLogin(mail,remember_Result);
+					nc.call("rememberLogin", new flash.net.Responder(remember_Result, MyNetConnection.defaultfault),email.text);
 				}
 			}
 			private function remember_Result(event:ResultEvent):void{
@@ -38,6 +42,8 @@
 				var loginEvent:LoginEvent = new LoginEvent(LoginEvent.LOGIN_USER);
 				FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
 			}
+
+
 		]]>
 	</fx:Script>
 	
