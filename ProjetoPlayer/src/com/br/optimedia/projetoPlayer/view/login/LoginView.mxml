@@ -6,9 +6,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.br.optimedia.projetoPlayer.assest.event.LoginEvent;
-			import com.br.optimedia.projetoPlayer.assest.vo.LoginVO;
-			import com.br.optimedia.projetoPlayer.remote.RemoteObj;
+			import br.com.optimedia.atendimento.assets.events.LoginEvent;
+			import br.com.optimedia.atendimento.assets.vo.UsuarioVO;
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			
 			import flash.net.SharedObject;
 			import flash.net.SharedObjectFlushStatus;
@@ -19,11 +19,17 @@
 			import mx.rpc.events.ResultEvent;
 			
 			private var myCookie:SharedObject;
-			private var  objLogin:LoginVO = new LoginVO();
+			private var  objLogin:UsuarioVO = new UsuarioVO();
+			private var nc:NetConnection;
+			
+			private var usersSo:SharedObject;
 			
 			protected function init(event:FlexEvent):void
 			{
-				myCookie = SharedObject.getLocal("player"); 
+				
+				myCookie = SharedObject.getLocal("AtendimentoAdm");
+				
+				
 				if(myCookie.data.login == undefined) {
 				}else {
 					if(myCookie.data.lembrar==true) {
@@ -34,31 +40,32 @@
 				}
 				
 			}
-			public function logar ():void {
-				//paul@optimedia.com.br
-				// verificar se ja existe os cookies
-				if ((txtLogin.text != "") && ( txtSenha.text!="")){
-					objLogin.email = txtLogin.text
-					objLogin.senha = txtSenha.text;
-					
-					var remote:RemoteObj = new RemoteObj();
-					remote.loginUser(objLogin, resultLogin); 
-				}else {
-					Alert.show("Usuário e senha são obrigatório");
-				}
-			}
 			private function back():void{
 				var loginEvent:LoginEvent = new LoginEvent(LoginEvent.BACK_USER);
 				FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
 			}
-			private function resultLogin(event:ResultEvent):void {
-				 
-				//Alert.show("ok");
-				objLogin =  event.result as LoginVO;
-				
+			private  function loginAtendente ():void {
+				if ((txtLogin.text != "") && ( txtSenha.text!="")){
+					objLogin.email = txtLogin.text
+					objLogin.senha = txtSenha.text;
+					
+					MyNetConnection.connect(this);
+					nc = MyNetConnection.nc;
+					nc.addEventListener(NetStatusEvent.NET_STATUS, MyNetConnection.onNetStatus);
+					nc.call("loginAtendente", null, objLogin);
+					
+				}else {
+					Alert.show("Usuário e senha são obrigatório");
+				}
+			}
+			public function loginAtendente_Result(event:*):void {
+
+				 objLogin.nome = event.nome;
+				 objLogin.email = event.email;
+				 objLogin.id_usuario = event.id_usuario;
+				 objLogin.tipoUsuario_id_tipo = event.tipoUsuario_id_tipo;
 				
 				if (objLogin) {
-					//myCookie.data.savedValue = "ds";
 					myCookie.data.login = objLogin;
 					myCookie.data.lembrar = cbLembrar.selected
 					myCookie.data.senha = txtSenha.text;
@@ -71,11 +78,11 @@
 					
 					var loginEvent:LoginEvent = new LoginEvent(LoginEvent.ON_LOGAR);
 					loginEvent.login = objLogin;
-					FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
 					UsuarioLogado.login = objLogin;
+					FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
 				} else {
 					Alert.show("Usuário ou senha invalidos", "Erro no login");
-				}  
+				}   
 			
 			}
 			
@@ -102,9 +109,9 @@
 		<mx:FormItem width="100%" horizontalAlign="right">
 			<s:HGroup>
 				<!--<s:Button label="lembrar senha"/>-->
-				<s:Button label="Lembar senha" click="back()"/>
-				<mx:Spacer width="10"/>
-				<s:Button label="Enviar" click="logar()"/>
+				<!--<s:Button label="Lembar senha" click="back()"/>-->
+				<!--<mx:Spacer width="10"/>
+-->				<s:Button label="Enviar" click="loginAtendente()"/>
 			</s:HGroup>
 		</mx:FormItem>
 	</s:Form>
