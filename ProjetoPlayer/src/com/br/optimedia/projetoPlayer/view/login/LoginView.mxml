@@ -9,6 +9,7 @@
 			import br.com.optimedia.atendimento.assets.events.LoginEvent;
 			import br.com.optimedia.atendimento.assets.vo.UsuarioVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.remote.MySingleton;
 			
 			import flash.net.SharedObject;
 			import flash.net.SharedObjectFlushStatus;
@@ -20,15 +21,13 @@
 			
 			private var myCookie:SharedObject;
 			private var  objLogin:UsuarioVO = new UsuarioVO();
-			private var nc:NetConnection;
+			private var singleton:MySingleton;
 			
 			private var usersSo:SharedObject;
 			
-			protected function init(event:FlexEvent):void
-			{
-				
+			protected function init(event:FlexEvent):void{
+				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.ON_LOGAR,loginAtendente_Result);
 				myCookie = SharedObject.getLocal("AtendimentoAdm");
-				
 				
 				if(myCookie.data.login == undefined) {
 				}else {
@@ -49,21 +48,20 @@
 					objLogin.email = txtLogin.text
 					objLogin.senha = txtSenha.text;
 					
-					MyNetConnection.connect(this);
-					nc = MyNetConnection.nc;
-					nc.addEventListener(NetStatusEvent.NET_STATUS, MyNetConnection.onNetStatus);
-					nc.call("loginAtendente", null, objLogin);
+					singleton = MySingleton.getInstance();
+					singleton.connect();
+					singleton.nc.call("loginAtendente", null, objLogin);
 					
 				}else {
 					Alert.show("Usuário e senha são obrigatório");
 				}
 			}
-			public function loginAtendente_Result(event:*):void {
+			public function loginAtendente_Result(event:LoginEvent):void {
 
-				 objLogin.nome = event.nome;
-				 objLogin.email = event.email;
-				 objLogin.id_usuario = event.id_usuario;
-				 objLogin.tipoUsuario_id_tipo = event.tipoUsuario_id_tipo;
+				 objLogin.nome = event.login_result.nome;
+				 objLogin.email = event.login_result.email;
+				 objLogin.id_usuario = event.login_result.id_usuario;
+				 objLogin.tipoUsuario_id_tipo = event.login_result.tipoUsuario_id_tipo;
 				
 				if (objLogin) {
 					myCookie.data.login = objLogin;
@@ -76,7 +74,7 @@
 						myCookie.clear()
 					}
 					
-					var loginEvent:LoginEvent = new LoginEvent(LoginEvent.ON_LOGAR);
+					var loginEvent:LoginEvent = new LoginEvent(LoginEvent.LOGIN_SUCESSO);
 					loginEvent.login = objLogin;
 					UsuarioLogado.login = objLogin;
 					FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);

@@ -10,13 +10,12 @@
 		<![CDATA[
 			import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.remote.MySingleton;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
-			
-			private var nc:NetConnection;
-			
+		
 			[Bindable]
 			private var usersObj:Object = new Object();
 			
@@ -24,59 +23,29 @@
 			private var dpFilaAtendimento:ArrayCollection = new ArrayCollection();
 			
 			private var usersSo:SharedObject;
-			
+			private var singleton:MySingleton;
 			private var atendimento:AtendimentoVO;
 
 			protected function init(event:FlexEvent):void {
-				//MyNetConnection.connect(this);
-				nc = MyNetConnection.nc;
-				nc.addEventListener(NetStatusEvent.NET_STATUS, MyNetConnection.onNetStatus);
+				singleton = MySingleton.getInstance();
+				
+				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
+				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
+				usersSo.connect(singleton.nc);
 			}
 			private function handleSync(event:SyncEvent):void {
+				dpFilaAtendimento.removeAll();
 				for(var user:String in event.target.data){
 					if(!usersObj[user]){
 						usersObj[user] = event.target.data[user]
-						//dpFilaAtendimento.addItem({id: user, nome: event.target.data[user]});
+						dpFilaAtendimento.addItem({id: user, nome: event.target.data[user]});
 					}
 				}
+				dpFilaAtendimento.refresh();
+
 				
 			}
 			
-			private function onNetStatus(e:NetStatusEvent):void{
-				switch(e.info.code){
-					case "NetConnection.Connect.Success":
-						usersSo = SharedObject.getRemote("filaAtendimento", nc.uri, false);
-						usersSo.addEventListener(SyncEvent.SYNC, handleSync);
-						usersSo.connect(nc);
-						usersSo.client = this;		
-						break;
-					case "NetConnection.Connect.Failed":
-						//	Alert.show(e.info.code.toString());
-						break;
-					case "NetConnection.Connect.Rejected":
-						//	Alert.show(e.info.code.toString());
-						break;
-					case "NetStream.Publish.Start":
-						break;
-					case "NetStream.Record.Start":
-						break;
-					case "NetStream.Unpublish.Success":
-						break;
-					case "NetStream.Record.Stop":
-						break;
-					case "NetStream.Record.Failed":
-						break;
-					case "NetStream.Record.DiskQuotaExceeded":
-						break;
-					case "NetStream.Record.NoAccess":
-						break;
-					case "NetStream.Publish.BadName":					
-						break;
-					default:
-						Alert.show(e.info.code.toString());
-						break;
-				}
-			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -87,7 +56,7 @@
 			<s:layout>
 				<s:VerticalLayout/>
 			</s:layout>
-			<s:List id="listAtendente" width="100%" height="100%" dataProvider="{dpFilaAtendimento}" labelField=""></s:List>
+			<s:List id="listAtendente" width="100%" height="100%" dataProvider="{dpFilaAtendimento}" labelField="nome"></s:List>
 			<s:Button id="btAtender" label="Atender"/>
 		</s:Panel>
 	</s:VGroup>
