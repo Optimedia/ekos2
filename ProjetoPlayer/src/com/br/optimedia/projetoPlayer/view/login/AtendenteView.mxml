@@ -35,14 +35,25 @@
 			}
 			private function handleSync(event:SyncEvent):void {
 				dpFilaAtendimento.removeAll();
-				for(var user:String in event.target.data){
+			
+				for(var user:Object in event.target.data){
+					
 					if(!usersObj[user]){
-						usersObj[user] = event.target.data[user]
-						dpFilaAtendimento.addItem({id: user, nome: event.target.data[user]});
+						var obj:Object = new Object();
+						obj = event.target.data[user];
+						if (obj.atendente_id_atendente == null) {
+							dpFilaAtendimento.addItem({id: obj, nome: obj.cliente });
+						}
 					}
 				}
 				dpFilaAtendimento.refresh();
 
+				
+			}
+			private function iniciaAtendimento():void {
+				var selecionaAtendimento:Object = listAtendente.selectedItem.id;
+				selecionaAtendimento.atendente_id_atendente = UsuarioLogado.login.id_usuario;
+				singleton.nc.call("iniciaAtendimento",null, selecionaAtendimento);
 				
 			}
 			
@@ -56,7 +67,9 @@
 			<s:layout>
 				<s:VerticalLayout/>
 			</s:layout>
-			<s:List id="listAtendente" width="100%" height="100%" dataProvider="{dpFilaAtendimento}" labelField="nome"></s:List>
+			<s:List id="listAtendente" width="100%" height="100%" 
+					dataProvider="{dpFilaAtendimento}" labelField="nome"
+					change="iniciaAtendimento()" />
 			<s:Button id="btAtender" label="Atender"/>
 		</s:Panel>
 	</s:VGroup>
