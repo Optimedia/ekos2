@@ -94,7 +94,7 @@ import mx.rpc.events.FaultEvent;
 		}
 		//
 		// funções retorno asc  do atendimento
-		public function iniciaAtendimento_Result(event:*):void {
+		public function iniciaFila_Result(event:*):void {
 			
 			var atendimento:AtendimentoVO = new AtendimentoVO;
 			atendimento.atendente_id_atendente = event['atendente_id_atendente'];
@@ -108,9 +108,8 @@ import mx.rpc.events.FaultEvent;
 			
 			ClienteAtendimento.atendimento = atendimento; 
 			FlexGlobals.topLevelApplication.atendimentoApp.selectedIndex = 1;
-			//nc.removeEventListener(NetStatusEvent.NET_STATUS, onNetStatus)
 		}
-		//
+		// 
 		//
 		//
 		//
@@ -119,6 +118,9 @@ import mx.rpc.events.FaultEvent;
 			var loginEvent:LoginEvent = new LoginEvent(LoginEvent.ON_LOGAR);
 			loginEvent.login_result = event
 			FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
+			
+		}
+		public function iniciaAtendimento_Result (event:*):void {
 			
 		}
 	}
