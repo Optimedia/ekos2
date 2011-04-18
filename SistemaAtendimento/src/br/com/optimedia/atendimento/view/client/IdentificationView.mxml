@@ -11,6 +11,7 @@
 			import br.com.optimedia.atendimento.assets.ToolTipUtil;
 			import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.remote.MySingleton;
 			
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
@@ -20,7 +21,7 @@
 			import mx.rpc.events.ResultEvent;
 			
 			private var atendimento:AtendimentoVO;
-			private var nc:NetConnection;
+			private var singleton:MySingleton;
 			
 			[Bindable]
 			private var connected:Boolean = false;
@@ -36,39 +37,17 @@
 				return true;
 			}
 			public function iniciaAtendimento (event:ValidationResultEvent):void {
-				if (validaCampo()){
-					
-					//
-					
+				if (validaCampo()){					
 					atendimento = new AtendimentoVO();
 					atendimento.email = txtEmail.text;
 					atendimento.cliente = txtNome.text;
-
-					MyNetConnection.connect(this);
-					nc = MyNetConnection.nc;
-					nc.addEventListener(NetStatusEvent.NET_STATUS, MyNetConnection.onNetStatus);
-					nc.call("iniciaFila", null, atendimento);
 					
-				}
-				
-			}
-			public function iniciaAtendimento_Result (event:*):void {
-				atendimento = new AtendimentoVO;
-				atendimento.atendente_id_atendente = event['atendente_id_atendente'];
-				atendimento.cliente = event['cliente'];
-				atendimento.dt_fila = event['dt_fila'];
-				atendimento.dt_fim = event['dt_fim'];
-				atendimento.dt_inicio = event['dt_inicio'];
-				atendimento.email = event['email'];
-				atendimento.id_atendimento = event['id_atendimento'];
-				atendimento.protocolo = event['protocolo'];
-				
-				//Alert.show("result: " + obj.cliente);
-				ClienteAtendimento.atendimento = atendimento; 
-				FlexGlobals.topLevelApplication.atendimentoApp.selectedIndex = 1;
-			}
-			private function defaultfault_result (event:*):void {
-				Alert.show("result: " + event.fault);
+					singleton = MySingleton.getInstance();
+					singleton.client = txtEmail.text;
+					singleton.connect();
+
+					singleton.nc.call("iniciaFila", null, atendimento);
+					}
 			}
 
 		]]>
