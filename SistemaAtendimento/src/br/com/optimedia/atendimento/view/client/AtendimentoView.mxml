@@ -11,33 +11,29 @@
 		<![CDATA[
 			import br.com.optimedia.atendimento.assets.events.ListaAtendimentoEvent;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.remote.MySingleton;
 			import br.com.optimedia.atendimento.view.login.UsuarioLogado;
 			
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			
+			import spark.components.List;
 			
 			[Bindable]
 			private var usersObj:Object = new Object();
 			
 			public var usersSo:SharedObject;
-			private var nc:NetConnection;
+			private var singleton:MySingleton;
 			private var i:Number = 0;
 			
 
 			protected function init(event:FlexEvent):void {
-				//nc = new NetConnection();
-				MyNetConnection.connect(this);
-				nc = MyNetConnection.nc;
-				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-				
-			}	
-			
-			public function clickBt():void {
-				var str:String = ClienteAtendimento.atendimento.cliente +"_"+ClienteAtendimento.atendimento.id_atendimento;
-				usersSo.setProperty(str,"false");
-				Alert.show("ok");
+				singleton = MySingleton.getInstance();
+				//singleton.nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 				
 			}
+		
 			private function handleSync(event:SyncEvent):void {
 				for(var user:Object in event.target.data){
 					//if(!usersObj[user]){
@@ -48,39 +44,19 @@
 				
 			}
 			
-			
-			private function onNetStatus(e:NetStatusEvent):void{
-				switch(e.info.code){
-					case "NetConnection.Connect.Success":
-						nc.removeEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-						usersSo = SharedObject.getRemote("filaAtendimento", nc.uri,false);
-						usersSo.connect(nc);
-						usersSo.client = this;
-						usersSo.addEventListener(SyncEvent.SYNC, handleSync);
-						//clickBt();
-						break;
-					
-					default:
-						Alert.show(e.info.code.toString());
-						break;
-				}
+			private function conected ():void {
+				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
+				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
+				usersSo.connect(singleton.nc);
+
 			}
-			/* private function onNetStatus(e:NetStatusEvent):void{
-				if (e.info.code == "NetConnection.Connect.Success"){
-						nc.removeEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-						usersSo = SharedObject.getRemote("filaAtendimento", nc.uri,false);
-						usersSo.connect(nc);
-						usersSo.client = this;
 			
-						usersSo.addEventListener(SyncEvent.SYNC, handleSync);
-						var eventLista:ListaAtendimentoEvent = new ListaAtendimentoEvent(ListaAtendimentoEvent.ADD_USER_LIST)
-						this.dispatchEvent(eventLista)
-						//Alert.show(e.info.code.toString());
-				}else {
-						Alert.show(e.info.code.toString());
-					
-				}
-			} */
+			public function clickBt():void {
+				var str:String = ClienteAtendimento.atendimento.cliente +"_"+ClienteAtendimento.atendimento.id_atendimento;
+				usersSo.setProperty(str,"false");
+				
+				Alert.show("ok");
+			}
 
 		]]>
 	</fx:Script>
