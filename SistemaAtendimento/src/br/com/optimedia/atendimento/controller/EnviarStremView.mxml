@@ -9,11 +9,12 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.remote.MySingleton;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			
-			private var nc:NetConnection;
+			private var singleton:MySingleton;
 			private var video:Video;
 			private var stream:NetStream;
 			
@@ -22,9 +23,12 @@
 			
 			protected function init(event:FlexEvent):void
 			{
-				nc = MyNetConnection.nc;
+				/* nc = MyNetConnection.nc;
 				nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-				MyNetConnection.connect(this);
+				MyNetConnection.connect(this); */
+				
+				singleton = MySingleton.getInstance();
+				singleton.nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			}
 			
 			private function onNetStatus(e:NetStatusEvent):void{
