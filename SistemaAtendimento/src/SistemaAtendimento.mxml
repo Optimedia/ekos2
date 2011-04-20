@@ -7,13 +7,19 @@
 			   creationComplete="init(event)">
 	<fx:Script>
 		<![CDATA[
+			import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
 			
 
 			protected function init(event:FlexEvent):void {
+				FlexGlobals.topLevelApplication.addEventListener(MySingletonEvent.DESCONECTADO,desconectado);		
+			}
+			private function desconectado (event:MySingletonEvent):void {
+//				atendimentoApp.selectedIndex = 0;
 			}
 
 		]]>
@@ -24,7 +30,7 @@
 
 		<mx:ViewStack id="atendimentoApp" width="100%" height="100%" horizontalCenter="0"
 					  verticalCenter="0">
-			<client:identificationView id="loginCliente" height="50%"/>
+			<client:IdentificationView id="loginCliente" height="50%"/>
 			<client:AtendimentoView id="video" width="100%" height="100%" />
 		</mx:ViewStack>
 
