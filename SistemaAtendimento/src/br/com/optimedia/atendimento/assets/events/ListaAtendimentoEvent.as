@@ -7,7 +7,7 @@ package br.com.optimedia.atendimento.assets.events
 	public class ListaAtendimentoEvent extends Event
 	{
 		public static const ADD_USER_LIST:String = "ADD_USER_LIST";
-		public static const ACESS_SHARE_OBJ:String = "ACESS_SHARE_OBJ";
+		/*public static const ACESS_SHARE_OBJ:String = "ACESS_SHARE_OBJ";*/
 		
 		public var login:UsuarioVO;
 		
