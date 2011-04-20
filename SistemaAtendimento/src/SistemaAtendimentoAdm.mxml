@@ -6,15 +6,21 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.optimedia.atendimento.assets.events.LoginEvent;
+			import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
 			
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 
 			protected function init(event:FlexEvent):void{
-				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.ON_LOGAR, AtendenteLogado);
+				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.LOGIN_SUCESSO, AtendenteLogado);
+				FlexGlobals.topLevelApplication.addEventListener(MySingletonEvent.DESCONECTADO,desconectado);		
 			}
 			private function AtendenteLogado(event:LoginEvent):void {
 				atendimentoAdmApp.selectedIndex = 1;
+			}
+			
+			private function desconectado (event:MySingletonEvent):void {
+				atendimentoAdmApp.selectedIndex = 0;
 			}
 
 		]]>
