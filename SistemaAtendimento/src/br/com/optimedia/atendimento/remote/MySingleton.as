@@ -2,6 +2,7 @@ package br.com.optimedia.atendimento.remote
 {
 	
 import br.com.optimedia.atendimento.assets.events.LoginEvent;
+import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
 import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 import br.com.optimedia.atendimento.view.client.ClienteAtendimento;
 
@@ -61,11 +62,18 @@ import mx.rpc.events.FaultEvent;
 		private function defaultfault(event:FaultEvent):void {
 			Alert.show("erro " + event.fault.toString());
 		}
+		private function disconect ():void {
+			var mySingleEvent:MySingletonEvent = new MySingletonEvent (MySingletonEvent.DESCONECTADO)
+			FlexGlobals.topLevelApplication.dispatchEvent(mySingleEvent);
+		}
 		
 		private function onNetStatus(e:NetStatusEvent):void{
 			switch(e.info.code){
 				case "NetConnection.Connect.Success":
 					connected = true;
+					break;
+				case "NetConnection.Connect.Closed":
+					disconect();
 					break;
 				case "NetConnection.Connect.Failed":
 					break;
@@ -121,6 +129,9 @@ import mx.rpc.events.FaultEvent;
 			
 		}
 		public function iniciaAtendimento_Result (event:*):void {
+		}
+		public function encerraAtendimento_Result (event:*):void {
+			Alert.show("result "+ event);
 			
 		}
 	}
