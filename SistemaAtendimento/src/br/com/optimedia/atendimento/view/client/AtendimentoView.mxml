@@ -3,12 +3,13 @@
 					xmlns:s="library://ns.adobe.com/flex/spark"
 					xmlns:mx="library://ns.adobe.com/flex/mx"
 					xmlns:controller="br.com.optimedia.atendimento.controller.*"
-					width="100%" height="100%" label="sda" show="init(event)">
+					width="100%" height="100%" currentState="espera" show="init(event)">
 	<s:layout>
 		<s:VerticalLayout/>
 	</s:layout>
 	<fx:Script>
 		<![CDATA[
+			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
 			import br.com.optimedia.atendimento.assets.events.ListaAtendimentoEvent;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
@@ -25,21 +26,42 @@
 			
 			public var usersSo:SharedObject;
 			private var singleton:MySingleton;
-			private var i:Number = 0;
+			
+			[Bindable]
+			private var nFila:uint = 0;
+			
 			
 
 			protected function init(event:FlexEvent):void {
 				singleton = MySingleton.getInstance();
-				//singleton.nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
+				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
+				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
+				usersSo.connect(singleton.nc);
 				
 			}
 		
 			private function handleSync(event:SyncEvent):void {
+				nFila = 1;
 				for(var user:Object in event.target.data){
-					//if(!usersObj[user]){
-						//usersObj[user] = event.target.data[user]
-						//users.addItem({id: user, nome: event.target.data[user]});
-					//}
+					
+					var obj:Object = new Object();
+					obj = event.target.data[user];
+					
+					if(!usersObj[user]){
+						
+						if (obj.atendente_id_atendente != null) {
+							if (obj.id_atendimento == ClienteAtendimento.atendimento.id_atendimento) {
+								this.currentState = "atendimento";
+							}
+							
+						}else {
+							var dt:Date = MySQLDateFormatter.mysqlToAs(obj.dt_fila);
+							if (dt< ClienteAtendimento.atendimento.dt_fila) {
+								nFila ++;
+							}
+						}
+						
+					}
 				}
 				
 			}
@@ -50,16 +72,13 @@
 				usersSo.connect(singleton.nc);
 
 			}
-			
-			public function clickBt():void {
-				var str:String = ClienteAtendimento.atendimento.cliente +"_"+ClienteAtendimento.atendimento.id_atendimento;
-				usersSo.setProperty(str,"false");
-				
-				Alert.show("ok");
-			}
 
 		]]>
 	</fx:Script>
+	<s:states>
+		<s:State name="atendimento" />
+		<s:State name="espera"/>
+	</s:states>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -80,7 +99,7 @@
 		</s:layout>
 		
 	
-	<s:VGroup width="250" height="100%">
+	<s:VGroup id="viewAtendimento" includeIn="atendimento" width="250" height="100%">
 		<s:Panel id="pn_atendente" width="250" height="232" title="Atendente">
 			
 		</s:Panel>
@@ -88,7 +107,7 @@
 			
 		</s:Panel>
 	</s:VGroup>
-	<s:Panel id="pn_chat" width="100%" height="100%" title="Chat">
+	<s:Panel id="pn_chat" includeIn="atendimento" width="100%" height="100%" title="Chat">
 	<s:VGroup width="100%" height="100%">
 		<s:TextArea id="txtHistoricoChat" width="100%" height="100%" editable="false" enabled="true"/>
 		<s:HGroup width="100%" verticalAlign="middle">
@@ -98,6 +117,9 @@
 		</s:HGroup>
 	</s:VGroup>
 	</s:Panel>
+		<s:TextArea id="txtFila" includeIn="espera" width="100%" height="100%" fontSize="18"
+					fontWeight="normal"
+					text="Aguarde um instánte no momento existe {nFila} na sua frente.&#xd;&#xd;Obrigado."
+					textAlign="center" verticalAlign="middle"/>
 	</s:Group>
-	<s:Button click="clickBt()" label="ok"/>
 </s:NavigatorContent>
