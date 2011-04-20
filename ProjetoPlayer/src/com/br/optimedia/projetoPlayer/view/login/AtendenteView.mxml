@@ -13,6 +13,8 @@
 			import br.com.optimedia.atendimento.remote.MySingleton;
 			
 			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 		
@@ -35,26 +37,41 @@
 			}
 			private function handleSync(event:SyncEvent):void {
 				dpFilaAtendimento.removeAll();
-			
-				for(var user:Object in event.target.data){
-					
+				for(var user:Object in event.target.data){			
 					if(!usersObj[user]){
 						var obj:Object = new Object();
 						obj = event.target.data[user];
 						if (obj.atendente_id_atendente == null) {
-							dpFilaAtendimento.addItem({id: obj, nome: obj.cliente });
+							dpFilaAtendimento.addItem({id: obj.dt_fila, nome: obj });
+							//dpFilaAtendimento.addItem({id: obj, nome: obj.cliente });
 						}
 					}
 				}
+				var dataSortField:SortField = new SortField();
+				dataSortField.name = "id";
+				dataSortField.numeric = false;
+
+				
+				var numericDataSort:Sort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				dpFilaAtendimento.sort = numericDataSort;
 				dpFilaAtendimento.refresh();
 
 				
 			}
 			private function iniciaAtendimento():void {
-				var selecionaAtendimento:Object = listAtendente.selectedItem.id;
+				var selecionaAtendimento:Object = listAtendente.selectedItem.nome;
+				AtendimentoCliente.atendimento = selecionaAtendimento;
 				selecionaAtendimento.atendente_id_atendente = UsuarioLogado.login.id_usuario;
 				singleton.nc.call("iniciaAtendimento",null, selecionaAtendimento);
 				
+			}
+			private function LabelNomeCleinte (obj:Object):String {
+				return obj.nome.cliente;
+				
+			}
+			private function encerraAtendimento():void{
+				singleton.nc.call("encerraAtendimento",null, AtendimentoCliente.atendimento);
 			}
 			
 		]]>
@@ -68,9 +85,9 @@
 				<s:VerticalLayout/>
 			</s:layout>
 			<s:List id="listAtendente" width="100%" height="100%" 
-					dataProvider="{dpFilaAtendimento}" labelField="nome"
+					dataProvider="{dpFilaAtendimento}" labelFunction="LabelNomeCleinte"
 					change="iniciaAtendimento()" />
-			<s:Button id="btAtender" label="Atender"/>
+			<s:Button id="btDisconect" label="Finalizar Atendimento" click="encerraAtendimento()"/>
 		</s:Panel>
 	</s:VGroup>
 </s:NavigatorContent>
