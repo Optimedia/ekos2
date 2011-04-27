@@ -17,6 +17,7 @@
 			private var singleton:MySingleton;
 			private var video:Video;
 			private var stream:NetStream;
+			public var nomeStream:String;
 			
 			[Bindable]
 			private var connected:Boolean = false;
@@ -77,13 +78,13 @@
 				if(connected==false){
 					connected=true;
 					video = new Video();
-					stream = new NetStream( nc );
+					stream = new NetStream( singleton.nc );
 					uiComponent.addChild(video);
 					video.attachCamera(Camera.getCamera());
 					stream.attachAudio(Microphone.getMicrophone());
 					stream.attachCamera(Camera.getCamera());
 					stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
-					stream.publish("teste1");
+					stream.publish(nomeStream);
 					
 				} else {
 					connected=false;
