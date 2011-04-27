@@ -8,6 +8,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
 			import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
@@ -25,16 +26,42 @@
 			private var dpFilaAtendimento:ArrayCollection = new ArrayCollection();
 			
 			private var usersSo:SharedObject;
+			private var usersSoAtendimento:SharedObject;
 			private var singleton:MySingleton;
 			private var atendimento:AtendimentoVO;
 
 			protected function init(event:FlexEvent):void {
+				conteudoChat.visible = false;
 				singleton = MySingleton.getInstance();
 				
 				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
 				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
 				usersSo.connect(singleton.nc);
+				
+				//
+				
 			}
+			// evento Sync que acompanha e evolução da fila
+			private function handleSyncAtendimento(event:SyncEvent):void {
+				//txtHistoricoChat.htmlText = "";
+				for(var mensagem:Object in event.target.data){	
+					
+					var msn:Object = new Object();
+					msn = event.target.data[mensagem];
+					
+					var data:Date = MySQLDateFormatter.mysqlToAs(msn.dataMensagem);
+					var dataDisplay:String = data.day+"/"+data.month+"/"+ data.fullYear+" "+ data.hours+":"+data.minutes+":"+data.seconds;
+					if(!usersObj[mensagem]){
+						txtHistoricoChat.htmlText+= "<p><b>"+ dataDisplay+ " " + msn.nome+ ": </b>"+  msn.msn +"</br></p>";
+					}
+				}	
+				
+			}
+			private function enviaChat():void {
+				singleton.nc.call("enviarChat",null,AtendimentoCliente.atendimento, txtMsn.text, UsuarioLogado.login.nome);
+				
+			}
+			// evento Sync que acompanha e evolução da fila
 			private function handleSync(event:SyncEvent):void {
 				dpFilaAtendimento.removeAll();
 				for(var user:Object in event.target.data){			
@@ -61,9 +88,28 @@
 			}
 			private function iniciaAtendimento():void {
 				var selecionaAtendimento:Object = listAtendente.selectedItem.nome;
-				AtendimentoCliente.atendimento = selecionaAtendimento;
+				
+				var selecionaAtendimentoVO:AtendimentoVO = new AtendimentoVO();
+				selecionaAtendimentoVO.atendente_id_atendente = selecionaAtendimento.atendente_id_atendente;
+				selecionaAtendimentoVO.cliente = selecionaAtendimento.cliente;
+				selecionaAtendimentoVO.dt_fila = selecionaAtendimento.dt_fila;
+				selecionaAtendimentoVO.dt_fim = selecionaAtendimento.dt_fim;
+				selecionaAtendimentoVO.dt_inicio = selecionaAtendimento.dt_inicio;
+				selecionaAtendimentoVO.email = selecionaAtendimento.email;
+				selecionaAtendimentoVO.id_atendimento = selecionaAtendimento.id_atendimento;
+				selecionaAtendimentoVO.protocolo = selecionaAtendimento.protocolo;
+	
+				AtendimentoCliente.atendimento = selecionaAtendimentoVO;
 				selecionaAtendimento.atendente_id_atendente = UsuarioLogado.login.id_usuario;
 				singleton.nc.call("iniciaAtendimento",null, selecionaAtendimento);
+				
+				//
+				usersSoAtendimento = SharedObject.getRemote(AtendimentoCliente.atendimento.email, singleton.nc.uri,false);
+				usersSoAtendimento.addEventListener(SyncEvent.SYNC, handleSyncAtendimento);
+				usersSoAtendimento.connect(singleton.nc);
+				
+				listAtendente.enabled = false;
+				conteudoChat.visible = true;
 				
 			}
 			private function LabelNomeCleinte (obj:Object):String {
@@ -71,6 +117,8 @@
 				
 			}
 			private function encerraAtendimento():void{
+				listAtendente.enabled = true;
+				conteudoChat.visible = false;
 				singleton.nc.call("encerraAtendimento",null, AtendimentoCliente.atendimento);
 			}
 			
@@ -90,4 +138,24 @@
 			<s:Button id="btDisconect" label="Finalizar Atendimento" click="encerraAtendimento()"/>
 		</s:Panel>
 	</s:VGroup>
+	<s:Panel id="pn_chat" width="100%" height="100%" title="Chat">
+		<s:VGroup width="100%" height="100%" id="conteudoChat">
+			
+			<s:HGroup width="100%" height="16" verticalAlign="middle">
+				<s:Label text="Nome: "/>
+				<s:Label id="txtNome" text="{AtendimentoCliente.atendimento.cliente}" width="100%"/>
+				<mx:Spacer width="5"/>
+				<s:Label text="Protocolo: "/>
+				<s:Label id="txtProtocolo" text="{AtendimentoCliente.atendimento.protocolo}"/>
+				<mx:Spacer width="5"/>
+			</s:HGroup>
+			<mx:TextArea id="txtHistoricoChat" width="100%" height="100%" editable="false"
+						enabled="true"/>
+			<s:HGroup width="100%" verticalAlign="middle">
+				<s:Label text="Mensagem:"/>
+				<s:TextInput id="txtMsn" width="100%"/>
+				<s:Button label="Enviar" click="enviaChat()"/>
+			</s:HGroup>
+		</s:VGroup>
+	</s:Panel>
 </s:NavigatorContent>
