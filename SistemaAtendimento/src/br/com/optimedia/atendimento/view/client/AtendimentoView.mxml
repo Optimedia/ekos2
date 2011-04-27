@@ -15,6 +15,7 @@
 			import br.com.optimedia.atendimento.remote.MySingleton;
 			import br.com.optimedia.atendimento.view.login.UsuarioLogado;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
@@ -25,11 +26,13 @@
 			private var usersObj:Object = new Object();
 			
 			public var usersSo:SharedObject;
+			public var usersSoAtendimento:SharedObject;
 			private var singleton:MySingleton;
 			
 			[Bindable]
 			private var nFila:uint = 0;
 			
+			private var listChat:ArrayCollection = new ArrayCollection ();
 			
 
 			protected function init(event:FlexEvent):void {
@@ -37,9 +40,31 @@
 				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
 				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
 				usersSo.connect(singleton.nc);
+
+				usersSoAtendimento = SharedObject.getRemote(ClienteAtendimento.atendimento.email, singleton.nc.uri,false);
+				usersSoAtendimento.addEventListener(SyncEvent.SYNC, handleSyncAtendimento);
+				usersSoAtendimento.connect(singleton.nc);
+				
+				//receberView.nomeStream = ClienteAtendimento.atendimento.atendente_id_atendente+"_atendendente";
 				
 			}
-		
+			private function handleSyncAtendimento(event:SyncEvent):void {
+				if (this.currentState == "atendimento"){
+					//txtHistoricoChat.htmlText = "";
+					for(var mensagem:Object in event.target.data){	
+						//for (var i:uint; i<mensagem.length;i++){
+						//}
+						var msn:Object = new Object();
+						msn = event.target.data[mensagem];
+						
+						var data:Date = MySQLDateFormatter.mysqlToAs(msn.dataMensagem);
+						var dataDisplay:String = data.day+"/"+data.month+"/"+ data.fullYear+" "+ data.hours+":"+data.minutes+":"+data.seconds;
+						if(!usersObj[mensagem]){
+							txtHistoricoChat.htmlText+= "<p><b>"+ dataDisplay+ " " + msn.nome+ ": </b>"+  msn.msn +"</br></p>";
+						}
+					}	
+				}
+			}
 			private function handleSync(event:SyncEvent):void {
 				nFila = 1;
 				for(var user:Object in event.target.data){
@@ -59,18 +84,14 @@
 							if (dt< ClienteAtendimento.atendimento.dt_fila) {
 								nFila ++;
 							}
-						}
-						
+						}		
 					}
 				}
-				
 			}
-			
-			private function conected ():void {
-				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
-				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
-				usersSo.connect(singleton.nc);
 
+			private function enviaChat():void {
+				singleton.nc.call("enviarChat",null,ClienteAtendimento.atendimento, txtMsn.text, ClienteAtendimento.atendimento.cliente);
+				
 			}
 
 		]]>
@@ -99,21 +120,22 @@
 		</s:layout>
 		
 	
-	<s:VGroup id="viewAtendimento" includeIn="atendimento" width="250" height="100%">
-		<s:Panel id="pn_atendente" width="250" height="232" title="Atendente">
-			
+	<s:VGroup id="viewAtendimento" includeIn="atendimento" width="320" height="100%">
+		<s:Panel id="pn_atendente" width="100%" height="100%" title="Atendente">
+			<!--<controller:ReceberStremView id="receberView" width="100%" height="100%"/>-->
 		</s:Panel>
-		<s:Panel id="pn_cliente" width="250" height="200">
-			
+		<s:Panel id="pn_cliente" width="100%" height="100%">
+			<!--<controller:EnviarStremView id="enviarView" width="100%" height="100%"/>-->
 		</s:Panel>
 	</s:VGroup>
 	<s:Panel id="pn_chat" includeIn="atendimento" width="100%" height="100%" title="Chat">
 	<s:VGroup width="100%" height="100%">
-		<s:TextArea id="txtHistoricoChat" width="100%" height="100%" editable="false" enabled="true"/>
+		<mx:TextArea id="txtHistoricoChat" width="100%" height="100%" editable="false"
+					 enabled="true"/>
 		<s:HGroup width="100%" verticalAlign="middle">
 			<s:Label text="Mensagem:"/>
 			<s:TextInput id="txtMsn" width="100%"/>
-			<s:Button label="Enviar"/>
+			<s:Button label="Enviar" click="enviaChat()"/>
 		</s:HGroup>
 	</s:VGroup>
 	</s:Panel>
