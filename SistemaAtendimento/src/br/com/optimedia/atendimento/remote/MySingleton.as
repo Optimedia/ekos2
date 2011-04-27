@@ -134,5 +134,8 @@ import mx.rpc.events.FaultEvent;
 			Alert.show("result "+ event);
 			
 		}
+		public function enviarChat_Result(event:*):void {
+			
+		}
 	}
 }
