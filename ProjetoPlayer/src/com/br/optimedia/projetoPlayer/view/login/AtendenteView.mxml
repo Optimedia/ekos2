@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					xmlns:s="library://ns.adobe.com/flex/spark" 
-					xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" show="init(event)">
+					xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" show="init(event)" xmlns:controller="br.com.optimedia.atendimento.controller.*">
 	<s:layout>
 		<s:HorizontalLayout/>
 	</s:layout>
@@ -37,6 +37,7 @@
 				usersSo = SharedObject.getRemote("filaAtendimento", singleton.nc.uri,false);
 				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
 				usersSo.connect(singleton.nc);
+				
 				
 				//
 				
@@ -108,6 +109,15 @@
 				usersSoAtendimento.addEventListener(SyncEvent.SYNC, handleSyncAtendimento);
 				usersSoAtendimento.connect(singleton.nc);
 				
+				enviarVideoView.nomeStream = "atendente_"+AtendimentoCliente.atendimento.atendente_id_atendente;
+				videoAtendente.includeInLayout = true;
+				videoAtendente.visible = true;
+				//
+				//receberVideoView.nomeStream = "atendente_"+AtendimentoCliente.atendimento.atendente_id_atendente;
+				receberVideoView.nomeStream = "cliente_"+AtendimentoCliente.atendimento.atendente_id_atendente;
+				videoCliente.includeInLayout = true;
+				videoCliente.visible = true;
+				
 				listAtendente.enabled = false;
 				conteudoChat.visible = true;
 				
@@ -117,6 +127,13 @@
 				
 			}
 			private function encerraAtendimento():void{
+				txtHistoricoChat.htmlText = "";
+				videoAtendente.includeInLayout = false
+				videoAtendente.visible = false
+					
+				videoCliente.includeInLayout = false;
+				videoCliente.visible = false;
+					
 				listAtendente.enabled = true;
 				conteudoChat.visible = false;
 				singleton.nc.call("encerraAtendimento",null, AtendimentoCliente.atendimento);
@@ -127,7 +144,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:VGroup width="200" height="100%">
+	<s:VGroup width="320" height="100%">
 		<s:Panel width="100%" height="100%" title="Fila de Atendimento">
 			<s:layout>
 				<s:VerticalLayout/>
@@ -136,6 +153,12 @@
 					dataProvider="{dpFilaAtendimento}" labelFunction="LabelNomeCleinte"
 					change="iniciaAtendimento()" />
 			<s:Button id="btDisconect" label="Finalizar Atendimento" click="encerraAtendimento()"/>
+		</s:Panel>
+		<s:Panel title="" id="videoAtendente" includeInLayout="false" visible="false">
+			<controller:EnviarStremView id="enviarVideoView"/>
+		</s:Panel>
+		<s:Panel title="" id="videoCliente" includeInLayout="false" visible="false">
+			<controller:ReceberStremView id="receberVideoView"/>
 		</s:Panel>
 	</s:VGroup>
 	<s:Panel id="pn_chat" width="100%" height="100%" title="Chat">
@@ -153,7 +176,7 @@
 						enabled="true"/>
 			<s:HGroup width="100%" verticalAlign="middle">
 				<s:Label text="Mensagem:"/>
-				<s:TextInput id="txtMsn" width="100%"/>
+				<s:TextInput id="txtMsn" width="100%" enter="enviaChat()"/>
 				<s:Button label="Enviar" click="enviaChat()"/>
 			</s:HGroup>
 		</s:VGroup>
