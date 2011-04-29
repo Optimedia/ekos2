@@ -67,6 +67,9 @@ import mx.rpc.events.FaultEvent;
 			FlexGlobals.topLevelApplication.dispatchEvent(mySingleEvent);
 		}
 		
+		
+	
+	
 		private function onNetStatus(e:NetStatusEvent):void{
 			switch(e.info.code){
 				case "NetConnection.Connect.Success":
@@ -80,14 +83,19 @@ import mx.rpc.events.FaultEvent;
 				case "NetConnection.Connect.Rejected":
 					break;
 				case "NetStream.Publish.Start":
+					//Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Record.Start":
+					//Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Unpublish.Success":
+					//Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Record.Stop":
+					Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Record.Failed":
+					//Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Record.DiskQuotaExceeded":
 					break;
@@ -95,6 +103,7 @@ import mx.rpc.events.FaultEvent;
 					break;
 				case "NetStream.Publish.BadName":					
 					break;
+				
 				default:
 					Alert.show(e.info.code.toString());
 					break;
@@ -111,7 +120,7 @@ import mx.rpc.events.FaultEvent;
 			atendimento.dt_fim = event['dt_fim'];
 			atendimento.dt_inicio = event['dt_inicio'];
 			atendimento.email = event['email'];
-			atendimento.id_atendimento = event['id_atendimento'];
+			atendimento.id_atendimento = new uint (event['id_atendimento']);
 			atendimento.protocolo = event['protocolo'];
 			
 			ClienteAtendimento.atendimento = atendimento; 
