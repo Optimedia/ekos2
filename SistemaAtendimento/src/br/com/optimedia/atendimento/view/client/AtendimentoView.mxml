@@ -45,7 +45,6 @@
 				usersSoAtendimento.addEventListener(SyncEvent.SYNC, handleSyncAtendimento);
 				usersSoAtendimento.connect(singleton.nc);
 				
-				//receberView.nomeStream = ClienteAtendimento.atendimento.atendente_id_atendente+"_atendendente";
 				
 			}
 			private function handleSyncAtendimento(event:SyncEvent):void {
@@ -77,6 +76,7 @@
 						if (obj.atendente_id_atendente != null) {
 							if (obj.id_atendimento == ClienteAtendimento.atendimento.id_atendimento) {
 								this.currentState = "atendimento";
+								iniciarAtendimento ();
 							}
 							
 						}else {
@@ -87,6 +87,10 @@
 						}		
 					}
 				}
+			}
+			private function iniciarAtendimento():void {
+				enviarView.nomeStream = "cliente_"+ClienteAtendimento.atendimento.atendente_id_atendente;
+				receberView.nomeStream = "atendente_"+ClienteAtendimento.atendimento.atendente_id_atendente
 			}
 
 			private function enviaChat():void {
@@ -122,10 +126,10 @@
 	
 	<s:VGroup id="viewAtendimento" includeIn="atendimento" width="320" height="100%">
 		<s:Panel id="pn_atendente" width="100%" height="100%" title="Atendente">
-			<!--<controller:ReceberStremView id="receberView" width="100%" height="100%"/>-->
+			<controller:ReceberStremView id="receberView" width="100%" height="100%"/>
 		</s:Panel>
-		<s:Panel id="pn_cliente" width="100%" height="100%">
-			<!--<controller:EnviarStremView id="enviarView" width="100%" height="100%"/>-->
+		<s:Panel id="pn_cliente" width="100%" height="100%" title="{ClienteAtendimento.atendimento.cliente}">
+			<controller:EnviarStremView id="enviarView" width="100%" height="100%"/>
 		</s:Panel>
 	</s:VGroup>
 	<s:Panel id="pn_chat" includeIn="atendimento" width="100%" height="100%" title="Chat">
@@ -134,7 +138,7 @@
 					 enabled="true"/>
 		<s:HGroup width="100%" verticalAlign="middle">
 			<s:Label text="Mensagem:"/>
-			<s:TextInput id="txtMsn" width="100%"/>
+			<s:TextInput id="txtMsn" width="100%" enter="enviaChat()"/>
 			<s:Button label="Enviar" click="enviaChat()"/>
 		</s:HGroup>
 	</s:VGroup>
