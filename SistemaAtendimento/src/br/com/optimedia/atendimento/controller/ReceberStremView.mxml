@@ -8,6 +8,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import br.com.optimedia.atendimento.assets.Visual;
 			import br.com.optimedia.atendimento.assets.events.VideoPublicadoEvent;
 			import br.com.optimedia.atendimento.remote.MySingleton;
 			
@@ -26,17 +27,20 @@
 			protected function init(event:FlexEvent):void
 			{
 				singleton = MySingleton.getInstance();
-				
-				video = new Video();
 				stream = new NetStream( singleton.nc );
+				video = new Video();
+				video.width = 256;
+				video.height = 192;
 				uiComponent.addChild(video);
 				video.attachNetStream( stream ); 
 				stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
+				imgAvatar.source = Visual.avatar;
 				
 				
 				//FlexGlobals.topLevelApplication.addEventListener(VideoPublicadoEvent.INICIAR_ENVIO_VIDEO, inicioEnvioVideo);
 				//FlexGlobals.topLevelApplication.addEventListener(VideoPublicadoEvent.FINALIZAR_ENVIO_VIDEO,fimEnvioVideo);
 			}
+			
 			
 			private function onNetStatus(e:NetStatusEvent):void{
 				switch(e.info.code){
@@ -45,29 +49,34 @@
 					case "NetConnection.Connect.Closed":
 						//Alert.show(e.info.code.toString());
 						break;
-					case "NetConnection.Connect.Failed":
-						//Alert.show(e.info.code.toString());
-						break;
+					
 					case "NetConnection.Connect.Rejected":
-						Alert.show(e.info.code.toString());
+						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Play.Start":
 						//Alert.show(e.info.code.toString());
 						uiComponent.visible = true;
 						uiComponent.includeInLayout = true
+						
+						imgAvatar.includeInLayout = false;
+						imgAvatar.visible = false;
 						break;
 					case "NetStream.Play.Stop":
 						uiComponent.visible = false;
 						uiComponent.includeInLayout = false;
 						
-						//bt_play.visible = false;
-						//bt_play.includeInLayout = false;
+						imgAvatar.includeInLayout = true;
+						imgAvatar.visible = true;
+						
 						
 						break;
 					case "NetStream.Play.PublishNotify":
 						
 						uiComponent.visible = true;
 						uiComponent.includeInLayout = true;
+						
+						imgAvatar.includeInLayout = false;
+						imgAvatar.visible = false;
 						
 						bt_play.visible = true;
 						bt_play.includeInLayout = true;
@@ -77,14 +86,17 @@
 					case "NetStream.Play.UnpublishNotify":
 						Alert.show(e.info.code.toString());
 						uiComponent.visible = false;
-						uiComponent.includeInLayout = false
+						uiComponent.includeInLayout = false;
+						
+						imgAvatar.includeInLayout = true;
+						imgAvatar.visible = true;
 						//
 						//bt_play.visible = false;
 						//bt_play.includeInLayout = false;
-						Alert.show(e.info.code.toString());
+						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Publish.BadName":
-						Alert.show(e.info.code.toString());
+						//Alert.show(e.info.code.toString());
 						break;
 					default: 
 						//Alert.show("receber " + e.info.code.toString());
@@ -94,12 +106,28 @@
 			
 			
 			protected function playVideo(event:Event):void {
+				//if ( stream.videoCodec ==0) {
+					Alert.show("video a false" + stream.videoCodec +" - "+ stream.videoReliable);
+				//} else {
+				//	//Alert.show("video  true")
+				//}
 				if(mostrar){
 					mostrar = false;
 					stream.close()
+						
+					uiComponent.includeInLayout = true;
+					uiComponent.visible = true;
+					
+					imgAvatar.includeInLayout = false;
+					imgAvatar.visible = false;
 				} else {
 					mostrar = true;
 					stream.play(nomeStream);
+					uiComponent.includeInLayout = false;
+					uiComponent.visible = false;
+					
+					imgAvatar.includeInLayout = true;
+					imgAvatar.visible = true;
 					
 				}
 			}
@@ -109,7 +137,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<mx:UIComponent id="uiComponent" width="320" height="240">
-	</mx:UIComponent>
+	<mx:UIComponent id="uiComponent" width="256" height="192"  visible="false" includeInLayout="false"/>
+	<s:Image  id="imgAvatar"  width="256" height="192" visible="true" includeInLayout="true"/>
 	<s:Button label="{mostrar?'Ocultar':'Mostrar Atendente'}" click="playVideo(event)" id="bt_play"/>
 </s:Group>

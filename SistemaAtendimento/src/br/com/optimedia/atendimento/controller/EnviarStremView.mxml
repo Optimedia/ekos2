@@ -8,6 +8,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import br.com.optimedia.atendimento.assets.Visual;
 			import br.com.optimedia.atendimento.assets.events.VideoPublicadoEvent;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
@@ -24,8 +25,13 @@
 			[Bindable]
 			private var publicVideo:Boolean = false;
 			
+			[Bindable]
+			private var publicAudio:Boolean = false;
+			
+			
 			protected function init(event:FlexEvent):void {		
 				singleton = MySingleton.getInstance();
+				imgAvatar.source = Visual.avatar;
 				
 			}
 			
@@ -67,22 +73,75 @@
 				}
 			} 
 			
+						
+			protected function iniciarPublicacao(tipo:String, event:MouseEvent):void {			
+				if (tipo =="video") {
+					if(publicVideo==false){
+						try {
+							stream.close();
+						}catch(e:Error) {
+							
+						}
+						publicVideo=true;
+						video = new Video();
+						video.width = 256;
+						video.height = 192;
+						
+						stream = new NetStream( singleton.nc );
+						uiComponent.addChild(video);
+						video.attachCamera(Camera.getCamera());
+						stream.attachAudio(Microphone.getMicrophone());
+						stream.attachCamera(Camera.getCamera());
+						stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
+						stream.publish(nomeStream);
+						
+						uiComponent.includeInLayout = true;
+						uiComponent.visible = true;
+						
+						imgAvatar.includeInLayout = false;
+						imgAvatar.visible = false;				
 			
-			protected function iniciarPublicacao(event:MouseEvent):void {
-				if(publicVideo==false){
-					publicVideo=true;
-					video = new Video();
-					stream = new NetStream( singleton.nc );
-					uiComponent.addChild(video);
-					video.attachCamera(Camera.getCamera());
-					stream.attachAudio(Microphone.getMicrophone());
-					stream.attachCamera(Camera.getCamera());
-					stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
-					stream.publish(nomeStream);
-					
-				} else {
-					publicVideo=false;
-					stream.close();
+					} else {
+						publicVideo=false;
+						stream.close();
+						
+						uiComponent.includeInLayout = false;
+						uiComponent.visible = false;
+						
+						imgAvatar.includeInLayout = true;
+						imgAvatar.visible = true;
+	
+					}
+				}else if (tipo=="audio") {
+					if(publicAudio==false){
+						try {
+							stream.close();
+						}catch(e:Error) {
+							
+						}
+						publicAudio=true;
+						stream = new NetStream( singleton.nc );
+						//uiComponent.addChild(video);
+						stream.attachAudio(Microphone.getMicrophone());
+						stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
+						stream.publish(nomeStream);
+						
+						uiComponent.includeInLayout = false;
+						uiComponent.visible = false;
+						
+						imgAvatar.includeInLayout = true;
+						imgAvatar.visible = true;				
+						
+					} else {
+						publicAudio=false;
+						stream.close();
+						
+						uiComponent.includeInLayout = false;
+						uiComponent.visible = false;
+						
+						imgAvatar.includeInLayout = true;
+						imgAvatar.visible = true;
+					}
 				}
 			}
 			
@@ -91,10 +150,9 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<mx:UIComponent id="uiComponent" width="320" height="240">
-		
-	</mx:UIComponent>
-	<s:Button id="btn_publica" label="Publicar" click="iniciarPublicacao(event)" />
-	<s:Label id="lb_status" />
-	<s:Label id="lb_statusConn" text="{publicVideo?'Publicando':'desconectado'}"/>
+	<mx:UIComponent id="uiComponent"  width="256" height="192" visible="false" includeInLayout="false"/>
+	<s:Image  id="imgAvatar"  width="256" height="192" visible="true" includeInLayout="true"/>
+	<s:Button id="btn_publicaVideo" label="{publicVideo?'Publicar video':'despublicar video'}" click="iniciarPublicacao('video', event)" />
+	<s:Button id="btn_publicaAudio" label="{publicAudio?'Publicar video':'despublicar audio'}" click="iniciarPublicacao('audio', event)" />
+	
 </s:Group>
