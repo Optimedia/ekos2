@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+		 show="init(event)" creationComplete = "init(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.atendimento.assets.events.LoginEvent;
+			import br.com.optimedia.atendimento.assets.vo.UsuarioVO;
+			import br.com.optimedia.atendimento.remote.MyNetConnection;
+			import br.com.optimedia.atendimento.remote.MySingleton;
+			
+			import flash.net.SharedObject;
+			import flash.net.SharedObjectFlushStatus;
+			
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var myCookie:SharedObject;
+			private var  objLogin:UsuarioVO = new UsuarioVO();
+			private var singleton:MySingleton;
+			
+			private var usersSo:SharedObject;
+			
+			protected function init(event:FlexEvent):void{
+				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.ON_LOGAR,loginAtendente_Result);
+				myCookie = SharedObject.getLocal("AtendimentoAdm");
+				
+				if(myCookie.data.login == undefined) {
+				}else {
+					if(myCookie.data.lembrar==true) {
+						txtLogin.text = myCookie.data.login.email;
+						txtSenha.text = myCookie.data.senha;
+						cbLembrar.selected = myCookie.data.lembrar;
+					}				
+				}
+				
+			}
+			private function back():void{
+				var loginEvent:LoginEvent = new LoginEvent(LoginEvent.BACK_USER);
+				FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
+			}
+			private  function loginAtendente ():void {
+				if ((txtLogin.text != "") && ( txtSenha.text!="")){
+					objLogin.email = txtLogin.text
+					objLogin.senha = txtSenha.text;
+					
+					singleton = MySingleton.getInstance();
+					singleton.connect();
+					singleton.nc.call("loginAtendente", null, objLogin);
+					
+				}else {
+					Alert.show("Usuário e senha são obrigatório");
+				}
+			}
+			public function loginAtendente_Result(event:LoginEvent):void {
+
+				 objLogin.nome = event.login_result.nome;
+				 objLogin.email = event.login_result.email;
+				 objLogin.id_usuario = event.login_result.id_usuario;
+				 objLogin.tipoUsuario_id_tipo = event.login_result.tipoUsuario_id_tipo;
+				
+				if (objLogin) {
+					myCookie.data.login = objLogin;
+					myCookie.data.lembrar = cbLembrar.selected
+					myCookie.data.senha = txtSenha.text;
+					
+					if(cbLembrar.selected){
+						myCookie.flush();//salvar
+					}else {
+						myCookie.clear()
+					}
+					
+					var loginEvent:LoginEvent = new LoginEvent(LoginEvent.LOGIN_SUCESSO);
+					loginEvent.login = objLogin;
+					UsuarioLogado.login = objLogin;
+					FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
+				} else {
+					Alert.show("Usuário ou senha invalidos", "Erro no login");
+				}   
+			
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Form width="50%" horizontalCenter="0"  verticalCenter="0" minWidth="400">
+		<s:layout>
+			<s:VerticalLayout paddingBottom="16" paddingLeft="16" paddingRight="16" paddingTop="16"/>
+		</s:layout>
+		<s:FormHeading label="Validar usuário" width="100%"/>
+
+		<mx:FormItem label="Usuário:" width="100%" required="true">
+			<s:TextInput width="100%"  id="txtLogin"/>
+		</mx:FormItem>
+		<mx:FormItem label="Senha:" width="100%" required="true" >
+			<s:TextInput width="100%" id="txtSenha" displayAsPassword="true"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%">
+			<s:CheckBox label="Salvar login" id="cbLembrar"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" horizontalAlign="right">
+			<s:HGroup>
+				<!--<s:Button label="lembrar senha"/>-->
+				<!--<s:Button label="Lembar senha" click="back()"/>-->
+				<!--<mx:Spacer width="10"/>
+-->				<s:Button label="Enviar" click="loginAtendente()"/>
+			</s:HGroup>
+		</mx:FormItem>
+	</s:Form>
+</s:NavigatorContent>
