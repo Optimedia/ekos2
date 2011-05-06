@@ -76,6 +76,7 @@ import mx.rpc.events.FaultEvent;
 					connected = true;
 					break;
 				case "NetConnection.Connect.Closed":
+					//Alert.show(e.info.code.toString());
 					disconect();
 					break;
 				case "NetConnection.Connect.Failed":
@@ -140,7 +141,7 @@ import mx.rpc.events.FaultEvent;
 		public function iniciaAtendimento_Result (event:*):void {
 		}
 		public function encerraAtendimento_Result (event:*):void {
-			Alert.show("result "+ event);
+			//Alert.show("result "+ event);
 			
 		}
 		public function enviarChat_Result(event:*):void {
