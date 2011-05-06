@@ -56,6 +56,7 @@
 						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Record.Stop":
+						Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Record.Failed":
 						break;
@@ -93,7 +94,7 @@
 						stream.attachAudio(Microphone.getMicrophone());
 						stream.attachCamera(Camera.getCamera());
 						stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
-						stream.publish(nomeStream);
+						stream.publish(nomeStream,"Record");
 						
 						uiComponent.includeInLayout = true;
 						uiComponent.visible = true;
@@ -124,7 +125,8 @@
 						//uiComponent.addChild(video);
 						stream.attachAudio(Microphone.getMicrophone());
 						stream.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);
-						stream.publish(nomeStream);
+						//stream
+						stream.publish(nomeStream, "Record");
 						
 						uiComponent.includeInLayout = false;
 						uiComponent.visible = false;
