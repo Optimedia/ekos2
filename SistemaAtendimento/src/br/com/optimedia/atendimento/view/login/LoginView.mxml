@@ -10,6 +10,7 @@
 			import br.com.optimedia.atendimento.assets.vo.UsuarioVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
+			import br.com.optimedia.atendimento.view.login.UsuarioLogado;
 			
 			import flash.net.SharedObject;
 			import flash.net.SharedObjectFlushStatus;
@@ -74,9 +75,9 @@
 						myCookie.clear()
 					}
 					
+					UsuarioLogado.login = objLogin;
 					var loginEvent:LoginEvent = new LoginEvent(LoginEvent.LOGIN_SUCESSO);
 					loginEvent.login = objLogin;
-					UsuarioLogado.login = objLogin;
 					FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
 				} else {
 					Alert.show("Usuário ou senha invalidos", "Erro no login");

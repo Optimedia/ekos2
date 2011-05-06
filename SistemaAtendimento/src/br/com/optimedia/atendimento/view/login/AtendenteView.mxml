@@ -69,9 +69,12 @@
 					if(!usersObj[user]){
 						var obj:Object = new Object();
 						obj = event.target.data[user];
-						if (obj.atendente_id_atendente == null) {
+						if ((obj.atendente_id_atendente == null)) {
 							dpFilaAtendimento.addItem({id: obj.dt_fila, nome: obj });
 							//dpFilaAtendimento.addItem({id: obj, nome: obj.cliente });
+						} else if (obj.dt_fim!=null) {
+							encerraAtendimentoCliente();
+							
 						}
 					}
 				}
@@ -126,6 +129,18 @@
 				return obj.nome.cliente;
 				
 			}
+			private function encerraAtendimentoCliente():void{
+				txtHistoricoChat.htmlText = "";
+				videoAtendente.includeInLayout = false
+				videoAtendente.visible = false
+				
+				videoCliente.includeInLayout = false;
+				videoCliente.visible = false;
+				
+				listAtendente.enabled = true;
+				conteudoChat.visible = false;
+				usersSoAtendimento.close();
+			}
 			private function encerraAtendimento():void{
 				txtHistoricoChat.htmlText = "";
 				videoAtendente.includeInLayout = false
@@ -136,7 +151,8 @@
 					
 				listAtendente.enabled = true;
 				conteudoChat.visible = false;
-				singleton.nc.call("encerraAtendimento",null, AtendimentoCliente.atendimento);
+				singleton.nc.call("encerraAtendimento",null, AtendimentoCliente.atendimento, "2");
+				usersSoAtendimento.close();
 			}
 			
 		]]>
