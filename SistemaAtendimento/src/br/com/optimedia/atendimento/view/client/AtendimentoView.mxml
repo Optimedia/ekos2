@@ -73,11 +73,15 @@
 					
 					if(!usersObj[user]){
 						
-						if (obj.atendente_id_atendente != null) {
+						if ((obj.atendente_id_atendente != null) && (obj.dt_fim==null)) {
 							if (obj.id_atendimento == ClienteAtendimento.atendimento.id_atendimento) {
 								this.currentState = "atendimento";
 								iniciarAtendimento ();
 							}
+							
+						} else if (obj.dt_fim!=null) {
+							
+							singleton.nc.close();
 							
 						}else {
 							var dt:Date = MySQLDateFormatter.mysqlToAs(obj.dt_fila);
@@ -96,6 +100,10 @@
 			private function enviaChat():void {
 				singleton.nc.call("enviarChat",null,ClienteAtendimento.atendimento, txtMsn.text, ClienteAtendimento.atendimento.cliente);
 				
+			}
+			private function encerraAtendimento():void{
+				singleton.nc.call("encerraAtendimento",null, ClienteAtendimento.atendimento, '3');
+				usersSoAtendimento.close();
 			}
 
 		]]>
@@ -140,6 +148,8 @@
 			<s:Label text="Mensagem:"/>
 			<s:TextInput id="txtMsn" width="100%" enter="enviaChat()"/>
 			<s:Button label="Enviar" click="enviaChat()"/>
+			<mx:Spacer width="50"/>
+			<s:Button label="sair" click="encerraAtendimento()"/>
 		</s:HGroup>
 	</s:VGroup>
 	</s:Panel>
