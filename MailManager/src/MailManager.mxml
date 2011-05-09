@@ -33,7 +33,8 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<mx:ViewStack id="viewstack1"  width="100%" height="100%">
+	<mx:ViewStack id="viewstack1" width="100%" height="100%" paddingBottom="5" paddingLeft="5"
+				  paddingRight="5" paddingTop="5">
 		<login:LoginView width="100%" height="100%" id="viewLogin"/>
 		<mail:SelectMailView  width="100%" height="100%" id="viewMail"/>
 		<mail:EnviadoView width="100%" height="100%" id="viewEnviado"/>
