@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" show="init(event)">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+
+
+	<fx:Script>
+		<![CDATA[
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+		]]>
+	</fx:Script>
+
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.mailManager.assets.vo.MailVO;
+			import br.com.optimedia.mailManager.assets.vo.MsnVO;
+			import br.com.optimedia.mailManager.remote.RemoteObj;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var listMail:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var listSelecMail:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var listMsn:ArrayCollection = new ArrayCollection ();
+			private var remote:RemoteObj = new RemoteObj();
+			
+			private var msn:MsnVO;
+			
+			private var dataSortField:SortField;
+			private var  numericDataSort:Sort
+			
+			
+
+			protected function init(event:FlexEvent):void{
+				//getMail();
+				getMsn();
+				
+				dataSortField = new SortField();
+				dataSortField.name = "nome";
+				dataSortField.numeric = false;
+				
+				
+				numericDataSort = new Sort();
+				numericDataSort.fields = [dataSortField];
+				
+				
+			}
+			private function getMsn():void {
+				remote.getMsn(getMsn_result);
+			}
+			private function getMsn_result(event:ResultEvent):void {
+				listMsn = new ArrayCollection (event.result as Array);
+				getMail();
+			}
+			private function getMail():void {
+				remote.getMail(getMail_result);
+			}
+			private function getMail_result(event:ResultEvent):void {
+				
+				listMail = new ArrayCollection (event.result as Array);
+				listMail.sort = numericDataSort;
+				listMail.refresh();
+
+				
+			}
+			private function addMail():void {
+				for each (var item:MailVO in dgMailList.selectedItems) {
+					listSelecMail.addItem(item);
+					listMail.removeItemAt(nItem);
+				}
+				for each (var item:MailVO in dgMailList.selectedItems) {
+					var nItem:Number = dgMailList.selectedIndex;
+					listMail.removeItemAt(nItem);
+				}
+				listMail.sort = numericDataSort;
+				listMail.refresh();
+				
+				listSelecMail.sort = numericDataSort;
+				listSelecMail.refresh();
+				
+			}
+			private function removeMail():void {
+				for each (var item:MailVO in dgSelecMailList.selectedItems) {
+					listMail.addItem(item);
+				}
+				for each (var item:MailVO in dgSelecMailList.selectedItems) {
+					var nItem:Number = dgSelecMailList.selectedIndex;
+					listSelecMail.removeItemAt(nItem);
+				}
+				listMail.sort = numericDataSort;
+				listMail.refresh();
+				
+				listSelecMail.sort = numericDataSort;
+				listSelecMail.refresh();
+			}
+			
+			private function sendMsn_result(event:ResultEvent):void {
+				
+			}
+			private function sendMsn(eventObj:CloseEvent):void {
+				if (eventObj.detail==Alert.OK) {
+					//Alert.show("ok");
+					
+					if (tipoTexto.selectedItem) {
+						msn = tipoTexto.selectedItem;
+						if (listSelecMail.length>0) {
+							remote.sendMail(listSelecMail, msn);
+						}else {
+							Alert.show("Para enviar o(s) deve ter pelo menos 1 e-mail selecionado");
+						}
+					}else {
+						Alert.show("Selecione os tipos de mensagem");
+					}
+				}
+			}
+
+			
+			
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup width="100%" verticalAlign="middle">
+		<s:Label text="Nome Mensagem:"/>
+		<s:ComboBox id="tipoTexto" dataProvider="{listMsn}" labelField="nome"/>
+	</s:HGroup> 
+	<s:HGroup width="100%" height="100%">
+		
+	<mx:DataGrid id="dgMailList" width="100%" height="100%" allowMultipleSelection="true"
+				 dataProvider="{listMail}" editable="false" sortableColumns="true">
+		<mx:columns>
+			<mx:DataGridColumn dataField="nome" headerText="Nome" />
+			<mx:DataGridColumn dataField="email" headerText="E-mail"/>
+			<mx:DataGridColumn dataField="matricula" headerText="Matricula"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<s:VGroup height="100%">
+		<mx:Spacer height="100%"/>
+		<s:Button label="-->" click="addMail()"/>
+		<s:Button label="&lt;--" click="removeMail()"/>
+		<mx:Spacer height="100%" />
+	</s:VGroup>
+	<mx:DataGrid id="dgSelecMailList" width="100%" height="100%" allowMultipleSelection="true"
+				 dataProvider="{listSelecMail}" editable="false">
+		<mx:columns>
+			<mx:DataGridColumn dataField="nome" headerText="Nome" />
+			<mx:DataGridColumn dataField="email" headerText="E-mail"/>
+			<mx:DataGridColumn dataField="matricula" headerText="Matricula"/>
+		</mx:columns>
+	</mx:DataGrid>
+	</s:HGroup>
+	<s:HGroup width="100%">
+		<s:Button label="Enviar" click='Alert.show("você deseja realmente enviar os e-mail?", "Alert",
+				  Alert.OK | Alert.CANCEL, this,  sendMsn, null, Alert.OK);'/>
+	</s:HGroup>
+</s:NavigatorContent>

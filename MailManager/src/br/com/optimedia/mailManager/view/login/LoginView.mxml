@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+		 creationComplete="init(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.mailManager.assets.vo.LoginVO;
+			import br.com.optimedia.mailManager.remote.RemoteObj;
+			
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.formatters.DateFormatter;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			private var myCookie:SharedObject;
+			private var  objLogin:LoginVO = new LoginVO();
+			
+			protected function init(event:FlexEvent):void
+			{
+				myCookie = SharedObject.getLocal("mailm","/"); 
+				if(myCookie.data.login == undefined) {
+				}else {
+					if(myCookie.data.lembrar==true) {
+						txtLogin.text = myCookie.data.login.login;
+						txtSenha.text = myCookie.data.senha;
+						cbLembrar.selected = myCookie.data.lembrar;
+					}				
+				}
+				
+			}
+			public function logar ():void {
+				// verificar se ja existe os cookies
+				objLogin.login = txtLogin.text
+				objLogin.pass = txtSenha.text;
+				
+				var remote:RemoteObj = new RemoteObj();
+				remote.getLogin (objLogin, resultLogin); 
+				
+			}
+			private function resultLogin(event:ResultEvent):void {
+				 
+				//Alert.show("ok");
+				objLogin = event.result as LoginVO;
+				
+				if (objLogin) {
+					
+					myCookie.data.login = objLogin;
+					myCookie.data.lembrar = cbLembrar.selected
+					myCookie.data.pass = txtSenha.text;
+					if(cbLembrar.selected){
+						myCookie.flush();//salvar
+					}else {
+						myCookie.clear()
+					}
+					
+					var login:LoginEvent = new LoginEvent(LoginEvent.ON_LOGAR);
+					login.login = objLogin;
+					FlexGlobals.topLevelApplication.dispatchEvent(login);
+					UsuarioLogado.login = objLogin;
+				} else {
+					Alert.show("Usuário ou senha invalidos", "Erro no login");
+				}  
+			
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:Form paddingLeft="16" paddingRight="16" paddingTop="16" paddingBottom="16" verticalCenter="10" horizontalCenter="0" width="432" height="207">
+		<mx:FormHeading label="Validar usuário" width="100%"/>
+
+		<mx:FormItem label="Usuário:" width="100%" required="true">
+			<s:TextInput width="100%"  id="txtLogin" text="paulo"/>
+		</mx:FormItem>
+		<mx:FormItem label="Senha:" width="100%" required="true" >
+			<s:TextInput width="100%" id="txtSenha" displayAsPassword="true" text="123"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%">
+			<s:CheckBox label="Salvar login" id="cbLembrar"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" horizontalAlign="right">
+			<s:HGroup>
+				<s:Button label="Enviar" click="logar()"/>
+			</s:HGroup>
+		</mx:FormItem>
+	</mx:Form>
+</s:NavigatorContent>
