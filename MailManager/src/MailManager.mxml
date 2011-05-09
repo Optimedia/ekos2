@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" 
+			   xmlns:login="br.com.optimedia.mailManager.view.login.*" 
+			   xmlns:mail="br.com.optimedia.mailManager.view.mail.*"
+			   creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.mailManager.view.login.LoginEvent;
+			import br.com.optimedia.mailManager.view.mail.EnviadoEvent;
+			
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+
+			protected function init(event:FlexEvent):void{
+				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.ON_LOGAR, onLogin)
+				FlexGlobals.topLevelApplication.addEventListener(EnviadoEvent.ON_ENVIADO, onEnviado)
+				FlexGlobals.topLevelApplication.addEventListener(EnviadoEvent.VOLTAR, onVoltar)
+			}
+			private function onLogin(event:LoginEvent):void{
+				viewstack1.selectedIndex = 1;
+			}
+			private function onEnviado(event:EnviadoEvent):void{
+				viewstack1.selectedIndex = 2;
+			}
+			private function onVoltar(event:EnviadoEvent):void{
+				viewstack1.selectedIndex = 1;
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:ViewStack id="viewstack1"  width="100%" height="100%">
+		<login:LoginView width="100%" height="100%" id="viewLogin"/>
+		<mail:SelectMailView  width="100%" height="100%" id="viewMail"/>
+		<mail:EnviadoView width="100%" height="100%" id="viewEnviado"/>
+	</mx:ViewStack>
+
+</s:Application>
