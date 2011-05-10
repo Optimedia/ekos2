@@ -82,11 +82,10 @@
 			private function addMail():void {
 				for each (var item:MailVO in dgMailList.selectedItems) {
 					listSelecMail.addItem(item);
-					listMail.removeItemAt(nItem);
 				}
-				for each (var item:MailVO in dgMailList.selectedItems) {
-					var nItem:Number = dgMailList.selectedIndex;
-					listMail.removeItemAt(nItem);
+				for each (var item1:MailVO in dgMailList.selectedItems) {
+					var nItem1:Number = dgMailList.selectedIndex;
+					listMail.removeItemAt(nItem1);
 				}
 				listMail.sort = numericDataSort;
 				listMail.refresh();
@@ -99,9 +98,9 @@
 				for each (var item:MailVO in dgSelecMailList.selectedItems) {
 					listMail.addItem(item);
 				}
-				for each (var item:MailVO in dgSelecMailList.selectedItems) {
-					var nItem:Number = dgSelecMailList.selectedIndex;
-					listSelecMail.removeItemAt(nItem);
+				for each (var item1:MailVO in dgSelecMailList.selectedItems) {
+					var nItem1:Number = dgSelecMailList.selectedIndex;
+					listSelecMail.removeItemAt(nItem1);
 				}
 				listMail.sort = numericDataSort;
 				listMail.refresh();
