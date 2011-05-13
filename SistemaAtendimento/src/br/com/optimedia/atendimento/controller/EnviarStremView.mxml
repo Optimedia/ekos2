@@ -19,7 +19,7 @@
 			
 			private var singleton:MySingleton;
 			private var video:Video;
-			private var stream:NetStream;
+			public var stream:NetStream;
 			public var nomeStream:String = "Atendente";
 			
 			[Bindable]
@@ -49,14 +49,14 @@
 						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Record.Start":
-						Alert.show(e.info.code.toString());
+						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Unpublish.Success":
 						FlexGlobals.topLevelApplication.dispatchEvent(new VideoPublicadoEvent(VideoPublicadoEvent.FINALIZAR_ENVIO_VIDEO));
 						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Record.Stop":
-						Alert.show(e.info.code.toString());
+						//Alert.show(e.info.code.toString());
 						break;
 					case "NetStream.Record.Failed":
 						break;
@@ -154,7 +154,7 @@
 	</fx:Declarations>
 	<mx:UIComponent id="uiComponent"  width="256" height="192" visible="false" includeInLayout="false"/>
 	<s:Image  id="imgAvatar"  width="256" height="192" visible="true" includeInLayout="true"/>
-	<s:Button id="btn_publicaVideo" label="{publicVideo?'Publicar video':'despublicar video'}" click="iniciarPublicacao('video', event)" />
-	<s:Button id="btn_publicaAudio" label="{publicAudio?'Publicar video':'despublicar audio'}" click="iniciarPublicacao('audio', event)" />
+	<s:Button id="btn_publicaVideo" label="{publicVideo?' Dispublicar video':'Publicar video'}" click="iniciarPublicacao('video', event)" />
+	<s:Button id="btn_publicaAudio" label="{publicAudio?'Dispublicar video':'Publicar audio'}" click="iniciarPublicacao('audio', event)" />
 	
 </s:Group>

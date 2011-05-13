@@ -59,7 +59,8 @@
 				
 			}
 			private function enviaChat():void {
-				singleton.nc.call("enviarChat",null,AtendimentoCliente.atendimento, txtMsn.text, UsuarioLogado.login.nome);
+				singleton.nc.call("enviarChat",null,singleton.atendimento, txtMsn.text, singleton.atendente.nome);
+				txtMsn.text = "";
 				
 			}
 			// evento Sync que acompanha e evolução da fila
@@ -91,10 +92,11 @@
 				
 			}
 			private function iniciaAtendimento():void {
+				txtMsn.text = "";
 				var selecionaAtendimento:Object = listAtendente.selectedItem.nome;
 				
 				var selecionaAtendimentoVO:AtendimentoVO = new AtendimentoVO();
-				selecionaAtendimentoVO.atendente_id_atendente = selecionaAtendimento.atendente_id_atendente;
+				selecionaAtendimentoVO.atendente_id_atendente = singleton.atendente.id_usuario;
 				selecionaAtendimentoVO.cliente = selecionaAtendimento.cliente;
 				selecionaAtendimentoVO.dt_fila = selecionaAtendimento.dt_fila;
 				selecionaAtendimentoVO.dt_fim = selecionaAtendimento.dt_fim;
@@ -102,22 +104,21 @@
 				selecionaAtendimentoVO.email = selecionaAtendimento.email;
 				selecionaAtendimentoVO.id_atendimento = selecionaAtendimento.id_atendimento;
 				selecionaAtendimentoVO.protocolo = selecionaAtendimento.protocolo;
-	
-				AtendimentoCliente.atendimento = selecionaAtendimentoVO;
-				selecionaAtendimento.atendente_id_atendente = UsuarioLogado.login.id_usuario;
-				singleton.nc.call("iniciaAtendimento",null, selecionaAtendimento);
+				
+	 			//selecionaAtendimento.atendente_id_atendente = UsuarioLogado.login.id_usuario;
+				singleton.atendimento = selecionaAtendimentoVO;
+				singleton.nc.call("iniciaAtendimento",null, selecionaAtendimentoVO);
 				
 				//
-				usersSoAtendimento = SharedObject.getRemote(AtendimentoCliente.atendimento.email, singleton.nc.uri,false);
+				usersSoAtendimento = SharedObject.getRemote(selecionaAtendimentoVO.email, singleton.nc.uri,false);
 				usersSoAtendimento.addEventListener(SyncEvent.SYNC, handleSyncAtendimento);
 				usersSoAtendimento.connect(singleton.nc);
 				
-				enviarVideoView.nomeStream = "atendente_"+AtendimentoCliente.atendimento.atendente_id_atendente;
+				enviarVideoView.nomeStream = "atendente_"+selecionaAtendimentoVO.id_atendimento;
 				videoAtendente.includeInLayout = true;
 				videoAtendente.visible = true;
 				//
-				//receberVideoView.nomeStream = "atendente_"+AtendimentoCliente.atendimento.atendente_id_atendente;
-				receberVideoView.nomeStream = "cliente_"+AtendimentoCliente.atendimento.atendente_id_atendente;
+				receberVideoView.nomeStream = "cliente_"+selecionaAtendimentoVO.id_atendimento;
 				videoCliente.includeInLayout = true;
 				videoCliente.visible = true;
 				
@@ -139,7 +140,19 @@
 				
 				listAtendente.enabled = true;
 				conteudoChat.visible = false;
+				
+				try {
+					receberVideoView.stream.close();
+				} catch(e:Error) {	
+				}
+				try {
+					enviarVideoView.stream.close();
+				} catch(e:Error) {	
+				}
+				try {
 				usersSoAtendimento.close();
+				} catch(e:Error) {	
+				}
 			}
 			private function encerraAtendimento():void{
 				txtHistoricoChat.htmlText = "";
@@ -151,8 +164,16 @@
 					
 				listAtendente.enabled = true;
 				conteudoChat.visible = false;
-				singleton.nc.call("encerraAtendimento",null, AtendimentoCliente.atendimento, "2");
+				singleton.nc.call("encerraAtendimento",null, singleton.atendimento, "2");
 				usersSoAtendimento.close();
+				try {
+					receberVideoView.stream.close();
+				} catch(e:Error) {	
+				}
+				try {
+					enviarVideoView.stream.close();
+				} catch(e:Error) {	
+				}
 			}
 			
 		]]>
@@ -182,10 +203,10 @@
 			
 			<s:HGroup width="100%" height="16" verticalAlign="middle">
 				<s:Label text="Nome: "/>
-				<s:Label id="txtNome" text="{AtendimentoCliente.atendimento.cliente}" width="100%"/>
+				<s:Label id="txtNome" text="{singleton.atendimento.cliente}" width="100%"/>
 				<mx:Spacer width="5"/>
 				<s:Label text="Protocolo: "/>
-				<s:Label id="txtProtocolo" text="{AtendimentoCliente.atendimento.protocolo}"/>
+				<s:Label id="txtProtocolo" text="{singleton.atendimento.protocolo}"/>
 				<mx:Spacer width="5"/>
 			</s:HGroup>
 			<mx:TextArea id="txtHistoricoChat" width="100%" height="100%" editable="false"

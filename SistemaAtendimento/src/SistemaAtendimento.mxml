@@ -19,7 +19,7 @@
 				FlexGlobals.topLevelApplication.addEventListener(MySingletonEvent.DESCONECTADO,desconectado);		
 			}
 			private function desconectado (event:MySingletonEvent):void {
-//				atendimentoApp.selectedIndex = 0;
+				atendimentoApp.selectedIndex = 0;
 			}
 
 		]]>
