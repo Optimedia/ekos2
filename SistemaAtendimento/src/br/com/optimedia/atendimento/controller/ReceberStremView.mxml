@@ -18,7 +18,7 @@
 			
 			private var singleton:MySingleton;
 			private var video:Video;
-			private var stream:NetStream;
+			public var stream:NetStream;
 			public var nomeStream:String;
 			
 			
@@ -84,7 +84,7 @@
 						
 						break;
 					case "NetStream.Play.UnpublishNotify":
-						Alert.show(e.info.code.toString());
+						//Alert.show(e.info.code.toString());
 						uiComponent.visible = false;
 						uiComponent.includeInLayout = false;
 						
@@ -104,16 +104,11 @@
 				}
 			}
 			
-			
 			protected function playVideo(event:Event):void {
-				//if ( stream.videoCodec ==0) {
-					Alert.show("video a false" + stream.videoCodec +" - "+ stream.videoReliable);
-				//} else {
-				//	//Alert.show("video  true")
-				//}
+				
 				if(mostrar){
 					mostrar = false;
-					stream.close()
+					stream.pause();
 						
 					uiComponent.includeInLayout = true;
 					uiComponent.visible = true;
@@ -129,6 +124,11 @@
 					imgAvatar.includeInLayout = true;
 					imgAvatar.visible = true;
 					
+					if ( stream.videoCodec ==0){
+						Alert.show("video a false" + stream.videoCodec +" - "+ stream.videoReliable);
+					} else {
+						Alert.show("video a treu" + stream.videoCodec +" - "+ stream.videoReliable);
+					}
 				}
 			}
 			

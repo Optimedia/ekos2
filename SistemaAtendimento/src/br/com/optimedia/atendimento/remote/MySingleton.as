@@ -4,7 +4,7 @@ package br.com.optimedia.atendimento.remote
 import br.com.optimedia.atendimento.assets.events.LoginEvent;
 import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
 import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
-import br.com.optimedia.atendimento.view.client.ClienteAtendimento;
+import br.com.optimedia.atendimento.assets.vo.UsuarioVO;
 
 import flash.events.NetStatusEvent;
 import flash.net.NetConnection;
@@ -16,15 +16,41 @@ import mx.rpc.events.FaultEvent;
 	public final class MySingleton {
 		
 		private static var instance:MySingleton = new MySingleton();
+		private static var _connecting:Boolean = false;
+		private var _client:String;
+		
+		
 		public var nc:NetConnection = new NetConnection();
 		public var connected:Boolean = false;
-		private var _client:String;
-		private static var _connecting:Boolean = false;
+		
+		[Bindable]
+		private var _atendente:UsuarioVO;
+
+		[Bindable]
+		private var _atendimento:AtendimentoVO;
 				
 		public function MySingleton() {
 			if( instance ) {
 				Alert.show("Erro, use Singleton.getInstance() em vez de new Singleton()");
 			}
+		}
+
+		public function get atendimento():AtendimentoVO
+		{
+			return _atendimento;
+		}
+
+		public function set atendimento(value:AtendimentoVO):void
+		{
+			_atendimento = value;
+		}
+
+		public function get atendente():UsuarioVO	{
+			return _atendente;
+		}
+
+		public function set atendente(value:UsuarioVO):void{
+			_atendente = value;
 		}
 
 		public function get client():String{
@@ -63,6 +89,9 @@ import mx.rpc.events.FaultEvent;
 			Alert.show("erro " + event.fault.toString());
 		}
 		private function disconect ():void {
+			nc.close();
+			atendente = new UsuarioVO();
+			atendimento = new AtendimentoVO();
 			var mySingleEvent:MySingletonEvent = new MySingletonEvent (MySingletonEvent.DESCONECTADO)
 			FlexGlobals.topLevelApplication.dispatchEvent(mySingleEvent);
 		}
@@ -76,7 +105,7 @@ import mx.rpc.events.FaultEvent;
 					connected = true;
 					break;
 				case "NetConnection.Connect.Closed":
-					//Alert.show(e.info.code.toString());
+					////Alert.show(e.info.code.toString());
 					disconect();
 					break;
 				case "NetConnection.Connect.Failed":
@@ -93,7 +122,7 @@ import mx.rpc.events.FaultEvent;
 					//Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Record.Stop":
-					Alert.show(e.info.code.toString());
+					//Alert.show(e.info.code.toString());
 					break;
 				case "NetStream.Record.Failed":
 					//Alert.show(e.info.code.toString());
@@ -106,7 +135,7 @@ import mx.rpc.events.FaultEvent;
 					break;
 				
 				default:
-					Alert.show(e.info.code.toString());
+					//Alert.show(e.info.code.toString());
 					break;
 			}
 		}
@@ -114,17 +143,17 @@ import mx.rpc.events.FaultEvent;
 		// funções retorno asc  do atendimento
 		public function iniciaFila_Result(event:*):void {
 			
-			var atendimento:AtendimentoVO = new AtendimentoVO;
-			atendimento.atendente_id_atendente = event['atendente_id_atendente'];
-			atendimento.cliente = event['cliente'];
-			atendimento.dt_fila = event['dt_fila'];
-			atendimento.dt_fim = event['dt_fim'];
-			atendimento.dt_inicio = event['dt_inicio'];
-			atendimento.email = event['email'];
-			atendimento.id_atendimento = new uint (event['id_atendimento']);
-			atendimento.protocolo = event['protocolo'];
+			var atendimentoVO:AtendimentoVO = new AtendimentoVO;
+			atendimentoVO.atendente_id_atendente = event['atendente_id_atendente'];
+			atendimentoVO.cliente = event['cliente'];
+			atendimentoVO.dt_fila = event['dt_fila'];
+			atendimentoVO.dt_fim = event['dt_fim'];
+			atendimentoVO.dt_inicio = event['dt_inicio'];
+			atendimentoVO.email = event['email'];
+			atendimentoVO.id_atendimento = new uint (event['id_atendimento']);
+			atendimentoVO.protocolo = event['protocolo'];
 			
-			ClienteAtendimento.atendimento = atendimento; 
+			atendimento = atendimentoVO; 
 			FlexGlobals.topLevelApplication.atendimentoApp.selectedIndex = 1;
 		}
 		// 

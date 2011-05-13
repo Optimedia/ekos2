@@ -11,9 +11,10 @@
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
 			import br.com.optimedia.atendimento.assets.events.ListaAtendimentoEvent;
+			import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
+			import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
-			import br.com.optimedia.atendimento.view.login.UsuarioLogado;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -30,6 +31,9 @@
 			private var singleton:MySingleton;
 			
 			[Bindable]
+			private var atendimento:AtendimentoVO
+			
+			[Bindable]
 			private var nFila:uint = 0;
 			
 			private var listChat:ArrayCollection = new ArrayCollection ();
@@ -41,10 +45,12 @@
 				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
 				usersSo.connect(singleton.nc);
 
-				usersSoAtendimento = SharedObject.getRemote(ClienteAtendimento.atendimento.email, singleton.nc.uri,false);
+				usersSoAtendimento = SharedObject.getRemote(singleton.atendimento.email, singleton.nc.uri,false);
 				usersSoAtendimento.addEventListener(SyncEvent.SYNC, handleSyncAtendimento);
 				usersSoAtendimento.connect(singleton.nc);
 				
+				atendimento = singleton.atendimento;
+				this.currentState = "espera";
 				
 			}
 			private function handleSyncAtendimento(event:SyncEvent):void {
@@ -74,18 +80,17 @@
 					if(!usersObj[user]){
 						
 						if ((obj.atendente_id_atendente != null) && (obj.dt_fim==null)) {
-							if (obj.id_atendimento == ClienteAtendimento.atendimento.id_atendimento) {
+							if (obj.id_atendimento == singleton.atendimento.id_atendimento) {
 								this.currentState = "atendimento";
 								iniciarAtendimento ();
 							}
 							
 						} else if (obj.dt_fim!=null) {
-							
 							singleton.nc.close();
 							
 						}else {
 							var dt:Date = MySQLDateFormatter.mysqlToAs(obj.dt_fila);
-							if (dt< ClienteAtendimento.atendimento.dt_fila) {
+							if (dt< singleton.atendimento.dt_fila) {
 								nFila ++;
 							}
 						}		
@@ -93,16 +98,19 @@
 				}
 			}
 			private function iniciarAtendimento():void {
-				enviarView.nomeStream = "cliente_"+ClienteAtendimento.atendimento.atendente_id_atendente;
-				receberView.nomeStream = "atendente_"+ClienteAtendimento.atendimento.atendente_id_atendente
+				this.txtHistoricoChat.htmlText = ""
+				this.txtMsn.text = "";
+				enviarView.nomeStream = "cliente_"+singleton.atendimento.id_atendimento;
+				receberView.nomeStream = "atendente_"+singleton.atendimento.id_atendimento
 			}
 
 			private function enviaChat():void {
-				singleton.nc.call("enviarChat",null,ClienteAtendimento.atendimento, txtMsn.text, ClienteAtendimento.atendimento.cliente);
+				singleton.nc.call("enviarChat",null,atendimento, txtMsn.text, atendimento.cliente);
+				txtMsn.text = "";
 				
 			}
 			private function encerraAtendimento():void{
-				singleton.nc.call("encerraAtendimento",null, ClienteAtendimento.atendimento, '3');
+				singleton.nc.call("encerraAtendimento",null, atendimento, '3');
 				usersSoAtendimento.close();
 			}
 
@@ -118,12 +126,14 @@
 		<s:BorderContainer width="100%" height="21" backgroundColor="#CAC9C9">
 			<s:HGroup width="100%" height="19" verticalAlign="middle">
 				<s:Label fontWeight="bold" text="Nome: "/>
-				<s:Label text="{ClienteAtendimento.atendimento.cliente}"/>
+				<s:Label text="{atendimento.cliente}"/>
 				<s:Label fontWeight="bold" text="Protocolo: "/>
-				<s:Label text="{ClienteAtendimento.atendimento.protocolo}"/>
+				<s:Label text="{atendimento.protocolo}"/>
 				<s:Label text="Atencente: " id="lbAtencente" visible="false" includeInLayout="false"/>
 				<s:Label text="" id="txtAtendente" visible="false" includeInLayout="false"/>
-				<s:Label fontWeight="bold" text="Sair"/>
+				<mx:Spacer width="100%"/>
+				<s:Label fontWeight="bold" text="Sair" click="encerraAtendimento()" buttonMode="true"/>
+				<mx:Spacer width="10"/>
 			</s:HGroup>
 		</s:BorderContainer>
 	<s:Group width="100%" height="100%">
@@ -136,7 +146,7 @@
 		<s:Panel id="pn_atendente" width="100%" height="100%" title="Atendente">
 			<controller:ReceberStremView id="receberView" width="256" height="100%"/>
 		</s:Panel>
-		<s:Panel id="pn_cliente" width="100%" height="100%" title="{ClienteAtendimento.atendimento.cliente}">
+		<s:Panel id="pn_cliente" width="100%" height="100%" title="{atendimento.cliente}">
 			<controller:EnviarStremView id="enviarView" width="256" height="100%"/>
 		</s:Panel>
 	</s:VGroup>
@@ -155,7 +165,7 @@
 	</s:Panel>
 		<s:TextArea id="txtFila" includeIn="espera" width="100%" height="100%" fontSize="18"
 					fontWeight="normal"
-					text="Aguarde um instánte no momento existe {nFila} na sua frente.&#xd;&#xd;Obrigado."
+					text="Aguarde um instánte no momento existe {nFila} pessoa(s) na sua frente.&#xd;&#xd;Obrigado."
 					textAlign="center" verticalAlign="middle"/>
 	</s:Group>
 </s:NavigatorContent>
