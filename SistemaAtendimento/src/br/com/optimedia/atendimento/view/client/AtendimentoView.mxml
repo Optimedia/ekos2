@@ -82,7 +82,7 @@
 						if ((obj.atendente_id_atendente != null) && (obj.dt_fim==null)) {
 							if (obj.id_atendimento == singleton.atendimento.id_atendimento) {
 								this.currentState = "atendimento";
-								iniciarAtendimento ();
+								iniciarAtendimento();
 							}
 							
 						} else if (obj.dt_fim!=null) {

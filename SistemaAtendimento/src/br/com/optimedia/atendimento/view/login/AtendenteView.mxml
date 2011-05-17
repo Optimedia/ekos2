@@ -9,6 +9,8 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.optimedia.atendimento.assets.events.ApresentacaoEvent;
+			import br.com.optimedia.atendimento.assets.vo.ApresentacaoVO;
 			import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
@@ -17,6 +19,7 @@
 			import mx.collections.Sort;
 			import mx.collections.SortField;
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 		
 			[Bindable]
@@ -25,10 +28,17 @@
 			[Bindable]
 			private var dpFilaAtendimento:ArrayCollection = new ArrayCollection();
 			
+			[Bindable]
+			private var dpListaApresentacao:ArrayCollection = new ArrayCollection();
+			
 			private var usersSo:SharedObject;
 			private var usersSoAtendimento:SharedObject;
 			private var singleton:MySingleton;
+			
+			[Bindable]
 			private var atendimento:AtendimentoVO;
+			
+			private var apresentacao:ApresentacaoVO;
 
 			protected function init(event:FlexEvent):void {
 				conteudoChat.visible = false;
@@ -38,9 +48,16 @@
 				usersSo.addEventListener(SyncEvent.SYNC, handleSync);
 				usersSo.connect(singleton.nc);
 				
+				getApresentacao();
 				
-				//
+				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.GET_APRESENTACAO_RESULT,getApresentacao_result);
 				
+			}
+			private function getApresentacao():void {
+				singleton.nc.call("getApresentacao",null, false);
+			}
+			private function getApresentacao_result(event:ApresentacaoEvent):void{
+				dpListaApresentacao = new ArrayCollection ( event.listaApresentacoes as Array);
 			}
 			// evento Sync que acompanha e evolução da fila
 			private function handleSyncAtendimento(event:SyncEvent):void {
@@ -74,7 +91,7 @@
 							dpFilaAtendimento.addItem({id: obj.dt_fila, nome: obj });
 							//dpFilaAtendimento.addItem({id: obj, nome: obj.cliente });
 						} else if (obj.dt_fim!=null) {
-							encerraAtendimentoCliente();
+							encerraAtendimento();
 							
 						}
 					}
@@ -106,6 +123,7 @@
 				selecionaAtendimentoVO.protocolo = selecionaAtendimento.protocolo;
 				
 	 			//selecionaAtendimento.atendente_id_atendente = UsuarioLogado.login.id_usuario;
+				atendimento = selecionaAtendimentoVO;
 				singleton.atendimento = selecionaAtendimentoVO;
 				singleton.nc.call("iniciaAtendimento",null, selecionaAtendimentoVO);
 				
@@ -125,47 +143,39 @@
 				listAtendente.enabled = false;
 				conteudoChat.visible = true;
 				
+				painelFila.visible = false;
+				painelFila.includeInLayout = false;
+				
+				painelApresentacao.visible = true;
+				painelApresentacao.includeInLayout = true;
+				
 			}
-			private function LabelNomeCleinte (obj:Object):String {
+			private function labelNomeCliente (obj:Object):String {
 				return obj.nome.cliente;
 				
 			}
-			private function encerraAtendimentoCliente():void{
-				txtHistoricoChat.htmlText = "";
-				videoAtendente.includeInLayout = false
-				videoAtendente.visible = false
+			private function labelApresentacao (obj:Object):String {
+				return obj.titulo;
 				
-				videoCliente.includeInLayout = false;
-				videoCliente.visible = false;
-				
-				listAtendente.enabled = true;
-				conteudoChat.visible = false;
-				
-				try {
-					receberVideoView.stream.close();
-				} catch(e:Error) {	
-				}
-				try {
-					enviarVideoView.stream.close();
-				} catch(e:Error) {	
-				}
-				try {
-				usersSoAtendimento.close();
-				} catch(e:Error) {	
-				}
 			}
+			
 			private function encerraAtendimento():void{
 				txtHistoricoChat.htmlText = "";
 				videoAtendente.includeInLayout = false
 				videoAtendente.visible = false
-					
+				
 				videoCliente.includeInLayout = false;
 				videoCliente.visible = false;
-					
+				
 				listAtendente.enabled = true;
 				conteudoChat.visible = false;
-				singleton.nc.call("encerraAtendimento",null, singleton.atendimento, "2");
-				usersSoAtendimento.close();
+				
+				painelFila.visible = true;
+				painelFila.includeInLayout = true;
+				
+				painelApresentacao.visible = false;
+				painelApresentacao.includeInLayout = false;
+				
 				try {
 					receberVideoView.stream.close();
 				} catch(e:Error) {	
@@ -174,6 +184,14 @@
 					enviarVideoView.stream.close();
 				} catch(e:Error) {	
 				}
+				try {
+					usersSoAtendimento.close();
+				} catch(e:Error) {	
+				}
+			}
+			private function encerraAtendimentoAtendente():void{
+				singleton.nc.call("encerraAtendimento",null, singleton.atendimento, "2");
+				encerraAtendimento();
 			}
 			
 		]]>
@@ -182,14 +200,19 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:VGroup width="256" height="100%">
-		<s:Panel width="100%" height="100%" title="Fila de Atendimento">
+		<s:Panel width="100%" height="100%" title="Fila de Atendimento" id="painelFila">
 			<s:layout>
 				<s:VerticalLayout/>
 			</s:layout>
 			<s:List id="listAtendente" width="100%" height="100%" 
-					dataProvider="{dpFilaAtendimento}" labelFunction="LabelNomeCleinte"
+					dataProvider="{dpFilaAtendimento}" labelFunction="labelNomeCliente"
 					change="iniciaAtendimento()" />
-			<s:Button id="btDisconect" label="Finalizar Atendimento" click="encerraAtendimento()"/>
+			
+		</s:Panel>
+		<s:Panel width="100%" height="100%" title="Apresentações" id="painelApresentacao" visible="false" includeInLayout="false">
+			<s:List id="listaApresentacao" width="100%" height="100%" dataProvider="{dpListaApresentacao}"  labelFunction="labelApresentacao">
+				
+			</s:List>
 		</s:Panel>
 		<s:Panel title="" id="videoAtendente" includeInLayout="false" visible="false">
 			<controller:EnviarStremView id="enviarVideoView"/>
@@ -199,14 +222,15 @@
 		</s:Panel>
 	</s:VGroup>
 	<s:Panel id="pn_chat" width="100%" height="100%" title="Chat">
-		<s:VGroup width="100%" height="100%" id="conteudoChat">
+		<s:VGroup id="conteudoChat" width="100%" height="100%" paddingBottom="5" paddingLeft="5"
+				  paddingRight="5" paddingTop="5">
 			
 			<s:HGroup width="100%" height="16" verticalAlign="middle">
 				<s:Label text="Nome: "/>
-				<s:Label id="txtNome" text="{singleton.atendimento.cliente}" width="100%"/>
+				<s:Label id="txtNome" text="{atendimento.cliente}" width="100%"/>
 				<mx:Spacer width="5"/>
 				<s:Label text="Protocolo: "/>
-				<s:Label id="txtProtocolo" text="{singleton.atendimento.protocolo}"/>
+				<s:Label id="txtProtocolo" text="{atendimento.protocolo}"/>
 				<mx:Spacer width="5"/>
 			</s:HGroup>
 			<mx:TextArea id="txtHistoricoChat" width="100%" height="100%" editable="false"
@@ -215,6 +239,11 @@
 				<s:Label text="Mensagem:"/>
 				<s:TextInput id="txtMsn" width="100%" enter="enviaChat()"/>
 				<s:Button label="Enviar" click="enviaChat()"/>
+				<mx:Spacer width="5"/>
+				<mx:VRule height="27"/>
+				<mx:Spacer width="5"/>
+				<s:Button id="btDisconect" label="Finalizar Atendimento" click="encerraAtendimentoAtendente()"/>
+				<mx:Spacer width="5"/>
 			</s:HGroup>
 		</s:VGroup>
 	</s:Panel>

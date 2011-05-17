@@ -1,6 +1,7 @@
 package br.com.optimedia.atendimento.remote
 {
 	
+import br.com.optimedia.atendimento.assets.events.ApresentacaoEvent;
 import br.com.optimedia.atendimento.assets.events.LoginEvent;
 import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
 import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
@@ -12,6 +13,7 @@ import flash.net.NetConnection;
 import mx.controls.Alert;
 import mx.core.FlexGlobals;
 import mx.rpc.events.FaultEvent;
+import mx.rpc.events.ResultEvent;
 
 	public final class MySingleton {
 		
@@ -167,14 +169,19 @@ import mx.rpc.events.FaultEvent;
 			FlexGlobals.topLevelApplication.dispatchEvent(loginEvent);
 			
 		}
+		public function getApresentacao_Result (event:*):void {
+			var apresentacaoEvent:ApresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.GET_APRESENTACAO_RESULT);
+			apresentacaoEvent.listaApresentacoes = event;
+			FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+			
+		}
 		public function iniciaAtendimento_Result (event:*):void {
 		}
+		
 		public function encerraAtendimento_Result (event:*):void {
-			//Alert.show("result "+ event);
-			
+			//Alert.show("result "+ event);	
 		}
 		public function enviarChat_Result(event:*):void {
-			
 		}
 	}
 }
