@@ -56,16 +56,26 @@
 			private function handleSyncAtendimento(event:SyncEvent):void {
 				if (this.currentState == "atendimento"){
 					//txtHistoricoChat.htmlText = "";
-					for(var mensagem:Object in event.target.data){	
+					for(var obj:Object in event.target.data){	
 						//for (var i:uint; i<mensagem.length;i++){
 						//}
-						var msn:Object = new Object();
-						msn = event.target.data[mensagem];
+						var objetoSO:Object = new Object();
+						objetoSO = event.target.data[obj];
 						
-						var data:Date = MySQLDateFormatter.mysqlToAs(msn.dataMensagem);
-						var dataDisplay:String = data.day+"/"+data.month+"/"+ data.fullYear+" "+ data.hours+":"+data.minutes+":"+data.seconds;
-						if(!usersObj[mensagem]){
-							txtHistoricoChat.htmlText+= "<p><b>"+ dataDisplay+ " " + msn.nome+ ": </b>"+  msn.msn +"</br></p>";
+						switch(objetoSO.tipo){
+							case 1:
+								var data:Date = MySQLDateFormatter.mysqlToAs(objetoSO.dataMensagem);
+								var dataDisplay:String = data.day+"/"+data.month+"/"+ data.fullYear+" "+ data.hours+":"+data.minutes+":"+data.seconds;
+								if(!usersObj[obj]){
+									txtHistoricoChat.htmlText+= "<p><b>"+ dataDisplay+ " " + objetoSO.nome+ ": </b>"+  objetoSO.msn +"</br></p>";
+								}
+								break;
+							case 2:
+								
+								
+								break;
+							default:
+								break;
 						}
 					}	
 				}
