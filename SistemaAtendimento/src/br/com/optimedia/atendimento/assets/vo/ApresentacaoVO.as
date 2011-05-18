@@ -13,6 +13,7 @@ package br.com.optimedia.atendimento.assets.vo
 		public var nomeArquivo:String;
 		public var descricao:String;
 		private var _data:Date;
+		public var tipoApresentacao:uint;
 	
 		public function get dt_fim():Date{
 			return _data;

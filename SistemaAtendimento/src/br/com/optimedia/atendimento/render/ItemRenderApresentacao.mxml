@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true" width="100%" creationComplete="init(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.optimedia.atendimento.assets.events.ApresentacaoEvent;
+			import br.com.optimedia.atendimento.assets.vo.ApresentacaoVO;
+			
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var apresentacao:ApresentacaoVO;
+			private var apresentacaoEvent:ApresentacaoEvent;
+			
+			
+			protected function init(event:FlexEvent):void{
+				apresentacao = new ApresentacaoVO();
+				apresentacao.data = MySQLDateFormatter.mysqlToAs(data.data);
+				apresentacao.descricao = data.descricao;
+				apresentacao.id_apresentacao = data.id_apresentacao;
+				apresentacao.nomeArquivo = data.nomeArquivo;
+				apresentacao.tipoApresentacao = data.tipoApresentacao;
+				apresentacao.titulo = data.titulo;
+				
+			}
+			protected function onVisualizar(event:MouseEvent):void{
+				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.VISUALIZAR_APRESENTACAO);
+				apresentacaoEvent.apresentacao = apresentacao;
+				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+			}
+			protected function onDescricao(event:MouseEvent):void{
+				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.DESCRICAO_APRESENTACAO);
+				apresentacaoEvent.apresentacao = apresentacao;
+				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+			}
+			protected function onAbrir(event:MouseEvent):void{
+				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_APRESENTACAO);
+				apresentacaoEvent.apresentacao = apresentacao;
+				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+			}
+
+
+		]]>
+	</fx:Script>
+
+	<s:HGroup>
+		
+		<s:Label text="{apresentacao.titulo} - " width="100%"/>
+		<s:Button id="btn_visuallizar" label="V" click="onVisualizar(event)" width="30"/>
+		<s:Button id="btn_descricao" label="D" click="onDescricao(event)" width="30"/>
+		<s:Button id="btn_abrir" label="a" click="onAbrir(event)" width="30"/>
+	</s:HGroup>
+	
+</s:ItemRenderer>
