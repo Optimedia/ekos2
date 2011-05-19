@@ -15,6 +15,7 @@
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
 			import br.com.optimedia.atendimento.view.comum.DescricaoView;
+			import br.com.optimedia.atendimento.view.comum.PlayerView;
 			
 			import flash.sampler.getInvocationCount;
 			import flash.utils.getQualifiedClassName;
@@ -65,6 +66,12 @@
 				
 			}
 			private function visualizarApresentacao(event:ApresentacaoEvent):void{
+				var playerView:PlayerView = new PlayerView();
+				PopUpManager.addPopUp(playerView,this,false);
+				PopUpManager.centerPopUp(playerView);
+				
+				playerView.title = event.apresentacao.titulo;
+				playerView.sourceSwf = event.apresentacao.nomeArquivo;
 				
 			}
 			private function descricaoApresentacao(event:ApresentacaoEvent):void{
