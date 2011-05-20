@@ -11,9 +11,8 @@ package br.com.optimedia.atendimento.assets.events
 	{
 		public static const GET_APRESENTACAO_RESULT:String 	= "GET_APRESENTACAO_RESULT";
 		public static const ABRIR_APRESENTACAO:String 		= "ABRIR_APRESENTACAO";
-		public static const FECHAR_APRESENTACAO:String 		= "FECHAR_APRESENTACAO";
-		public static const AVANCAR_APRESENTACAO:String 	= "AVANCAR_APRESENTACAO";
-		public static const VOLTAR_APRESENTACAO:String 		= "VOLTAR_APRESENTACAO";
+		public static const CLOSE_APRESENTACAO:String 		= "CLOSE_APRESENTACAO";
+		public static const MUDAR_PAGINA:String 			= "MUDAR_PAGINA";
 		public static const VISUALIZAR_APRESENTACAO:String 	= "VISUALIZAR_APRESENTACAO";
 		public static const DESCRICAO_APRESENTACAO:String 	= "DESCRICAO_APRESENTACAO";
 		

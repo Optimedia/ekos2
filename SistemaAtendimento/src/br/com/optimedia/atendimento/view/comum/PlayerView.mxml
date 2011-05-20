@@ -9,40 +9,73 @@
 
 	<fx:Script>
 		<![CDATA[
+			import br.com.optimedia.atendimento.assets.events.ApresentacaoEvent;
+			import br.com.optimedia.atendimento.assets.vo.ApresentacaoVO;
+			
 			import mx.controls.Alert;
 			import mx.controls.MovieClipSWFLoader;
+			import mx.core.FlexGlobals;
 			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
 			[Bindable]
-			public var sourceSwf:String;
-			[Bindable]
 			private var flashMovie:MovieClip;
+			[Bindable]
+			public var apresentacao:ApresentacaoVO;
+			private var load:Boolean = false;
+			public var mostrarCliente = false;
+			
 
 			protected function init(event:FlexEvent):void	{
+				this.addEventListener(Event.ENTER_FRAME,mudarPagina);
+				//title = apresentacao.titulo;
 				
 			}
+			private function mudarPagina(event:Event):void {
+				if (load==true) {
+					flashMovie.gotoAndStop(apresentacao.frame);
+				}
+				
+			}
+
 			protected function close(event:CloseEvent):void{
+				if (mostrarCliente==true) {
+					var apresentacaoPagina:ApresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.CLOSE_APRESENTACAO);
+					apresentacao.tipo = 4;
+					apresentacaoPagina.apresentacao = apresentacao;
+					FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoPagina);
+				}
+				
 				PopUpManager.removePopUp(this);
 				
 			}
 
 			protected function onVoltar(event:MouseEvent):void{
 				if (flashMovie.currentFrame>1) {					
-					flashMovie.prevFrame();
+					//flashMovie.prevFrame();
+					apresentacao.frame--;
+					apresentacao.tipo = 3;
+					var apresentacaoPagina:ApresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.MUDAR_PAGINA);
+					apresentacaoPagina.apresentacao = apresentacao;
+					FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoPagina);
 				}
 			}
 			protected function onAvancar(event:MouseEvent):void{
-				//if (flashMovie.currentFrame<flashMovie.totalFrames) {	
-					flashMovie.nextFrame();
-				//}
+				if (flashMovie.currentFrame<flashMovie.totalFrames) {	
+					apresentacao.frame++;
+					apresentacao.tipo = 3;
+					var apresentacaoPagina:ApresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.MUDAR_PAGINA);
+					apresentacaoPagina.apresentacao = apresentacao;
+					FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoPagina);
+				}
 			}
 
-
 			protected function loadCompleto(event:Event):void	{
+				load =true;
 				flashMovie = swfLoad.content as MovieClip;
-				Alert.show("framas " + flashMovie.totalFrames);
+				//Alert.show("framas " + flashMovie.totalFrames);
+				//PopUpManager.centerPopUp(this);
 				
 			}
 
@@ -51,11 +84,12 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<mx:SWFLoader width="100%" height="100%" id="swfLoad" source="{sourceSwf}" complete="loadCompleto(event)" />
+	<mx:SWFLoader width="100%" height="100%" id="swfLoad" source="{apresentacao.nomeArquivo}" complete="loadCompleto(event)" />
 	<s:HGroup width="100%" verticalAlign="contentJustify">
 		<mx:Spacer width="100%"/>
-		<s:Button label="&lt;--" click="onVoltar(event)"/>
-		<s:Button label="--&gt;" click="onAvancar(event)"/>
+		<s:Button id="btnVoltar" label="&lt;--" click="onVoltar(event)"/>
+		<s:Label id="txtPagina" text="{apresentacao.frame} - {flashMovie.totalFrames}" width="50"/>
+		<s:Button id="btnAvancar" label="--&gt;" click="onAvancar(event)"/>
 		<mx:Spacer width="100%"/>
 	</s:HGroup>
 </s:TitleWindow>
