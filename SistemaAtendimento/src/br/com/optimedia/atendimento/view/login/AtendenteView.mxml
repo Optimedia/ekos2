@@ -45,6 +45,7 @@
 			private var atendimento:AtendimentoVO;
 			
 			private var apresentacao:ApresentacaoVO;
+			private var playerView:PlayerView;
 
 			protected function init(event:FlexEvent):void {
 				conteudoChat.visible = false;
@@ -60,9 +61,27 @@
 				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.ABRIR_APRESENTACAO, abrirApresentacao);
 				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.VISUALIZAR_APRESENTACAO, visualizarApresentacao);
 				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.DESCRICAO_APRESENTACAO, descricaoApresentacao);
+				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.MUDAR_PAGINA, mudarPaginaApresentacao);
+				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.CLOSE_APRESENTACAO, closeApresentacao);
 				
 			}
 			private function abrirApresentacao(event:ApresentacaoEvent):void{
+				
+				
+				apresentacao = event.apresentacao;
+				apresentacao.tipo = 2;
+				apresentacao.frame = 1;
+				
+				
+				playerView = new PlayerView();
+				PopUpManager.addPopUp(playerView,this,false);
+				PopUpManager.centerPopUp(playerView);
+
+				playerView.title = apresentacao.titulo;
+				playerView.apresentacao = apresentacao;
+				playerView.mostrarCliente = true;
+				
+				singleton.nc.call("abriApresentacao",null, event.apresentacao, singleton.atendimento);
 				
 			}
 			private function visualizarApresentacao(event:ApresentacaoEvent):void{
@@ -70,8 +89,8 @@
 				PopUpManager.addPopUp(playerView,this,false);
 				PopUpManager.centerPopUp(playerView);
 				
-				playerView.title = event.apresentacao.titulo;
-				playerView.sourceSwf = event.apresentacao.nomeArquivo;
+				playerView.apresentacao = event.apresentacao;
+				playerView.title = event.apresentacao.titulo
 				
 			}
 			private function descricaoApresentacao(event:ApresentacaoEvent):void{
@@ -83,6 +102,14 @@
 				descricao.txtMsn.htmlText = event.apresentacao.descricao;
 				
 			}
+			private function mudarPaginaApresentacao (event:ApresentacaoEvent):void {
+				singleton.nc.call("mudarPagina",null, event.apresentacao);
+			}
+			private function closeApresentacao (event:ApresentacaoEvent):void {
+				singleton.nc.call("closeApresentacao",null, event.apresentacao,2);
+			}
+			
+			
 			private function getApresentacao():void {
 				singleton.nc.call("getApresentacao",null, false);
 			}
@@ -107,13 +134,21 @@
 							}
 							break;
 						case 2:
-							
+							break;
+						case 4:
+							closePlayer();
 							break;
 						default:
 							break;
 					}
 				}	
 				
+			}
+			private function closePlayer():void {
+				try {
+					PopUpManager.removePopUp(playerView);
+				} catch(e:Error) {	
+				}
 			}
 			private function enviaChat():void {
 				singleton.nc.call("enviarChat",null,singleton.atendimento, txtMsn.text, singleton.atendente.nome);

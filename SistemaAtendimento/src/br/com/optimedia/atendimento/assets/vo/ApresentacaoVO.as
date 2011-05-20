@@ -14,6 +14,8 @@ package br.com.optimedia.atendimento.assets.vo
 		public var descricao:String;
 		private var _data:Date;
 		public var tipoApresentacao:uint;
+		public var tipo:uint;
+		public var frame:uint;
 	
 		public function get dt_fim():Date{
 			return _data;

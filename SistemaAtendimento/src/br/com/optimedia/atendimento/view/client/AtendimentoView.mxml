@@ -10,16 +10,20 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.optimedia.atendimento.assets.events.ApresentacaoEvent;
 			import br.com.optimedia.atendimento.assets.events.ListaAtendimentoEvent;
 			import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
+			import br.com.optimedia.atendimento.assets.vo.ApresentacaoVO;
 			import br.com.optimedia.atendimento.assets.vo.AtendimentoVO;
 			import br.com.optimedia.atendimento.remote.MyNetConnection;
 			import br.com.optimedia.atendimento.remote.MySingleton;
+			import br.com.optimedia.atendimento.view.comum.PlayerView;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
 			
 			import spark.components.List;
 			
@@ -37,6 +41,8 @@
 			private var nFila:uint = 0;
 			
 			private var listChat:ArrayCollection = new ArrayCollection ();
+			private var apresentacao:ApresentacaoVO;
+			private var playerView:PlayerView
 			
 
 			protected function init(event:FlexEvent):void {
@@ -51,6 +57,8 @@
 				
 				atendimento = singleton.atendimento;
 				this.currentState = "espera";
+				
+				FlexGlobals.topLevelApplication.addEventListener(ApresentacaoEvent.CLOSE_APRESENTACAO,closeApresentacao);
 				
 			}
 			private function handleSyncAtendimento(event:SyncEvent):void {
@@ -71,8 +79,13 @@
 								}
 								break;
 							case 2:
-								
-								
+								abrirApresentacao(objetoSO);
+								break;
+							case 3:
+								mudarPagina(objetoSO);
+								break;
+							case 4:
+								closePlayer();
 								break;
 							default:
 								break;
@@ -122,6 +135,49 @@
 			private function encerraAtendimento():void{
 				singleton.nc.call("encerraAtendimento",null, atendimento, '3');
 				usersSoAtendimento.close();
+			}
+			private function abrirApresentacao(event:Object):void{
+				apresentacao = new ApresentacaoVO();
+				apresentacao.descricao = event.descricao;
+				apresentacao.frame = event.frame;
+				apresentacao.id_apresentacao = event.id_apresentacao;
+				apresentacao.nomeArquivo = event.nomeArquivo;
+				apresentacao.tipo = event.tipo;
+				apresentacao.tipoApresentacao = event.tipoApresentacao;
+				apresentacao.titulo = event.titulo; 
+				
+				playerView = new PlayerView();
+				PopUpManager.addPopUp(playerView,this,false);
+				PopUpManager.centerPopUp(playerView);
+				
+				playerView.apresentacao = apresentacao;
+				playerView.title = apresentacao.titulo;
+				playerView.mostrarCliente = true;
+				playerView.btnAvancar.visible=false;
+				playerView.btnAvancar.includeInLayout=false;
+				playerView.btnVoltar.visible=false;
+				playerView.btnVoltar.includeInLayout=false;
+				
+			}
+			private function mudarPagina (objApresentacao:Object):void {
+				apresentacao.descricao = objApresentacao.descricao;
+				apresentacao.frame = objApresentacao.frame;
+				apresentacao.id_apresentacao = objApresentacao.id_apresentacao;
+				apresentacao.nomeArquivo = objApresentacao.nomeArquivo;
+				apresentacao.tipo = objApresentacao.tipo;
+				apresentacao.tipoApresentacao = objApresentacao.tipoApresentacao;
+				apresentacao.titulo = objApresentacao.titulo;
+				playerView.apresentacao = apresentacao;
+				
+			}
+			private function closeApresentacao (event:ApresentacaoEvent):void {
+				singleton.nc.call("closeApresentacao",null, event.apresentacao,3);
+			}
+			private function closePlayer():void {
+				try {
+					PopUpManager.removePopUp(playerView);
+				} catch(e:Error) {	
+				}
 			}
 
 		]]>
