@@ -133,6 +133,10 @@
 				
 			}
 			private function encerraAtendimento():void{
+				try {
+					PopUpManager.removePopUp(playerView);
+				} catch(e:Error) {	
+				}
 				singleton.nc.call("encerraAtendimento",null, atendimento, '3');
 				usersSoAtendimento.close();
 			}
@@ -171,7 +175,7 @@
 				
 			}
 			private function closeApresentacao (event:ApresentacaoEvent):void {
-				singleton.nc.call("closeApresentacao",null, event.apresentacao,3);
+				singleton.nc.call("closeApresentacao",null, event.apresentacao, singleton.atendimento, singleton.atendimento.cliente);
 			}
 			private function closePlayer():void {
 				try {

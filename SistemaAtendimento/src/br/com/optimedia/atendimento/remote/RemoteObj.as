@@ -37,10 +37,10 @@ package br.com.optimedia.atendimento.remote
 			Alert.show(event.fault.faultDetail, event.fault.faultString);
 		}
 		// inicio da parte do login
-		/*public function loginUser (login:LoginVO, result:Function):void {
-			remoteService.source ="projetoPlayer.LoginManager";
-			var asynkToken:AsyncToken = remoteService.loginUser(login);
+		public function getTipo (result:Function):void {
+			remoteService.source ="atendimento.AdmManager";
+			var asynkToken:AsyncToken = remoteService.getTipo();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
-		}*/
+		}
 	}
 }

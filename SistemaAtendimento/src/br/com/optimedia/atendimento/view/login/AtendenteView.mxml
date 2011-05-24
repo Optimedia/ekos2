@@ -106,7 +106,7 @@
 				singleton.nc.call("mudarPagina",null, event.apresentacao);
 			}
 			private function closeApresentacao (event:ApresentacaoEvent):void {
-				singleton.nc.call("closeApresentacao",null, event.apresentacao,2);
+				singleton.nc.call("closeApresentacao",null, event.apresentacao, singleton.atendimento, singleton.atendente.nome);
 			}
 			
 			
@@ -261,6 +261,10 @@
 				}
 				try {
 					usersSoAtendimento.close();
+				} catch(e:Error) {	
+				}
+				try {
+					PopUpManager.removePopUp(playerView);
 				} catch(e:Error) {	
 				}
 			}
