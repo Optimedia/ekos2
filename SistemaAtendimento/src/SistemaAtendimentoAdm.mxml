@@ -2,14 +2,19 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:login="br.com.optimedia.atendimento.view.login.*" 
-			   creationComplete="init(event)">
+			   creationComplete="init(event)" xmlns:admin="br.com.optimedia.atendimento.view.admin.*">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
 	<fx:Script>
 		<![CDATA[
 			import br.com.optimedia.atendimento.assets.events.LoginEvent;
 			import br.com.optimedia.atendimento.assets.events.MySingletonEvent;
 			
+			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.events.MenuEvent;
 
 			protected function init(event:FlexEvent):void{
 				FlexGlobals.topLevelApplication.addEventListener(LoginEvent.LOGIN_SUCESSO, AtendenteLogado);
@@ -17,20 +22,51 @@
 			}
 			private function AtendenteLogado(event:LoginEvent):void {
 				atendimentoAdmApp.selectedIndex = 1;
+				if (event.login.tipoUsuario_id_tipo ==1){
+					menuAdm.visible = true;
+					menuAdm.includeInLayout = true;
+				}
 			}
 			
 			private function desconectado (event:MySingletonEvent):void {
 				atendimentoAdmApp.selectedIndex = 0;
 			}
 
+
+			protected function menuAdm_clickHandler(event:MenuEvent):void{
+				
+				switch(event.item.@data){
+					case "r1":
+						break;
+					case "l1":
+						break;
+					default:
+						break;
+				}
+				
+			}
+
+
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	
+	<mx:MenuBar id="menuAdm" labelField="@label" width="100%"  itemClick="menuAdm_clickHandler(event)" includeInLayout="false" visible="false">
+		<fx:XMLList>
+			<menuitem label="Relatório">
+				<menuitem label="Relatório" data="r1"/>
+			</menuitem>	
+			<menuitem label="Atendentes">
+				<menuitem label="Lista Atendentes" data="l1"/>
+			</menuitem>
+		</fx:XMLList>
+	</mx:MenuBar>
+
 	<mx:ViewStack id="atendimentoAdmApp" width="100%" height="100%" horizontalCenter="0">
-		<login:LoginView id="viewLogin" width="100%" height="100%" horizontalCenter="0"/>
-		<login:AtendenteView id="viewAtendente" width="100%" height="100%" horizontalCenter="0"/>
+		<login:LoginView id="viewLogin" width="100%" height="100%" horizontalCenter="0" label="Login"/>
+		<login:AtendenteView id="viewAtendente" width="100%" height="100%" horizontalCenter="0" label="Atendimento"/>
+		<admin:AdminView id="admView" width="100%" height="100%" label="Administração"/>
 	</mx:ViewStack>
+	
 </s:Application>

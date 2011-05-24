@@ -48,9 +48,9 @@
 		]]>
 	</fx:Script>
 
-	<s:HGroup>
+	<s:HGroup verticalAlign="middle">
 		
-		<s:Label text="{apresentacao.titulo} - " width="100%"/>
+		<s:Label width="100%" text="{apresentacao.titulo} - "/>
 		<s:Button id="btn_visuallizar" label="V" click="onVisualizar(event)" width="30"/>
 		<s:Button id="btn_descricao" label="D" click="onDescricao(event)" width="30"/>
 		<s:Button id="btn_abrir" label="a" click="onAbrir(event)" width="30"/>
