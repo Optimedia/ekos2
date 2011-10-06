@@ -7,8 +7,8 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
-			import br.com.optimedia.atendimento.assets.events.ApresentacaoEvent;
-			import br.com.optimedia.atendimento.assets.vo.ApresentacaoVO;
+			import br.com.optimedia.controleremoto.assets.eventos.ApresentacaoEvent;
+			import br.com.optimedia.controleremoto.assets.vo.ApresentacaoVO;
 			
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
@@ -20,9 +20,9 @@
 			
 			protected function init(event:FlexEvent):void{
 				apresentacao = new ApresentacaoVO();
-				apresentacao.data = MySQLDateFormatter.mysqlToAs(data.data);
+				//apresentacao.data_upload = MySQLDateFormatter.mysqlToAs(data.data_upload);
 				apresentacao.descricao = data.descricao;
-				apresentacao.id_apresentacao = data.id_apresentacao;
+				apresentacao.apresentacao_id = data.apresentacao_id;
 				apresentacao.nomeArquivo = data.nomeArquivo;
 				apresentacao.tipoApresentacao = data.tipoApresentacao;
 				apresentacao.titulo = data.titulo;
@@ -41,6 +41,7 @@
 			protected function onAbrir(event:MouseEvent):void{
 				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_APRESENTACAO);
 				apresentacaoEvent.apresentacao = apresentacao;
+				apresentacaoEvent.apresentacao.frame = 1;
 				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
 			}
 
@@ -51,7 +52,6 @@
 	<s:HGroup verticalAlign="middle">
 		
 		<s:Label width="100%" text="{apresentacao.titulo} - "/>
-		<s:Button id="btn_visuallizar" label="V" click="onVisualizar(event)" width="30"/>
 		<s:Button id="btn_descricao" label="D" click="onDescricao(event)" width="30"/>
 		<s:Button id="btn_abrir" label="a" click="onAbrir(event)" width="30"/>
 	</s:HGroup>
