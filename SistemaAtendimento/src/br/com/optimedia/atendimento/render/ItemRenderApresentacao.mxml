@@ -42,6 +42,7 @@
 				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_APRESENTACAO);
 				apresentacaoEvent.apresentacao = apresentacao;
 				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+				
 			}
 
 
