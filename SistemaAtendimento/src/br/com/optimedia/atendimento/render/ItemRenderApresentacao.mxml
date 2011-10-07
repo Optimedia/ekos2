@@ -41,7 +41,6 @@
 			protected function onAbrir(event:MouseEvent):void{
 				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_APRESENTACAO);
 				apresentacaoEvent.apresentacao = apresentacao;
-				apresentacaoEvent.apresentacao.frame = 1;
 				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
 			}
 
