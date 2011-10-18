@@ -2,11 +2,12 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="true" width="100%" creationComplete="init(event)">
+				width="100%">
 
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.optimedia.controleremoto.assets.IconesClass;
 			import br.com.optimedia.controleremoto.assets.eventos.ApresentacaoEvent;
 			import br.com.optimedia.controleremoto.assets.vo.ApresentacaoVO;
 			import br.com.optimedia.controleremoto.assets.vo.VideosVO;
@@ -14,19 +15,28 @@
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
-			[Bindable]
-			private var apresentacao:ApresentacaoVO;
-			
-			[Bindable]
-			private var video:VideosVO;
-			
 			
 			private var apresentacaoEvent:ApresentacaoEvent;
 			
-			
-			protected function init(event:FlexEvent):void{
-				if (data.tipoComponente==1) {
-					apresentacao = new ApresentacaoVO();
+			/* protected function onVisualizar(event:MouseEvent):void{
+				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.VISUALIZAR_APRESENTACAO);
+				apresentacaoEvent.apresentacao = apresentacao;
+				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+			} */
+			protected function onDescricao(event:MouseEvent):void{
+				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.DESCRICAO_APRESENTACAO);
+				if (data.tipoComponente==1){
+					apresentacaoEvent.titulos = data.titulo;
+					apresentacaoEvent.descricao = data.descricao;
+				}else{
+					apresentacaoEvent.titulos = data.titulo;
+					apresentacaoEvent.descricao = data.descricao;
+				}
+				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+			}
+			protected function onAbrir(event:MouseEvent):void{
+				if (data.tipoComponente==1){
+					var apresentacao:ApresentacaoVO = new ApresentacaoVO();
 					//apresentacao.data_upload = MySQLDateFormatter.mysqlToAs(data.data_upload);
 					apresentacao.descricao = data.descricao;
 					apresentacao.apresentacao_id = data.apresentacao_id;
@@ -34,37 +44,20 @@
 					apresentacao.tipoApresentacao = data.tipoApresentacao;
 					apresentacao.titulo = data.titulo;
 					apresentacao.tipoComponente = data.tipoComponente;
-					txtLabel.text = apresentacao.titulo;
 					
-				}else {
+					apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_APRESENTACAO);
+					apresentacaoEvent.apresentacao = apresentacao;
+					FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+				}else{
+					var video:VideosVO = new VideosVO();
 					//video.data_upload = data.data_upload
-					video = new VideosVO();
 					video.descricao = data.descricao;
 					video.tipo = data.tipo;
 					video.tipoComponente = data.tipoComponente;
 					video.titulo = data.titulo;
 					video.url = data.url;
 					video.video_id  = data.video_id;
-					txtLabel.text = video.titulo
-				}
-				
-			}
-			protected function onVisualizar(event:MouseEvent):void{
-				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.VISUALIZAR_APRESENTACAO);
-				apresentacaoEvent.apresentacao = apresentacao;
-				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
-			}
-			protected function onDescricao(event:MouseEvent):void{
-				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.DESCRICAO_APRESENTACAO);
-				apresentacaoEvent.apresentacao = apresentacao;
-				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
-			}
-			protected function onAbrir(event:MouseEvent):void{
-				if (data.tipoComponente==1){
-					apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_APRESENTACAO);
-					apresentacaoEvent.apresentacao = apresentacao;
-					FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
-				}else{
+					
 					apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.ABRIR_VIDEO);
 					video.tipo = 8;
 					video.tipoComponente = 2;
@@ -78,9 +71,10 @@
 		]]>
 	</fx:Script>
 
-	<s:HGroup verticalAlign="middle">
-		
-		<s:Label width="100%" id="txtLabel"/>
+	<s:HGroup width="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle">
+		<s:Image id="iconeTipo" source="{(data.tipoComponente == 1 ? IconesClass.iconApresentacao : IconesClass.iconYoutube)}"
+				 toolTip="{(data.tipoComponente == 1 ? 'Apresentação' : 'Video YouTube')}"/>
+		<s:Label width="100%" id="txtLabel" text="{data.titulo}"/>
 		<s:Button id="btn_descricao" label="D" click="onDescricao(event)" width="30"/>
 		<s:Button id="btn_abrir" label="a" click="onAbrir(event)" width="30"/>
 	</s:HGroup>
