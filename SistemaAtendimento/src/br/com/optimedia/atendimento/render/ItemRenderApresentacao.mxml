@@ -21,7 +21,7 @@
 			/* protected function onVisualizar(event:MouseEvent):void{
 				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.VISUALIZAR_APRESENTACAO);
 				apresentacaoEvent.apresentacao = apresentacao;
-				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent);
+				FlexGlobals.topLevelApplication.dispatchEvent(apresentacaoEvent); 
 			} */
 			protected function onDescricao(event:MouseEvent):void{
 				apresentacaoEvent = new ApresentacaoEvent(ApresentacaoEvent.DESCRICAO_APRESENTACAO);
