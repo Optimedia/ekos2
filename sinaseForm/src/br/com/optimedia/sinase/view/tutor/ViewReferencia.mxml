@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.sinase.event.TutorEvent;
+			protected function btn_cancelar_reverencia(event:MouseEvent):void
+			{
+				var referenciaEvent:TutorEvent = new TutorEvent(TutorEvent.REMOVER_REFERENCIA);
+				referenciaEvent.viewReferencia = this;
+				dispatchEvent(referenciaEvent);
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:Form width="100%" height="100%">
+		<mx:FormItem width="100%" label="Empresa / orgão">
+			<s:TextInput width="100%" id="txtOrgaoNome"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Função">
+			<s:TextInput width="100%" id="txtFuncao"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="De">
+			<mx:DateField id="df_ini" yearNavigationEnabled="true"  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"
+						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="Até">
+			<mx:DateField id="df_fim" yearNavigationEnabled="true"  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"
+						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%" label="">
+			<s:Button id="btn_cancelar" click="btn_cancelar_reverencia(event)" label="Cancelar"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:Group>
