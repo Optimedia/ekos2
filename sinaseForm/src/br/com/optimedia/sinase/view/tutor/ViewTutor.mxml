@@ -13,6 +13,7 @@
 			import br.com.optimedia.sinase.vo.TutorVO;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
@@ -60,80 +61,92 @@
 				remote.getWebCon(result_getWebCon);
 				remote.getOffice(result_getOffice);
 				
-				if (tutor.sexo == "M"){
-					rb_masculino.selected = true;
-				}else if (tutor.sexo == "F"){
-					rb_feminino.selected = true;
-				}
-				if (tutor.data_nasc !="") {
-					var dataNascimento:Date = MySQLDateFormatter.mysqlToAs(tutor.data_nasc);
-					df_nascimento.data = dataNascimento;
-				}
-				if (tutor.aluno_ead == 0){
-					atua_nao.selected= true;
-					formQMdalidade.enabled = false;
-					formAtividade.enabled = false
-				}else if (tutor.aluno_ead == 1){
-					atua_sim.selected = true;
-					formQMdalidade.enabled = true;
-					formAtividade.enabled = true
-				}
-				if (tutor.idmod_sinase == 1){
-					madalidade_aberto.selected= true;
-				}else if (tutor.idmod_sinase ==2){
-					madalidade_fechado.selected = true;
-				}else if (tutor.idmod_sinase ==3){
-					madalidade_ambos.selected = true;
-				}
-				if (tutor.art_publ==1){
-					art_publ_sim.selected = true;
-					txtArt1.text = tutor.art1;
-					txtArt2.text = tutor.art2;
-					txtArt3.text = tutor.art3;
-				}else{
-					art_publ_nao.selected=true;
-				}
-				if (tutor.disp_semana == 1){
-					disp_semanal1.selected = true;
-				}else if (tutor.disp_semana ==2){
-					disp_semanal2.selected = true;
-				}else if (tutor.disp_semana ==3){
-					disp_semanal3.selected = true;
-				}else if (tutor.disp_semana ==4){
-					disp_semanal4.selected = true;
-				}
-				if (tutor.disp_fds == 1){
-					disp_fds_1.selected = true;
-				}else if (tutor.disp_fds ==2){
-					disp_fds_2.selected = true;
-				}else if (tutor.disp_fds ==3){
-					disp_fds_3.selected = true;
-				}else if (tutor.disp_fds ==4){
-					disp_fds_4.selected = true;
-				}
-				if (tutor.rel_coleta_dados==1){
-					relatorio_sim.selected = true;
-				}else{
-					relatorio_nao.selected = true;
-				}
-				if (tutor.pos_headset){
-					head_sim.selected = true;	
-				}else{
-					head_nao.selected = true;
-				}
-				if (tutor.pos_webcam){
-					webcan_sim.selected = true;
-				}else{
-					webcan_nao.selected = true;
-				}
-				if (tutor.cont_ead==1){
-					cont_ead_sim.selected = true;
-				}else{
-					cont_ead_nao.selected = true;
-				}
-				if (tutor.exp_prof) {
-					for (var j:uint = 0 ; j<tutor.exp_prof.length; j++) {
-						adicionarReferencia(tutor.exp_prof[j]);
+				if (tutor.idtutor>=1) {
+					if (tutor.sexo == "M"){
+						rb_masculino.selected = true;
+					}else if (tutor.sexo == "F"){
+						rb_feminino.selected = true;
+					}
+					if (tutor.data_nasc !=null) {
+						var dataNascimento:Date = MySQLDateFormatter.mysqlToAs(tutor.data_nasc);
+						df_nascimento.data = dataNascimento;
+					}
+					if (tutor.aluno_ead == 0){
+						atua_nao.selected= true;
+						formQMdalidade.enabled = false;
+						formAtividade.enabled = false
+					}else if (tutor.aluno_ead == 1){
+						atua_sim.selected = true;
+						formQMdalidade.enabled = true;
+						formAtividade.enabled = true
+					}
+					if (tutor.idmod_sinase == 1){
+						madalidade_aberto.selected= true;
+					}else if (tutor.idmod_sinase ==2){
+						madalidade_fechado.selected = true;
+					}else if (tutor.idmod_sinase ==3){
+						madalidade_ambos.selected = true;
+					}
+					if (tutor.art_publ==1){
+						art_publ_sim.selected = true;
+						txtArt1.text = tutor.art1;
+						txtArt2.text = tutor.art2;
+						txtArt3.text = tutor.art3;
+					}else if (tutor.art_publ==0){
+						art_publ_nao.selected=true;
+					}
+					if (tutor.disp_semana == 1){
+						disp_semanal1.selected = true;
+					}else if (tutor.disp_semana ==2){
+						disp_semanal2.selected = true;
+					}else if (tutor.disp_semana ==3){
+						disp_semanal3.selected = true;
+					}else if (tutor.disp_semana ==4){
+						disp_semanal4.selected = true;
+					}
+					if (tutor.disp_fds == 1){
+						disp_fds_1.selected = true;
+					}else if (tutor.disp_fds ==2){
+						disp_fds_2.selected = true;
+					}else if (tutor.disp_fds ==3){
+						disp_fds_3.selected = true;
+					}else if (tutor.disp_fds ==4){
+						disp_fds_4.selected = true;
+					}
+					if (tutor.rel_coleta_dados==1){
+						relatorio_sim.selected = true;
+					}else if (tutor.rel_coleta_dados==0){
+						relatorio_nao.selected = true;
+					}
+					if (tutor.pos_headset==1){
+						head_sim.selected = true;	
+					}else if (tutor.pos_headset==0){
+						head_nao.selected = true;
+					}
+					if (tutor.pos_webcam==1){
+						webcan_sim.selected = true;
+					}else if (tutor.pos_webcam==0){
+						webcan_nao.selected = true;
+					}
+					if (tutor.cont_ead==1){
+						cont_ead_sim.selected = true;
+					}else if (tutor.cont_ead==0){
+						cont_ead_nao.selected = true;
+					}
+					if (tutor.tutor_ead==1){
+						tutor_ead_sim.selected = true;
+					}else if (tutor.tutor_ead==0){
+						tutor_ead_nao.selected = true;
+					}
+					if (tutor.aluno_ead==1){
+						aluno_ead_sim.selected = true;
+					}else if (tutor.aluno_ead==0){
+						aluno_ead_nao.selected = true;
+					}
+					if (tutor.exp_prof) {
+						for (var j:uint = 0 ; j<tutor.exp_prof.length; j++) {
+							adicionarReferencia(tutor.exp_prof[j]);
+						}
 					}
 				}
 
@@ -241,68 +254,236 @@
 				}
 				
 			}
-			
+			private function validarForm():Boolean{
+				
+				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracterios.' : '');
+				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logardouro é obrigatório.' : '');
+				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
+				
+				if (rb_feminino.selected  || rb_masculino.selected ) {
+					rb_masculino.errorString = "";
+					rb_feminino.errorString = "";
+				}else {
+					rb_masculino.errorString = "Sexo é obrigatório.";
+					rb_feminino.errorString = "Sexo é obrigatório.";
+				}
+				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
+				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Barrio é obrigatório.' : '');
+				txtCep.errorString = (txtCep.text.length ==0 ? 'CEP é obrigatório.' : '');
+				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				
+				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
+				if (txtEmail.text != txtCmail.text) {
+					txtEmail.errorString = "E-mail devem ser iguais.";
+				}
+				
+				if (atua_sim.selected  || atua_nao.selected ) {
+					atua_sim.errorString = "";
+					atua_nao.errorString = "";
+				}else {
+					atua_sim.errorString = "Campo obrigatório.";
+					atua_nao.errorString = "Campo obrigatório.";
+				}
+				
+				if (art_publ.selectedValue== null) {
+					art_publ_sim.errorString = "Campo obrigatório";
+					art_publ_nao.errorString = "Campo obrigatório";
+				}else {
+					art_publ_sim.errorString = "";
+					art_publ_nao.errorString = "";
+				}
+				if (disp_semanal.selectedValue== null) {
+					disp_semanal1.errorString = "Campo obrigatório";
+					disp_semanal2.errorString = "Campo obrigatório";
+					disp_semanal3.errorString = "Campo obrigatório";
+					disp_semanal4.errorString = "Campo obrigatório";
+				}else{
+					disp_semanal1.errorString = "";
+					disp_semanal2.errorString = "";
+					disp_semanal3.errorString = "";
+					disp_semanal4.errorString = "";
+				}
+				
+				if ( fimSemana.selectedValue== null) {
+					disp_fds_1.errorString = "Campo obrigatório";
+					disp_fds_2.errorString = "Campo obrigatório";
+					disp_fds_3.errorString = "Campo obrigatório";
+					disp_fds_4.errorString = "Campo obrigatório";
+				}else {
+					disp_fds_1.errorString = "";
+					disp_fds_2.errorString = "";
+					disp_fds_3.errorString = "";
+					disp_fds_4.errorString = "";
+				}
+				if (cont_ead.selectedValue == null) {
+					cont_ead_nao.errorString = "Campo obrigatório";
+					cont_ead_sim.errorString = "Campo obrigatório";
+				}else {
+					cont_ead_nao.errorString  = "";
+					cont_ead_sim.errorString  = "";
+				}
+				if (tutor_ead.selectedValue == null) {
+					tutor_ead_nao.errorString = "Campo obrigatório";
+					tutor_ead_sim.errorString = "Campo obrigatório";
+				}else {
+					tutor_ead_nao.errorString  = "";
+					tutor_ead_sim.errorString  = "";
+				}
+				if (aluno_ead.selectedValue == null) {
+					aluno_ead_nao.errorString = "Campo obrigatório";
+					aluno_ead_sim.errorString = "Campo obrigatório";
+				}else {
+					aluno_ead_nao.errorString  = "";
+					aluno_ead_sim.errorString  = "";
+				}
+				if (aluno_ead.selectedValue== null) {
+					aluno_ead_nao.errorString = "Campo obrigatório";
+					tutor_ead_sim.errorString = "Campo obrigatório";
+				}else {
+					aluno_ead_nao.errorString  = "";
+					tutor_ead_sim.errorString  = "";
+				}
+				txtExpec_curso.errorString = (txtExpec_curso.text.length < 250 ? 'Campo deve ter pelo menos 250 caracterios.' : '');
+				cb_bandaLarga.errorString = (cb_bandaLarga.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_escolaridade.errorString = (cb_escolaridade.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_ofiice.errorString = (cb_ofiice.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_webconferencia.errorString = (cb_webconferencia.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_Mdl.errorString = (cb_Mdl.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				
+				if (headset.selectedValue == null) {
+					head_nao.errorString = "Campo obrigatório";
+					head_sim.errorString = "Campo obrigatório";
+				}else {
+					head_nao.errorString  = "";
+					head_sim.errorString  = "";
+				}
+				if (webcan.selectedValue == null) {
+					webcan_nao.errorString = "Campo obrigatório";
+					webcan_sim.errorString = "Campo obrigatório";
+				}else {
+					webcan_nao.errorString  = "";
+					webcan_sim.errorString  = "";
+				}
+				if (rel_coleta_dados.selectedValue== null) {
+					relatorio_sim.errorString = "Campo obrigatório";
+					relatorio_nao.errorString = "Campo obrigatório";
+				}else {
+					relatorio_sim.errorString  = "";
+					relatorio_nao.errorString  = "";
+				}
+				
+				var erro:int = (
+					txtNome.errorString.length + txtLogradouro.errorString.length +
+					txtNumero.errorString.length +	rb_masculino.errorString.length +
+					rb_feminino.errorString.length + cb_UF.errorString.length +
+					txtBarrio.errorString.length + txtCep.errorString.length +
+					txtCidade.errorString.length + df_nascimento.errorString.length +
+					txtCmail.errorString.length + txtEmail.errorString.length +
+					atua_sim.errorString.length + atua_nao.errorString.length +
+					cont_ead_nao.errorString.length + cont_ead_sim.errorString.length +
+					tutor_ead_nao.errorString.length + tutor_ead_sim.errorString.length +
+					aluno_ead_nao.errorString.length + aluno_ead_sim.errorString.length +
+					cb_bandaLarga.errorString.length + cb_escolaridade.errorString.length +
+					cb_ofiice.errorString.length + cb_webconferencia.errorString.length +
+					cb_atuacao.errorString.length + cb_tecEad.errorString.length +
+					cb_Mdl.errorString.length + head_nao.errorString.length +
+					head_sim.errorString.length + webcan_nao.errorString.length +
+					webcan_sim.errorString.length + relatorio_sim.errorString.length +
+					disp_semanal1.errorString.length +disp_semanal2.errorString.length +
+					disp_semanal3.errorString.length +disp_semanal4.errorString.length +
+					disp_fds_1.errorString.length +	disp_fds_2.errorString.length + 
+					disp_fds_3.errorString.length + disp_fds_4.errorString.length +
+					relatorio_nao.errorString.length);
+				
+				return (erro ? false : true);
+				
+				return (erro ? false : true);
+			}
 			protected function onSalvar(event:MouseEvent):void{
-				
-				//tutor.cpf
-				tutor.nome = txtNome.text;
-				tutor.logradouro = txtLogradouro.text;
-				tutor.numero = txtNumero.text;
-				
-				if (rb_feminino.selected) {
-					tutor.sexo = "F";
-				}
-				if (rb_masculino.selected) {
-					tutor.sexo = "M";
-				}
-				tutor.iduf = cb_UF.selectedItem.iduf;
-				tutor.regiao = cb_UF.selectedItem.regiao;
-				tutor.bairro = txtBarrio.text;
-				tutor.cep = txtCep.text;
-				tutor.cidade = txtCidade.text;
-				tutor.data_nasc = df_nascimento.selectedDate.fullYear +"-"+df_nascimento.selectedDate.month+1 +"-"+ df_nascimento.selectedDate.day;
-				tutor.ddd_cel = txtCelDDD.text;
-				tutor.tel_cel = txtCel.text
-				tutor.dddfixo = txtTelDDD.text;
-				tutor.tel_fixo = txtTel.text;
-				tutor.email = txtEmail.text;
-				if(atua_sim.selected==true) {
-					tutor.aluno_ead = 1;
-				}
-				if(atua_nao.selected==true) {
-					tutor.aluno_ead = 0;
-				}
-				tutor.art1 = txtArt1.text;
-				tutor.art2 = txtArt2.text;
-				tutor.art3 = txtArt3.text;
-				tutor.art_publ = publicao.selectedValue.toString()
-				tutor.atua_sinase = atuaSinase.selectedValue.toString();
-				tutor.disp_fds = fimSemana.selectedValue.toString()
-				tutor.disp_semana = disp_semanal.selectedValue.toString()
-				tutor.cont_ead = cont_ead.selectedValue.toString();
-				tutor.tutor_ead = tutor_ead.selectedValue.toString();
-				tutor.expec_curso = txtExpec_curso.text;
-				tutor.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
-				tutor.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
-				tutor.idmod_sinase = sinaseModalidade.selectedValue.toString();
-				tutor.idoffice = cb_ofiice.selectedItem.idoffice;
-				tutor.idpart_webcon = cb_webconferencia.selectedItem.idpart_webcon;
-				tutor.idram_atuac = cb_atuacao.selectedItem.idram_atuac;
-				tutor.idtec_ead = cb_tecEad.selectedItem.idtec_ead
-				tutor.idtec_mdl = cb_Mdl.selectedItem.idtec_mdl;
-				
-				//tutor.idativ_sinase = c
+				if (validarForm()) {
+					//tutor.cpf
+					tutor.nome = txtNome.text;
+					tutor.logradouro = txtLogradouro.text;
+					tutor.numero = txtNumero.text;
 					
-				tutor.org_prom_ead = txt_orgaoPromotor.text;
-				tutor.out_prog = txtOutros.text
-				tutor.pos_headset = headset.selectedValue.toString();
-				tutor.pos_webcam = webcan.selectedValue.toString();
-				tutor.tec_webcon = txtTecnologiaUtilizada.text;
-				//tutor.idtutor = 
-				//tutor.pontuacao
-				tutor.rel_coleta_dados
-				tutor.exp_prof 
+					if (rb_feminino.selected) {
+						tutor.sexo = "F";
+					}
+					if (rb_masculino.selected) {
+						tutor.sexo = "M";
+					}
+					tutor.iduf = cb_UF.selectedItem.iduf;
+					tutor.regiao = cb_UF.selectedItem.regiao;
+					tutor.bairro = txtBarrio.text;
+					tutor.cep = txtCep.text;
+					tutor.cidade = txtCidade.text;
+					tutor.data_nasc = df_nascimento.selectedDate.fullYear +"-"+Number(df_nascimento.selectedDate.month+1) +"-"+ df_nascimento.selectedDate.date;
+					tutor.ddd_cel = txtCelDDD.text;
+					tutor.tel_cel = txtCel.text
+					tutor.dddfixo = txtTelDDD.text;
+					tutor.tel_fixo = txtTel.text;
+					tutor.email = txtEmail.text;
+					tutor.art1 = txtArt1.text;
+					tutor.art2 = txtArt2.text;
+					tutor.art3 = txtArt3.text;
+					tutor.art_publ = art_publ.selectedValue.toString()
+					tutor.atua_sinase = atuaSinase.selectedValue.toString();
+					tutor.disp_fds = fimSemana.selectedValue.toString()
+					tutor.disp_semana = disp_semanal.selectedValue.toString()
+					tutor.cont_ead = cont_ead.selectedValue.toString();
+					tutor.tutor_ead = tutor_ead.selectedValue.toString();
+					tutor.aluno_ead = aluno_ead.selectedValue.toString();
+					tutor.expec_curso = txtExpec_curso.text;
+					tutor.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
+					tutor.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
+					tutor.idmod_sinase = sinaseModalidade.selectedValue.toString();
+					tutor.idoffice = cb_ofiice.selectedItem.idoffice;
+					tutor.idpart_webcon = cb_webconferencia.selectedItem.idpart_webcon;
+					tutor.idram_atuac = cb_atuacao.selectedItem.idram_atuac;
+					tutor.idtec_ead = cb_tecEad.selectedItem.idtec_ead
+					tutor.idtec_mdl = cb_Mdl.selectedItem.idtec_mdl;
+					
+					if (atua_sim.selected==true) {
+						tutor.idmod_sinase = sinaseModalidade.selectedValue.toString();
+						tutor.idativ_sinase = cb_atividade.selectedItem.idativ_sinase
+					}
+						
+					tutor.org_prom_ead = txt_orgaoPromotor.text;
+					tutor.out_prog = txtOutros.text;
+					tutor.pos_headset = headset.selectedValue.toString();
+					tutor.pos_webcam = webcan.selectedValue.toString();
+					tutor.tec_webcon = txtTecnologiaUtilizada.text;
+					tutor.rel_coleta_dados = rel_coleta_dados.selectedValue.toString();
+					
+					var itemView:ViewReferencia;
+					var itemArray:Array;
+					tutor.exp_prof = new ArrayCollection();
+					for (var i:uint=0;i<grupoReferencia.numChildren; i++) {
+						itemView = grupoReferencia.getChildAt(i) as ViewReferencia;
+						itemArray = new Array(); 
+						itemArray.funcao = itemView.txtFuncao.text;
+						itemArray.txtOrgaoNome = itemView.txtOrgaoNome.text;
+						itemArray.df_ini = itemView.df_ini.selectedDate.fullYear+"-"+ Number(itemView.df_ini.selectedDate.month+1)+ "-" + itemView.df_ini.selectedDate.date;
+						itemArray.df_fim =itemView.df_fim.selectedDate.fullYear+"-"+ Number(itemView.df_fim.selectedDate.month+1) + "-" + itemView.df_fim.selectedDate.date;
+						
+						tutor.exp_prof.addItem(itemArray);
+					}
+					remote.saveTutor(tutor, salvarTutor_result)
+				}else {
+					Alert.show("Verifique os campos em varmelho.");
+				}
 				
+			}
+			private function salvarTutor_result(event:ResultEvent):void {
+				if (event.result==true) {
+					Alert.show("ok");	
+				}else{
+					Alert.show("Erro no cadastro, tente novamente");
+				}
 				
 			}
 			
@@ -312,10 +493,11 @@
 		<s:RadioButtonGroup id="Sexo"/>
 		<s:RadioButtonGroup id="atuaSinase"/>
 		<s:RadioButtonGroup id="sinaseModalidade"/>
-		<s:RadioButtonGroup id="publicao"/>
-		<s:RadioButtonGroup id="cont_ead"/>
+		<s:RadioButtonGroup id="art_publ"/>
 		<s:RadioButtonGroup id="tutor_ead"/>
-		<s:RadioButtonGroup id="relatorio_EAD"/>
+		<s:RadioButtonGroup id="cont_ead"/>
+		<s:RadioButtonGroup id="aluno_ead"/>
+		<s:RadioButtonGroup id="rel_coleta_dados"/>
 		<s:RadioButtonGroup id="webcan"/>
 		<s:RadioButtonGroup id="headset"/>
 		<s:RadioButtonGroup id="disp_semanal"/>
@@ -406,9 +588,9 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Qual modalidade?" id="formQMdalidade" enabled="true">
 		<s:HGroup width="100%">
-			<s:RadioButton label="Meio aberto" id="madalidade_aberto" groupName="sinaseModalidade" enabled="false" value="1"/>
-			<s:RadioButton label="Meio fechado" id="madalidade_fechado" groupName="sinaseModalidade"  enabled="false" value="2"/>
-			<s:RadioButton label="Ambos" id="madalidade_ambos" groupName="sinaseModalidade"  enabled="false" value="3"/>
+			<s:RadioButton label="Meio aberto" id="madalidade_aberto" groupName="sinaseModalidade" value="1"/>
+			<s:RadioButton label="Meio fechado" id="madalidade_fechado" groupName="sinaseModalidade" value="2"/>
+			<s:RadioButton label="Ambos" id="madalidade_ambos" groupName="sinaseModalidade" value="3"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Atividade:" width="100%" id="formAtividade">
@@ -416,8 +598,8 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Livro ou artigo publicado?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="art_publ_sim" groupName="publicao" value="1"/>
-			<s:RadioButton label="não" id="art_publ_nao" groupName="publicao" value="0"/>
+			<s:RadioButton label="sim" id="art_publ_sim" groupName="art_publ" value="1"/>
+			<s:RadioButton label="não" id="art_publ_nao" groupName="art_publ" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Indique até 3">
@@ -459,8 +641,8 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Já fez curso por EAD">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="ead_sim" groupName="ja_EAD"/>
-			<s:RadioButton label="não" id="ead_nao" groupName="ja_EAD"/>
+			<s:RadioButton label="sim" id="aluno_ead_sim" groupName="aluno_ead" value="1"/>
+			<s:RadioButton label="não" id="aluno_ead_nao" groupName="aluno_ead" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Tecnologia utilizada:" width="100%">
@@ -495,8 +677,8 @@
 	<s:Label text="Já produziu relatório ou instrumentos para coleta de dados?" verticalAlign="middle" width="100%"/>
 	<mx:FormItem width="100%">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="relatorio_sim" groupName="relatorio_EAD"/>
-			<s:RadioButton label="não" id="relatorio_nao" groupName="relatorio_EAD"/>
+			<s:RadioButton label="sim" id="relatorio_sim" groupName="rel_coleta_dados" value="1"/>
+			<s:RadioButton label="não" id="relatorio_nao" groupName="rel_coleta_dados" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
