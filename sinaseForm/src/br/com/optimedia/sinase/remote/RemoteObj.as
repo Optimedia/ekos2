@@ -1,6 +1,8 @@
 package br.com.optimedia.sinase.remote
 {
 	
+	import br.com.optimedia.sinase.vo.TutorVO;
+	
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.Responder;
@@ -80,6 +82,11 @@ package br.com.optimedia.sinase.remote
 		public function getOffice (result:Function):void {
 			remoteService.source ="sinase.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getOffice();
+			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
+		}
+		public function saveTutor (tutor:TutorVO, result:Function):void {
+			remoteService.source ="sinase.TutorManager";
+			var asynkToken:AsyncToken = remoteService.saveTutor(tutor);
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 	}

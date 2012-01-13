@@ -25,7 +25,13 @@
 				}
 			}
 			private function getTutor_result(event:ResultEvent):void{
-				var tutor:TutorVO = event.result as TutorVO;
+				var tutor:TutorVO
+				if (event.result.cpf == null) {
+					tutor = new TutorVO();
+					tutor.cpf = txtCpf.text;
+				}else {
+					tutor = event.result as TutorVO;
+				}
 				var tutorEvent:TutorEvent = new TutorEvent (TutorEvent.GET_TUTOR_EVENT);
 				tutorEvent.tutorVO = tutor;
 				dispatchEvent(tutorEvent);
