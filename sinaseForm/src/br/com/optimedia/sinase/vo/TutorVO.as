@@ -33,7 +33,7 @@ package br.com.optimedia.sinase.vo
 		public var idbanda_larga:uint; 		// int
 		public var idtec_mdl:uint; 			// int
 		public var idtec_ead:uint; 			// int
-		public var idativ_sinase:uint; 		// int
+		public var ativ_sinase:String; 		// String
 		public var atua_sinase:uint; 		// int
 		public var tutor_ead:uint; 			// int
 		public var aluno_ead:uint; 			// int
@@ -58,7 +58,7 @@ package br.com.optimedia.sinase.vo
 		public var regiao:String;
 		public var selecionado:String;
 		
-		public var exp_prof:ArrayCollection;
+		public var exp_prof:Array;
 		
 	}
 }

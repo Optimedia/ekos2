@@ -6,9 +6,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import br.com.optimedia.sinase.event.TutorEvent;
+			import br.com.optimedia.sinase.event.AlunoEvent;
 			import br.com.optimedia.sinase.remote.RemoteObj;
-			import br.com.optimedia.sinase.vo.TutorVO;
+			import br.com.optimedia.sinase.vo.AlunoVO;
 			
 			import mx.rpc.events.ResultEvent;
 			
@@ -25,16 +25,16 @@
 				}
 			}
 			private function getTutor_result(event:ResultEvent):void{
-				var tutor:TutorVO
+				var aluno:AlunoVO;
 				if (event.result.cpf == null) {
-					tutor = new TutorVO();
-					tutor.cpf = txtCpf.text;
+					aluno = new AlunoVO();
+					aluno.cpf = txtCpf.text;
 				}else {
-					tutor = event.result as TutorVO;
+					aluno = event.result as AlunoVO;
 				}
-				var tutorEvent:TutorEvent = new TutorEvent (TutorEvent.GET_TUTOR_EVENT);
-				tutorEvent.tutorVO = tutor;
-				dispatchEvent(tutorEvent);
+				var alunoEvent:AlunoEvent = new AlunoEvent (AlunoEvent.GET_ALUNO_EVENT);
+				alunoEvent.aluno = aluno;
+				dispatchEvent(alunoEvent);
 			}
 		]]>
 	</fx:Script>
@@ -45,7 +45,7 @@
 	<s:Panel width="300" height="200" horizontalCenter="0" title="Sinase - inscrição de tutor"
 			 verticalCenter="0">
 		<mx:Form x="0" y="0" width="100%" height="100%">
-			<mx:FormItem label="CPF" width="100%">
+			<mx:FormItem label="Label" width="100%">
 				<forms:CpfField id="txtCpf" width="100"/>
 			</mx:FormItem>
 			<mx:FormItem  width="100%">

@@ -8,8 +8,10 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.flexbrasilia.lib.validators.MyStringValidator;
 			import br.com.optimedia.sinase.event.TutorEvent;
 			import br.com.optimedia.sinase.remote.RemoteObj;
+			import br.com.optimedia.sinase.vo.Exp_prof;
 			import br.com.optimedia.sinase.vo.TutorVO;
 			
 			import mx.collections.ArrayCollection;
@@ -49,6 +51,8 @@
 			}
 			
 			protected function init(event:FlexEvent):void{
+				formQMdalidade.enabled = false;
+				formAtividade.enabled = false
 				addEventListener(TutorEvent.REMOVER_REFERENCIA,removerReverencia);
 				
 				remote.getUf(result_getUf);
@@ -71,11 +75,11 @@
 						var dataNascimento:Date = MySQLDateFormatter.mysqlToAs(tutor.data_nasc);
 						df_nascimento.data = dataNascimento;
 					}
-					if (tutor.aluno_ead == 0){
+					if (tutor.atua_sinase == 0){
 						atua_nao.selected= true;
 						formQMdalidade.enabled = false;
 						formAtividade.enabled = false
-					}else if (tutor.aluno_ead == 1){
+					}else if (tutor.atua_sinase == 1){
 						atua_sim.selected = true;
 						formQMdalidade.enabled = true;
 						formAtividade.enabled = true
@@ -144,8 +148,23 @@
 						aluno_ead_nao.selected = true;
 					}
 					if (tutor.exp_prof) {
+						var item:ViewReferencia;
+						var dataini:Date
+						var datafim:Date
 						for (var j:uint = 0 ; j<tutor.exp_prof.length; j++) {
-							adicionarReferencia(tutor.exp_prof[j]);
+							item = new ViewReferencia();
+							grupoReferencia.addElement(item);
+							item.exp_prof = new Exp_prof();
+							item.exp_prof.data_fim =tutor.exp_prof[j].data_fim
+							item.exp_prof.data_ini = tutor.exp_prof[j].data_ini;
+							item.exp_prof.funcao = tutor.exp_prof[j].funcao
+							item.exp_prof.org_nome = tutor.exp_prof[j].org_nome
+							item.exp_prof.idexp_prof = tutor.exp_prof[j].idexp_prof
+							item.exp_prof.idtutor = tutor.exp_prof[j].idtutor;
+							dataini =   MySQLDateFormatter.mysqlToAs(tutor.exp_prof[j].data_ini as String);
+							datafim =  MySQLDateFormatter.mysqlToAs(tutor.exp_prof[j].data_fim as String);
+							item.df_fim.data = datafim;
+							item.df_ini.data =dataini;
 						}
 					}
 				}
@@ -178,7 +197,7 @@
 			private function result_getAtividade(event:ResultEvent):void{
 				listaAtividade = new ArrayCollection (event.result as Array);
 				for (var i:uint=0 ; i<listaAtividade.length ; i++){
-					if (listaAtividade[i].idativ_sinase == tutor.idativ_sinase) {
+					if (listaAtividade[i].nome == tutor.ativ_sinase) {
 						cb_atividade.selectedIndex = i;
 					}
 				}
@@ -218,8 +237,8 @@
 			private function result_getOffice(event:ResultEvent):void{
 				listaOffice = new ArrayCollection (event.result as Array);
 				for (var i:uint=0 ; i<listaWebCon.length ; i++){
-					if (listaWebCon[i].idpart_webcon == tutor.idpart_webcon) {
-						cb_webconferencia.selectedIndex = i;
+					if (listaOffice[i].idoffice == tutor.idoffice) {
+						cb_ofiice.selectedIndex = i;
 					}
 				}
 			}
@@ -354,6 +373,8 @@
 				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				cb_Mdl.errorString = (cb_Mdl.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				
+				
+				
 				if (headset.selectedValue == null) {
 					head_nao.errorString = "Campo obrigatório";
 					head_sim.errorString = "Campo obrigatório";
@@ -375,6 +396,15 @@
 					relatorio_sim.errorString  = "";
 					relatorio_nao.errorString  = "";
 				}
+				if (atua_sim.selected) {
+					madalidade_aberto.errorString =  (sinaseModalidade.selectedValue ==null ? 'Campo é obrigatório.' : '');
+					madalidade_fechado.errorString =  (sinaseModalidade.selectedValue ==null ? 'Campo é obrigatório.' : '');
+					cb_atividade.errorString = (cb_atividade.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				}else{
+					madalidade_aberto.errorString = "";
+					madalidade_fechado.errorString = "";
+					cb_atividade.errorString = "";
+				}
 				
 				var erro:int = (
 					txtNome.errorString.length + txtLogradouro.errorString.length +
@@ -391,6 +421,8 @@
 					cb_ofiice.errorString.length + cb_webconferencia.errorString.length +
 					cb_atuacao.errorString.length + cb_tecEad.errorString.length +
 					cb_Mdl.errorString.length + head_nao.errorString.length +
+					madalidade_aberto.errorString.length + madalidade_fechado.errorString.length + 
+					cb_atividade.errorString.length + 
 					head_sim.errorString.length + webcan_nao.errorString.length +
 					webcan_sim.errorString.length + relatorio_sim.errorString.length +
 					disp_semanal1.errorString.length +disp_semanal2.errorString.length +
@@ -430,7 +462,9 @@
 					tutor.art1 = txtArt1.text;
 					tutor.art2 = txtArt2.text;
 					tutor.art3 = txtArt3.text;
-					tutor.art_publ = art_publ.selectedValue.toString()
+					if (art_publ.selectedValue !=null) {
+						tutor.art_publ = art_publ.selectedValue.toString()
+					}
 					tutor.atua_sinase = atuaSinase.selectedValue.toString();
 					tutor.disp_fds = fimSemana.selectedValue.toString()
 					tutor.disp_semana = disp_semanal.selectedValue.toString()
@@ -440,16 +474,19 @@
 					tutor.expec_curso = txtExpec_curso.text;
 					tutor.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
 					tutor.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
-					tutor.idmod_sinase = sinaseModalidade.selectedValue.toString();
+					if (sinaseModalidade.selectedValue != null ) {
+						tutor.idmod_sinase = sinaseModalidade.selectedValue.toString();
+					}
 					tutor.idoffice = cb_ofiice.selectedItem.idoffice;
 					tutor.idpart_webcon = cb_webconferencia.selectedItem.idpart_webcon;
 					tutor.idram_atuac = cb_atuacao.selectedItem.idram_atuac;
 					tutor.idtec_ead = cb_tecEad.selectedItem.idtec_ead
 					tutor.idtec_mdl = cb_Mdl.selectedItem.idtec_mdl;
 					
+					tutor.atua_sinase = atuaSinase.selectedValue.toString();
 					if (atua_sim.selected==true) {
 						tutor.idmod_sinase = sinaseModalidade.selectedValue.toString();
-						tutor.idativ_sinase = cb_atividade.selectedItem.idativ_sinase
+						tutor.ativ_sinase = cb_atividade.selectedItem.nome;
 					}
 						
 					tutor.org_prom_ead = txt_orgaoPromotor.text;
@@ -460,17 +497,19 @@
 					tutor.rel_coleta_dados = rel_coleta_dados.selectedValue.toString();
 					
 					var itemView:ViewReferencia;
-					var itemArray:Array;
-					tutor.exp_prof = new ArrayCollection();
+					var exp_prof:Exp_prof;
+					tutor.exp_prof = new Array();
 					for (var i:uint=0;i<grupoReferencia.numChildren; i++) {
 						itemView = grupoReferencia.getChildAt(i) as ViewReferencia;
-						itemArray = new Array(); 
-						itemArray.funcao = itemView.txtFuncao.text;
-						itemArray.txtOrgaoNome = itemView.txtOrgaoNome.text;
-						itemArray.df_ini = itemView.df_ini.selectedDate.fullYear+"-"+ Number(itemView.df_ini.selectedDate.month+1)+ "-" + itemView.df_ini.selectedDate.date;
-						itemArray.df_fim =itemView.df_fim.selectedDate.fullYear+"-"+ Number(itemView.df_fim.selectedDate.month+1) + "-" + itemView.df_fim.selectedDate.date;
+						exp_prof = new Exp_prof(); 
+						exp_prof.funcao = itemView.txtFuncao.text;
+						exp_prof.idexp_prof = itemView.exp_prof.idexp_prof;
+						exp_prof.idtutor = itemView.exp_prof.idtutor;
+						exp_prof.org_nome = itemView.txtOrgaoNome.text;
+						exp_prof.data_ini = itemView.df_ini.selectedDate.fullYear+"-"+ Number(itemView.df_ini.selectedDate.month+1)+ "-" + itemView.df_ini.selectedDate.date;
+						exp_prof.data_fim =itemView.df_fim.selectedDate.fullYear+"-"+ Number(itemView.df_fim.selectedDate.month+1) + "-" + itemView.df_fim.selectedDate.date;
 						
-						tutor.exp_prof.addItem(itemArray);
+						tutor.exp_prof.push(exp_prof);
 					}
 					remote.saveTutor(tutor, salvarTutor_result)
 				}else {
@@ -480,7 +519,9 @@
 			}
 			private function salvarTutor_result(event:ResultEvent):void {
 				if (event.result==true) {
-					Alert.show("ok");	
+					Alert.show("Usuário Cadastrado com sucesso.");
+					var tutorEvent:TutorEvent = new TutorEvent(TutorEvent.CADASTRO_SUCESSO);
+					dispatchEvent(tutorEvent);
 				}else{
 					Alert.show("Erro no cadastro, tente novamente");
 				}
@@ -507,55 +548,55 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Basícos" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="CPF:" required="true">
+	<mx:FormItem width="100%" label="CPF:">
 		<forms:CpfField id="txtCpf" text="{tutor.cpf}" editable="false"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Nome:" required="true">
+	<mx:FormItem width="100%" label="Nome:">
 		<s:TextInput width="100%" id="txtNome" text="{tutor.nome}"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Nascimento:" required="true">
+	<mx:FormItem width="100%" label="Nascimento:">
 		<s:HGroup width="100%">
 			<mx:DateField id="df_nascimento" yearNavigationEnabled="true"  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"
 						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Sexo" required="true">
+	<mx:FormItem width="100%" label="Sexo">
 		<s:HGroup width="100%">
 			<s:RadioButton label="Masculino" groupName="Sexo" id="rb_masculino" value="M"/>
 			<s:RadioButton label="Feminino" groupName="Sexo" id="rb_feminino" value="F"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="E-mail:" required="true">
+	<mx:FormItem width="100%" label="E-mail:">
 		<s:TextInput width="100%" id="txtEmail" text="{tutor.email}"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Confirmar e-mail:" required="true">
+	<mx:FormItem width="100%" label="Confirmar e-mail:">
 		<s:TextInput width="100%" id="txtCmail"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Telefone" required="true">
+	<mx:FormItem width="100%" label="Telefone">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtTelDDD" width="40" maxChars="3" text="{tutor.dddfixo}"/>
-			<s:TextInput id="txtTel" maxChars="9" text="{tutor.tel_fixo}"/>
+			<s:TextInput id="txtTelDDD" width="40" maxChars="3" text="{tutor.dddfixo}" restrict="[0-9]"/>
+			<s:TextInput id="txtTel" maxChars="9" text="{tutor.tel_fixo}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Celular" required="true">
+	<mx:FormItem width="100%" label="Celular">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtCelDDD" width="40" maxChars="3" text="{tutor.ddd_cel}"/>
-			<s:TextInput id="txtCel"  maxChars="9" text="{tutor.tel_cel}"/>
+			<s:TextInput id="txtCelDDD" width="40" maxChars="3" text="{tutor.ddd_cel}" restrict="[0-9]"/>
+			<s:TextInput id="txtCel"  maxChars="9" text="{tutor.tel_cel}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Endereço" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="UF:" required="true">
+	<mx:FormItem width="100%" label="UF:">
 		<s:HGroup width="100%">
 			<s:ComboBox id="cb_UF" width="120" dataProvider="{listaUf}" labelField="uf"/>
 			<s:Label height="100%" text="Cidade:" verticalAlign="middle"/>
 			<s:TextInput id="txtCidade" width="100%" text="{tutor.cidade}"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Cep" required="true">
-		<s:TextInput id="txtCep" text="{tutor.cep}"/>
+	<mx:FormItem width="100%" label="Cep">
+		<s:TextInput id="txtCep" text="{tutor.cep}" restrict="[0-9]"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Barrio:">
 		<s:TextInput id="txtBarrio" width="100%" text="{tutor.bairro}"/>
@@ -564,7 +605,7 @@
 		<s:HGroup width="100%">
 			<s:TextInput id="txtLogradouro" width="100%" text="{tutor.logradouro}"/>
 			<s:Label height="100%" text="N:" verticalAlign="middle"/>
-			<s:TextInput id="txtNumero" text="{tutor.numero}">
+			<s:TextInput id="txtNumero" text="{tutor.numero}" restrict="[0-9]">
 				
 			</s:TextInput>
 		</s:HGroup>
@@ -622,7 +663,7 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Experiência com EAD" verticalAlign="middle"/>
 	</mx:FormItem>
-		<s:TextArea width="100%" height="48" borderVisible="false" editable="false" fontSize="15"
+		<s:TextArea width="100%" height="60" borderVisible="false" editable="false" fontSize="15"
 					fontWeight="bold"
 					text="Possui experiência profissional em políticas públicas ou direitos humanos ou atendimento socioeducativo (SINASE) ou justiça juvenil?"/>
 	<mx:HRule width="100%"/>
@@ -672,7 +713,7 @@
 		<s:ComboBox id="cb_ofiice" dataProvider="{listaOffice}" labelField="nome"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Outros programas">
-		<s:TextArea id="txtOutros" width="100%" height="54" text="{tutor.out_prog}"/>
+		<s:TextArea id="txtOutros" width="100%" height="54" text="{tutor.out_prog}" maxChars="250"/>
 	</mx:FormItem>
 	<s:Label text="Já produziu relatório ou instrumentos para coleta de dados?" verticalAlign="middle" width="100%"/>
 	<mx:FormItem width="100%">
