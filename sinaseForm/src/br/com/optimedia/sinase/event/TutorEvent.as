@@ -12,6 +12,7 @@ package br.com.optimedia.sinase.event
 		
 		public static const GET_TUTOR_EVENT:String 	= "GET_TUTOR_EVENT";
 		public static const REMOVER_REFERENCIA:String 	= "REMOVER_REFERENCIA";
+		public static const CADASTRO_SUCESSO:String 	= "CADASTRO_SUCESSO";
 		
 		public function TutorEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{

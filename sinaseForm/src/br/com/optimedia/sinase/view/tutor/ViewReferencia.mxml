@@ -6,6 +6,11 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.optimedia.sinase.event.TutorEvent;
+			import br.com.optimedia.sinase.vo.Exp_prof;
+			
+			[Bindable]
+			public var exp_prof:Exp_prof = new Exp_prof();
+			
 			protected function btn_cancelar_reverencia(event:MouseEvent):void
 			{
 				var referenciaEvent:TutorEvent = new TutorEvent(TutorEvent.REMOVER_REFERENCIA);
@@ -21,10 +26,10 @@
 	</fx:Declarations>
 	<mx:Form width="100%" height="100%">
 		<mx:FormItem width="100%" label="Empresa / orgão">
-			<s:TextInput width="100%" id="txtOrgaoNome"/>
+			<s:TextInput width="100%" id="txtOrgaoNome" text="{exp_prof.org_nome}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%" label="Função">
-			<s:TextInput width="100%" id="txtFuncao"/>
+			<s:TextInput width="100%" id="txtFuncao" text="{exp_prof.funcao}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%" label="De">
 			<mx:DateField id="df_ini" yearNavigationEnabled="true"  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"

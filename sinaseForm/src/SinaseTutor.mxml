@@ -17,12 +17,17 @@
 			protected function init(event:FlexEvent):void{
 				elementos.addElement(identificacao);
 				addEventListener(TutorEvent.GET_TUTOR_EVENT,formTutor)
+				addEventListener(TutorEvent.CADASTRO_SUCESSO,tutorSalvo)
+			}
+			private function tutorSalvo(event:TutorEvent):void{
+				elementos.removeAllElements();
+				elementos.addElement(identificacao);
 			}
 			private function formTutor(event:TutorEvent):void{
 				elementos.removeAllElements();
 				viewTutor = new ViewTutor();
 				elementos.addElement(viewTutor)
-				viewTutor.width = 500;
+				viewTutor.width = 600;
 				viewTutor.tutor = event.tutorVO;
 				
 			}
