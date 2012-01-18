@@ -8,6 +8,7 @@ package br.com.optimedia.sinase.vo
 	{
 		// Pessoa
 		public var id_pessoa:uint; 			// int
+		public var cod_aprov:uint;
 		public var idram_atuac:uint; 		// int
 		public var idescolaridade:uint; 	// int
 		public var iduf:uint; 				// int
@@ -25,6 +26,14 @@ package br.com.optimedia.sinase.vo
 		public var tel_fixo:String; 		// String
 		public var ddd_cel:String; 			// String
 		public var tel_cel:String; 			// String
+		public var registro:String;			// String
+		public var naturalidade:String;		// String
+		public var orgao_expeditor:String;	// String
+		
+		
+		public var nome_pai:String;			
+		public var nome_mae:String;
+		
 		
 		// Aluno
 		public var idaluno:uint; 				// int

@@ -8,7 +8,6 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
-			import br.com.flexbrasilia.lib.validators.MyStringValidator;
 			import br.com.optimedia.sinase.event.TutorEvent;
 			import br.com.optimedia.sinase.remote.RemoteObj;
 			import br.com.optimedia.sinase.vo.Exp_prof;
@@ -614,7 +613,7 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Outros Dados" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem label="escolaridade" width="100%">
+	<mx:FormItem label="Escolaridade" width="100%">
 		<s:ComboBox id="cb_escolaridade" dataProvider="{listaEscolaridade}" labelField="nome"/>
 	</mx:FormItem>
 	<mx:FormItem label="Ramo de Atuação:" width="100%">

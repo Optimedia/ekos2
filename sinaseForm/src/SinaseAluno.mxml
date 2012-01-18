@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" creationComplete="init(event)">
+	<fx:Script>
+		<![CDATA[
+			import br.com.optimedia.sinase.event.AlunoEvent;
+			import br.com.optimedia.sinase.view.aluno.ViewAluno;
+			import br.com.optimedia.sinase.view.aluno.ViewIdentificacao;
+			import br.com.optimedia.sinase.vo.AlunoVO;
+			
+			import mx.events.FlexEvent;
+			
+			
+			private var identificacao:ViewIdentificacao = new ViewIdentificacao();
+			private var viewAluno:ViewAluno
+			
+			protected function init(event:FlexEvent):void{
+				elementos.addElement(identificacao);
+				addEventListener(AlunoEvent.GET_ALUNO_EVENT,formAluno)
+				addEventListener(AlunoEvent.CADASTRO_SUCESSO,alunoSalvo)
+			}
+			private function alunoSalvo(event:AlunoEvent):void{
+				elementos.removeAllElements();
+				elementos.addElement(identificacao);
+			}
+			private function formAluno(event:AlunoEvent):void{
+				elementos.removeAllElements();
+				viewAluno = new ViewAluno;
+				elementos.addElement(viewAluno)
+				viewAluno.width = 800;
+				viewAluno.aluno = event.aluno as AlunoVO;
+				
+			}
+			
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" id="elementos">
+		</s:VGroup>
+	</s:Scroller>
 </s:Application>
