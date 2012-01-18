@@ -13,6 +13,5 @@ package br.com.optimedia.sinase.vo
 		public var data_ini:String; 			// String
 		public var data_fim:String; 			// String
 		
-		public var _explicitType = "br.com.optimedia.sinase.vo.Exp_prof";
 	}
 }

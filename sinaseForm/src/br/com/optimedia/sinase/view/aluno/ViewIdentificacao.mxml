@@ -21,10 +21,10 @@
 			protected function enviarCPF(event:MouseEvent):void{
 				if (validarForm()){
 					var nome:String = txtCpf.text;
-					remote.getTutor(nome, getTutor_result)	
+					remote.getAluno(nome, getAluno_result)	
 				}
 			}
-			private function getTutor_result(event:ResultEvent):void{
+			private function getAluno_result(event:ResultEvent):void{
 				var aluno:AlunoVO;
 				if (event.result.cpf == null) {
 					aluno = new AlunoVO();
@@ -42,10 +42,10 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Panel width="300" height="200" horizontalCenter="0" title="Sinase - inscrição de tutor"
+	<s:Panel width="300" height="200" horizontalCenter="0" title="Sinase - inscrição de Aluno"
 			 verticalCenter="0">
 		<mx:Form x="0" y="0" width="100%" height="100%">
-			<mx:FormItem label="Label" width="100%">
+			<mx:FormItem label="CPF:" width="100%">
 				<forms:CpfField id="txtCpf" width="100"/>
 			</mx:FormItem>
 			<mx:FormItem  width="100%">
