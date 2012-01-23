@@ -9,12 +9,14 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.optimedia.sinase.event.AlunoEvent;
 			import br.com.optimedia.sinase.remote.RemoteObj;
 			import br.com.optimedia.sinase.vo.AlunoVO;
 			import br.com.optimedia.sinase.vo.PerguntaVO;
 			import br.com.optimedia.sinase.vo.RespostaVO;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.controls.CheckBox;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
@@ -47,6 +49,7 @@
 			private var radio_nao:RadioButton = new RadioButton();
 			private var txtAlternativa3:TextArea = new TextArea();
 			
+			private var respota:RespostaVO;
 			
 			private function result_getPerguntaArray(event:ResultEvent):void{
 				var perguntaVO:PerguntaVO = new PerguntaVO()
@@ -68,19 +71,17 @@
 					alternativa.label = respostaVO.value_resposta;
 					alternativa.name = "item_" + respostaVO.idresposta;
 					alternativa.id = "item_" + respostaVO.idresposta;
+					alternativa.y = posY;
+					grupoPergunta.addElement(alternativa);
 					if (respostaVO.value_resposta.toLowerCase()== "outro. qual?"){
+						posY +=27;
 						qual = new TextInput();
 						qual.id = "qual_"+ respostaVO.idresposta;
-						hgrupo = new HGroup()
-						hgrupo.y = posY;
-						hgrupo.x = posX;
-						hgrupo.percentWidth = 100;
-						hgrupo.addElement(alternativa);
-						hgrupo.addElement(qual);
-						grupoPergunta.addElement(hgrupo);
-					}else {
-						alternativa.y = posY;
-						grupoPergunta.addElement(alternativa);
+						qual.name = "qual_"+ respostaVO.idresposta;
+						qual.percentWidth = 100;
+						qual.x = posX;
+						qual.y = posY;
+						grupoPergunta.addElement(qual);
 					}
 					posY +=27;
 				}
@@ -281,13 +282,223 @@
 					}
 				}
 			}
-			
-			protected function onEnviarDados(event:MouseEvent):void
-			{
-				// TODO Auto-generated method stub
+			private function validarForm():Boolean{
 				
+				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracterios.' : '');
+				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logardouro é obrigatório.' : '');
+				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
+				
+				if (rb_feminino.selected  || rb_masculino.selected ) {
+					rb_masculino.errorString = "";
+					rb_feminino.errorString = "";
+				}else {
+					rb_masculino.errorString = "Sexo é obrigatório.";
+					rb_feminino.errorString = "Sexo é obrigatório.";
+				}
+				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
+				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Barrio é obrigatório.' : '');
+				txtCep.errorString = (txtCep.text.length ==0 ? 'CEP é obrigatório.' : '');
+				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				
+				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
+				if (txtEmail.text != txtCmail.text) {
+					txtEmail.errorString = "E-mail devem ser iguais.";
+				}
+				
+				if (atua_orgao.selectedValue==null ) {
+					comp_CRAS.errorString = "Campo obrigatório";
+					comp_CREAS.errorString = "Campo obrigatório";
+					comp_SUAS.errorString = "Campo obrigatório";
+					comp_nenhum.errorString = "Campo obrigatório";
+				}else {
+					comp_CRAS.errorString = "";
+					comp_CREAS.errorString = "";
+					comp_SUAS.errorString = "";
+					comp_nenhum.errorString = "";
+				}
+				
+				if (disp_semanal.selectedValue== null) {
+					disp_semanal1.errorString = "Campo obrigatório";
+					disp_semanal2.errorString = "Campo obrigatório";
+					disp_semanal3.errorString = "Campo obrigatório";
+					disp_semanal4.errorString = "Campo obrigatório";
+				}else{
+					disp_semanal1.errorString = "";
+					disp_semanal2.errorString = "";
+					disp_semanal3.errorString = "";
+					disp_semanal4.errorString = "";
+				}
+				
+				if ( fimSemana.selectedValue== null) {
+					disp_fds_1.errorString = "Campo obrigatório";
+					disp_fds_2.errorString = "Campo obrigatório";
+					disp_fds_3.errorString = "Campo obrigatório";
+					disp_fds_4.errorString = "Campo obrigatório";
+				}else {
+					disp_fds_1.errorString = "";
+					disp_fds_2.errorString = "";
+					disp_fds_3.errorString = "";
+					disp_fds_4.errorString = "";
+				}
+				if (exp_ead.selectedValue == null) {
+					exp_ead_nao.errorString = "Campo obrigatório";
+					exp_ead_sim.errorString = "Campo obrigatório";
+				}else {
+					exp_ead_nao.errorString  = "";
+					exp_ead_sim.errorString  = "";
+				}
+				cb_bandaLarga.errorString = (cb_bandaLarga.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_escolaridade.errorString = (cb_escolaridade.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_webconferencia.errorString = (cb_webconferencia.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				
+				if (headset.selectedValue == null) {
+					head_nao.errorString = "Campo obrigatório";
+					head_sim.errorString = "Campo obrigatório";
+				}else {
+					head_nao.errorString  = "";
+					head_sim.errorString  = "";
+				}
+				if (webcan.selectedValue == null) {
+					webcan_nao.errorString = "Campo obrigatório";
+					webcan_sim.errorString = "Campo obrigatório";
+				}else {
+					webcan_nao.errorString  = "";
+					webcan_sim.errorString  = "";
+				}
+				if (material.selectedValue ==null ) {
+					mat_nao.errorString = "Campo obrigatório";
+					mat_sim.errorString = "Campo obrigatório";
+				}else {
+					mat_nao.errorString = "";
+					mat_sim.errorString = "";
+				}
+				if (usoInternet.selectedValue == null) {
+					usoInt_medio.errorString = "Campo obrigatório";
+					usoInt_muito.errorString = "Campo obrigatório";
+					usoInt_nao.errorString = "Campo obrigatório";
+					usoInt_pouco.errorString = "Campo obrigatório";
+				}else{
+					usoInt_medio.errorString= "";
+					usoInt_muito.errorString= "";
+					usoInt_nao.errorString = "";
+					usoInt_pouco.errorString= "";
+				}
+				
+				//##################
+				
+				var erro:int = (
+					txtNome.errorString.length + txtLogradouro.errorString.length + txtNumero.errorString.length + 
+					rb_masculino.errorString.length + rb_feminino.errorString.length + cb_UF.errorString.length + 	
+					txtBarrio.errorString.length + txtCep.errorString.length + txtCidade.errorString.length + 
+					df_nascimento.errorString.length + txtEmail.errorString.length +  txtCmail.errorString.length + 				
+					comp_CRAS.errorString.length + comp_CREAS.errorString.length + comp_SUAS.errorString.length + 
+					comp_nenhum.errorString.length +  disp_semanal1.errorString.length +  disp_semanal2.errorString.length + 
+					disp_semanal3.errorString.length +  disp_semanal4.errorString.length +  disp_fds_1.errorString.length + 
+					disp_fds_2.errorString.length + disp_fds_3.errorString.length +  disp_fds_4.errorString.length + 
+					exp_ead_nao.errorString.length +  exp_ead_sim.errorString.length +  cb_bandaLarga.errorString.length + 
+					cb_escolaridade.errorString.length +  cb_webconferencia.errorString.length +  cb_atuacao.errorString.length + 
+					cb_tecEad.errorString.length +  head_nao.errorString.length + head_sim.errorString.length + 
+					webcan_nao.errorString.length +  webcan_sim.errorString.length +  mat_nao.errorString.length + 
+					mat_sim.errorString .length +  usoInt_medio.errorString.length +  usoInt_muito.errorString.length + 
+					usoInt_nao.errorString.length +  usoInt_pouco.errorString.length );
+				
+				return (erro ? false : true);
 			}
 			
+			protected function onEnviarDados(event:MouseEvent):void{
+				if (validarForm()){
+					aluno.bairro = txtBarrio.text;
+					aluno.cep = txtCep.text;
+					aluno.cidade = txtCidade.text;
+					//aluno.cod_aprov;
+					aluno.computador = computador.selectedValue.toString();
+					aluno.cpf = txtCpf.text;
+					aluno.data_nasc =  df_nascimento.selectedDate.fullYear +"-"+Number(df_nascimento.selectedDate.month+1) +"-"+ df_nascimento.selectedDate.date;
+					aluno.ddd_cel = txtCelDDD.text;
+					aluno.dddfixo = txtTelDDD.text;
+					if (def_sim.selected == true) {
+						aluno.deficiente = txtDesfQual.text;
+					}
+					aluno.disp_fds = fimSemana.selectedValue.toString();
+					aluno.disp_sem = disp_semanal.selectedValue.toString();
+					aluno.email = txtEmail.text;
+					aluno.exp_ead = exp_ead.selectedValue.toString();
+					aluno.headset = headset.selectedValue.toString();
+					aluno.idatua_org = atua_orgao.selectedValue.toString();
+					aluno.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
+					aluno.idcapacitacao_sinase = cb_cursoSEDH.selectedItem.idcapacitacao_sinase;
+					aluno.idcarga_hora = horas.selectedValue.toString();
+					aluno.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
+					aluno.idinternet = usoInternet.selectedValue.toString();
+					aluno.idpart_webcon = cb_webconferencia.selectedItem.idpart_webcon;
+					aluno.idram_atuac = cb_atuacao.selectedItem.idram_atuac;
+					aluno.idtec_ead = cb_tecEad.selectedItem.idtec_ead;
+					aluno.iduf = cb_UF.selectedItem.iduf;
+					//aluno.ind_moodle =
+					if (radio_sim.selected==true) {
+						aluno.just_presenca = txtAlternativa3.text;
+					}
+					aluno.logradouro = txtLogradouro.text;
+					aluno.material_esp = material.selectedValue.toString();
+					//aluno.naturalidade 
+					aluno.nome = txtNome.text;
+					aluno.nome_mae = txtMae.text;
+					aluno.nome_pai = txtPai.text;
+					//aluno.orgao_expeditor
+					//aluno.pontuacao
+					//aluno.presenca_ead
+					//aluno.registro
+					aluno.sexo=Sexo.selectedValue.toString();
+					aluno.tel_cel = txtCel.text;
+					aluno.tel_fixo = txtTel.text;
+					aluno.webcam =  webcan.selectedValue.toString();
+					var nome:String;
+					var nome2:uint
+					var nomeItem:String;
+					var cb:CheckBox;
+					var campoQual:TextInput
+					aluno.respostas = new Array();
+					
+					for (var j:uint=0; j<grupoPergunta.numElements; j ++) {
+						nome = new String();
+						nome = Object(grupoPergunta.getElementAt(j)).name;
+						nomeItem = nome.substr(0,4);
+						if (nomeItem=="item") {
+							cb = new CheckBox();
+							cb = CheckBox(grupoPergunta.getElementAt(j));
+							if (cb.selected==true){
+								nome2 = uint(nome.substr(5,9));
+								respota = new RespostaVO();
+								respota.idresposta = nome2;
+								if (cb.label.toLowerCase() =="outro. qual?") {
+									campoQual = new TextInput();
+									campoQual = grupoPergunta.getChildByName("qual_" + nome2) as TextInput;
+									respota.value_resposta = campoQual.text;
+								}
+								aluno.respostas.push(respota);
+							}
+						}
+					}
+					btn_enviar.enabled = false;
+					remote.saveAluno(aluno,result_saveAluno);
+				}else {
+					Alert.show("Verifique os campo em vermelho", "Erro");
+
+				}
+			}
+			private function result_saveAluno(event:ResultEvent):void{
+				if (event.result== true) {
+					var alunoEvent:AlunoEvent = new AlunoEvent(AlunoEvent.CADASTRO_SUCESSO);
+					dispatchEvent(alunoEvent);
+				}else{
+					Alert.show("Erro ao salvar as informações, tente novamente","Erro");
+				}
+				btn_enviar.enabled = true;
+			}
 			protected function onValidar(event:MouseEvent):void{
 				if (idValido.selected == true){
 					btn_enviar.enabled = true;

@@ -432,7 +432,6 @@
 				
 				return (erro ? false : true);
 				
-				return (erro ? false : true);
 			}
 			protected function onSalvar(event:MouseEvent):void{
 				if (validarForm()) {

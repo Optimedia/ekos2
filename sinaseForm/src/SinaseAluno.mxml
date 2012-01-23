@@ -9,6 +9,7 @@
 			import br.com.optimedia.sinase.view.aluno.ViewIdentificacao;
 			import br.com.optimedia.sinase.vo.AlunoVO;
 			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			
 			
@@ -21,6 +22,7 @@
 				addEventListener(AlunoEvent.CADASTRO_SUCESSO,alunoSalvo)
 			}
 			private function alunoSalvo(event:AlunoEvent):void{
+				Alert.show("Cadastro realizado com sucesso");
 				elementos.removeAllElements();
 				elementos.addElement(identificacao);
 			}
