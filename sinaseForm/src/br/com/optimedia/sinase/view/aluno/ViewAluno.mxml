@@ -63,6 +63,7 @@
 				grupoPergunta.addElement(pergunta);
 				var qual:TextInput;
 				var hgrupo:HGroup;
+				var respostaSel:RespostaVO;
 				for (var i:uint = 0 ; i < perguntaVO.resposta.length; i++) {
 					respostaVO = new RespostaVO();
 					respostaVO = perguntaVO.resposta[i] as RespostaVO;
@@ -73,6 +74,11 @@
 					alternativa.id = "item_" + respostaVO.idresposta;
 					alternativa.y = posY;
 					grupoPergunta.addElement(alternativa);
+					respostaSel = new RespostaVO();
+					respostaSel = marcaChebox(respostaVO.idresposta);
+					if (respostaSel.idresposta==respostaVO.idresposta){
+						alternativa.selected = true;
+					}
 					if (respostaVO.value_resposta.toLowerCase()== "outro. qual?"){
 						posY +=27;
 						qual = new TextInput();
@@ -81,6 +87,7 @@
 						qual.percentWidth = 100;
 						qual.x = posX;
 						qual.y = posY;
+						qual.text = respostaSel.value_resposta;
 						grupoPergunta.addElement(qual);
 					}
 					posY +=27;
@@ -505,7 +512,16 @@
 				}else {
 					btn_enviar.enabled= false;
 				}
-				
+			}
+			private function marcaChebox(id:uint):RespostaVO {
+				var respostaSel:RespostaVO = new RespostaVO();
+				for(var i:uint=0; i<aluno.respostas.length; i++) {
+					respostaSel = aluno.respostas[i] as RespostaVO;
+					if (respostaSel.idresposta == id) {
+						return respostaSel
+					}
+				}
+				return respostaSel = new RespostaVO();
 			}
 			
 		]]>
