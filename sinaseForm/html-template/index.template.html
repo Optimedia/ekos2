@@ -21,9 +21,39 @@
              if JavaScript disabled.
         -->
         <style type="text/css" media="screen"> 
-            html, body  { height:100%; }
-            body { margin:0; padding:0; overflow:auto; text-align:center; 
-                   background-color: ${bgcolor}; }   
+        .fundo {
+			background-image: url(http://www.sedh.gov.br/clientes/sedh/sedh/barra-brasil-v3-bgx.gif);
+			background-repeat: repeat-x;
+			background-position: 0px bottom;
+			background-color: #00500F;   
+			height: 24px;  
+			width: 100%;
+			top:0px;
+			overflow: visible;
+			visibility: visible;
+			z-index: 100;
+        }
+        
+       .imagemGov {
+			top:0px;
+			height: 24px;
+			width: 100%;
+			background-image: url(http://www.sedh.gov.br/clientes/sedh/sedh/barra-brasil-v3-verde.gif);
+			background-repeat: no-repeat;
+			background-position: right top;
+			overflow: visible;
+			visibility: visible;
+			z-index: 101;
+		}
+
+            html, body  { height:95%; }
+            body {
+				background-color: #EAE7D3;
+				margin-top: 0px;
+				margin-right: auto;
+				margin-bottom: 0px;
+				margin-left: auto;
+			}
             object:focus { outline:none; }
             #flashContent { display:none; }
         </style>
@@ -60,6 +90,12 @@
         </script>
     </head>
     <body>
+    	<div class="fundo">
+		    <div class="imagemGov"><a href="http://www.brasil.gov.br/" target="_blank" class="brasilgov"></a></div>
+	          </span> 
+	         </div>
+         </div>
+          
         <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 
              JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
              when JavaScript is disabled.
