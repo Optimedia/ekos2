@@ -64,76 +64,78 @@
 				var qual:TextInput;
 				var hgrupo:HGroup;
 				var respostaSel:RespostaVO;
-				for (var i:uint = 0 ; i < perguntaVO.resposta.length; i++) {
-					respostaVO = new RespostaVO();
-					respostaVO = perguntaVO.resposta[i] as RespostaVO;
-					alternativa = new CheckBox();
-					alternativa.x = posX;
-					alternativa.label = respostaVO.value_resposta;
-					alternativa.name = "item_" + respostaVO.idresposta;
-					alternativa.id = "item_" + respostaVO.idresposta;
-					alternativa.y = posY;
-					grupoPergunta.addElement(alternativa);
-					respostaSel = new RespostaVO();
-					respostaSel = marcaChebox(respostaVO.idresposta);
-					if (respostaSel.idresposta==respostaVO.idresposta){
-						alternativa.selected = true;
-					}
-					if (respostaVO.value_resposta.toLowerCase()== "outro. qual?"){
+				if ( perguntaVO.resposta) {
+					for (var i:uint = 0 ; i < perguntaVO.resposta.length; i++) {
+						respostaVO = new RespostaVO();
+						respostaVO = perguntaVO.resposta[i] as RespostaVO;
+						alternativa = new CheckBox();
+						alternativa.x = posX;
+						alternativa.label = respostaVO.value_resposta;
+						alternativa.name = "item_" + respostaVO.idresposta;
+						alternativa.id = "item_" + respostaVO.idresposta;
+						alternativa.y = posY;
+						grupoPergunta.addElement(alternativa);
+						respostaSel = new RespostaVO();
+						respostaSel = marcaChebox(respostaVO.idresposta);
+						if (respostaSel.idresposta==respostaVO.idresposta){
+							alternativa.selected = true;
+						}
+						if (respostaVO.value_resposta.toLowerCase()== "outro. qual?"){
+							posY +=27;
+							qual = new TextInput();
+							qual.id = "qual_"+ respostaVO.idresposta;
+							qual.name = "qual_"+ respostaVO.idresposta;
+							qual.percentWidth = 100;
+							qual.x = posX;
+							qual.y = posY;
+							qual.text = respostaSel.value_resposta;
+							grupoPergunta.addElement(qual);
+						}
 						posY +=27;
-						qual = new TextInput();
-						qual.id = "qual_"+ respostaVO.idresposta;
-						qual.name = "qual_"+ respostaVO.idresposta;
-						qual.percentWidth = 100;
-						qual.x = posX;
-						qual.y = posY;
-						qual.text = respostaSel.value_resposta;
-						grupoPergunta.addElement(qual);
+						}
 					}
 					posY +=27;
-				}
-				posY +=27;
-				idpergunta++;
-				if ((idpergunta !=3) && (idpergunta<=5)) {
-					remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
-				}else if (idpergunta==3){
-					var pergunta:Label = new Label();
-					pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD."
-					pergunta.y = posY;
-					posY +=27;
-					grupoPergunta.addElement(pergunta);
-
-					hgrupo = new HGroup()
-					hgrupo.y = posY;
-					hgrupo.x = posX;
-					hgrupo.percentWidth = 100;
-					grupoPergunta.addElement(hgrupo);
-					
-					radio_sim = new RadioButton()
-					radio_sim.groupName = "pergunta3";
-					radio_sim.label = "Sim";
-					hgrupo.addElement(radio_sim);
-					
-					radio_nao = new RadioButton()
-					radio_nao.groupName = "pergunta3";
-					radio_nao.label = "Não";
-					hgrupo.addElement(radio_nao);
-					posY +=27;
-					
-					txtAlternativa3 = new TextArea();
-					txtAlternativa3.text = aluno.just_presenca;
-					txtAlternativa3.percentWidth = 100;
-					txtAlternativa3.height = 80;	
-					txtAlternativa3.x = posX
-					txtAlternativa3.y = posY;
-					
-					grupoPergunta.addElement(txtAlternativa3);
-					posY +=80;
-					posY +=27;
-					
 					idpergunta++;
-					remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
-				}
+					if ((idpergunta !=3) && (idpergunta<=5)) {
+						remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
+					}else if (idpergunta==3){
+						pergunta = new Label();
+						pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD."
+						pergunta.y = posY;
+						posY +=27;
+						grupoPergunta.addElement(pergunta);
+	
+						hgrupo = new HGroup()
+						hgrupo.y = posY;
+						hgrupo.x = posX;
+						hgrupo.percentWidth = 100;
+						grupoPergunta.addElement(hgrupo);
+						
+						radio_sim = new RadioButton()
+						radio_sim.groupName = "pergunta3";
+						radio_sim.label = "Sim";
+						hgrupo.addElement(radio_sim);
+						
+						radio_nao = new RadioButton()
+						radio_nao.groupName = "pergunta3";
+						radio_nao.label = "Não";
+						hgrupo.addElement(radio_nao);
+						posY +=27;
+						
+						txtAlternativa3 = new TextArea();
+						txtAlternativa3.text = aluno.just_presenca;
+						txtAlternativa3.percentWidth = 100;
+						txtAlternativa3.height = 80;	
+						txtAlternativa3.x = posX
+						txtAlternativa3.y = posY;
+						
+						grupoPergunta.addElement(txtAlternativa3);
+						posY +=80;
+						posY +=27;
+						
+						idpergunta++;
+						remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
+					}
 				
 			}
 			protected function init(event:FlexEvent):void{
@@ -148,8 +150,9 @@
 				remote.getTecEadAluno(result_getTecEadAluno);
 				remote.getWebConAluno(result_getWebConAluno);
 				
-				
-				df_nascimento.data = MySQLDateFormatter.mysqlToAs(aluno.data_nasc);
+				if (aluno.data_nasc) {
+					df_nascimento.data = MySQLDateFormatter.mysqlToAs(aluno.data_nasc);
+				}
 				if (aluno.idaluno) {
 					if (aluno.sexo=="M") {
 						rb_masculino.selected = true;
@@ -515,10 +518,12 @@
 			}
 			private function marcaChebox(id:uint):RespostaVO {
 				var respostaSel:RespostaVO = new RespostaVO();
-				for(var i:uint=0; i<aluno.respostas.length; i++) {
-					respostaSel = aluno.respostas[i] as RespostaVO;
-					if (respostaSel.idresposta == id) {
-						return respostaSel
+				if (aluno.respostas) {
+					for(var i:uint=0; i<aluno.respostas.length; i++) {
+						respostaSel = aluno.respostas[i] as RespostaVO;
+						if (respostaSel.idresposta == id) {
+							return respostaSel
+						}
 					}
 				}
 				return respostaSel = new RespostaVO();

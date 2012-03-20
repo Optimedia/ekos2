@@ -3,7 +3,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" 
 		 xmlns:forms="br.com.flexbrasilia.lib.forms.*">
-	
+	<fx:Style source="SinaseAluno.css"/>
 	<fx:Script>
 		<![CDATA[
 			import br.com.optimedia.sinase.event.AlunoEvent;
@@ -42,8 +42,8 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Panel width="300" height="200" horizontalCenter="0" title="Sinase - inscrição de Aluno"
-			 verticalCenter="0">
+	<s:Panel width="300" height="200" backgroundColor="#EAE7D3" horizontalCenter="0"
+			 title="Sinase - inscrição de Aluno" verticalCenter="0">
 		<mx:Form x="0" y="0" width="100%" height="100%">
 			<mx:FormItem label="CPF:" width="100%">
 				<forms:CpfField id="txtCpf" width="100"/>

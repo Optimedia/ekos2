@@ -36,57 +36,57 @@ package br.com.optimedia.sinase.remote
 			Alert.show(event.fault.faultDetail, event.fault.faultString);
 		}
 		public function getTutor(cpf:String, result:Function):void{
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getTutor(cpf);
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));	
 		}
 		public function getUf (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getUf();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getEscolaridade (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getEscolaridade();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getAtuacao (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getAtuacao();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getAtividade (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getAtividade();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getTecEad (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getTecEad();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getTecMdl (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getTecMdl();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getBandaLarga (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getBandaLarga();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getWebCon (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getWebCon();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getOffice (result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.getOffice();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function saveTutor (tutor:TutorVO, result:Function):void {
-			remoteService.source ="sinase.TutorManager";
+			remoteService.source ="sinase2.TutorManager";
 			var asynkToken:AsyncToken = remoteService.saveTutor(tutor);
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
@@ -96,52 +96,52 @@ package br.com.optimedia.sinase.remote
 		//
 		// aluno
 		public function getAluno (cpf:String, result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getAluno(cpf);
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function saveAluno (aluno:AlunoVO, result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.saveAluno(aluno);
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getEscolaridadeAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getEscolaridade();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getAtuaOrgAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getAtuaOrg();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getAtuacaoAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getAtuacao();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getBandaLargaAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getBandaLarga();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getWebConAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getWebCon();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getCapacitacaoAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getCapacitacao();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getTecEadAluno (result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getTecEad();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
 		public function getPerguntaArray (id:uint, result:Function):void {
-			remoteService.source ="sinase.AlunoManager";
+			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getPerguntaArray(id);
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
