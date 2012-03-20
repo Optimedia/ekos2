@@ -1,0 +1,16 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+
+global
+{
+	content-background-color: #EAE7D3;
+	color: #266713;
+	content-background-alpha: 1.0;
+}
+
+s|Application {
+	backgroundColor:#EAE7D3;
+}
+
