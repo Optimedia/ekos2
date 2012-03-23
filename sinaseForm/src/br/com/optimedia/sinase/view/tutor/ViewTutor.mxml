@@ -4,7 +4,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:forms="br.com.flexbrasilia.lib.forms.*"
 		 xmlns:layouts="com.rialvalue.layouts.*"
-		 creationComplete="init(event)">
+		 creationComplete="init(event)" width="100%" height="100%">
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
@@ -256,7 +256,7 @@
 					formQMdalidade.enabled=true;
 					formAtividade.enabled=true;
 				}else{
-					formAtividade.enabled=false;
+					formQMdalidade.enabled=false;
 					formAtividade.enabled=false;
 				}
 			}
@@ -536,6 +536,8 @@
 		<s:RadioButtonGroup id="tutor_ead"/>
 		<s:RadioButtonGroup id="cont_ead"/>
 		<s:RadioButtonGroup id="aluno_ead"/>
+		<s:RadioButtonGroup id="prime_part_tutor"/>
+		<s:RadioButtonGroup id="part_ant_tutor"/>
 		<s:RadioButtonGroup id="rel_coleta_dados"/>
 		<s:RadioButtonGroup id="webcan"/>
 		<s:RadioButtonGroup id="headset"/>
@@ -684,6 +686,20 @@
 			<s:RadioButton label="não" id="aluno_ead_nao" groupName="aluno_ead" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
+	<mx:FormItem width="100%" label="Primeira vez a participar como tutor no curso de extensão SINASE">
+		<s:HGroup width="100%">
+			<s:RadioButton label="sim" id="prime_part_tutor_sim" groupName="prime_part_tutor" value="1"/>
+			<s:RadioButton label="não" id="prime_part_tutor_nao" groupName="prime_part_tutor" value="0"/>
+		</s:HGroup>
+	</mx:FormItem>
+	<mx:FormItem width="100%" label="Participou da tutoria na edição anterior do curso de extensão SINASE">
+		<s:HGroup width="100%">
+			<s:RadioButton label="sim" id="part_ant_tutor_sim" groupName="part_ant_tutor" value="1"/>
+			<s:RadioButton label="não" id="part_ant_tutor_nao" groupName="part_ant_tutor" value="0"/>
+		</s:HGroup>
+	</mx:FormItem>
+	
+	
 	<mx:FormItem label="Tecnologia utilizada:" width="100%">
 		<s:ComboBox id="cb_tecEad" dataProvider="{listaTecEad}" labelField="nome"/>
 	</mx:FormItem>
