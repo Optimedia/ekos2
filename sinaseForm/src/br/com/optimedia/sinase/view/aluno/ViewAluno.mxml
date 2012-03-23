@@ -745,7 +745,7 @@
 	</mx:FormItem>
 	<s:Group width="100%" id="grupoPergunta"/>
 	<mx:CheckBox id="idValido" label="Declaro serem verídicas as informações aqui registradas" click="onValidar(event)"/>
-	<mx:FormItem width="100%" label="Nos finais de semana?">
+	<mx:FormItem width="100%">
 		<s:Button id="btn_enviar" label="Enviar Dados" click="onEnviarDados(event)" enabled="false"/>
 	</mx:FormItem>
 </mx:Form>

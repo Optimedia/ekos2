@@ -27,8 +27,11 @@
 			private function formTutor(event:TutorEvent):void{
 				elementos.removeAllElements();
 				viewTutor = new ViewTutor();
-				elementos.addElement(viewTutor)
-				viewTutor.width = 600;
+				elementos.addElement(viewTutor);
+				viewTutor.minWidth = 700;
+				viewTutor.minHeight = 400;
+				viewTutor.percentWidth = 85;
+				viewTutor.percentHeight = 95;
 				viewTutor.tutor = event.tutorVO;
 				
 			}
