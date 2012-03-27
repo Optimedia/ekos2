@@ -551,7 +551,7 @@
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Basícos" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="CPF:">
-		<forms:CpfField id="txtCpf" text="{aluno.cpf}" editable="false"/>
+		<forms:CpfField id="txtCpf" text="{aluno.cpf}" editable="false" enabled="false"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nome:">
 		<s:TextInput width="100%" id="txtNome" text="{aluno.nome}"/>
