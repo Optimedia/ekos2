@@ -29,9 +29,9 @@
 				viewTutor = new ViewTutor();
 				elementos.addElement(viewTutor);
 				viewTutor.minWidth = 700;
-				viewTutor.minHeight = 400;
+				viewTutor.minHeight = 500;
 				viewTutor.percentWidth = 85;
-				viewTutor.percentHeight = 95;
+				viewTutor.percentHeight = 100;
 				viewTutor.tutor = event.tutorVO;
 				
 			}

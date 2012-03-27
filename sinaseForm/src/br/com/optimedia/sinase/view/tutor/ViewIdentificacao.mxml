@@ -10,18 +10,25 @@
 			import br.com.optimedia.sinase.remote.RemoteObj;
 			import br.com.optimedia.sinase.vo.TutorVO;
 			
+			import mx.controls.Alert;
 			import mx.rpc.events.ResultEvent;
 			
 			[Bindable]
 			private var remote:RemoteObj = new RemoteObj();
 			private function validarForm ():Boolean{
-				return true;
+				if (txtCpf.errorString.length==0){
+					return true;
+				}else {
+					return false
+				}
 			}
 			
 			protected function enviarCPF(event:MouseEvent):void{
 				if (validarForm()){
 					var nome:String = txtCpf.text;
 					remote.getTutor(nome, getTutor_result)	
+				}else {
+					Alert.show("Verifique os campos em vermelho", "Erro");
 				}
 			}
 			private function getTutor_result(event:ResultEvent):void{
@@ -42,7 +49,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Panel width="300" height="200" horizontalCenter="0" title="Sinase - inscrição de tutor"
+	<s:Panel width="300" height="200" horizontalCenter="0" title="SINASE - Processo Seletivo para Tutores"
 			 verticalCenter="0" backgroundColor="#EAE7D3">
 		<mx:Form x="0" y="0" width="100%" height="100%">
 			<mx:FormItem label="CPF" width="100%">

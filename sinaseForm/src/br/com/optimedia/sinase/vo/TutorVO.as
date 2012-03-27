@@ -55,6 +55,26 @@ package br.com.optimedia.sinase.vo
 		public var pontuacao:uint;
 		public var rel_coleta_dados:uint;	//int
 		
+		public var paticipou_sinase:int;
+		public var tutoria_webconference:String;
+		
+		public var tutoria_moodle:Boolean;
+		public var instituicao_tutoria1:String;
+		public var modalidade_tutoria1:int;
+		public var natureza_tutoria1:int;
+		public var periodo_tutoria1:int;
+		public var instituicao_tutoria2:String;
+		public var modalidade_tutoria2:int;
+		public var natureza_tutoria2:int;
+		public var periodo_tutoria2:int;
+		public var instituicao_tutoria3:String;
+		public var modalidade_tutoria3:int;
+		public var natureza_tutoria3:int;
+		public var periodo_tutoria3:int;
+		
+		public var lattes:String;
+		
+		
 		public var regiao:String;
 		public var selecionado:String;
 		
