@@ -58,7 +58,7 @@ package br.com.optimedia.sinase.vo
 		public var participou_sinase:int;
 		public var tutoria_webconference:String;
 		
-		public var tutoria_moodle:Boolean;
+		public var tutoria_moodle:int;
 		public var instituicao_tutoria1:String;
 		public var modalidade_tutoria1:int;
 		public var natureza_tutoria1:int;
