@@ -169,10 +169,12 @@
 				}
 				//
 				if (tutor.tutoria_webconference!="0") {
-					webcan_sim.selected = true
+					webCom_tutor_sim.selected = true
 					if (tutor.tutoria_webconference !="1") {
 						txtWebCom_tutor.text = tutor.tutoria_webconference;
 					}
+				}else {
+					webCom_tutor_nao.selected = true;
 				}
 				if (tutor.tutoria_moodle==true){
 					mostarItemMoodle()
@@ -193,8 +195,11 @@
 					expTutorialmoodle_nao.selected = true;
 					ocultaItemMoodle()
 				}
-				if (tutor.paticipou_sinase) {
-					participouSinase.selectedValue = tutor.paticipou_sinase;
+				if (tutor.participou_sinase==true) {
+					participouSinase_Sim.selected = true
+				}else{
+					participouSinase_nao.selected=true
+				
 				}
 				txtCep.actualText = tutor.cep;
 			}
@@ -359,8 +364,8 @@
 			}
 			private function validarForm():Boolean{
 				
-				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracterios.' : '');
-				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logardouro é obrigatório.' : '');
+				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracteres.' : '');
+				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logradouro é obrigatório.' : '');
 				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
 				
 				if (rb_feminino.selected  || rb_masculino.selected ) {
@@ -371,15 +376,15 @@
 					rb_feminino.errorString = "Sexo é obrigatório.";
 				}
 				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
-				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Barrio é obrigatório.' : '');
+				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Bairro é obrigatório.' : '');
 				txtCep.errorString = (txtCep.text.length ==0 ? 'CEP é obrigatório.' : '');
 				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
 				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
 				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
 				if (txtEmail.text != txtCmail.text) {
-					txtEmail.errorString = "E-mail devem ser iguais.";
+					txtEmail.errorString = "E-mails devem ser iguais.";
 				}
 				
 				if (atua_sim.selected  || atua_nao.selected ) {
@@ -449,7 +454,7 @@
 					tutor_ead_sim.errorString  = "";
 				}
 				
-				txtExpec_curso.errorString = (txtExpec_curso.text.length < 250 ? 'Campo deve ter pelo menos 250 caracterios.' : '');
+				txtExpec_curso.errorString = (txtExpec_curso.text.length < 250 ? 'Campo deve ter pelo menos 250 caracteres.' : '');
 				cb_bandaLarga.errorString = (cb_bandaLarga.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				cb_escolaridade.errorString = (cb_escolaridade.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				cb_ofiice.errorString = (cb_ofiice.selectedItem ==null ? 'Campo é obrigatório.' : '');
@@ -499,7 +504,7 @@
 					cb_atividade.errorString = "";
 				}
 				if (webCom_tutor_sim.selected == true) {
-					txtInstituicao1.errorString =  (txtInstituicao1.text.length<3 ? 'Campo é obrigatório e maior que 3 .' : '');
+					txtInstituicao1.errorString =  (txtInstituicao1.text.length<3 ? 'Campo é obrigatório. Deve ser maior que 3.' : '');
 					if (mod_tutoria1.selection==null) {
 						mod_tutoria1_cont.errorString = 'Campo é obrigatório.'
 						mod_tutoria1_profSuper.errorString = 'Campo é obrigatório.'
@@ -660,8 +665,17 @@
 							tutor.periodo_tutoria3=per_tutoria3.selectedValue.toString();
 						}
 					}
+					if (webCom_tutor_sim.selected == true) {
+						if (txtWebCom_tutor.text=="") {
+							tutor.tutoria_webconference = "1";
+						}else {
+							tutor.tutoria_webconference = txtWebCom_tutor.text;
+						}
+					}else {
+						tutor.tutoria_webconference = "0"; 
+					}
 					tutor.lattes = txtLattes.text;
-					tutor.paticipou_sinase = participouSinase.selectedValue.toString();
+					tutor.participou_sinase = participouSinase.selectedValue.toString();
 					for (var i:uint=0;i<grupoReferencia.numChildren; i++) {
 						itemView = grupoReferencia.getChildAt(i) as ViewReferencia;
 						exp_prof = new Exp_prof(); 
@@ -676,7 +690,7 @@
 					}
 					remote.saveTutor(tutor, salvarTutor_result)
 				}else {
-					Alert.show("Verifique os campos em varmelho.");
+					Alert.show("Verifique os campos em vermelho.");
 				}
 				
 			}
@@ -686,7 +700,7 @@
 					var tutorEvent:TutorEvent = new TutorEvent(TutorEvent.CADASTRO_SUCESSO);
 					dispatchEvent(tutorEvent);
 				}else{
-					Alert.show("Erro no cadastro, tente novamente");
+					Alert.show("Erro no cadastro, tente novamente.");
 				}
 			}
 			
@@ -740,9 +754,9 @@
 	<s:TextArea width="95%" height="49" borderVisible="false" editable="false" fontSize="15"
 				fontWeight="bold"
 				text="Favor preencher cuidadosamente o formulário abaixo, pois ele será utilizado no processo seletivo do programa."/>
-		<s:Label color="#FF0000" fontWeight="bold" text="* todos os campos são obrigatórios"/>
+		<s:Label color="#FF0000" fontWeight="bold" text="* Todos os campos são obrigatórios."/>
 	<mx:FormItem width="100%">
-		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Basícos" verticalAlign="middle"/>
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Básicos" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="CPF:">
 		<forms:CpfField id="txtCpf" text="{tutor.cpf}" editable="false"/>
@@ -753,7 +767,8 @@
 	<mx:FormItem width="100%" label="Nascimento:">
 		<s:HGroup width="100%">
 			<mx:DateField id="df_nascimento" yearNavigationEnabled="true"  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"
-						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']" editable="true"/>
+						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']" editable="false"
+						  restrict="[0-9]" maxYear="2012" />
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Sexo">
@@ -780,7 +795,7 @@
 			<s:TextInput id="txtCel"  maxChars="9" text="{tutor.tel_cel}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem label="Lattes">
+	<mx:FormItem label="Lattes" width="100%">
 		<s:TextInput id="txtLattes" width="100%" text="{tutor.lattes}"/>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
@@ -799,7 +814,7 @@
 		<controls:MasterTextInput id="txtCep"  inputMask="99999-999"
 									blankMaskChar="" />
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Barrio:">
+	<mx:FormItem width="100%" label="Bairro:">
 		<s:TextInput id="txtBarrio" width="100%" text="{tutor.bairro}"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Logradouro:">
@@ -823,7 +838,7 @@
 		<s:DropDownList id="cb_atuacao" dataProvider="{listaAtuacao}" labelField="nome"  />
 	</mx:FormItem>
 	
-	<mx:FormItem width="100%" label="Já atua no Sinase?">
+	<mx:FormItem width="100%" label="Já atuou no Sinase?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="atua_sim"  value="1" groupName="atuaSinase" click="modalidadeSelecao(event)"/>
 			<s:RadioButton label="não" id="atua_nao" value="0" groupName="atuaSinase" click="modalidadeSelecao(event)"/>
@@ -867,27 +882,27 @@
 	</mx:FormItem>
 		<s:TextArea width="100%" height="49" borderVisible="false" editable="false" fontSize="15"
 					fontWeight="bold"
-					text="Possui experiência profissional em políticas públicas ou direitos humanos ou atendimento socioeducativo (SINASE) ou justiça juvenil?"/>
+					text="Possui experiência profissional em Políticas Públicas ou Direitos Humanos ou Atendimento Socioeducativo (SINASE) ou Justiça Juvenil?"/>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%" label="">
-		<s:RadioButton label="Primeira vez a realizar tutoria no curso Sinase" id="participouSinase_Sim" groupName="participouSinase" value="0"/>
+		<s:RadioButton label="Primeira vez a realizar tutoria no curso Sinase" id="participouSinase_Sim" groupName="participouSinase" value="1"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="">
 		<s:RadioButton label="Participou da tutoria na edição anterior do curso de extensão SINASE" id="participouSinase_nao" groupName="participouSinase" value="0"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Já foi tutor">
+	<mx:FormItem width="100%" label="Já foi tutor?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="tutor_ead_sim" groupName="tutor_ead" value="1"/>
 			<s:RadioButton label="não" id="tutor_ead_nao" groupName="tutor_ead" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Já foi conteudista">
+	<mx:FormItem width="100%" label="Já foi conteudista?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="cont_ead_sim" groupName="cont_ead" value="1"/>
 			<s:RadioButton label="não" id="cont_ead_nao" groupName="cont_ead" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Já fez curso por EAD">
+	<mx:FormItem width="100%" label="Já fez curso por EAD?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="aluno_ead_sim" groupName="aluno_ead" value="1"/>
 			<s:RadioButton label="não" id="aluno_ead_nao" groupName="aluno_ead" value="0"/>
@@ -900,38 +915,38 @@
 	<mx:FormItem label="Órgão promotor" width="100%">
 		<s:TextInput id="txt_orgaoPromotor" width="100%"/>
 	</mx:FormItem>
-	<mx:FormItem label="Possui experiências em tutoria na plataforma moodle." width="100%">
+	<mx:FormItem label="Possui experiências em tutoria na plataforma Moodle." width="100%">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="expTutorialmoodle_sim" groupName="expTutorialmoodle" value="1" click="visible_experienciaMoodle(event)"/>
 			<s:RadioButton label="não" id="expTutorialmoodle_nao" groupName="expTutorialmoodle" value="0"  click="visible_experienciaMoodle(event)"/>
 		</s:HGroup>
 	</mx:FormItem>
 		
-	<mx:FormItem width="100%" label="Instituição em que realizou a tutoria" id="int1">
+	<mx:FormItem width="100%" label="Instituição em que realizou a tutoria:" id="int1">
 			<s:TextInput id="txtInstituicao1" text="{tutor.instituicao_tutoria1}" width="100%"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%" label="Modalidade da Atividade" id="ativ1">
 			<s:RadioButton label="Tutor" id="mod_tutoria1_tutor" groupName="mod_tutoria1" value="1"/>
 			<s:RadioButton label="Supervisor" id="mod_tutoria1_Sutor" groupName="mod_tutoria1" value="2"/>
 			<s:RadioButton label="Prof. Supervisor" id="mod_tutoria1_profSuper" groupName="mod_tutoria1" value="3"/>
-			<s:RadioButton label="Prof. conteudista (autor);" id="mod_tutoria1_cont" groupName="mod_tutoria1" value="4"/>
+			<s:RadioButton label="Prof. Conteudista (autor);" id="mod_tutoria1_cont" groupName="mod_tutoria1" value="4"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%" label="Natureza da atividade de tutoria:" id="nat1">
 			<s:RadioButton label="Graduação" id="nat_tutoria1_graduacao" groupName="nat_tutoria1" value="1"/>
 			<s:RadioButton label="Pós Graduação" id="nat_tutoria1_pos" groupName="nat_tutoria1" value="2"/>
 			<s:RadioButton label="Curso de Extensão" id="nat_tutoria1_extensao" groupName="nat_tutoria1" value="3"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%" label="Período da Atividade" id="per1">
+		<mx:FormItem width="100%" label="Período da Atividade:" id="per1">
 			<mx:HBox width="100%">
 				<s:RadioButton label="menos de um ano" id="per_tutoria1_menos" groupName="per_tutoria1" value="1"/>
 				<s:RadioButton label="mais de um ano" id="per_tutoria1_mais" groupName="per_tutoria1" value="2"/>
 			</mx:HBox>
 		</mx:FormItem>
 	
-	<mx:FormItem width="100%" label="Instituição em que realizou a tutoria" id="int2">
+	<mx:FormItem width="100%" label="Instituição em que realizou a tutoria:" id="int2">
 			<s:TextInput id="txtInstituicao2" text="{tutor.instituicao_tutoria2}" width="100%"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%" label="Modalidade da Atividade" id="ativ2">
+		<mx:FormItem width="100%" label="Modalidade da Atividade:" id="ativ2">
 			<s:RadioButton label="Tutor" id="mod_tutoria2_tutor" groupName="mod_tutoria2" value="1"/>
 			<s:RadioButton label="Supervisor" id="mod_tutoria2_Sutor" groupName="mod_tutoria2" value="2"/>
 			<s:RadioButton label="Prof. Supervisor" id="mod_tutoria2_profSuper" groupName="mod_tutoria2" value="3"/>
@@ -942,17 +957,17 @@
 			<s:RadioButton label="Pós Graduação" id="nat_tutoria2_pos" groupName="nat_tutoria2" value="2"/>
 			<s:RadioButton label="Curso de Extensão" id="nat_tutoria2_extensao" groupName="nat_tutoria2" value="3"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%" label="Período da Atividade" id="per2">
+		<mx:FormItem width="100%" label="Período da Atividade:" id="per2">
 			<mx:HBox width="100%">
 				<s:RadioButton label="menos de um ano" id="per_tutoria2_menos" groupName="per_tutoria2" value="1"/>
 				<s:RadioButton label="mais de um ano" id="per_tutoria2_mais" groupName="per_tutoria2" value="2"/>
 			</mx:HBox>
 		</mx:FormItem>
 	
-	<mx:FormItem width="100%" label="Instituição em que realizou a tutoria" id="int3">
+	<mx:FormItem width="100%" label="Instituição em que realizou a tutoria:" id="int3">
 			<s:TextInput id="txtInstituicao3" text="{tutor.instituicao_tutoria3}" width="100%"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%" label="Modalidade da Atividade" id="ativ3">
+		<mx:FormItem width="100%" label="Modalidade da Atividade:" id="ativ3">
 			<s:RadioButton label="Tutor" id="mod_tutoria3_tutor" groupName="mod_tutoria3" value="1"/>
 			<s:RadioButton label="Supervisor" id="mod_tutoria3_Sutor" groupName="mod_tutoria3" value="2"/>
 			<s:RadioButton label="Prof. Supervisor" id="mod_tutoria3_profSuper" groupName="mod_tutoria3" value="3"/>
@@ -963,7 +978,7 @@
 			<s:RadioButton label="Pós Graduação" id="nat_tutoria3_pos" groupName="nat_tutoria3" value="2"/>
 			<s:RadioButton label="Curso de Extensão" id="nat_tutoria3_extensao" groupName="nat_tutoria3" value="3"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%" label="Período da Atividade" id="per3">
+		<mx:FormItem width="100%" label="Período da Atividade:" id="per3">
 			<mx:HBox width="100%">
 				<s:RadioButton label="menos de um ano" id="per_tutoria3_menos" groupName="per_tutoria3" value="1"/>
 				<s:RadioButton label="mais de um ano" id="per_tutoria3_mais" groupName="per_tutoria3" value="2"/>
@@ -984,13 +999,13 @@
 	<mx:FormItem width="100%">
 		<s:DropDownList id="cb_webconferencia" dataProvider="{listaWebCon}" labelField="nome"  />
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Tecnologia utilizada">
+	<mx:FormItem width="100%" label="Tecnologia utilizada:">
 		<s:TextInput id="txtTecnologiaUtilizada" width="100%" text="{tutor.tec_webcon}"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Conhecimento do pacote office">
+	<mx:FormItem width="100%" label="Conhecimento do pacote office:">
 		<s:DropDownList id="cb_ofiice" dataProvider="{listaOffice}" labelField="nome"  />
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Outros programas">
+	<mx:FormItem width="100%" label="Outros programas:">
 		<s:TextArea id="txtOutros" width="100%" height="54" text="{tutor.out_prog}" maxChars="250"/>
 	</mx:FormItem>
 	<s:Label text="Já produziu relatório ou instrumentos para coleta de dados?" verticalAlign="middle" width="100%"/>
@@ -1000,8 +1015,8 @@
 			<s:RadioButton label="não" id="relatorio_nao" groupName="rel_coleta_dados" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<s:Label text="Participou da tutoria da edição anterior do curso Sinase" verticalAlign="middle" width="100%"/>
-		<s:RadioButton label="Sim, já trabalhei com webconference Indique a ferramenta" 
+	<s:Label text="Participou da tutoria da edição anterior do curso Sinase?" verticalAlign="middle" width="100%"/>
+		<s:RadioButton label="Sim, já trabalhei com webconference. Indique a ferramenta:" 
 						   id="webCom_tutor_sim" groupName="webCom_tutor" value="1" click="onWebCon_tutor(event)"/>
 		<s:TextInput id="txtWebCom_tutor" width="100%" editable="false"  text=""/>
 		<s:RadioButton label="Não conheço ferramenta de webconference" id="webCom_tutor_nao" groupName="webCom_tutor"
@@ -1024,7 +1039,7 @@
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
-		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Disponibilidade para trabalho" verticalAlign="middle"/>
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Disponibilidade para trabalho:" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nos dia úteis?">
 		<s:HGroup width="100%">
@@ -1043,11 +1058,11 @@
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
-	<s:TextArea width="100%" height="63" borderVisible="false" editable="false" fontSize="14"
+	<s:TextArea width="100%" height="73" borderVisible="false" editable="false" fontSize="14"
 				fontWeight="bold"
-				text="Descreva, brevemente, as suas expectativas em relação à tutoria no curso do Sistema Nacional de Atendimento Socioeducativo SINASE para formação dos operadores desse sistema."/>
+				text="Descreva brevemente as suas expectativas em relação à tutoria no curso do Sistema Nacional de Atendimento Socioeducativo - SINASE - para formação dos operadores desse sistema."/>
 	<s:HGroup width="100%">
-		<s:Label text="Obrigatório. Mínimo 250 caracteres" width="100%"/>
+		<s:Label text="Obrigatório. Mínimo 250 caracteres." width="100%"/>
 		<s:Label text="{caracteiosRestante} caracteres restantes." width="100%"/>
 	</s:HGroup>
 	<s:TextArea width="100%" editable="true" borderVisible="true"  id="txtExpec_curso" text="{tutor.expec_curso}" maxChars="500"/>
