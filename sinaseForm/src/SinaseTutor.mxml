@@ -30,7 +30,7 @@
 				elementos.addElement(viewTutor);
 				viewTutor.minWidth = 700;
 				viewTutor.minHeight = 500;
-				viewTutor.percentWidth = 85;
+				viewTutor.percentWidth = 100;
 				viewTutor.percentHeight = 100;
 				viewTutor.tutor = event.tutorVO;
 				

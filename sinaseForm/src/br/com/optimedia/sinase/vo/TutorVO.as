@@ -55,7 +55,7 @@ package br.com.optimedia.sinase.vo
 		public var pontuacao:uint;
 		public var rel_coleta_dados:uint;	//int
 		
-		public var paticipou_sinase:int;
+		public var participou_sinase:int;
 		public var tutoria_webconference:String;
 		
 		public var tutoria_moodle:Boolean;

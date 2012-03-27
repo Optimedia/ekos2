@@ -33,7 +33,7 @@
 			}
 			private function formAluno(event:AlunoEvent):void{
 				elementos.removeAllElements();
-				viewAluno = new ViewAluno;
+				viewAluno = new ViewAluno();
 				elementos.addElement(viewAluno)
 				viewAluno.width = 800;
 				viewAluno.aluno = event.aluno as AlunoVO;
