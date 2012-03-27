@@ -170,15 +170,15 @@
 					}
 				}
 				//
-				if (tutor.tutoria_webconference!="0") {
+				if ((tutor.tutoria_webconference!="0") && ( tutor.tutoria_webconference!=null)) {
 					webCom_tutor_sim.selected = true
 					if (tutor.tutoria_webconference !="1") {
 						txtWebCom_tutor.text = tutor.tutoria_webconference;
 					}
-				}else {
+				}else if (tutor.tutoria_webconference=="0"){
 					webCom_tutor_nao.selected = true;
 				}
-				if (tutor.tutoria_moodle==true){
+				if (tutor.tutoria_moodle==1){
 					mostarItemMoodle()
 					expTutorialmoodle_sim.selected = true;
 					mod_tutoria1.selectedValue =tutor.modalidade_tutoria1;
@@ -203,7 +203,7 @@
 					participouSinase_nao.selected=true
 				
 				}
-				txtCep.actualText = tutor.cep;
+				txtCep.text = tutor.cep;
 			}
 			private function ocultaItemMoodle():void {
 				int1.visible = false;
@@ -370,6 +370,11 @@
 				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logradouro é obrigatório.' : '');
 				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
 				
+				txtCelDDD.errorString = (txtCelDDD.text.length <2 ? 'DDD celular é obrigatório.' : '');
+				txtCel.errorString = (txtCel.text.length < 8 ? 'Celular é obrigatório..' : '');
+				txtTelDDD.errorString = (txtTelDDD.text.length < 2 ? 'DDD telefone é obrigatório..' : '');
+				txtTel.errorString = (txtTel.text.length < 8 ? 'telefone é obrigatório.' : '');
+
 				if (rb_feminino.selected  || rb_masculino.selected ) {
 					rb_masculino.errorString = "";
 					rb_feminino.errorString = "";
@@ -379,7 +384,7 @@
 				}
 				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
 				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Bairro é obrigatório.' : '');
-				txtCep.errorString = (txtCep.text.length ==0 ? 'CEP é obrigatório.' : '');
+				txtCep.errorString = (txtCep.actualText.length ==0 ? 'CEP é obrigatório.' : '');
 				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
 				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
@@ -569,6 +574,7 @@
 					mod_tutoria1_profSuper.errorString.length + mod_tutoria1_cont.errorString.length + 
 					participouSinase_nao.errorString.length + participouSinase_Sim.errorString.length +
 					txtLattes.errorString.length + 
+					txtCelDDD.errorString.length + txtCel.errorString.length + txtTelDDD.errorString.length + txtTel.errorString.length + 
 					relatorio_nao.errorString.length);
 				
 				return (erro ? false : true);
