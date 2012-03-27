@@ -18,6 +18,8 @@
 			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import spark.events.TextOperationEvent;
+			
 			[Bindable]
 			private var caracteiosRestante:Number = 500;
 			
@@ -696,7 +698,8 @@
 			}
 			private function salvarTutor_result(event:ResultEvent):void {
 				if (event.result==true) {
-					Alert.show("Usuário Cadastrado com sucesso.");
+					Alert.show("Obrigado! Sua inscrição no processo seletivo para tutores " +
+						"CEAG/SINASE foi efetivada com sucesso! Você receberá um e-mail confirmando sua inscrição.");
 					var tutorEvent:TutorEvent = new TutorEvent(TutorEvent.CADASTRO_SUCESSO);
 					dispatchEvent(tutorEvent);
 				}else{
@@ -721,6 +724,12 @@
 				}
 				
 				
+			}
+			
+			protected function contarCaracterios(event:TextOperationEvent):void
+			{
+				var digitado:Number = txtExpec_curso.text.length;
+				caracteiosRestante = 500 - digitado;
 			}
 			
 		]]>
@@ -754,12 +763,13 @@
 	<s:TextArea width="95%" height="49" borderVisible="false" editable="false" fontSize="15"
 				fontWeight="bold"
 				text="Favor preencher cuidadosamente o formulário abaixo, pois ele será utilizado no processo seletivo do programa."/>
-		<s:Label color="#FF0000" fontWeight="bold" text="* Todos os campos são obrigatórios."/>
+		<s:Label color="#FF0000" fontSize="13" fontWeight="bold"
+				 text="* Todos os campos são obrigatórios."/>
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Básicos" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="CPF:">
-		<forms:CpfField id="txtCpf" text="{tutor.cpf}" editable="false"/>
+		<forms:CpfField id="txtCpf" text="{tutor.cpf}" editable="false" enabled="false"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nome:">
 		<s:TextInput width="100%" id="txtNome" text="{tutor.nome}"/>
@@ -869,7 +879,9 @@
 		<mx:HRule width="100%"/>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
-	<s:Label text="ou atendimento socioeducativo (SINASE) ou justiça juvenil?"/>
+		<s:TextArea width="100%" height="37" borderVisible="false" editable="false" fontSize="12"
+					fontWeight="normal"
+					text="Possui experiência profissional em Políticas Públicas ou Direitos Humanos ou Atendimento Socioeducativo (SINASE) ou Justiça Juvenil?"/>
 	<mx:FormItem width="100%" label="Adicionar referência">
 		<s:Button label="adicionar" id="btn_referencia" click="adicionarReferencia()"/>
 	</mx:FormItem>
@@ -880,9 +892,6 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Experiência com EAD" verticalAlign="middle"/>
 	</mx:FormItem>
-		<s:TextArea width="100%" height="49" borderVisible="false" editable="false" fontSize="15"
-					fontWeight="bold"
-					text="Possui experiência profissional em Políticas Públicas ou Direitos Humanos ou Atendimento Socioeducativo (SINASE) ou Justiça Juvenil?"/>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%" label="">
 		<s:RadioButton label="Primeira vez a realizar tutoria no curso Sinase" id="participouSinase_Sim" groupName="participouSinase" value="1"/>
@@ -1015,7 +1024,7 @@
 			<s:RadioButton label="não" id="relatorio_nao" groupName="rel_coleta_dados" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<s:Label text="Participou da tutoria da edição anterior do curso Sinase?" verticalAlign="middle" width="100%"/>
+	<s:Label text="Utilização da ferramenta webconference na atividade de tutoria." verticalAlign="middle" width="100%"/>
 		<s:RadioButton label="Sim, já trabalhei com webconference. Indique a ferramenta:" 
 						   id="webCom_tutor_sim" groupName="webCom_tutor" value="1" click="onWebCon_tutor(event)"/>
 		<s:TextInput id="txtWebCom_tutor" width="100%" editable="false"  text=""/>
@@ -1025,7 +1034,7 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Equipamento" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Possui webcan?">
+	<mx:FormItem width="100%" label="Possui webcam?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="webcan_sim" groupName="webcan" value="1"/>
 			<s:RadioButton label="não" id="webcan_nao" groupName="webcan" value="0"/>
@@ -1065,7 +1074,7 @@
 		<s:Label text="Obrigatório. Mínimo 250 caracteres." width="100%"/>
 		<s:Label text="{caracteiosRestante} caracteres restantes." width="100%"/>
 	</s:HGroup>
-	<s:TextArea width="100%" editable="true" borderVisible="true"  id="txtExpec_curso" text="{tutor.expec_curso}" maxChars="500"/>
+	<s:TextArea width="100%" editable="true" borderVisible="true"  id="txtExpec_curso" text="{tutor.expec_curso}" maxChars="500" change="contarCaracterios(event)"/>
 	<s:CheckBox id="cb_validos" label="Declaro serem verídicas as informações aqui registradas." click="decladoLido(event)"/>
 	<s:HGroup width="100%">
 		<s:Button label="Enviar dados" id="btn_enviar"  click="onSalvar(event)"/>

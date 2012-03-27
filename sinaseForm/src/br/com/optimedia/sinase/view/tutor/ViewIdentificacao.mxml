@@ -60,6 +60,6 @@
 			</mx:FormItem>
 		</mx:Form>
 	</s:Panel>
-	<s:Label top="50" fontSize="15" fontWeight="bold" horizontalCenter="0"
+	<s:Label top="50" fontSize="18" fontWeight="bold" horizontalCenter="0"
 			 text="Programa de Formação Continuada para Operadores do SINASE"/>
 </s:Group>
