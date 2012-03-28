@@ -65,7 +65,7 @@ package br.com.optimedia.autor.view
 		private function whoAmI():void {
 			var service:HTTPService = new HTTPService();
 			/* service.url = 'http://174.122.24.74/sinase.moodle/autor/whoami.php'; */
-			service.url = 'http://174.122.24.74/sinase2/autor/whoami.php';
+			service.url = 'http://www.educar.tv:8088/moodle22/autor/whoami.php';
 			service.resultFormat = "e4x";
 			service.showBusyCursor = true;
 			service.addEventListener(ResultEvent.RESULT, resultHandler);
@@ -79,6 +79,8 @@ package br.com.optimedia.autor.view
 			//HABILITE ESSAS DUAS VARIÁVEIS PARA TESTAR LOCALMENTE
 			//userID = 10;
 			//roleID = 1;
+			//Alert.show("teste - Autor Mediator");
+			
 			//SE NÃO ESTIVER LOGADO NO MOODLE
 			if( roleID == 0 ) {
 				Alert.show("É necessário logar-se no Moodle antes.", "Erro");

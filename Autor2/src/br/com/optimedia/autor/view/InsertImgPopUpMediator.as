@@ -64,7 +64,7 @@ package br.com.optimedia.autor.view
 					if( view.imgArray.length > 0 ) {
 						view.comboBox.selectedIndex = 0;
 						view.loading.visible = true;
-						view.preview.source = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+MediaVO(view.imgArray.getItemAt( view.comboBox.selectedIndex )).body;
+						view.preview.source = 'http://www.educar.tv:8088/amf/services/autor2/mediafiles/'+MediaVO(view.imgArray.getItemAt( view.comboBox.selectedIndex )).body;
 						view.preview.addEventListener(Event.COMPLETE, function(e:Event):void {view.loading.visible=false});
 						view.currentState = "preview";
 					}
@@ -92,7 +92,7 @@ package br.com.optimedia.autor.view
 		
 		private function comboHandler(e:ListEvent):void {
 			view.loading.visible = true;
-			view.preview.source = 'http://174.122.24.74/amf/services/autor2/mediafiles/'+MediaVO(view.imgArray.getItemAt( view.comboBox.selectedIndex )).body;
+			view.preview.source = 'http://www.educar.tv:8088/amf/services/autor2/mediafiles/'+MediaVO(view.imgArray.getItemAt( view.comboBox.selectedIndex )).body;
 			view.preview.addEventListener(FlexEvent.UPDATE_COMPLETE, function(e:FlexEvent):void {view.loading.visible=false});
 			view.currentState = "preview";
 		}
