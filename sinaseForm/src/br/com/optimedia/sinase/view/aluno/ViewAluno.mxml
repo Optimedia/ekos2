@@ -101,7 +101,7 @@
 						remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
 					}else if (idpergunta==3){
 						pergunta = new Label();
-						pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD."
+						pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD?"
 						pergunta.y = posY;
 						posY +=27;
 						grupoPergunta.addElement(pergunta);
@@ -298,8 +298,8 @@
 			}
 			private function validarForm():Boolean{
 				
-				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracterios.' : '');
-				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logardouro é obrigatório.' : '');
+				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracteres.' : '');
+				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logradouro é obrigatório.' : '');
 				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
 				
 				if (rb_feminino.selected  || rb_masculino.selected ) {
@@ -310,7 +310,7 @@
 					rb_feminino.errorString = "Sexo é obrigatório.";
 				}
 				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
-				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Barrio é obrigatório.' : '');
+				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Bairro é obrigatório.' : '');
 				txtCep.errorString = (txtCep.text.length ==0 ? 'CEP é obrigatório.' : '');
 				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
@@ -318,7 +318,7 @@
 				//txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
 				//txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
 				if (txtEmail.text != txtCmail.text) {
-					txtEmail.errorString = "E-mail devem ser iguais.";
+					txtEmail.errorString = "E-mails devem ser iguais.";
 				}
 				
 				if (atua_orgao.selectedValue==null ) {
@@ -488,7 +488,7 @@
 								nome2 = uint(nome.substr(5,9));
 								respota = new RespostaVO();
 								respota.idresposta = nome2;
-								if (cb.label.toLowerCase() =="outro. qual?") {
+								if (cb.label.toLowerCase() =="Outro. qual?") {
 									campoQual = new TextInput();
 									campoQual = grupoPergunta.getChildByName("qual_" + nome2) as TextInput;
 									respota.value_resposta = campoQual.text;
@@ -500,7 +500,7 @@
 					btn_enviar.enabled = false;
 					remote.saveAluno(aluno,result_saveAluno);
 				}else {
-					Alert.show("Verifique os campo em vermelho", "Erro");
+					Alert.show("Verifique os campos em vermelho!", "Erro");
 
 				}
 			}
@@ -509,7 +509,7 @@
 					var alunoEvent:AlunoEvent = new AlunoEvent(AlunoEvent.CADASTRO_SUCESSO);
 					dispatchEvent(alunoEvent);
 				}else{
-					Alert.show("Erro ao salvar as informações, tente novamente","Erro");
+					Alert.show("Erro ao salvar as informações, tente novamente!","Erro");
 				}
 				btn_enviar.enabled = true;
 			}
@@ -568,7 +568,7 @@
 	</fx:Declarations>
 	<s:FormHeading label="Aluno"/>
 	<mx:FormItem width="100%">
-		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Basícos" verticalAlign="middle"/>
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Básicos" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="CPF:">
 		<forms:CpfField id="txtCpf" text="{aluno.cpf}" editable="false" enabled="false"/>
@@ -582,7 +582,7 @@
 						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Sexo">
+	<mx:FormItem width="100%" label="Sexo:">
 		<s:HGroup width="100%">
 			<s:RadioButton label="Masculino" groupName="Sexo" id="rb_masculino" value="M"/>
 			<s:RadioButton label="Feminino" groupName="Sexo" id="rb_feminino" value="F"/>
@@ -594,15 +594,15 @@
 	<mx:FormItem width="100%" label="Confirmar e-mail:">
 		<s:TextInput width="100%" id="txtCmail"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Telefone">
+	<mx:FormItem width="100%" label="Telefone:">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtTelDDD" width="40" maxChars="3" text="{aluno.dddfixo}" restrict="[0-9]"/>
+			<s:TextInput id="txtTelDDD" width="40" maxChars="2" text="{aluno.dddfixo}" restrict="[0-9]"/>
 			<s:TextInput id="txtTel" maxChars="9" text="{aluno.tel_fixo}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Celular">
+	<mx:FormItem width="100%" label="Celular:">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtCelDDD" width="40" maxChars="3" text="{aluno.ddd_cel}" restrict="[0-9]"/>
+			<s:TextInput id="txtCelDDD" width="40" maxChars="2" text="{aluno.ddd_cel}" restrict="[0-9]"/>
 			<s:TextInput id="txtCel"  maxChars="9" text="{aluno.tel_cel}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
@@ -610,7 +610,7 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Filiação" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Nome do pai">
+	<mx:FormItem width="100%" label="Nome do pai:">
 		<s:TextInput width="100%" id="txtPai" text="{aluno.nome_pai}"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nome da mãe:">
@@ -631,7 +631,7 @@
 		<controls:MasterTextInput id="txtCep"  inputMask="99999-999"
 								  blankMaskChar="" />
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Barrio:">
+	<mx:FormItem width="100%" label="Bairro:">
 		<s:TextInput id="txtBarrio" width="100%" text="{aluno.bairro}"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Logradouro:">
@@ -645,9 +645,9 @@
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
-		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Outros Dados" verticalAlign="middle"/>
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Outros Dados:" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem label="Escolaridade" width="100%">
+	<mx:FormItem label="Escolaridade:" width="100%">
 		<s:ComboBox id="cb_escolaridade" dataProvider="{listaEscolaridade}" labelField="nome"/>
 	</mx:FormItem>
 	<mx:FormItem label="Ramo de Atuação:" width="100%">
@@ -694,7 +694,7 @@
 			<s:RadioButton label="não" id="def_nao" groupName="deficiencia" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Qual">
+	<mx:FormItem width="100%" label="Qual?">
 		<s:TextInput id="txtDesfQual" width="100%" text="{aluno.deficiente}"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Necessita de material especial?">
@@ -732,7 +732,7 @@
 			<s:RadioButton label="não" id="comp_nao" groupName="computador" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Possui webcan?">
+	<mx:FormItem width="100%" label="Possui webcam?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="webcan_sim" groupName="webcan" value="1"/>
 			<s:RadioButton label="não" id="webcan_nao" groupName="webcan" value="0"/>
@@ -746,9 +746,9 @@
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
-		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Disponibilidade para estudo" verticalAlign="middle"/>
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Disponibilidade para estudo?" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Nos dia úteis?">
+	<mx:FormItem width="100%" label="Nos dia úteis:">
 		<s:HGroup width="100%">
 			<s:RadioButton label="1 hora" id="disp_semanal1" groupName="disp_semanal" value="1"/>
 			<s:RadioButton label="2 horas" id="disp_semanal2" groupName="disp_semanal" value="2"/>
@@ -756,7 +756,7 @@
 			<s:RadioButton label="4 horas" id="disp_semanal4" groupName="disp_semanal" value="4"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Nos finais de semana?">
+	<mx:FormItem width="100%" label="Nos finais de semana:">
 		<s:HGroup width="100%">
 			<s:RadioButton label="1 hora"  id="disp_fds_1" groupName="fimSemana" value="1"/>
 			<s:RadioButton label="2 horas" id="disp_fds_2" groupName="fimSemana" value="2"/>
@@ -765,7 +765,7 @@
 		</s:HGroup>
 	</mx:FormItem>
 	<s:Group width="100%" id="grupoPergunta"/>
-	<mx:CheckBox id="idValido" label="Declaro serem verídicas as informações aqui registradas" click="onValidar(event)"/>
+	<mx:CheckBox id="idValido" label="Declaro serem verídicas as informações aqui registradas." click="onValidar(event)"/>
 	<mx:FormItem width="100%">
 		<s:Button id="btn_enviar" label="Enviar Dados" enabled="false"/>
 	</mx:FormItem>
