@@ -16,6 +16,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			import spark.events.TextOperationEvent;
@@ -203,7 +204,7 @@
 					participouSinase_nao.selected=true
 				
 				}
-				txtCep.text = tutor.cep;
+				txtCep.actualText = tutor.cep;
 			}
 			private function ocultaItemMoodle():void {
 				int1.visible = false;
@@ -388,9 +389,9 @@
 				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
 				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
-				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				
 				if (txtEmail.text != txtCmail.text) {
+					txtEmail.errorString = "E-mails devem ser iguais.";
 					txtEmail.errorString = "E-mails devem ser iguais.";
 				}
 				
@@ -510,9 +511,22 @@
 					madalidade_fechado.errorString = "";
 					cb_atividade.errorString = "";
 				}
-				if (webCom_tutor_sim.selected == true) {
+				mod_tutoria1_cont.errorString = "";
+				mod_tutoria1_profSuper.errorString = "";
+				mod_tutoria1_Sutor.errorString = "";
+				mod_tutoria1_tutor.errorString = "";
+				
+				per_tutoria1_mais.errorString = "";
+				per_tutoria1_menos.errorString = "";
+				
+				nat_tutoria1_extensao.errorString = "";
+				nat_tutoria1_graduacao.errorString = "";
+				nat_tutoria1_pos.errorString = "";
+				
+				if (expTutorialmoodle_sim.selected == true) {
+					
 					txtInstituicao1.errorString =  (txtInstituicao1.text.length<3 ? 'Campo é obrigatório. Deve ser maior que 3.' : '');
-					if (mod_tutoria1.selection==null) {
+					if (mod_tutoria1.selectedValue==null) {
 						mod_tutoria1_cont.errorString = 'Campo é obrigatório.'
 						mod_tutoria1_profSuper.errorString = 'Campo é obrigatório.'
 						mod_tutoria1_Sutor.errorString = 'Campo é obrigatório.'
@@ -523,14 +537,14 @@
 						mod_tutoria1_Sutor.errorString = "";
 						mod_tutoria1_tutor.errorString = "";
 					}
-					if (per_tutoria1.selection==null) {
+					if (per_tutoria1.selectedValue==null) {
 						per_tutoria1_mais.errorString = 'Campo é obrigatório.'
 						per_tutoria1_menos.errorString = 'Campo é obrigatório.'
 					}else {
 						per_tutoria1_mais.errorString = "";
 						per_tutoria1_menos.errorString = "";
 					}
-					if (nat_tutoria1.selection==null) {
+					if (nat_tutoria1.selectedValue==null) {
 						nat_tutoria1_extensao.errorString = 'Campo é obrigatório.'
 						nat_tutoria1_graduacao.errorString = 'Campo é obrigatório.'
 						nat_tutoria1_pos.errorString = 'Campo é obrigatório.'
@@ -580,7 +594,7 @@
 				return (erro ? false : true);
 				
 			}
-			protected function onSalvar(event:MouseEvent):void{
+			protected function onSalvar():void{
 				if (validarForm()) {
 					//tutor.cpf
 					tutor.nome = txtNome.text;
@@ -596,7 +610,7 @@
 					tutor.iduf = cb_UF.selectedItem.iduf;
 					tutor.regiao = cb_UF.selectedItem.regiao;
 					tutor.bairro = txtBarrio.text;
-					tutor.cep = txtCep.text;
+					tutor.cep = txtCep.actualText;
 					tutor.cidade = txtCidade.text;
 					tutor.data_nasc = df_nascimento.selectedDate.fullYear +"-"+Number(df_nascimento.selectedDate.month+1) +"-"+ df_nascimento.selectedDate.date;
 					tutor.ddd_cel = txtCelDDD.text;
@@ -737,7 +751,18 @@
 				var digitado:Number = txtExpec_curso.text.length;
 				caracteiosRestante = 500 - digitado;
 			}
+			protected function emailInvalido(event:ValidationResultEvent):void{
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				onSalvar()
+			}
 			
+			protected function emailValido(event:ValidationResultEvent):void{
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				onSalvar()
+				
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -765,6 +790,10 @@
 		<s:RadioButtonGroup id="mod_tutoria3"/>
 		<s:RadioButtonGroup id="nat_tutoria3"/>
 		<s:RadioButtonGroup id="per_tutoria3"/>
+		
+		<mx:EmailValidator source="{txtEmail}" property="text" 
+						   trigger="{btn_enviar}" triggerEvent="click"
+						   valid="emailValido(event)" invalid="emailInvalido(event)" required="true"/>
 	</fx:Declarations>
 	<s:TextArea width="95%" height="49" borderVisible="false" editable="false" fontSize="15"
 				fontWeight="bold"
@@ -801,13 +830,13 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Telefone">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtTelDDD" width="40" maxChars="3" text="{tutor.dddfixo}" restrict="[0-9]"/>
+			<s:TextInput id="txtTelDDD" width="40" maxChars="2" text="{tutor.dddfixo}" restrict="[0-9]"/>
 			<s:TextInput id="txtTel" maxChars="9" text="{tutor.tel_fixo}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Celular">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtCelDDD" width="40" maxChars="3" text="{tutor.ddd_cel}" restrict="[0-9]"/>
+			<s:TextInput id="txtCelDDD" width="40" maxChars="2" text="{tutor.ddd_cel}" restrict="[0-9]"/>
 			<s:TextInput id="txtCel"  maxChars="9" text="{tutor.tel_cel}" restrict="[0-9]"/>
 		</s:HGroup>
 	</mx:FormItem>
@@ -837,7 +866,7 @@
 		<s:HGroup width="100%">
 			<s:TextInput id="txtLogradouro" width="100%" text="{tutor.logradouro}"/>
 			<s:Label height="100%" text="N:" verticalAlign="middle"/>
-			<s:TextInput id="txtNumero" text="{tutor.numero}" restrict="[0-9]">
+			<s:TextInput id="txtNumero" text="{tutor.numero}" restrict="[0-9]" maxChars="10">
 				
 			</s:TextInput>
 		</s:HGroup>
@@ -1083,6 +1112,6 @@
 	<s:TextArea width="100%" editable="true" borderVisible="true"  id="txtExpec_curso" text="{tutor.expec_curso}" maxChars="500" change="contarCaracterios(event)"/>
 	<s:CheckBox id="cb_validos" label="Declaro serem verídicas as informações aqui registradas." click="decladoLido(event)"/>
 	<s:HGroup width="100%">
-		<s:Button label="Enviar dados" id="btn_enviar"  click="onSalvar(event)"/>
+		<s:Button label="Enviar dados" id="btn_enviar" enabled="false"/>
 	</s:HGroup>
 </mx:Form>

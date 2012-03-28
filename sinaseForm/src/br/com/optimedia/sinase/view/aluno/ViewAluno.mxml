@@ -4,7 +4,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:forms="br.com.flexbrasilia.lib.forms.*"
 		 xmlns:layouts="com.rialvalue.layouts.*"
-		 creationComplete="init(event)" 
+		 creationComplete="init(event)" xmlns:controls="com.flexpernambuco.controls.*" 
 		 >
 	<fx:Script>
 		<![CDATA[
@@ -19,6 +19,7 @@
 			import mx.controls.Alert;
 			import mx.controls.CheckBox;
 			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			import spark.components.TextArea;
@@ -149,6 +150,9 @@
 				remote.getEscolaridadeAluno(result_getEscolaridadeAluno);
 				remote.getTecEadAluno(result_getTecEadAluno);
 				remote.getWebConAluno(result_getWebConAluno);
+				
+				
+				txtCep.actualText = aluno.cep;
 				
 				if (aluno.data_nasc) {
 					df_nascimento.data = MySQLDateFormatter.mysqlToAs(aluno.data_nasc);
@@ -311,8 +315,8 @@
 				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
 				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
-				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
+				//txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				//txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
 				if (txtEmail.text != txtCmail.text) {
 					txtEmail.errorString = "E-mail devem ser iguais.";
 				}
@@ -419,14 +423,14 @@
 				return (erro ? false : true);
 			}
 			
-			protected function onEnviarDados(event:MouseEvent):void{
+			protected function onEnviarDados():void{
 				if (validarForm()){
 					aluno.bairro = txtBarrio.text;
-					aluno.cep = txtCep.text;
+					aluno.cep = txtCep.actualText;
 					aluno.cidade = txtCidade.text;
 					//aluno.cod_aprov;
 					aluno.computador = computador.selectedValue.toString();
-					aluno.cpf = txtCpf.text;
+					//aluno.cpf = txtCpf.text;
 					aluno.data_nasc =  df_nascimento.selectedDate.fullYear +"-"+Number(df_nascimento.selectedDate.month+1) +"-"+ df_nascimento.selectedDate.date;
 					aluno.ddd_cel = txtCelDDD.text;
 					aluno.dddfixo = txtTelDDD.text;
@@ -529,6 +533,18 @@
 				return respostaSel = new RespostaVO();
 			}
 			
+			protected function emailInvalido(event:ValidationResultEvent):void{
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				onEnviarDados();
+			}
+			
+			protected function emailValido(event:ValidationResultEvent):void{
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				onEnviarDados();
+				
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -545,6 +561,10 @@
 		<s:RadioButtonGroup id="disp_semanal"/>
 		<s:RadioButtonGroup id="fimSemana"/>
 		<s:RadioButtonGroup id="pergunta3"/>
+		
+		<mx:EmailValidator source="{txtEmail}" property="text" 
+						   trigger="{btn_enviar}" triggerEvent="click"
+						   valid="emailValido(event)" invalid="emailInvalido(event)" required="true"/>
 	</fx:Declarations>
 	<s:FormHeading label="Aluno"/>
 	<mx:FormItem width="100%">
@@ -607,8 +627,9 @@
 			<s:TextInput id="txtCidade" width="100%" text="{aluno.cidade}"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Cep">
-		<s:TextInput id="txtCep" text="{aluno.cep}" restrict="[0-9]"/>
+	<mx:FormItem width="100%" label="CEP:">
+		<controls:MasterTextInput id="txtCep"  inputMask="99999-999"
+								  blankMaskChar="" />
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Barrio:">
 		<s:TextInput id="txtBarrio" width="100%" text="{aluno.bairro}"/>
@@ -746,6 +767,6 @@
 	<s:Group width="100%" id="grupoPergunta"/>
 	<mx:CheckBox id="idValido" label="Declaro serem verídicas as informações aqui registradas" click="onValidar(event)"/>
 	<mx:FormItem width="100%">
-		<s:Button id="btn_enviar" label="Enviar Dados" click="onEnviarDados(event)" enabled="false"/>
+		<s:Button id="btn_enviar" label="Enviar Dados" enabled="false"/>
 	</mx:FormItem>
 </mx:Form>
