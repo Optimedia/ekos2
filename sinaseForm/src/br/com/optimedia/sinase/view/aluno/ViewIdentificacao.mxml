@@ -2,7 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" 
-		 xmlns:forms="br.com.flexbrasilia.lib.forms.*">
+		 xmlns:forms="br.com.flexbrasilia.lib.forms.*" creationComplete="init(event)">
 	<fx:Style source="SinaseAluno.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -10,18 +10,32 @@
 			import br.com.optimedia.sinase.remote.RemoteObj;
 			import br.com.optimedia.sinase.vo.AlunoVO;
 			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			[Bindable]
 			private var remote:RemoteObj = new RemoteObj();
+			
+			protected function init(event:FlexEvent):void{
+				txtCpf.errorString = "CPF é Obrigatório.";
+				
+			}
+			
 			private function validarForm ():Boolean{
-				return true;
+				if (txtCpf.errorString.length==0) {
+					return true;
+				}else {
+					return false
+				}
 			}
 			
 			protected function enviarCPF(event:MouseEvent):void{
 				if (validarForm()){
 					var nome:String = txtCpf.text;
 					remote.getAluno(nome, getAluno_result)	
+				}else {
+					Alert.show("CPF invalido.", "Erro");
 				}
 			}
 			private function getAluno_result(event:ResultEvent):void{
