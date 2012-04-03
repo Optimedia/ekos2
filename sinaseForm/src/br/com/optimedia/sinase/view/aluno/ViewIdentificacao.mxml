@@ -17,7 +17,9 @@
 			[Bindable]
 			private var remote:RemoteObj = new RemoteObj();
 			
-			protected function init(event:FlexEvent):void{
+			
+			protected function init(event:FlexEvent):void
+			{
 				txtCpf.errorString = "CPF é Obrigatório.";
 				
 			}
@@ -35,7 +37,7 @@
 					var nome:String = txtCpf.text;
 					remote.getAluno(nome, getAluno_result)	
 				}else {
-					Alert.show("CPF invalido.", "Erro");
+					Alert.show("CPF inválido.", "Erro");
 				}
 			}
 			private function getAluno_result(event:ResultEvent):void{
@@ -67,4 +69,6 @@
 			</mx:FormItem>
 		</mx:Form>
 	</s:Panel>
+	<s:Label top="50" fontSize="18" fontWeight="bold" horizontalCenter="0"
+			 text="Programa de Formação Continuada para Operadores do SINASE"/>
 </s:Group>

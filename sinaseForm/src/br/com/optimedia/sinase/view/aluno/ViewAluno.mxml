@@ -566,7 +566,12 @@
 						   trigger="{btn_enviar}" triggerEvent="click"
 						   valid="emailValido(event)" invalid="emailInvalido(event)" required="true"/>
 	</fx:Declarations>
-	<s:FormHeading label="Aluno"/>
+	<s:TextArea width="95%" height="49" borderVisible="false" editable="false" fontSize="15"
+				fontWeight="bold"
+				text="Favor preencher cuidadosamente o formulário abaixo, pois ele será utilizado no processo seletivo do programa."/>
+	<s:Label color="#FF0000" fontSize="13" fontWeight="bold"
+			 text="* Todos os campos são obrigatórios."/>
+	<!--<s:FormHeading label="Aluno"/>-->
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Básicos" verticalAlign="middle"/>
 	</mx:FormItem>
