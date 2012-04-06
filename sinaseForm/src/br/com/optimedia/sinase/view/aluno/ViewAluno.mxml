@@ -17,12 +17,12 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
-			import mx.controls.CheckBox;
+			import mx.core.IVisualElement;
 			import mx.events.FlexEvent;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			import spark.components.TextArea;
+			
 			
 			[Bindable] 
 			public var aluno:AlunoVO = new AlunoVO();
@@ -74,6 +74,8 @@
 						alternativa.label = respostaVO.value_resposta;
 						alternativa.name = "item_" + respostaVO.idresposta;
 						alternativa.id = "item_" + respostaVO.idresposta;
+						
+						
 						alternativa.y = posY;
 						grupoPergunta.addElement(alternativa);
 						respostaSel = new RespostaVO();
@@ -82,8 +84,11 @@
 							alternativa.selected = true;
 						}
 						if (respostaVO.value_resposta.toLowerCase()== "outro. qual?"){
+							alternativa.addEventListener(MouseEvent.CLICK,selecionaQual);
 							posY +=27;
 							qual = new TextInput();
+							qual.editable=false;
+							qual.enabled=false;
 							qual.id = "qual_"+ respostaVO.idresposta;
 							qual.name = "qual_"+ respostaVO.idresposta;
 							qual.percentWidth = 100;
@@ -101,7 +106,7 @@
 						remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
 					}else if (idpergunta==3){
 						pergunta = new Label();
-						pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD?"
+						pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD? Justifique sua resposta:"
 						pergunta.y = posY;
 						posY +=27;
 						grupoPergunta.addElement(pergunta);
@@ -137,6 +142,33 @@
 						idpergunta++;
 						remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
 					}
+				
+			}
+			private function selecionaQual(event:MouseEvent):void{
+				var nome:String = event.currentTarget.id;
+				var sub:String = nome.substr(5,3);
+				var obj:*
+				var campoQual:TextInput;
+				var itemQual:Boolean = false;
+				for (var j:uint=0; j<grupoPergunta.numElements; j ++) {
+					if (itemQual ==true) {
+						if (Object(grupoPergunta.getElementAt(j)).name=="qual_" + sub) {
+							TextInput(grupoPergunta.getElementAt(j)).enabled = true
+							TextInput(grupoPergunta.getElementAt(j)).editable = true
+						}
+					}else {
+						if (Object(grupoPergunta.getElementAt(j)).name=="qual_" + sub) {
+							TextInput(grupoPergunta.getElementAt(j)).enabled = false;
+							TextInput(grupoPergunta.getElementAt(j)).editable = false;
+						}
+					}
+					if (Object(grupoPergunta.getElementAt(j)).name==CheckBox(event.currentTarget).name){
+						if(CheckBox(event.currentTarget).selected==true) {
+							itemQual=true
+							//campoQual = grupoPergunta.getChildByName("qual_" + sub) as TextInput;
+						}
+					}
+				}
 				
 			}
 			protected function init(event:FlexEvent):void{
@@ -545,6 +577,20 @@
 				onEnviarDados();
 				
 			}
+			
+			protected function onDeficiencia(event:MouseEvent):void
+			{
+				if (deficiencia.selectedValue.toString()==1) {
+					txtDesfQual.editable = true;
+					txtDesfQual.enabled = true
+				}else {
+					txtDesfQual.text="";
+					txtDesfQual.editable = false
+					txtDesfQual.enabled = false
+				}
+				
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -627,7 +673,7 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="UF:">
 		<s:HGroup width="100%">
-			<s:ComboBox id="cb_UF" width="120" dataProvider="{listaUf}" labelField="uf"/>
+			<s:DropDownList id="cb_UF" width="150" dataProvider="{listaUf}" labelField="uf" />
 			<s:Label height="100%" text="Cidade:" verticalAlign="middle"/>
 			<s:TextInput id="txtCidade" width="100%" text="{aluno.cidade}"/>
 		</s:HGroup>
@@ -653,10 +699,11 @@
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Outros Dados:" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem label="Escolaridade:" width="100%">
-		<s:ComboBox id="cb_escolaridade" dataProvider="{listaEscolaridade}" labelField="nome"/>
+		<s:DropDownList id="cb_escolaridade" width="150" dataProvider="{listaEscolaridade}"
+						labelField="nome"/>
 	</mx:FormItem>
 	<mx:FormItem label="Ramo de Atuação:" width="100%">
-		<s:ComboBox id="cb_atuacao" dataProvider="{listaAtuacao}" labelField="nome"/>
+		<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome"/>
 	</mx:FormItem>
 	<mx:FormItem label="Qual:" width="100%">
 		<s:TextInput id="txtAtuacaoQual" width="100" text=""/>
@@ -670,7 +717,7 @@
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Já vez curso de capacitação promovida pela SEDH?" width="100%">
-		<s:ComboBox id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"/>
+		<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
 		<s:HGroup width="100%">
@@ -690,17 +737,17 @@
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Tecnologia utilizada:" width="100%">
-		<s:ComboBox id="cb_tecEad" dataProvider="{listaTecEad}" labelField="nome"/>
+		<s:DropDownList  id="cb_tecEad" dataProvider="{listaTecEad}" labelField="nome"  width="150"/>
 	</mx:FormItem>
 	
 	<mx:FormItem width="100%" label="Possui alguma deficiência?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="def_sim" groupName="deficiencia" value="1"/>
-			<s:RadioButton label="não" id="def_nao" groupName="deficiencia" value="0"/>
+			<s:RadioButton label="sim" id="def_sim" groupName="deficiencia" value="1" click="onDeficiencia(event)"/>
+			<s:RadioButton label="não" id="def_nao" groupName="deficiencia" value="0" click="onDeficiencia(event)"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Qual?">
-		<s:TextInput id="txtDesfQual" width="100%" text="{aluno.deficiente}"/>
+	<mx:FormItem width="100%" label="Qual?" id="itemDeficiencia">
+		<s:TextInput id="txtDesfQual" width="100%" text="{aluno.deficiente}" editable="false" enabled="false"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Necessita de material especial?">
 		<s:HGroup width="100%">
@@ -713,11 +760,11 @@
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Tecnologia" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Tem acesso a banda larga?">
-		<s:ComboBox id="cb_bandaLarga" dataProvider="{listaBandaLarga}" labelField="nome"/>
+		<s:DropDownList  id="cb_bandaLarga" dataProvider="{listaBandaLarga}" labelField="nome"/>
 	</mx:FormItem>
 	<s:Label text="Já participou de WebConference ou se relacionou via internet por voz e vídeo?" verticalAlign="middle" width="100%"/>
 	<mx:FormItem width="100%">
-		<s:ComboBox id="cb_webconferencia" dataProvider="{listaWebCon}" labelField="nome"/>
+		<s:DropDownList  id="cb_webconferencia" dataProvider="{listaWebCon}" labelField="nome"  width="150"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Faz uso da internet?">
 		<s:HGroup width="100%">
