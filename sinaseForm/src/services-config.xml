@@ -13,7 +13,7 @@
 	</services>
 	<channels>
 		<channel-definition id="my-amfphp" class="mx.messaging.channels.AMFChannel">
-			<endpoint uri="http://www.educar.tv/amf/gateway.php" class="flex.messaging.endpoints.AMFEndpoint"/>
+			<endpoint uri="http://10.1.1.10/amf/gateway.php" class="flex.messaging.endpoints.AMFEndpoint"></endpoint>
 <!--  			<endpoint uri="http://10.1.1.10/amf/gateway.php" class="flex.messaging.endpoints.AMFEndpoint"/>  -->
 		</channel-definition>
 	</channels>
