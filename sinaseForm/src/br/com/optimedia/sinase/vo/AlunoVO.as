@@ -21,6 +21,9 @@ package br.com.optimedia.sinase.vo
 		public var numero:String; 			// String
 		public var bairro:String; 			// String
 		public var cep:String; 				// String
+		
+		public var complemento:String		//String
+		
 		public var email:String; 			// String
 		public var dddfixo:String; 			// String
 		public var tel_fixo:String; 		// String
