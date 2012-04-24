@@ -332,7 +332,18 @@
 				
 				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracteres.' : '');
 				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logradouro é obrigatório.' : '');
+				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
+				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Bairro é obrigatório.' : '');
 				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
+				txtComplemento.errorString = (txtComplemento.text.length ==0 ? 'Número é obrigatório.' : '');
+				txtCep.errorString = (txtCep.actualText.length ==0 ? 'CEP é obrigatório.' : '');
+				txtMae.errorString = (txtMae.text.length ==0 ? 'Número é obrigatório.' : '');
+					
+				txtCelDDD.errorString = (txtCelDDD.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				txtCel.errorString = (txtCel.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				txtTelDDD.errorString = (txtTelDDD.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				txtTel.errorString = (txtTel.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
 				if (rb_feminino.selected  || rb_masculino.selected ) {
 					rb_masculino.errorString = "";
@@ -341,10 +352,6 @@
 					rb_masculino.errorString = "Sexo é obrigatório.";
 					rb_feminino.errorString = "Sexo é obrigatório.";
 				}
-				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
-				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Bairro é obrigatório.' : '');
-				txtCep.errorString = (txtCep.text.length ==0 ? 'CEP é obrigatório.' : '');
-				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
 				
 				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
 				//txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
@@ -438,8 +445,10 @@
 				
 				var erro:int = (
 					txtNome.errorString.length + txtLogradouro.errorString.length + txtNumero.errorString.length + 
-					rb_masculino.errorString.length + rb_feminino.errorString.length + cb_UF.errorString.length + 	
+					rb_masculino.errorString.length + rb_feminino.errorString.length + cb_UF.errorString.length + 
+					txtCelDDD.errorString.length + txtCel.errorString.length + txtTelDDD.errorString.length + txtTel.errorString.length +
 					txtBarrio.errorString.length + txtCep.errorString.length + txtCidade.errorString.length + 
+					txtComplemento.errorString.length + txtMae.errorString.length + txtCpf.errorString.length +
 					df_nascimento.errorString.length + txtEmail.errorString.length +  txtCmail.errorString.length + 				
 					comp_CRAS.errorString.length + comp_CREAS.errorString.length + comp_SUAS.errorString.length + 
 					comp_nenhum.errorString.length +  disp_semanal1.errorString.length +  disp_semanal2.errorString.length + 
@@ -682,9 +691,6 @@
 		<controls:MasterTextInput id="txtCep"  inputMask="99999-999"
 								  blankMaskChar="" />
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Bairro:">
-		<s:TextInput id="txtBarrio" width="100%" text="{aluno.bairro}"/>
-	</mx:FormItem>
 	<mx:FormItem width="100%" label="Logradouro:">
 		<s:HGroup width="100%">
 			<s:TextInput id="txtLogradouro" width="100%" text="{aluno.logradouro}"/>
@@ -694,6 +700,12 @@
 			</s:TextInput>
 		</s:HGroup>
 	</mx:FormItem>
+	<mx:FormItem width="100%" label="Complemento:">
+		<s:TextInput id="txtComplemento" width="100%" text="{aluno.complemento}"/>
+	</mx:FormItem>
+	<mx:FormItem width="100%" label="Bairro:">
+		<s:TextInput id="txtBarrio" width="100%" text="{aluno.bairro}"/>
+	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Outros Dados:" verticalAlign="middle"/>
@@ -702,7 +714,7 @@
 		<s:DropDownList id="cb_escolaridade" width="150" dataProvider="{listaEscolaridade}"
 						labelField="nome"/>
 	</mx:FormItem>
-	<mx:FormItem label="Ramo de Atuação:" width="100%">
+	<mx:FormItem label="Área de Atuação:" width="100%">
 		<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome"/>
 	</mx:FormItem>
 	<mx:FormItem label="Qual:" width="100%">
@@ -716,7 +728,7 @@
 			<s:RadioButton label="Nenhum" id="comp_nenhum" groupName="atua_orgao" value="4"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem label="Já vez curso de capacitação promovida pela SEDH?" width="100%">
+	<mx:FormItem label="Já vez curso de capacitação promovida pela SDH?" width="100%">
 		<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
@@ -790,7 +802,7 @@
 			<s:RadioButton label="não" id="webcan_nao" groupName="webcan" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Possui head-set?">
+	<mx:FormItem width="100%" label="Possui fone de ouvido com microfone?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="sim" id="head_sim" groupName="headset" value="1"/>
 			<s:RadioButton label="não" id="head_nao" groupName="headset" value="0"/>
@@ -798,7 +810,7 @@
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
-		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Disponibilidade para estudo?" verticalAlign="middle"/>
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Qual a sua disponibilidade para dedicação ao programa de capacitação EAD?" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nos dia úteis:">
 		<s:HGroup width="100%">
@@ -816,6 +828,12 @@
 			<s:RadioButton label="4 horas" id="disp_fds_4" groupName="fimSemana" value="4"/>
 		</s:HGroup>
 	</mx:FormItem>
+	<mx:HRule width="100%"/>
+
+	<mx:FormItem width="100%">
+		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Outras perguntas" verticalAlign="middle"/>
+	</mx:FormItem>
+	
 	<s:Group width="100%" id="grupoPergunta"/>
 	<mx:CheckBox id="idValido" label="Declaro serem verídicas as informações aqui registradas." click="onValidar(event)"/>
 	<mx:FormItem width="100%">
