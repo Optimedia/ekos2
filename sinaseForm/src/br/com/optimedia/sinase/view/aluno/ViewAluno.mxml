@@ -791,7 +791,7 @@
 		<s:DropDownList id="cb_escolaridade" width="150" dataProvider="{listaEscolaridade}"
 						labelField="nome"/>
 	</mx:FormItem>
-	<mx:FormItem label="Área de Atuação:aaaa" width="100%">
+	<mx:FormItem label="Área de Atuação:" width="100%">
 		<s:DropDownList id="cb_areaAtuacao" width="400" dataProvider="{listaAtuacao}" labelField="area" close="cb_areaAtuacao_clickHandler(event)"/>
 		<s:VGroup id="subAreaAtuacao" width="100%"/>
 		<!--<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome" labelFunction="fc_area"/>-->
