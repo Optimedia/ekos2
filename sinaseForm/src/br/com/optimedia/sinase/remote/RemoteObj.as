@@ -115,11 +115,16 @@ package br.com.optimedia.sinase.remote
 			var asynkToken:AsyncToken = remoteService.getAtuaOrg();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
 		}
-		public function getAtuacaoAluno (result:Function):void {
+		public function getAreaAtuacao (result:Function):void {
+			remoteService.source ="sinase2.AlunoManager";
+			var asynkToken:AsyncToken = remoteService.getAreaAtuacao();
+			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
+		}
+/*		public function getAtuacaoAluno (result:Function):void {
 			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getAtuacao();
 			asynkToken.addResponder(new Responder(result, defaultFaultHandler));			
-		}
+		}*/
 		public function getBandaLargaAluno (result:Function):void {
 			remoteService.source ="sinase2.AlunoManager";
 			var asynkToken:AsyncToken = remoteService.getBandaLarga();
