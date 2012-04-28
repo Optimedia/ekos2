@@ -12,6 +12,7 @@
 			import br.com.optimedia.sinase.event.AlunoEvent;
 			import br.com.optimedia.sinase.remote.RemoteObj;
 			import br.com.optimedia.sinase.vo.AlunoVO;
+			import br.com.optimedia.sinase.vo.AreaAtuacaoVO;
 			import br.com.optimedia.sinase.vo.PerguntaVO;
 			import br.com.optimedia.sinase.vo.RespostaVO;
 			
@@ -21,6 +22,11 @@
 			import mx.events.FlexEvent;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectProxy;
+			import mx.utils.object_proxy;
+			
+			import spark.events.DropDownEvent;
+			import spark.events.IndexChangeEvent;
 			
 			
 			
@@ -34,6 +40,8 @@
 			[Bindable]
 			private var listaAtuacao:ArrayCollection;
 			[Bindable]
+			private var listaAreaAtuacaoFull:Array;
+			[Bindable]
 			private var listaCursoSEDH:ArrayCollection;
 			[Bindable]
 			private var listaTecEad:ArrayCollection;
@@ -41,6 +49,8 @@
 			private var listaBandaLarga:ArrayCollection;
 			[Bindable]
 			private var listaWebCon:ArrayCollection;
+			
+			private var id_area_atuacaoSel:uint;
 			
 			private var remote:RemoteObj = new RemoteObj();
 			private var idpergunta:uint = 1;
@@ -175,7 +185,8 @@
 				grupoPergunta.removeAllElements();
 				remote.getPerguntaArray(idpergunta, result_getPerguntaArray);
 				remote.getUf(result_getUf);
-				remote.getAtuacaoAluno(result_getAtuacaoAluno);
+				remote.getAreaAtuacao(result_getAreaAtuacao);
+				//remote.getAtuacaoAluno(result_getAtuacaoAluno);
 				//remote.getAtuaOrgAluno(result_getAtuaOrg);
 				remote.getBandaLargaAluno(result_getBandaLargaAluno);
 				remote.getCapacitacaoAluno(result_getCapacitacaoAluno);
@@ -280,14 +291,30 @@
 					}
 				}
 			}
-			private function result_getAtuacaoAluno(event:ResultEvent):void{
+			
+			private function result_getAreaAtuacao(event:ResultEvent):void{
+				var proxy:ObjectProxy = ObjectProxy(event.result);
+			//	var obj:Object = proxy.object_proxy::object;
+				
+				listaAtuacao = new ArrayCollection()
+				var item:AreaAtuacaoVO = new AreaAtuacaoVO();
+				for each (var ob:Object in proxy) {
+					 item = new AreaAtuacaoVO();
+					 item.id = ob.id;
+					 item.id_pai= ob.id_pai;
+					 item.area= ob.area;
+					 item.subitem= ob.subitem;
+					 listaAtuacao.addItem(item);
+				 }
+			}
+			/* private function result_getAtuacaoAluno(event:ResultEvent):void{
 				listaAtuacao = new ArrayCollection (event.result as Array);
 				for (var i:uint=0 ; i<listaAtuacao.length ; i++){
 					if (listaAtuacao[i].idram_atuac == aluno.idram_atuac) {
-						cb_atuacao.selectedIndex = i;
+						//cb_atuacao.selectedIndex = i;
 					}
 				}
-			}
+			} */
 			private function result_getBandaLargaAluno(event:ResultEvent):void{
 				listaBandaLarga = new ArrayCollection (event.result as Array);
 				for (var i:uint=0 ; i<listaBandaLarga.length ; i++){
@@ -405,7 +432,7 @@
 				cb_bandaLarga.errorString = (cb_bandaLarga.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				cb_escolaridade.errorString = (cb_escolaridade.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				cb_webconferencia.errorString = (cb_webconferencia.selectedItem ==null ? 'Campo é obrigatório.' : '');
-				cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				//cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo é obrigatório.' : '');
 				
 				if (headset.selectedValue == null) {
@@ -455,7 +482,8 @@
 					disp_semanal3.errorString.length +  disp_semanal4.errorString.length +  disp_fds_1.errorString.length + 
 					disp_fds_2.errorString.length + disp_fds_3.errorString.length +  disp_fds_4.errorString.length + 
 					exp_ead_nao.errorString.length +  exp_ead_sim.errorString.length +  cb_bandaLarga.errorString.length + 
-					cb_escolaridade.errorString.length +  cb_webconferencia.errorString.length +  cb_atuacao.errorString.length + 
+					cb_escolaridade.errorString.length +  cb_webconferencia.errorString.length +  
+					//cb_atuacao.errorString.length + 
 					cb_tecEad.errorString.length +  head_nao.errorString.length + head_sim.errorString.length + 
 					webcan_nao.errorString.length +  webcan_sim.errorString.length +  mat_nao.errorString.length + 
 					mat_sim.errorString .length +  usoInt_medio.errorString.length +  usoInt_muito.errorString.length + 
@@ -490,7 +518,7 @@
 					aluno.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
 					aluno.idinternet = usoInternet.selectedValue.toString();
 					aluno.idpart_webcon = cb_webconferencia.selectedItem.idpart_webcon;
-					aluno.idram_atuac = cb_atuacao.selectedItem.idram_atuac;
+					//aluno.idram_atuac = cb_atuacao.selectedItem.idram_atuac;
 					aluno.idtec_ead = cb_tecEad.selectedItem.idtec_ead;
 					aluno.iduf = cb_UF.selectedItem.iduf;
 					//aluno.ind_moodle =
@@ -599,6 +627,55 @@
 				}
 				
 			}
+			
+			protected function selecionaAreaQual(event:MouseEvent):void{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function cb_areaAtuacao_clickHandler(event:DropDownEvent):void{
+				var obj:Object = new Object();
+				//event.currentTarget.selectedItem
+				if (event.currentTarget == cb_areaAtuacao && cb_areaAtuacao.selectedItem) {
+					obj = cb_areaAtuacao.selectedItem;
+					subAreaAtuacao.removeAllElements();
+				}else {
+					var select:DropDownList = new DropDownList();
+					select = event.currentTarget as DropDownList;
+					obj = select.selectedItem
+				}
+				var subList:ArrayCollection = new ArrayCollection();
+				var item:AreaAtuacaoVO = new AreaAtuacaoVO();
+				if (obj.subitem) {
+					for each (var ob:Object in obj.subitem) {
+						if (event.currentTarget != cb_areaAtuacao) {
+							DropDownList(event.currentTarget).enabled = false;
+						}
+						item = new AreaAtuacaoVO();
+						item.id = ob.id;
+						item.id_pai= ob.id_pai;
+						item.area= ob.area;
+						item.subitem= ob.subitem;
+						subList.addItem(item);
+					} 
+					var cb:DropDownList = new DropDownList();
+					cb.dataProvider = subList;
+					cb.width =400;
+					cb.labelField = "area";
+					subAreaAtuacao.addElement(cb);
+					cb.addEventListener(DropDownEvent.CLOSE,cb_areaAtuacao_clickHandler);
+				}else {
+					id_area_atuacaoSel = DropDownList(event.currentTarget).selectedItem.id;
+					if ( DropDownList(event.currentTarget).selectedItem.area =="Outro … Qual?") {
+						AreaAtuacaoQual.visible = true;
+						AreaAtuacaoQual.includeInLayout = true;
+					}else {
+						AreaAtuacaoQual.visible = false;
+						AreaAtuacaoQual.includeInLayout = false;
+					}
+				}
+			}
+			
 			
 		]]>
 	</fx:Script>
@@ -714,11 +791,13 @@
 		<s:DropDownList id="cb_escolaridade" width="150" dataProvider="{listaEscolaridade}"
 						labelField="nome"/>
 	</mx:FormItem>
-	<mx:FormItem label="Área de Atuação:" width="100%">
-		<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome"/>
+	<mx:FormItem label="Área de Atuação:aaaa" width="100%">
+		<s:DropDownList id="cb_areaAtuacao" width="400" dataProvider="{listaAtuacao}" labelField="area" close="cb_areaAtuacao_clickHandler(event)"/>
+		<s:VGroup id="subAreaAtuacao" width="100%"/>
+		<!--<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome" labelFunction="fc_area"/>-->
 	</mx:FormItem>
-	<mx:FormItem label="Qual:" width="100%">
-		<s:TextInput id="txtAtuacaoQual" width="100" text=""/>
+	<mx:FormItem id="AreaAtuacaoQual" label="Qual:" width="100%" visible="false" includeInLayout="false">
+		<s:TextInput id="txtAtuacaoQual" width="100%" text=""/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Já atua ou atuou nos seguintes orgão/programas?">
 		<s:HGroup width="100%">
