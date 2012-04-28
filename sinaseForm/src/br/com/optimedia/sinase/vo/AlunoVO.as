@@ -10,6 +10,7 @@ package br.com.optimedia.sinase.vo
 		public var id_pessoa:uint; 			// int
 		public var cod_aprov:uint;
 		public var idram_atuac:uint; 		// int
+		public var area_atuac_qual:String	//String
 		public var idescolaridade:uint; 	// int
 		public var iduf:uint; 				// int
 		public var nome:String; 			// String
