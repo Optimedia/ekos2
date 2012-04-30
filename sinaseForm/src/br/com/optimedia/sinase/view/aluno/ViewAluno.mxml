@@ -132,10 +132,16 @@
 						radio_sim.groupName = "pergunta3";
 						radio_sim.label = "Sim";
 						hgrupo.addElement(radio_sim);
+						if (aluno.presenca_ead==1) {
+							radio_sim.selected = true
+						}
 						
 						radio_nao = new RadioButton()
 						radio_nao.groupName = "pergunta3";
 						radio_nao.label = "Não";
+						if (aluno.presenca_ead==0) {
+							radio_nao.selected = true
+						}
 						hgrupo.addElement(radio_nao);
 						posY +=27;
 						
@@ -145,7 +151,6 @@
 						txtAlternativa3.height = 80;	
 						txtAlternativa3.x = posX
 						txtAlternativa3.y = posY;
-						
 						grupoPergunta.addElement(txtAlternativa3);
 						posY +=80;
 						posY +=27;
@@ -548,6 +553,10 @@
 					aluno.iduf = cb_UF.selectedItem.iduf;
 					//aluno.ind_moodle =
 					if (radio_sim.selected==true) {
+						aluno.presenca_ead = 1;
+						aluno.just_presenca = txtAlternativa3.text;
+					}else if (radio_nao.selected==true) {
+						aluno.presenca_ead = 0;
 						aluno.just_presenca = txtAlternativa3.text;
 					}
 					aluno.logradouro = txtLogradouro.text;
@@ -585,7 +594,7 @@
 								if (cb.label.toLowerCase() =="Outro. qual?") {
 									campoQual = new TextInput();
 									campoQual = grupoPergunta.getChildByName("qual_" + nome2) as TextInput;
-									respota.value_resposta = campoQual.text;
+									respota.value_resposta = TextInput(grupoPergunta.getChildByName("qual_" + nome2)).text;
 								}
 								aluno.respostas.push(respota);
 							}
