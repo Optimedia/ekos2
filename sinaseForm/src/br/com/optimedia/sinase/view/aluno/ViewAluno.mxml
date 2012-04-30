@@ -833,7 +833,7 @@
 			<s:RadioButton label="Nenhum" id="comp_nenhum" groupName="atua_orgao" value="4"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem label="Já vez curso de capacitação promovida pela SDH?" width="100%">
+	<mx:FormItem label="Já fez curso de capacitação promovida pela SDH?" width="100%">
 		<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
@@ -914,9 +914,7 @@
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
-	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Qual a sua disponibilidade para dedicação ao programa de capacitação EAD?" verticalAlign="middle"/>
-	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nos dia úteis:">
 		<s:HGroup width="100%">
 			<s:RadioButton label="1 hora" id="disp_semanal1" groupName="disp_semanal" value="1"/>
