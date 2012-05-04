@@ -329,13 +329,44 @@
 					}
 				}
 			}
-			private function result_getCapacitacaoAluno(event:ResultEvent):void{
-				listaCursoSEDH = new ArrayCollection (event.result as Array);
-				for (var i:uint=0 ; i<listaCursoSEDH.length ; i++){
-					if (listaCursoSEDH[i].idcapacitacao_sinase == aluno.idcapacitacao_sinase) {
-						cb_cursoSEDH.selectedIndex = i;
+			private function onSdh(event:MouseEvent):void{
+				var cb_SDH:CheckBox = event.currentTarget as CheckBox;
+				if (cb_SDH.data.nome == "Não") {
+					for (var j:uint=0; j<grupoSDH.numElements; j ++) {
+						if (CheckBox(grupoSDH.getElementAt(j)).data.nome!="Não"){
+							CheckBox(grupoSDH.getElementAt(j)).selected = false;
+						}
+					}
+				}else {
+					for (var j:uint=0; j<grupoSDH.numElements; j ++) {
+						if (CheckBox(grupoSDH.getElementAt(j)).data.nome=="Não"){
+							CheckBox(grupoSDH.getElementAt(j)).selected = false;
+						}
 					}
 				}
+			}
+			private function result_getCapacitacaoAluno(event:ResultEvent):void{
+				listaCursoSEDH = new ArrayCollection (event.result as Array);
+				var cb_SDH:CheckBox;
+				for each (var item:Object in listaCursoSEDH.source ) {
+					cb_SDH = new CheckBox();
+					cb_SDH.id = "cb_"+item.idcapacitacao_sinase;
+					cb_SDH.name = "cb_"+item.idcapacitacao_sinase
+					cb_SDH.label = item.nome;
+					cb_SDH.data = item;
+					for each (var itemAluno:String in aluno.idcapacitacao_sinase) {
+						if (itemAluno == item["idcapacitacao_sinase"]) {
+							cb_SDH.selected = true;
+						}
+					}
+					cb_SDH.addEventListener(MouseEvent.CLICK, onSdh);
+					grupoSDH.addElement(cb_SDH);
+				}
+				/*for (var i:uint=0 ; i<listaCursoSEDH.length ; i++){
+					 if (listaCursoSEDH[i].idcapacitacao_sinase == aluno.idcapacitacao_sinase) {
+						cb_cursoSEDH.selectedIndex = i;
+					} 
+				}*/
 			}
 			private function result_getEscolaridadeAluno(event:ResultEvent):void{
 				listaEscolaridade = new ArrayCollection (event.result as Array);
@@ -540,7 +571,14 @@
 					aluno.headset = headset.selectedValue.toString();
 					aluno.idatua_org = atua_orgao.selectedValue.toString();
 					aluno.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
-					aluno.idcapacitacao_sinase = cb_cursoSEDH.selectedItem.idcapacitacao_sinase;
+					//aluno.idcapacitacao_sinase = cb_cursoSEDH.selectedItem.idcapacitacao_sinase;
+					var arrayCursoSDH:Array = new Array();
+					for (var j:uint=0; j<grupoSDH.numElements; j ++) {
+						if (CheckBox(grupoSDH.getElementAt(j)).selected ==true){
+							arrayCursoSDH.push(CheckBox(grupoSDH.getElementAt(j)).data.idcapacitacao_sinase)
+						}
+					}
+					aluno.idcapacitacao_sinase = arrayCursoSDH;
 					aluno.idcarga_hora = horas.selectedValue.toString();
 					aluno.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
 					aluno.idinternet = usoInternet.selectedValue.toString();
@@ -843,7 +881,10 @@
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Já fez curso de capacitação promovida pela SDH?" width="100%">
-		<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150"/>
+		<!--<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150"/>-->
+		<s:VGroup id="grupoSDH" width="100%">
+			
+		</s:VGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
 		<s:HGroup width="100%">
