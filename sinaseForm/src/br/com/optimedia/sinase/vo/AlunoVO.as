@@ -43,7 +43,7 @@ package br.com.optimedia.sinase.vo
 		public var idaluno:uint; 				// int
 		public var idtec_ead:uint;          	//int
 		public var idbanda_larga:uint; 			// int
-		public var idcapacitacao_sinase:uint; 	// int
+		public var idcapacitacao_sinase:Array; 	// int
 		public var idatua_org:uint; 			// int
 		public var idcarga_hora:uint; 			// int
 		public var idinternet:uint; 			// int
