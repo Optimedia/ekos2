@@ -304,6 +304,11 @@
 				
 				listaAtuacao = new ArrayCollection()
 				var item:AreaAtuacaoVO = new AreaAtuacaoVO();
+				var item2:AreaAtuacaoVO = new AreaAtuacaoVO();
+				var item3:AreaAtuacaoVO = new AreaAtuacaoVO();
+				
+				var itemsSelecionado:Array = new Array();
+				var listaSelecionado:Array = new Array();
 				for each (var ob:Object in proxy) {
 					 item = new AreaAtuacaoVO();
 					 item.id = ob.id;
@@ -311,7 +316,120 @@
 					 item.area= ob.area;
 					 item.subitem= ob.subitem;
 					 listaAtuacao.addItem(item);
+					 
+					 if ((aluno.idram_atuac!=0)) {
+						for each (var obs2:Object in ob.subitem) {
+							 item2 = new AreaAtuacaoVO();
+							 item2.id = obs2.id;
+							 item2.id_pai= obs2.id_pai;
+							 item2.area= obs2.area;
+							 item2.subitem= obs2.subitem;
+							 if (aluno.idram_atuac == item2.id){
+								 
+								//cb_areaAtuacao.selectedItem = item;
+								itemsSelecionado.push(item.id);
+								itemsSelecionado.push(item2.id);
+								
+								listaSelecionado.push(item);
+								listaSelecionado.push(item2);
+								 
+							 }else if (Array(item2.subitem).length<0){
+								 for each (var obs3:Object in obs2.subitem) {
+									 item3 = new AreaAtuacaoVO();
+									 item3.id = obs3.id;
+									 item3.id_pai= obs3.id_pai;
+									 item3.area= obs3.area;
+									 item3.subitem= obs3.subitem;
+									 if (aluno.idram_atuac == item3.id){
+										// cb_areaAtuacao.selectedItem = item;
+										 
+										 itemsSelecionado.push(item.id);
+										 itemsSelecionado.push(item2.id);
+										 itemsSelecionado.push(item3.id);
+										 
+										 listaSelecionado.push(item);
+										 listaSelecionado.push(item2);
+										 listaSelecionado.push(item3);
+									 }
+								 }
+							 }
+						 }
+					 }
 				 }
+				if (aluno.area_atuac_qual!=""){
+					tipoAreaQual = true
+					AreaAtuacaoQual.visible = true;
+					AreaAtuacaoQual.includeInLayout = true;
+					txtAtuacaoQual.text = aluno.area_atuac_qual;
+				}
+				if ((aluno.idram_atuac!=0)) {
+						marcarRetornoAreaAtuacao(itemsSelecionado, listaSelecionado);
+				}
+			}
+			private function marcarRetornoAreaAtuacao(itemsSelecionado:Array , lista:Array):void {
+				
+				var cb:DropDownList=new DropDownList();
+				var subList:ArrayCollection = new ArrayCollection();
+				var item:AreaAtuacaoVO;
+				var s:uint=0;
+				var select:uint;
+				
+				for (var i:uint = 0; i<lista.length; i++) {
+					if (i==0) {
+						cb_areaAtuacao.selectedItem = lista[i];
+						
+						subList = new ArrayCollection();
+						for each (var ob:Object in lista[i].subitem) {
+							 if (itemsSelecionado[1]==ob.id){
+								select = s;
+							}
+							s++; 
+							item = new AreaAtuacaoVO();
+							item.id = ob.id;
+							item.id_pai= ob.id_pai;
+							item.area= ob.area;
+							item.subitem= ob.subitem;
+							subList.addItem(item);
+						} 
+						cb = new DropDownList();
+						cb.dataProvider = subList;
+						cb.width =400;
+						cb.labelField = "area";
+						subAreaAtuacao.addElement(cb);
+						cb.addEventListener(DropDownEvent.CLOSE,cb_areaAtuacao_clickHandler);
+						cb.selectedIndex = select;
+						if (lista.length>2){
+							cb.enabled = false;
+						}
+					}else {
+						var t:uint = Number(i)+Number(1);
+						subList = new ArrayCollection();
+						for each (var ob:Object in lista[i].subitem) {
+							if (itemsSelecionado[1]==ob.id){
+								select = s;
+							}
+							s++; 
+							item = new AreaAtuacaoVO();
+							item.id = ob.id;
+							item.id_pai= ob.id_pai;
+							item.area= ob.area;
+							item.subitem= ob.subitem;
+							subList.addItem(item);
+						} 
+						if (subList.length>0) {
+							cb = new DropDownList();
+							cb.dataProvider = subList;
+							cb.width =400;
+							cb.labelField = "area";
+							subAreaAtuacao.addElement(cb);
+							cb.addEventListener(DropDownEvent.CLOSE,cb_areaAtuacao_clickHandler);
+							cb.selectedIndex = select;
+							if (lista.length>2){
+								cb.enabled = false;
+							}
+						}
+					}
+				}
 			}
 			/* private function result_getAtuacaoAluno(event:ResultEvent):void{
 				listaAtuacao = new ArrayCollection (event.result as Array);
@@ -392,6 +510,96 @@
 					}
 				}
 			}
+			
+			private function marcaChebox(id:uint):RespostaVO {
+				var respostaSel:RespostaVO = new RespostaVO();
+				if (aluno.respostas) {
+					for(var i:uint=0; i<aluno.respostas.length; i++) {
+						respostaSel = aluno.respostas[i] as RespostaVO;
+						if (respostaSel.idresposta == id) {
+							return respostaSel
+						}
+					}
+				}
+				return respostaSel = new RespostaVO();
+			}
+			
+			protected function emailInvalido(event:ValidationResultEvent):void{
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				onEnviarDados();
+			}
+			
+			protected function emailValido(event:ValidationResultEvent):void{
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				onEnviarDados();
+				
+			}
+			
+			protected function onDeficiencia(event:MouseEvent):void{
+				if (deficiencia.selectedValue.toString()==1) {
+					txtDesfQual.editable = true;
+					txtDesfQual.enabled = true
+				}else {
+					txtDesfQual.text="";
+					txtDesfQual.editable = false
+					txtDesfQual.enabled = false
+				}
+				
+			}
+			
+			protected function selecionaAreaQual(event:MouseEvent):void{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function cb_areaAtuacao_clickHandler(event:DropDownEvent):void{
+				var obj:Object = new Object();
+				//event.currentTarget.selectedItem
+				if (event.currentTarget == cb_areaAtuacao && cb_areaAtuacao.selectedItem) {
+					obj = cb_areaAtuacao.selectedItem;
+					subAreaAtuacao.removeAllElements();
+				}else {
+					var select:DropDownList = new DropDownList();
+					select = event.currentTarget as DropDownList;
+					obj = select.selectedItem
+				}
+				var subList:ArrayCollection = new ArrayCollection();
+				var item:AreaAtuacaoVO = new AreaAtuacaoVO();
+				if (obj.subitem) {
+					for each (var ob:Object in obj.subitem) {
+						if (event.currentTarget != cb_areaAtuacao) {
+							DropDownList(event.currentTarget).enabled = false;
+						}
+						item = new AreaAtuacaoVO();
+						item.id = ob.id;
+						item.id_pai= ob.id_pai;
+						item.area= ob.area;
+						item.subitem= ob.subitem;
+						subList.addItem(item);
+					} 
+					var cb:DropDownList = new DropDownList();
+					cb.dataProvider = subList;
+					cb.width =400;
+					cb.labelField = "area";
+					subAreaAtuacao.addElement(cb);
+					cb.addEventListener(DropDownEvent.CLOSE,cb_areaAtuacao_clickHandler);
+				}else {
+					id_area_atuacaoSel = DropDownList(event.currentTarget).selectedItem.id;
+					if ( DropDownList(event.currentTarget).selectedItem.area =="Outro … Qual?") {
+						tipoAreaQual = true
+						AreaAtuacaoQual.visible = true;
+						AreaAtuacaoQual.includeInLayout = true;
+					}else {
+						tipoAreaQual = false;
+						AreaAtuacaoQual.visible = false;
+						AreaAtuacaoQual.includeInLayout = false;
+					}
+				}
+			}
+			
+			
 			private function validarForm():Boolean{
 				
 				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracteres.' : '');
@@ -586,6 +794,8 @@
 					aluno.idram_atuac = id_area_atuacaoSel;
 					if (tipoAreaQual==true) {
 						aluno.area_atuac_qual = txtAtuacaoQual.text;
+					}else {
+						aluno.area_atuac_qual = "";
 					}
 					aluno.idtec_ead = cb_tecEad.selectedItem.idtec_ead;
 					aluno.iduf = cb_UF.selectedItem.iduf;
@@ -661,95 +871,6 @@
 					btn_enviar.enabled= false;
 				}
 			}
-			private function marcaChebox(id:uint):RespostaVO {
-				var respostaSel:RespostaVO = new RespostaVO();
-				if (aluno.respostas) {
-					for(var i:uint=0; i<aluno.respostas.length; i++) {
-						respostaSel = aluno.respostas[i] as RespostaVO;
-						if (respostaSel.idresposta == id) {
-							return respostaSel
-						}
-					}
-				}
-				return respostaSel = new RespostaVO();
-			}
-			
-			protected function emailInvalido(event:ValidationResultEvent):void{
-				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
-				onEnviarDados();
-			}
-			
-			protected function emailValido(event:ValidationResultEvent):void{
-				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
-				onEnviarDados();
-				
-			}
-			
-			protected function onDeficiencia(event:MouseEvent):void{
-				if (deficiencia.selectedValue.toString()==1) {
-					txtDesfQual.editable = true;
-					txtDesfQual.enabled = true
-				}else {
-					txtDesfQual.text="";
-					txtDesfQual.editable = false
-					txtDesfQual.enabled = false
-				}
-				
-			}
-			
-			protected function selecionaAreaQual(event:MouseEvent):void{
-				// TODO Auto-generated method stub
-				
-			}
-			
-			protected function cb_areaAtuacao_clickHandler(event:DropDownEvent):void{
-				var obj:Object = new Object();
-				//event.currentTarget.selectedItem
-				if (event.currentTarget == cb_areaAtuacao && cb_areaAtuacao.selectedItem) {
-					obj = cb_areaAtuacao.selectedItem;
-					subAreaAtuacao.removeAllElements();
-				}else {
-					var select:DropDownList = new DropDownList();
-					select = event.currentTarget as DropDownList;
-					obj = select.selectedItem
-				}
-				var subList:ArrayCollection = new ArrayCollection();
-				var item:AreaAtuacaoVO = new AreaAtuacaoVO();
-				if (obj.subitem) {
-					for each (var ob:Object in obj.subitem) {
-						if (event.currentTarget != cb_areaAtuacao) {
-							DropDownList(event.currentTarget).enabled = false;
-						}
-						item = new AreaAtuacaoVO();
-						item.id = ob.id;
-						item.id_pai= ob.id_pai;
-						item.area= ob.area;
-						item.subitem= ob.subitem;
-						subList.addItem(item);
-					} 
-					var cb:DropDownList = new DropDownList();
-					cb.dataProvider = subList;
-					cb.width =400;
-					cb.labelField = "area";
-					subAreaAtuacao.addElement(cb);
-					cb.addEventListener(DropDownEvent.CLOSE,cb_areaAtuacao_clickHandler);
-				}else {
-					id_area_atuacaoSel = DropDownList(event.currentTarget).selectedItem.id;
-					if ( DropDownList(event.currentTarget).selectedItem.area =="Outro … Qual?") {
-						tipoAreaQual = true
-						AreaAtuacaoQual.visible = true;
-						AreaAtuacaoQual.includeInLayout = true;
-					}else {
-						tipoAreaQual = false;
-						AreaAtuacaoQual.visible = false;
-						AreaAtuacaoQual.includeInLayout = false;
-					}
-				}
-			}
-			
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
