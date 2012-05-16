@@ -244,6 +244,11 @@
 					}else {
 						mat_nao.selected= true;
 					}
+					if (aluno.idturma_sinase ==1 ) {
+						turmaSinase_ECA.selected = true;
+					}else if (aluno.idturma_sinase ==2 ) {
+						turmaSinase_SINASE.selected= true;
+					}
 					if (aluno.idinternet==1) {
 						usoInt_nao.selected = true;
 					}else if (aluno.idinternet==2) {
@@ -719,6 +724,13 @@
 					mat_nao.errorString = "";
 					mat_sim.errorString = "";
 				}
+				if (turmaSinase.selectedValue ==null ) {
+					turmaSinase_ECA.errorString = "Campo obrigatório";
+					turmaSinase_SINASE.errorString = "Campo obrigatório";
+				}else {
+					turmaSinase_ECA.errorString = "";
+					turmaSinase_SINASE.errorString = "";
+				}
 				if (usoInternet.selectedValue == null) {
 					usoInt_medio.errorString = "Campo obrigatório";
 					usoInt_muito.errorString = "Campo obrigatório";
@@ -746,6 +758,7 @@
 					disp_fds_2.errorString.length + disp_fds_3.errorString.length +  disp_fds_4.errorString.length + 
 					exp_ead_nao.errorString.length +  exp_ead_sim.errorString.length +  cb_bandaLarga.errorString.length + 
 					cb_escolaridade.errorString.length +  cb_webconferencia.errorString.length +  
+					turmaSinase_ECA.errorString.length + turmaSinase_SINASE.errorString.length + 
 					//cb_atuacao.errorString.length + 
 					txtAtuacaoQual.errorString.length + cb_areaAtuacao.errorString.length + 
 					cb_tecEad.errorString.length +  head_nao.errorString.length + head_sim.errorString.length + 
@@ -779,6 +792,7 @@
 					aluno.headset = headset.selectedValue.toString();
 					aluno.idatua_org = atua_orgao.selectedValue.toString();
 					aluno.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
+					aluno.idturma_sinase = turmaSinase.selectedValue.toString();
 					//aluno.idcapacitacao_sinase = cb_cursoSEDH.selectedItem.idcapacitacao_sinase;
 					var arrayCursoSDH:Array = new Array();
 					for (var j:uint=0; j<grupoSDH.numElements; j ++) {
@@ -887,6 +901,7 @@
 		<s:RadioButtonGroup id="disp_semanal"/>
 		<s:RadioButtonGroup id="fimSemana"/>
 		<s:RadioButtonGroup id="pergunta3"/>
+		<s:RadioButtonGroup id="turmaSinase"/>
 		
 		<mx:EmailValidator source="{txtEmail}" property="text" 
 						   trigger="{btn_enviar}" triggerEvent="click"
@@ -1013,6 +1028,12 @@
 			<s:RadioButton label="120h" id="horas_120" groupName="horas" value="2"/>
 			<s:RadioButton label="Mais de 120h" id="horas_mais120" groupName="horas" value="3"/>
 		</s:HGroup>
+	</mx:FormItem>
+	<mx:FormItem width="100%" label="Selecione a turma que você tem disponibilidade para cursar:">
+		<s:VGroup width="100%">
+			<s:RadioButton label="Turma ECA (previsão de 13/07 a 13/10)" id="turmaSinase_ECA" groupName="turmaSinase" value="1"/>
+			<s:RadioButton label="Turma SINASE (previsão de 18/01/2013 a 18/04/2013)" id="turmaSinase_SINASE" groupName="turmaSinase" value="2"/>
+		</s:VGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">

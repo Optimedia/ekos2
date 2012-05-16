@@ -22,6 +22,7 @@ package br.com.optimedia.sinase.vo
 		public var numero:String; 			// String
 		public var bairro:String; 			// String
 		public var cep:String; 				// String
+		public var idturma_sinase:int; 		// String
 		
 		public var complemento:String		//String
 		
