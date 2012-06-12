@@ -273,7 +273,7 @@
 					}else {
 						head_nao.selected = true;
 					}
-					if (aluno.disp_sem == 1){
+					/* if (aluno.disp_sem == 1){
 						disp_semanal1.selected = true;
 					}else if (aluno.disp_sem ==2){
 						disp_semanal2.selected = true;
@@ -281,8 +281,8 @@
 						disp_semanal3.selected = true;
 					}else if (aluno.disp_sem ==4){
 						disp_semanal4.selected = true;
-					}
-					if (aluno.disp_fds == 1){
+					} */
+					/* if (aluno.disp_fds == 1){
 						disp_fds_1.selected = true;
 					}else if (aluno.disp_fds ==2){
 						disp_fds_2.selected = true;
@@ -290,7 +290,7 @@
 						disp_fds_3.selected = true;
 					}else if (aluno.disp_fds ==4){
 						disp_fds_4.selected = true;
-					}
+					} */
 				}
 			}
 				
@@ -530,14 +530,14 @@
 			}
 			
 			protected function emailInvalido(event:ValidationResultEvent):void{
-				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'Campo obrigatório' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Campo obrigatório' : '');
 				onEnviarDados();
 			}
 			
 			protected function emailValido(event:ValidationResultEvent):void{
-				txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
-				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação é obrigatório.' : '');
+				txtEmail.errorString = (txtEmail.text.length ==0 ? 'Campo obrigatório' : '');
+				txtCmail.errorString = (txtCmail.text.length ==0 ? 'Campo obrigatório' : '');
 				onEnviarDados();
 				
 			}
@@ -607,23 +607,24 @@
 			
 			private function validarForm():Boolean{
 				
-				txtNome.errorString = (txtNome.text.length < 6 ? 'Nome deve ter pelo menos 6 caracteres.' : '');
-				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Logradouro é obrigatório.' : '');
-				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'UF é obrigatório.' : '');
-				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Cidade é obrigatório.' : '');
-				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Bairro é obrigatório.' : '');
-				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Número é obrigatório.' : '');
-				txtComplemento.errorString = (txtComplemento.text.length ==0 ? 'Número é obrigatório.' : '');
-				txtCep.errorString = (txtCep.actualText.length ==0 ? 'CEP é obrigatório.' : '');
-				txtMae.errorString = (txtMae.text.length ==0 ? 'Número é obrigatório.' : '');
+				txtNome.errorString = (txtNome.text.length < 5 ? 'Nome deve ter pelo menos 6 caracteres.' : '');
+				txtLogradouro.errorString = (txtLogradouro.text.length ==0 ? 'Campo obrigatório' : '');
+				cb_UF.errorString = (cb_UF.selectedItem ==null ? 'Campo obrigatório' : '');
+				txtCidade.errorString = (txtCidade.text.length ==0 ? 'Campo obrigatório' : '');
+				txtBarrio.errorString = (txtBarrio.text.length ==0 ? 'Campo obrigatório' : '');
+				txtNumero.errorString = (txtNumero.text.length ==0 ? 'Campo obrigatório' : '');
+				//txtComplemento.errorString = (txtComplemento.text.length ==0 ? 'Número é obrigatório.' : '');
+				txtCep.errorString = (txtCep.actualText.length ==0 ? 'Campo obrigatório' : '');
+				txtMae.errorString = (txtMae.text.length ==0 ? 'Campo obrigatório' : '');
 					
-				txtCelDDD.errorString = (txtCelDDD.text.length ==0 ? 'Cidade é obrigatório.' : '');
-				txtCel.errorString = (txtCel.text.length ==0 ? 'Cidade é obrigatório.' : '');
-				txtTelDDD.errorString = (txtTelDDD.text.length ==0 ? 'Cidade é obrigatório.' : '');
-				txtTel.errorString = (txtTel.text.length ==0 ? 'Cidade é obrigatório.' : '');
+				txtCelDDD.errorString = (txtCelDDD.text.length ==0 ? 'Campo obrigatório' : '');
+				txtCel.errorString = (txtCel.text.length ==0 ? 'Campo obrigatório' : '');
+				txtTelDDD.errorString = (txtTelDDD.text.length ==0 ? 'Campo obrigatório' : '');
+				txtTel.errorString = (txtTel.text.length ==0 ? 'Campo obrigatório' : '');
+				
 				
 				if (tipoAreaQual==true) {
-					txtAtuacaoQual.errorString = (txtAtuacaoQual.text.length ==0 ? 'Cidade é obrigatório.' : '');
+					txtAtuacaoQual.errorString = (txtAtuacaoQual.text.length ==0 ? 'Campo obrigatório' : '');
 				}else {
 					txtAtuacaoQual.errorString = "";
 				}
@@ -631,11 +632,11 @@
 					rb_masculino.errorString = "";
 					rb_feminino.errorString = "";
 				}else {
-					rb_masculino.errorString = "Sexo é obrigatório.";
-					rb_feminino.errorString = "Sexo é obrigatório.";
+					rb_masculino.errorString = "Campo obrigatório";
+					rb_feminino.errorString = "Campo obrigatório";
 				}
 				
-				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Nascimento é obrigatório.' : '');
+				df_nascimento.errorString = (df_nascimento.selectedDate==null ? 'Campo obrigatório' : '');
 				//txtEmail.errorString = (txtEmail.text.length ==0 ? 'E-mail é obrigatório.' : '');
 				//txtCmail.errorString = (txtCmail.text.length ==0 ? 'Confirmação do é obrigatório.' : '');
 				if (txtEmail.text != txtCmail.text) {
@@ -654,7 +655,7 @@
 					comp_nenhum.errorString = "";
 				}
 				
-				if (disp_semanal.selectedValue== null) {
+				/* if (disp_semanal.selectedValue== null) {
 					disp_semanal1.errorString = "Campo obrigatório";
 					disp_semanal2.errorString = "Campo obrigatório";
 					disp_semanal3.errorString = "Campo obrigatório";
@@ -664,9 +665,9 @@
 					disp_semanal2.errorString = "";
 					disp_semanal3.errorString = "";
 					disp_semanal4.errorString = "";
-				}
+				} */
 				
-				if ( fimSemana.selectedValue== null) {
+				/* if ( fimSemana.selectedValue== null) {
 					disp_fds_1.errorString = "Campo obrigatório";
 					disp_fds_2.errorString = "Campo obrigatório";
 					disp_fds_3.errorString = "Campo obrigatório";
@@ -676,7 +677,7 @@
 					disp_fds_2.errorString = "";
 					disp_fds_3.errorString = "";
 					disp_fds_4.errorString = "";
-				}
+				} */
 				if (exp_ead.selectedValue == null) {
 					exp_ead_nao.errorString = "Campo obrigatório";
 					exp_ead_sim.errorString = "Campo obrigatório";
@@ -684,16 +685,23 @@
 					exp_ead_nao.errorString  = "";
 					exp_ead_sim.errorString  = "";
 				}
-				cb_bandaLarga.errorString = (cb_bandaLarga.selectedItem ==null ? 'Campo é obrigatório.' : '');
-				cb_escolaridade.errorString = (cb_escolaridade.selectedItem ==null ? 'Campo é obrigatório.' : '');
-				cb_webconferencia.errorString = (cb_webconferencia.selectedItem ==null ? 'Campo é obrigatório.' : '');
-				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo é obrigatório.' : '');
-				//cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo é obrigatório.' : '');
+				if (computador.selectedValue == null) {
+					comp_nao.errorString = "Campo obrigatório";
+					comp_sim.errorString = "Campo obrigatório";
+				}else {
+					exp_ead_nao.errorString  = "";
+					exp_ead_sim.errorString  = "";
+				}
+				cb_bandaLarga.errorString = (cb_bandaLarga.selectedItem ==null ? 'Campo obrigatório' : '');
+				cb_escolaridade.errorString = (cb_escolaridade.selectedItem ==null ? 'Campo obrigatório' : '');
+				cb_webconferencia.errorString = (cb_webconferencia.selectedItem ==null ? 'Campo obrigatório' : '');
+				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo obrigatório' : '');
+				//cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo obrigatório' : '');
 			
 				if (id_area_atuacaoSel ==0) {
-					cb_areaAtuacao.errorString = "Campo é obrigatório.";
+					cb_areaAtuacao.errorString = "Campo obrigatório";
 					for each (var itemCb:DropDownList in subAreaAtuacao){
-						itemCb.errorString =  "Campo é obrigatório.";
+						itemCb.errorString =  "Campo obrigatório";
 						
 					}
 				}else {
@@ -742,24 +750,27 @@
 					usoInt_nao.errorString = "";
 					usoInt_pouco.errorString= "";
 				}
-				
 				//##################
 				
 				var erro:int = (
+					
 					txtNome.errorString.length + txtLogradouro.errorString.length + txtNumero.errorString.length + 
 					rb_masculino.errorString.length + rb_feminino.errorString.length + cb_UF.errorString.length + 
 					txtCelDDD.errorString.length + txtCel.errorString.length + txtTelDDD.errorString.length + txtTel.errorString.length +
 					txtBarrio.errorString.length + txtCep.errorString.length + txtCidade.errorString.length + 
-					txtComplemento.errorString.length + txtMae.errorString.length + txtCpf.errorString.length +
+					//txtComplemento.errorString.length +
+					txtMae.errorString.length + txtCpf.errorString.length +
 					df_nascimento.errorString.length + txtEmail.errorString.length +  txtCmail.errorString.length + 				
 					comp_CRAS.errorString.length + comp_CREAS.errorString.length + comp_SUAS.errorString.length + 
-					comp_nenhum.errorString.length +  disp_semanal1.errorString.length +  disp_semanal2.errorString.length + 
-					disp_semanal3.errorString.length +  disp_semanal4.errorString.length +  disp_fds_1.errorString.length + 
-					disp_fds_2.errorString.length + disp_fds_3.errorString.length +  disp_fds_4.errorString.length + 
+					comp_nenhum.errorString.length +  
+					//disp_semanal1.errorString.length +  disp_semanal2.errorString.length + 
+//					disp_semanal3.errorString.length +  disp_semanal4.errorString.length +  disp_fds_1.errorString.length + 
+					//disp_fds_2.errorString.length + disp_fds_3.errorString.length +  disp_fds_4.errorString.length + 
 					exp_ead_nao.errorString.length +  exp_ead_sim.errorString.length +  cb_bandaLarga.errorString.length + 
 					cb_escolaridade.errorString.length +  cb_webconferencia.errorString.length +  
 					turmaSinase_ECA.errorString.length + turmaSinase_SINASE.errorString.length + 
 					//cb_atuacao.errorString.length + 
+					comp_sim.errorString.length + comp_nao.errorString.length + 
 					txtAtuacaoQual.errorString.length + cb_areaAtuacao.errorString.length + 
 					cb_tecEad.errorString.length +  head_nao.errorString.length + head_sim.errorString.length + 
 					webcan_nao.errorString.length +  webcan_sim.errorString.length +  mat_nao.errorString.length + 
@@ -826,7 +837,7 @@
 					//aluno.naturalidade 
 					aluno.nome = txtNome.text;
 					aluno.nome_mae = txtMae.text;
-					aluno.nome_pai = txtPai.text;
+					//aluno.nome_pai = txtPai.text;
 					//aluno.orgao_expeditor
 					//aluno.pontuacao
 					//aluno.presenca_ead
@@ -907,12 +918,19 @@
 						   trigger="{btn_enviar}" triggerEvent="click"
 						   valid="emailValido(event)" invalid="emailInvalido(event)" required="true"/>
 	</fx:Declarations>
-	<s:TextArea width="95%" height="49" borderVisible="false" editable="false" fontSize="15"
+	<mx:TextArea width="95%" height="49" borderVisible="false" editable="false" fontSize="15"
 				fontWeight="bold"
 				text="Favor preencher cuidadosamente o formulário abaixo, pois ele será utilizado no processo seletivo do programa."/>
 	<s:Label color="#FF0000" fontSize="13" fontWeight="bold"
 			 text="* Todos os campos são obrigatórios."/>
 	<!--<s:FormHeading label="Aluno"/>-->
+	<mx:FormItem width="100%" label="Selecione a turma que você tem disponibilidade para cursar:">
+		<s:VGroup width="100%">
+			<s:RadioButton label="Turma ECA (previsão de 13/07 a 13/10)" id="turmaSinase_ECA" groupName="turmaSinase" value="1"/>
+			<s:RadioButton label="Turma SINASE (previsão de 18/01/2013 a 18/04/2013)" id="turmaSinase_SINASE" groupName="turmaSinase" value="2"/>
+		</s:VGroup>
+	</mx:FormItem>
+	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Dados Básicos" verticalAlign="middle"/>
 	</mx:FormItem>
@@ -956,9 +974,9 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Filiação" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Nome do pai:">
+	<!--<mx:FormItem width="100%" label="Nome do pai:">
 		<s:TextInput width="100%" id="txtPai" text="{aluno.nome_pai}"/>
-	</mx:FormItem>
+	</mx:FormItem>-->
 	<mx:FormItem width="100%" label="Nome da mãe:">
 		<s:TextInput width="100%" id="txtMae" text="{aluno.nome_mae}"/>
 	</mx:FormItem>
@@ -1029,12 +1047,6 @@
 			<s:RadioButton label="Mais de 120h" id="horas_mais120" groupName="horas" value="3"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Selecione a turma que você tem disponibilidade para cursar:">
-		<s:VGroup width="100%">
-			<s:RadioButton label="Turma ECA (previsão de 13/07 a 13/10)" id="turmaSinase_ECA" groupName="turmaSinase" value="1"/>
-			<s:RadioButton label="Turma SINASE (previsão de 18/01/2013 a 18/04/2013)" id="turmaSinase_SINASE" groupName="turmaSinase" value="2"/>
-		</s:VGroup>
-	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Experiência com EAD" verticalAlign="middle"/>
@@ -1068,7 +1080,7 @@
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Tecnologia" verticalAlign="middle"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Tem acesso a banda larga?">
+	<mx:FormItem width="100%" label="Tem acesso a banda larga?" >
 		<s:DropDownList  id="cb_bandaLarga" dataProvider="{listaBandaLarga}" labelField="nome"/>
 	</mx:FormItem>
 	<s:Label text="Já participou de WebConference ou se relacionou via internet por voz e vídeo?" verticalAlign="middle" width="100%"/>
@@ -1105,7 +1117,7 @@
 			<s:RadioButton label="não" id="head_nao" groupName="headset" value="0"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:HRule width="100%"/>
+	<!--<mx:HRule width="100%"/>
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Qual a sua disponibilidade para dedicação ao programa de capacitação EAD?" verticalAlign="middle"/>
 	<mx:FormItem width="100%" label="Nos dia úteis:">
 		<s:HGroup width="100%">
@@ -1122,7 +1134,7 @@
 			<s:RadioButton label="3 horas" id="disp_fds_3" groupName="fimSemana" value="3"/>
 			<s:RadioButton label="4 horas" id="disp_fds_4" groupName="fimSemana" value="4"/>
 		</s:HGroup>
-	</mx:FormItem>
+	</mx:FormItem>-->
 	<mx:HRule width="100%"/>
 
 	<mx:FormItem width="100%">
@@ -1130,7 +1142,16 @@
 	</mx:FormItem>
 	
 	<s:Group width="100%" id="grupoPergunta"/>
-	<mx:CheckBox id="idValido" label="Declaro serem verídicas as informações aqui registradas." click="onValidar(event)"/>
+	<s:HGroup width="100%">
+		<mx:CheckBox id="idValido" label="" click="onValidar(event)"/>
+		<mx:TextArea width="100%" height="120" borderAlpha="0" borderStyle="none" borderVisible="false">
+			<mx:htmlText>
+				<![CDATA[<p>Declaro que todas as informações aqui preenchidas são verdadeiras e que li e concordo com a carta de compromisso abaixo:</p><br/><p>Comprometo-me a participar e dedicar-me as atividades pedagógicas exigidas pelos tutores e professores do Programa de Formação Continuada para Operadores do Sinase. Estou ciente que a aprovação em cada etapa do programa de formação é pré-requisito para aceitação de minha inscrição em etapa posterior e que minha desistência será comunicada, quando for o caso, a meus superiores.</p>
+				]]>
+			</mx:htmlText>
+		</mx:TextArea>
+	</s:HGroup>
+	
 	<mx:FormItem width="100%">
 		<s:Button id="btn_enviar" label="Enviar Dados" enabled="false"/>
 	</mx:FormItem>
