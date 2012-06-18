@@ -83,7 +83,7 @@
 						alternativa = new CheckBox();
 						alternativa.x = posX;
 						alternativa.label = respostaVO.value_resposta;
-						alternativa.name = "item_" + respostaVO.idresposta;
+						alternativa.name = "item_"+perguntaVO.idpergunta+ "_" + respostaVO.idresposta;
 						alternativa.id = "item_" + respostaVO.idresposta;
 						
 						
@@ -118,6 +118,7 @@
 					}else if (idpergunta==3){
 						pergunta = new Label();
 						pergunta.text = "3 - Você considera fundamental a realização de aulas presenciais mesmo em cursos EAD? Justifique sua resposta:"
+						pergunta.name ="item_3";
 						pergunta.y = posY;
 						posY +=27;
 						grupoPergunta.addElement(pergunta);
@@ -221,13 +222,13 @@
 					}else if (aluno.idatua_org == 4 ) {
 						comp_nenhum.selected = true;
 					}
-					if (aluno.idcarga_hora == 1 ) {
+					/* if (aluno.idcarga_hora == 1 ) {
 						horas_men120.selected = true;
 					}else if (aluno.idcarga_hora == 2 ) {
 						horas_120.selected = true;
 					}else if (aluno.idcarga_hora == 3 ) {
 						horas_mais120.selected = true;
-					}
+					} */
 					if (aluno.exp_ead=="1") {
 						exp_ead_sim.selected = true
 					}else if (aluno.exp_ead=="0") {
@@ -752,6 +753,79 @@
 				}
 				//##################
 				
+				var question:Array = new Array();
+				
+				var nome:String;
+				var nome2:uint
+				var nomeItem:String;
+				var cb:CheckBox;
+				var selecionado:Boolean = false
+				var nQuest:uint = 1;
+				 for (var j:uint=0; j<grupoPergunta.numElements; j ++) {
+					nome = new String();
+					nome = Object(grupoPergunta.getElementAt(j)).name;
+					nomeItem = nome.substr(0,4);
+					if (nome=="item_3"){
+						nQuest++;
+					}else if (nomeItem=="item" && nome!="item_3") {
+						cb = new CheckBox();
+						cb = CheckBox(grupoPergunta.getElementAt(j));
+						nome2 = uint(nome.substr(5,1));
+						if (nQuest== nome2) {
+							if (cb.selected==true){
+								selecionado = true;
+							}
+						}else{
+							question.push(selecionado);
+							nQuest++;
+							selecionado = false;
+							if (nQuest== nome2) {
+								if (cb.selected==true){
+									selecionado = true;
+								}
+							}
+						}
+					}
+				} 
+				 question.push(selecionado);
+				 var valQuest:uint = 0;
+				 var erroQuestion = false;
+				 if (question.length==0) {
+					 erroQuestion = true;
+				 }
+				 for (var q:uint=0; q<grupoPergunta.numElements; q ++) {
+					 nome = new String();
+					 nome = Object(grupoPergunta.getElementAt(q)).name;
+					 nomeItem = nome.substr(0,4);
+					 if (nomeItem=="item" && nome!="item_3") {
+						 cb = new CheckBox();
+						 cb = CheckBox(grupoPergunta.getElementAt(q));
+						 nome2 = uint(nome.substr(5,1));
+						 if (nome2<3){
+							 nome2 = uint(nome.substr(5,1))-1;
+						 }else{
+							 nome2 = uint(nome.substr(5,1))-2;
+						 }
+						 if (nome2==valQuest) {
+							 if (question[valQuest]==false){
+								cb.errorString = "Campo obrigatório";
+								erroQuestion = true;
+							 }else {
+								 cb.errorString = "";
+							 }
+						 }else{
+							 valQuest++;
+							 if (question[valQuest]==false){
+								 cb.errorString = "Campo obrigatório";
+								 erroQuestion = true;
+							 }else {
+								 cb.errorString = "";
+							 }
+						 }
+					 }
+				 } 
+				
+				
 				var erro:int = (
 					
 					txtNome.errorString.length + txtLogradouro.errorString.length + txtNumero.errorString.length + 
@@ -770,6 +844,7 @@
 					cb_escolaridade.errorString.length +  cb_webconferencia.errorString.length +  
 					turmaSinase_ECA.errorString.length + turmaSinase_SINASE.errorString.length + 
 					//cb_atuacao.errorString.length + 
+					erroQuestion +
 					comp_sim.errorString.length + comp_nao.errorString.length + 
 					txtAtuacaoQual.errorString.length + cb_areaAtuacao.errorString.length + 
 					cb_tecEad.errorString.length +  head_nao.errorString.length + head_sim.errorString.length + 
@@ -796,8 +871,8 @@
 					if (def_sim.selected == true) {
 						aluno.deficiente = txtDesfQual.text;
 					}
-					aluno.disp_fds = fimSemana.selectedValue.toString();
-					aluno.disp_sem = disp_semanal.selectedValue.toString();
+					//aluno.disp_fds = fimSemana.selectedValue.toString();
+					//aluno.disp_sem = disp_semanal.selectedValue.toString();
 					aluno.email = txtEmail.text;
 					aluno.exp_ead = exp_ead.selectedValue.toString();
 					aluno.headset = headset.selectedValue.toString();
@@ -812,7 +887,7 @@
 						}
 					}
 					aluno.idcapacitacao_sinase = arrayCursoSDH;
-					aluno.idcarga_hora = horas.selectedValue.toString();
+					//aluno.idcarga_hora = horas.selectedValue.toString();
 					aluno.idescolaridade = cb_escolaridade.selectedItem.idescolaridade;
 					aluno.idinternet = usoInternet.selectedValue.toString();
 					aluno.idpart_webcon = cb_webconferencia.selectedItem.idpart_webcon;
@@ -857,11 +932,11 @@
 						nome = new String();
 						nome = Object(grupoPergunta.getElementAt(j)).name;
 						nomeItem = nome.substr(0,4);
-						if (nomeItem=="item") {
+						if (nomeItem=="item" && nome!="item_3") {
 							cb = new CheckBox();
 							cb = CheckBox(grupoPergunta.getElementAt(j));
 							if (cb.selected==true){
-								nome2 = uint(nome.substr(5,9));
+								nome2 = uint(nome.substr(7,12));
 								respota = new RespostaVO();
 								respota.idresposta = nome2;
 								if (cb.label.toLowerCase() =="Outro. qual?") {
@@ -1040,13 +1115,13 @@
 			
 		</s:VGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
+	<!--<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
 		<s:HGroup width="100%">
 			<s:RadioButton label="Menos de 120h" id="horas_men120" groupName="horas" value="1"/>
 			<s:RadioButton label="120h" id="horas_120" groupName="horas" value="2"/>
 			<s:RadioButton label="Mais de 120h" id="horas_mais120" groupName="horas" value="3"/>
 		</s:HGroup>
-	</mx:FormItem>
+	</mx:FormItem>-->
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Experiência com EAD" verticalAlign="middle"/>
@@ -1144,7 +1219,7 @@
 	<s:Group width="100%" id="grupoPergunta"/>
 	<s:HGroup width="100%">
 		<mx:CheckBox id="idValido" label="" click="onValidar(event)"/>
-		<mx:TextArea width="100%" height="120" borderAlpha="0" borderStyle="none" borderVisible="false">
+		<mx:TextArea width="100%" height="120" borderAlpha="0" borderStyle="none" borderVisible="false" editable="false" selectable="false">
 			<mx:htmlText>
 				<![CDATA[<p>Declaro que todas as informações aqui preenchidas são verdadeiras e que li e concordo com a carta de compromisso abaixo:</p><br/><p>Comprometo-me a participar e dedicar-me as atividades pedagógicas exigidas pelos tutores e professores do Programa de Formação Continuada para Operadores do Sinase. Estou ciente que a aprovação em cada etapa do programa de formação é pré-requisito para aceitação de minha inscrição em etapa posterior e que minha desistência será comunicada, quando for o caso, a meus superiores.</p>
 				]]>
