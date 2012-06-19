@@ -939,7 +939,7 @@
 								nome2 = uint(nome.substr(7,12));
 								respota = new RespostaVO();
 								respota.idresposta = nome2;
-								if (cb.label.toLowerCase() =="Outro. qual?") {
+								if (cb.label.toLowerCase() =="outro. qual?") {
 									campoQual = new TextInput();
 									campoQual = grupoPergunta.getChildByName("qual_" + nome2) as TextInput;
 									respota.value_resposta = TextInput(grupoPergunta.getChildByName("qual_" + nome2)).text;
