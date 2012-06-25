@@ -9,6 +9,7 @@
 	<fx:Script>
 		<![CDATA[
 			import br.com.flexbrasilia.lib.formatters.MySQLDateFormatter;
+			import br.com.optimedia.sinase.assets.Skin.Myskin;
 			import br.com.optimedia.sinase.event.AlunoEvent;
 			import br.com.optimedia.sinase.remote.RemoteObj;
 			import br.com.optimedia.sinase.vo.AlunoVO;
@@ -18,15 +19,12 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
-			import mx.core.IVisualElement;
 			import mx.events.FlexEvent;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.ObjectProxy;
-			import mx.utils.object_proxy;
 			
 			import spark.events.DropDownEvent;
-			import spark.events.IndexChangeEvent;
 			
 			
 			
@@ -1001,8 +999,8 @@
 	<!--<s:FormHeading label="Aluno"/>-->
 	<mx:FormItem width="100%" label="Selecione a turma que você tem disponibilidade para cursar:">
 		<s:VGroup width="100%">
-			<s:RadioButton label="Turma ECA (previsão de 13/07 a 13/10)" id="turmaSinase_ECA" groupName="turmaSinase" value="1"/>
-			<s:RadioButton label="Turma SINASE (previsão de 18/01/2013 a 18/04/2013)" id="turmaSinase_SINASE" groupName="turmaSinase" value="2"/>
+			<s:RadioButton label="Turma ECA (previsão de 13/07 a 13/10)" id="turmaSinase_ECA" groupName="turmaSinase" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Turma SINASE (previsão de 18/01/2013 a 18/04/2013)" id="turmaSinase_SINASE" groupName="turmaSinase" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin" value="2"/>
 		</s:VGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
@@ -1013,36 +1011,37 @@
 		<forms:CpfField id="txtCpf" text="{aluno.cpf}" editable="false" enabled="false"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nome:">
-		<s:TextInput width="100%" id="txtNome" text="{aluno.nome}"/>
+		<s:TextInput width="100%" id="txtNome" text="{aluno.nome}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nascimento:">
 		<s:HGroup width="100%">
-			<mx:DateField id="df_nascimento" yearNavigationEnabled="true"  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"
+			<mx:DateField id="df_nascimento" yearNavigationEnabled="true" 
+						  formatString="DD/MM/YYYY" dayNames="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"  firstDayOfWeek="0"
 						  monthNames="['Janeiro', 'Fevereiro', 'Março', 'Abrir', 'Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro','Dezembro']"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Sexo:">
 		<s:HGroup width="100%">
-			<s:RadioButton label="Masculino" groupName="Sexo" id="rb_masculino" value="M"/>
-			<s:RadioButton label="Feminino" groupName="Sexo" id="rb_feminino" value="F"/>
+			<s:RadioButton label="Masculino" groupName="Sexo" id="rb_masculino" value="M" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Feminino" groupName="Sexo" id="rb_feminino" value="F" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="E-mail:">
-		<s:TextInput width="100%" id="txtEmail" text="{aluno.email}"/>
+		<s:TextInput width="100%" id="txtEmail" text="{aluno.email}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Confirmar e-mail:">
-		<s:TextInput width="100%" id="txtCmail"/>
+	<mx:FormItem width="100%" label="Confirmar e-mail:" >
+		<s:TextInput width="100%" id="txtCmail" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Telefone:">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtTelDDD" width="40" maxChars="2" text="{aluno.dddfixo}" restrict="[0-9]"/>
-			<s:TextInput id="txtTel" maxChars="9" text="{aluno.tel_fixo}" restrict="[0-9]"/>
+			<s:TextInput id="txtTelDDD" width="40" maxChars="2" text="{aluno.dddfixo}" restrict="[0-9]" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:TextInput id="txtTel" maxChars="9" text="{aluno.tel_fixo}" restrict="[0-9]" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Celular:">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtCelDDD" width="40" maxChars="2" text="{aluno.ddd_cel}" restrict="[0-9]"/>
-			<s:TextInput id="txtCel"  maxChars="9" text="{aluno.tel_cel}" restrict="[0-9]"/>
+			<s:TextInput id="txtCelDDD" width="40" maxChars="2" text="{aluno.ddd_cel}" restrict="[0-9]" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:TextInput id="txtCel"  maxChars="9" text="{aluno.tel_cel}" restrict="[0-9]" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
@@ -1050,10 +1049,10 @@
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Filiação" verticalAlign="middle"/>
 	</mx:FormItem>
 	<!--<mx:FormItem width="100%" label="Nome do pai:">
-		<s:TextInput width="100%" id="txtPai" text="{aluno.nome_pai}"/>
+		<s:TextInput width="100%" id="txtPai" text="{aluno.nome_pai}" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
 	</mx:FormItem>-->
 	<mx:FormItem width="100%" label="Nome da mãe:">
-		<s:TextInput width="100%" id="txtMae" text="{aluno.nome_mae}"/>
+		<s:TextInput width="100%" id="txtMae" text="{aluno.nome_mae}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
@@ -1061,9 +1060,9 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="UF:">
 		<s:HGroup width="100%">
-			<s:DropDownList id="cb_UF" width="150" dataProvider="{listaUf}" labelField="uf" />
+			<s:DropDownList id="cb_UF" width="150" dataProvider="{listaUf}" labelField="uf" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 			<s:Label height="100%" text="Cidade:" verticalAlign="middle"/>
-			<s:TextInput id="txtCidade" width="100%" text="{aluno.cidade}"/>
+			<s:TextInput id="txtCidade" width="100%" text="{aluno.cidade}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="CEP:">
@@ -1072,18 +1071,16 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Logradouro:">
 		<s:HGroup width="100%">
-			<s:TextInput id="txtLogradouro" width="100%" text="{aluno.logradouro}"/>
+			<s:TextInput id="txtLogradouro" width="100%" text="{aluno.logradouro}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 			<s:Label height="100%" text="N:" verticalAlign="middle"/>
-			<s:TextInput id="txtNumero" text="{aluno.numero}" restrict="[0-9]">
-				
-			</s:TextInput>
+			<s:TextInput id="txtNumero" text="{aluno.numero}" restrict="[0-9]" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Complemento:">
-		<s:TextInput id="txtComplemento" width="100%" text="{aluno.complemento}"/>
+		<s:TextInput id="txtComplemento" width="100%" text="{aluno.complemento}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Bairro:">
-		<s:TextInput id="txtBarrio" width="100%" text="{aluno.bairro}"/>
+		<s:TextInput id="txtBarrio" width="100%" text="{aluno.bairro}" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
 	<mx:FormItem width="100%">
@@ -1091,35 +1088,35 @@
 	</mx:FormItem>
 	<mx:FormItem label="Escolaridade:" width="100%">
 		<s:DropDownList id="cb_escolaridade" width="150" dataProvider="{listaEscolaridade}"
-						labelField="nome"/>
+						labelField="nome" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem label="Área de Atuação:" width="100%">
-		<s:DropDownList id="cb_areaAtuacao" width="400" dataProvider="{listaAtuacao}" labelField="area" close="cb_areaAtuacao_clickHandler(event)"/>
+		<s:DropDownList id="cb_areaAtuacao" width="400" dataProvider="{listaAtuacao}" labelField="area" close="cb_areaAtuacao_clickHandler(event)" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		<s:VGroup id="subAreaAtuacao" width="100%"/>
-		<!--<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome" labelFunction="fc_area"/>-->
+		<!--<s:DropDownList id="cb_atuacao" width="150" dataProvider="{listaAtuacao}" labelField="nome" labelFunction="fc_area" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>-->
 	</mx:FormItem>
 	<mx:FormItem id="AreaAtuacaoQual" label="Qual:" width="100%" visible="false" includeInLayout="false">
-		<s:TextInput id="txtAtuacaoQual" width="100%" text="" maxChars="250"/>
+		<s:TextInput id="txtAtuacaoQual" width="100%" text="" maxChars="250" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Já atua ou atuou nos seguintes orgão/programas?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="CREAS" id="comp_CREAS" groupName="atua_orgao" value="1"/>
-			<s:RadioButton label="SUAS" id="comp_SUAS" groupName="atua_orgao" value="2"/>
-			<s:RadioButton label="CRAS" id="comp_CRAS" groupName="atua_orgao" value="3"/>
-			<s:RadioButton label="Nenhum" id="comp_nenhum" groupName="atua_orgao" value="4"/>
+			<s:RadioButton label="CREAS" id="comp_CREAS" groupName="atua_orgao" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="SUAS" id="comp_SUAS" groupName="atua_orgao" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="CRAS" id="comp_CRAS" groupName="atua_orgao" value="3" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Nenhum" id="comp_nenhum" groupName="atua_orgao" value="4" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Já fez curso de capacitação promovida pela SDH?" width="100%">
-		<!--<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150"/>-->
+		<!--<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>-->
 		<s:VGroup id="grupoSDH" width="100%">
 			
 		</s:VGroup>
 	</mx:FormItem>
 	<!--<mx:FormItem width="100%" label="Carga horária?" enabled="true" id="grupoHoras">
 		<s:HGroup width="100%">
-			<s:RadioButton label="Menos de 120h" id="horas_men120" groupName="horas" value="1"/>
-			<s:RadioButton label="120h" id="horas_120" groupName="horas" value="2"/>
-			<s:RadioButton label="Mais de 120h" id="horas_mais120" groupName="horas" value="3"/>
+			<s:RadioButton label="Menos de 120h" id="horas_men120" groupName="horas" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="120h" id="horas_120" groupName="horas" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="Mais de 120h" id="horas_mais120" groupName="horas" value="3" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
 		</s:HGroup>
 	</mx:FormItem>-->
 	<mx:HRule width="100%"/>
@@ -1128,27 +1125,27 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Possui experiência com EAD?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="exp_ead_sim" groupName="exp_ead" value="1"/>
-			<s:RadioButton label="não" id="exp_ead_nao" groupName="exp_ead" value="0"/>
+			<s:RadioButton label="sim" id="exp_ead_sim" groupName="exp_ead" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="não" id="exp_ead_nao" groupName="exp_ead" value="0" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Tecnologia utilizada:" width="100%">
-		<s:DropDownList  id="cb_tecEad" dataProvider="{listaTecEad}" labelField="nome"  width="150"/>
+		<s:DropDownList  id="cb_tecEad" dataProvider="{listaTecEad}" labelField="nome"  width="150" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	
 	<mx:FormItem width="100%" label="Possui alguma deficiência?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="def_sim" groupName="deficiencia" value="1" click="onDeficiencia(event)"/>
-			<s:RadioButton label="não" id="def_nao" groupName="deficiencia" value="0" click="onDeficiencia(event)"/>
+			<s:RadioButton label="sim" id="def_sim" groupName="deficiencia" value="1" click="onDeficiencia(event)" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="não" id="def_nao" groupName="deficiencia" value="0" click="onDeficiencia(event)" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Qual?" id="itemDeficiencia">
-		<s:TextInput id="txtDesfQual" width="100%" text="{aluno.deficiente}" editable="false" enabled="false" maxChars="250"/>
+		<s:TextInput id="txtDesfQual" width="100%" text="{aluno.deficiente}" editable="false" enabled="false" maxChars="250" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Necessita de material especial?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="mat_sim" groupName="material" value="1"/>
-			<s:RadioButton label="não" id="mat_nao" groupName="material" value="0"/>
+			<s:RadioButton label="sim" id="mat_sim" groupName="material" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="não" id="mat_nao" groupName="material" value="0" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
@@ -1156,18 +1153,18 @@
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Tecnologia" verticalAlign="middle"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Tem acesso a banda larga?" >
-		<s:DropDownList  id="cb_bandaLarga" dataProvider="{listaBandaLarga}" labelField="nome"/>
+		<s:DropDownList  id="cb_bandaLarga" dataProvider="{listaBandaLarga}" labelField="nome" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<s:Label text="Já participou de WebConference ou se relacionou via internet por voz e vídeo?" verticalAlign="middle" width="100%"/>
 	<mx:FormItem width="100%">
-		<s:DropDownList  id="cb_webconferencia" dataProvider="{listaWebCon}" labelField="nome"  width="150"/>
+		<s:DropDownList  id="cb_webconferencia" dataProvider="{listaWebCon}" labelField="nome"  width="150" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Faz uso da internet?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="Não" id="usoInt_nao" groupName="usoInternet" value="1"/>
-			<s:RadioButton label="Pouco" id="usoInt_pouco" groupName="usoInternet" value="2"/>
-			<s:RadioButton label="Medianamente" id="usoInt_medio" groupName="usoInternet" value="3"/>
-			<s:RadioButton label="Muito" id="usoInt_muito" groupName="usoInternet" value="3"/>
+			<s:RadioButton label="Não" id="usoInt_nao" groupName="usoInternet" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Pouco" id="usoInt_pouco" groupName="usoInternet" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Medianamente" id="usoInt_medio" groupName="usoInternet" value="3" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Muito" id="usoInt_muito" groupName="usoInternet" value="4" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
@@ -1176,38 +1173,38 @@
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Possui computador?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="comp_sim" groupName="computador" value="1"/>
-			<s:RadioButton label="não" id="comp_nao" groupName="computador" value="0"/>
+			<s:RadioButton label="sim" id="comp_sim" groupName="computador" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="não" id="comp_nao" groupName="computador" value="0" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Possui webcam?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="webcan_sim" groupName="webcan" value="1"/>
-			<s:RadioButton label="não" id="webcan_nao" groupName="webcan" value="0"/>
+			<s:RadioButton label="sim" id="webcan_sim" groupName="webcan" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="não" id="webcan_nao" groupName="webcan" value="0" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Possui fone de ouvido com microfone?">
 		<s:HGroup width="100%">
-			<s:RadioButton label="sim" id="head_sim" groupName="headset" value="1"/>
-			<s:RadioButton label="não" id="head_nao" groupName="headset" value="0"/>
+			<s:RadioButton label="sim" id="head_sim" groupName="headset" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="não" id="head_nao" groupName="headset" value="0" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<!--<mx:HRule width="100%"/>
 		<s:Label width="100%" fontSize="14" fontWeight="bold" text="Qual a sua disponibilidade para dedicação ao programa de capacitação EAD?" verticalAlign="middle"/>
 	<mx:FormItem width="100%" label="Nos dia úteis:">
 		<s:HGroup width="100%">
-			<s:RadioButton label="1 hora" id="disp_semanal1" groupName="disp_semanal" value="1"/>
-			<s:RadioButton label="2 horas" id="disp_semanal2" groupName="disp_semanal" value="2"/>
-			<s:RadioButton label="3 horas" id="disp_semanal3" groupName="disp_semanal" value="3"/>
-			<s:RadioButton label="4 horas" id="disp_semanal4" groupName="disp_semanal" value="4"/>
+			<s:RadioButton label="1 hora" id="disp_semanal1" groupName="disp_semanal" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="2 horas" id="disp_semanal2" groupName="disp_semanal" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="3 horas" id="disp_semanal3" groupName="disp_semanal" value="3" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="4 horas" id="disp_semanal4" groupName="disp_semanal" value="4" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
 		</s:HGroup>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Nos finais de semana:">
 		<s:HGroup width="100%">
-			<s:RadioButton label="1 hora"  id="disp_fds_1" groupName="fimSemana" value="1"/>
-			<s:RadioButton label="2 horas" id="disp_fds_2" groupName="fimSemana" value="2"/>
-			<s:RadioButton label="3 horas" id="disp_fds_3" groupName="fimSemana" value="3"/>
-			<s:RadioButton label="4 horas" id="disp_fds_4" groupName="fimSemana" value="4"/>
+			<s:RadioButton label="1 hora"  id="disp_fds_1" groupName="fimSemana" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="2 horas" id="disp_fds_2" groupName="fimSemana" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="3 horas" id="disp_fds_3" groupName="fimSemana" value="3" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
+			<s:RadioButton label="4 horas" id="disp_fds_4" groupName="fimSemana" value="4" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>
 		</s:HGroup>
 	</mx:FormItem>-->
 	<mx:HRule width="100%"/>

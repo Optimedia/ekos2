@@ -8,10 +8,10 @@ global
 	content-background-color: #EAE7D3;
 	color: #266713;
 	content-background-alpha: 1.0;
-	errorColor: #8D0202;
+	errorColor: #FF0000;
 	borderStyle:solid;
 	fill:4;
-	borderThickness:40;
+	errorSkin:ClassReference("br.com.optimedia.sinase.assets.Skin.Myskin");
 }
 
 s|Application {
