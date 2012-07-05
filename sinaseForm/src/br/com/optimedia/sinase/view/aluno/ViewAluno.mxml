@@ -202,6 +202,7 @@
 				
 				txtCep.actualText = aluno.cep;
 				
+				
 				if (aluno.data_nasc) {
 					df_nascimento.data = MySQLDateFormatter.mysqlToAs(aluno.data_nasc);
 				}
@@ -233,11 +234,17 @@
 						exp_ead_nao.selected = true
 					}
 					if (aluno.deficiente!="") {
+						itemDeficiencia.visible=true;
+						itemDeficiencia.includeInLayout=true;
 						txtDesfQual.text = aluno.deficiente;
 						def_sim.selected = true
+							
 					}else if (aluno.deficiente=="") {
+						itemDeficiencia.visible=true;
+						itemDeficiencia.includeInLayout=true;
 						def_nao.selected = true
 					}
+					
 					if (aluno.material_esp !="1" ) {
 						mat_sim.selected = true;
 					}else {
@@ -322,6 +329,7 @@
 					 listaAtuacao.addItem(item);
 					 
 					 if ((aluno.idram_atuac!=0)) {
+						 id_area_atuacaoSel = aluno.idram_atuac;
 						for each (var obs2:Object in ob.subitem) {
 							 item2 = new AreaAtuacaoVO();
 							 item2.id = obs2.id;
@@ -543,9 +551,13 @@
 			
 			protected function onDeficiencia(event:MouseEvent):void{
 				if (deficiencia.selectedValue.toString()==1) {
+					itemDeficiencia.visible = true;
+					itemDeficiencia.includeInLayout = true;
 					txtDesfQual.editable = true;
 					txtDesfQual.enabled = true
 				}else {
+					itemDeficiencia.visible = false;
+					itemDeficiencia.includeInLayout = false;
 					txtDesfQual.text="";
 					txtDesfQual.editable = false
 					txtDesfQual.enabled = false
@@ -559,6 +571,7 @@
 			}
 			
 			protected function cb_areaAtuacao_clickHandler(event:DropDownEvent):void{
+				aluno.idram_atuac=0;
 				var obj:Object = new Object();
 				//event.currentTarget.selectedItem
 				if (event.currentTarget == cb_areaAtuacao && cb_areaAtuacao.selectedItem) {
@@ -697,11 +710,10 @@
 				cb_tecEad.errorString = (cb_tecEad.selectedItem ==null ? 'Campo obrigatório' : '');
 				//cb_atuacao.errorString = (cb_atuacao.selectedItem ==null ? 'Campo obrigatório' : '');
 			
-				if (id_area_atuacaoSel ==0) {
+				if (id_area_atuacaoSel==0) {
 					cb_areaAtuacao.errorString = "Campo obrigatório";
 					for each (var itemCb:DropDownList in subAreaAtuacao){
 						itemCb.errorString =  "Campo obrigatório";
-						
 					}
 				}else {
 					cb_areaAtuacao.errorString = "";
@@ -822,6 +834,18 @@
 						 }
 					 }
 				 } 
+				 var erroSDH:Boolean = true
+				 for (var j:uint=0; j<grupoSDH.numElements; j ++) {
+					 if (CheckBox(grupoSDH.getElementAt(j)).selected ==true){
+						 CheckBox(grupoSDH.getElementAt(j)).errorString = "";
+						erroSDH =false;
+					 }
+				 }
+				 if (erroSDH==true){
+					 for (j=0; j<grupoSDH.numElements; j ++) {
+							 CheckBox(grupoSDH.getElementAt(j)).errorString = "Campo obrigatório";
+					 }
+				 }
 				
 				
 				var erro:int = (
@@ -831,6 +855,7 @@
 					txtCelDDD.errorString.length + txtCel.errorString.length + txtTelDDD.errorString.length + txtTel.errorString.length +
 					txtBarrio.errorString.length + txtCep.errorString.length + txtCidade.errorString.length + 
 					//txtComplemento.errorString.length +
+					erroSDH + 
 					txtMae.errorString.length + txtCpf.errorString.length +
 					df_nascimento.errorString.length + txtEmail.errorString.length +  txtCmail.errorString.length + 				
 					comp_CRAS.errorString.length + comp_CREAS.errorString.length + comp_SUAS.errorString.length + 
@@ -999,8 +1024,8 @@
 	<!--<s:FormHeading label="Aluno"/>-->
 	<mx:FormItem width="100%" label="Selecione a turma que você tem disponibilidade para cursar:">
 		<s:VGroup width="100%">
-			<s:RadioButton label="Turma ECA (previsão de 13/07 a 13/10)" id="turmaSinase_ECA" groupName="turmaSinase" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
-			<s:RadioButton label="Turma SINASE (previsão de 18/01/2013 a 18/04/2013)" id="turmaSinase_SINASE" groupName="turmaSinase" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin" value="2"/>
+			<s:RadioButton label="Turma ECA (prevista para o 2º semestre de 2012)" id="turmaSinase_ECA" groupName="turmaSinase" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
+			<s:RadioButton label="Turma SINASE (prevista para o 1º semestre de 2013)" id="turmaSinase_SINASE" groupName="turmaSinase" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin" value="2"/>
 		</s:VGroup>
 	</mx:FormItem>
 	<mx:HRule width="100%"/>
@@ -1098,7 +1123,7 @@
 	<mx:FormItem id="AreaAtuacaoQual" label="Qual:" width="100%" visible="false" includeInLayout="false">
 		<s:TextInput id="txtAtuacaoQual" width="100%" text="" maxChars="250" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Já atua ou atuou nos seguintes orgão/programas?">
+	<mx:FormItem width="100%" label="Já atua ou atuou no?">
 		<s:HGroup width="100%">
 			<s:RadioButton label="CREAS" id="comp_CREAS" groupName="atua_orgao" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 			<s:RadioButton label="SUAS" id="comp_SUAS" groupName="atua_orgao" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
@@ -1106,7 +1131,7 @@
 			<s:RadioButton label="Nenhum" id="comp_nenhum" groupName="atua_orgao" value="4" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem label="Já fez curso de capacitação promovida pela SDH?" width="100%">
+	<mx:FormItem label="Já participou de capacitação promovida pela SDH?" width="100%">
 		<!--<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>-->
 		<s:VGroup id="grupoSDH" width="100%">
 			
@@ -1139,7 +1164,7 @@
 			<s:RadioButton label="não" id="def_nao" groupName="deficiencia" value="0" click="onDeficiencia(event)" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 		</s:HGroup>
 	</mx:FormItem>
-	<mx:FormItem width="100%" label="Qual?" id="itemDeficiencia">
+	<mx:FormItem  width="100%" label="Qual?" id="itemDeficiencia" visible="false" includeInLayout="false">
 		<s:TextInput id="txtDesfQual" width="100%" text="{aluno.deficiente}" editable="false" enabled="false" maxChars="250" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Necessita de material especial?">
