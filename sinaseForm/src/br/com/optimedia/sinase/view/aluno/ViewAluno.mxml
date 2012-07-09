@@ -212,14 +212,16 @@
 					}else if (aluno.sexo == "F") {
 						rb_feminino.selected = true;
 					}
-					if (aluno.idatua_org == 1 ) {
-						comp_CREAS.selected = true;
-					}else if (aluno.idatua_org == 2 ) {
-						comp_SUAS.selected = true;
-					}else if (aluno.idatua_org == 3 ) {
-						comp_CRAS.selected = true;
-					}else if (aluno.idatua_org == 4 ) {
-						comp_nenhum.selected = true;
+					for each (var itemAtua:uint in aluno.idatua_org) {
+						if (itemAtua==1) {
+							comp_CREAS.selected = true;
+						}else if (itemAtua==2) {
+							comp_SUAS.selected = true;
+						}else if (itemAtua==3) {
+							comp_CRAS.selected = true;
+						}else if (itemAtua==4) {
+							comp_nenhum.selected = true;
+						}
 					}
 					/* if (aluno.idcarga_hora == 1 ) {
 						horas_men120.selected = true;
@@ -655,7 +657,7 @@
 					txtEmail.errorString = "E-mails devem ser iguais.";
 				}
 				
-				if (atua_orgao.selectedValue==null ) {
+				if ((comp_CRAS.selected==false) && (comp_CREAS.selected==false) && (comp_SUAS.selected==false) && (comp_nenhum.selected==false) ) {
 					comp_CRAS.errorString = "Campo obrigatório";
 					comp_CREAS.errorString = "Campo obrigatório";
 					comp_SUAS.errorString = "Campo obrigatório";
@@ -690,7 +692,7 @@
 					disp_fds_3.errorString = "";
 					disp_fds_4.errorString = "";
 				} */
-				if (exp_ead.selectedValue == null) {
+				if ((exp_ead_nao.selected == false) && (exp_ead_sim.selected==false)) {
 					exp_ead_nao.errorString = "Campo obrigatório";
 					exp_ead_sim.errorString = "Campo obrigatório";
 				}else {
@@ -899,7 +901,22 @@
 					aluno.email = txtEmail.text;
 					aluno.exp_ead = exp_ead.selectedValue.toString();
 					aluno.headset = headset.selectedValue.toString();
-					aluno.idatua_org = atua_orgao.selectedValue.toString();
+					
+					var atuaOrgSel:Array = new Array();
+					if (comp_CREAS.selected == true) {
+						atuaOrgSel.push("1");
+					} 
+					if (comp_SUAS.selected == true) {
+						atuaOrgSel.push("2")
+					} 
+					if (comp_CRAS.selected == true) {
+						atuaOrgSel.push("3")
+					}
+					if (comp_nenhum.selected == true) {
+						atuaOrgSel.push("4");
+					}
+					aluno.idatua_org = atuaOrgSel;
+					
 					aluno.idbanda_larga = cb_bandaLarga.selectedItem.idbanda_larga;
 					aluno.idturma_sinase = turmaSinase.selectedValue.toString();
 					//aluno.idcapacitacao_sinase = cb_cursoSEDH.selectedItem.idcapacitacao_sinase;
@@ -994,11 +1011,21 @@
 					btn_enviar.enabled= false;
 				}
 			}
+			
+			protected function atuaOrg(event:Event):void{
+				if (event.currentTarget.id != "comp_nenhum") {
+					comp_nenhum.selected=false
+				}else {
+					comp_CRAS.selected=false;
+					comp_CREAS.selected=false;
+					comp_SUAS.selected=false
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<s:RadioButtonGroup id="Sexo"/>
-		<s:RadioButtonGroup id="atua_orgao"/>
 		<s:RadioButtonGroup id="horas"/>
 		<s:RadioButtonGroup id="exp_ead"/>
 		<s:RadioButtonGroup id="deficiencia"/>
@@ -1124,12 +1151,13 @@
 		<s:TextInput id="txtAtuacaoQual" width="100%" text="" maxChars="250" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
 	</mx:FormItem>
 	<mx:FormItem width="100%" label="Já atua ou atuou no?">
-		<s:HGroup width="100%">
-			<s:RadioButton label="CREAS" id="comp_CREAS" groupName="atua_orgao" value="1" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
-			<s:RadioButton label="SUAS" id="comp_SUAS" groupName="atua_orgao" value="2" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
-			<s:RadioButton label="CRAS" id="comp_CRAS" groupName="atua_orgao" value="3" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
-			<s:RadioButton label="Nenhum" id="comp_nenhum" groupName="atua_orgao" value="4" errorSkin="br.com.optimedia.sinase.assets.Skin.Myskin"/>
-		</s:HGroup>
+		<s:VGroup width="100%">
+			
+			<mx:CheckBox label="CREAS" id="comp_CREAS" change="atuaOrg(event)"/>
+			<mx:CheckBox label="SUAS" id="comp_SUAS" change="atuaOrg(event)"/>
+			<mx:CheckBox label="CRAS" id="comp_CRAS" change="atuaOrg(event)"/>
+			<mx:CheckBox label="Nenhum" id="comp_nenhum"  change="atuaOrg(event)"/>
+		</s:VGroup>
 	</mx:FormItem>
 	<mx:FormItem label="Já participou de capacitação promovida pela SDH?" width="100%">
 		<!--<s:DropDownList  id="cb_cursoSEDH" dataProvider="{listaCursoSEDH}" labelField="nome"  width="150" errorSkin="br.com.optimedia.sinase.assets.Skin.Teste3"/>-->
