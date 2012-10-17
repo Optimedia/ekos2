@@ -41,7 +41,7 @@
 			
 			private function start():void {
 				var service:HTTPService = new HTTPService();
-				service.url = 'http://174.122.24.74/sinase.moodle/autor/whoami.php';
+				service.url = 'http://164.41.2.52/sinase/autor/whoami.php';
 				service.resultFormat = "e4x";
 				service.showBusyCursor = true;
 				service.addEventListener(ResultEvent.RESULT, resultHandler);

@@ -160,7 +160,7 @@
 						previewTextArea.text = item.description;
 						break;
 					default:
-						previewImage.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+item.body;
+						previewImage.source = 'http://164.41.2.52/amf/services/autor2/mediafiles/'+item.body;
 						break;
 				}
 				if( previewTextArea.text == '' ) {

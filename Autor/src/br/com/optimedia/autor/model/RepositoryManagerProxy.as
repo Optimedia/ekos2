@@ -31,7 +31,7 @@ package br.com.optimedia.autor.model
 			trace(NAME+".onRegister()");
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
-			remoteService.source = "autor.RepositoryManager";
+			remoteService.source = "autor2.RepositoryManager";
 			remoteService.showBusyCursor = false;
 		}
 		
