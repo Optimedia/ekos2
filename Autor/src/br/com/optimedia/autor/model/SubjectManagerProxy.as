@@ -32,7 +32,7 @@ package br.com.optimedia.autor.model
 			trace(NAME+".onRegister()");
 			remoteService = new RemoteObject();
 			remoteService.destination = "amfphp";
-			remoteService.source = "autor.SubjectManager";
+			remoteService.source = "autor2.SubjectManager";
 			remoteService.showBusyCursor = false;
 			getSkins();
 		}

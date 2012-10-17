@@ -11,7 +11,7 @@
 				<mx:Canvas id="canvas1" width="780" height="414" x="10" y="49" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 					<mx:SWFLoader id="loadingSwf1" source="@Embed('br/com/optimedia/assets/img/loading.swf')"
 						scaleContent="false" width="50" height="50" x="350" y="187"/>
-					<mx:Image id="slideImage" source="http://174.122.24.74/amf/services/autor/presentationfiles/{presentationID}/{slideVO.text_body}"
+					<mx:Image id="slideImage" source="http://164.41.2.52/amf/services/autor2/presentationfiles/{presentationID}/{slideVO.text_body}"
 						maxWidth="{bodyTextArea.width}" maxHeight="{bodyTextArea.width}"
 						/>
 				</mx:Canvas>
@@ -250,9 +250,9 @@
 						var aux:UIComponent = new UIComponent();
 						aux.addChild( movie as DisplayObject );
 						movie.addEventListener(LoadEvent.LOAD, function(e:LoadEvent):void { popUp.addChild( aux ); });
-						movie.play('http://174.122.24.74/amf/services/autor/mediafiles/'+media.body);
+						movie.play('http://164.41.2.52/amf/services/autor2/mediafiles/'+media.body);
 						movie.autoRewind = false;
-						movie.skin="http://174.122.24.74/sinase.moodle/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf";
+						movie.skin="http://164.41.2.52/sinase/interactive/br/com/optimedia/assets/skinOverPlaySeekMute.swf";
 						movie.scaleMode = "maintainAspectRatio";
 						movie.skinBackgroundColor = 0x666666;
 	        			movie.skinAutoHide = true;
@@ -291,7 +291,7 @@
 						break;
 					case 7:
 						//link para slide de outra apresentação
-						var url1:URLRequest = new URLRequest( 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body);
+						var url1:URLRequest = new URLRequest( 'http://164.41.2.52/amf/services/autor2/mediafiles/'+media.body);
 						navigateToURL(url1,"_blank");
 						break;
 					case 8:
@@ -317,7 +317,7 @@
 						var arq:Array = media.body.split(".");
 						if (arq[1]=="swf") {
 							var swfLoad:SWFLoader = new SWFLoader();
-							swfLoad.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body;
+							swfLoad.source = 'http://164.41.2.52/amf/services/autor2/mediafiles/'+media.body;
 							swfLoad.autoLoad = true;
 							swfLoad.scaleContent = true;
 							swfLoad.addEventListener(MouseEvent.CLICK, imgClickHandler);
@@ -325,7 +325,7 @@
 							popUp.addChild( swfLoad );
 							function imgClickHandler(e:MouseEvent):void {
 								var urlRequest:URLRequest = new URLRequest();
-								urlRequest.url = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body;
+								urlRequest.url = 'http://164.41.2.52/amf/services/autor2/mediafiles/'+media.body;
 								navigateToURL(urlRequest, '_blank');
 							}
 						}else {
@@ -336,13 +336,13 @@
 							imagem.scaleContent = false;
 							imagem.setStyle("horizontalCenter",0);
 							imagem.setStyle("verticalCenter",0);
-							imagem.source = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body;
+							imagem.source = 'http://164.41.2.52/amf/services/autor2/mediafiles/'+media.body;
 							imagem.addEventListener(MouseEvent.CLICK, imgClickHandler1);
 							imagem.addEventListener(Event.COMPLETE, function(e:Event):void {popUp.loadingSwf.visible=false});
 							popUp.addChild( imagem );
 							function imgClickHandler1(e:MouseEvent):void {
 								var urlRequest:URLRequest = new URLRequest();
-								urlRequest.url = 'http://174.122.24.74/amf/services/autor/mediafiles/'+media.body;
+								urlRequest.url = 'http://164.41.2.52/amf/services/autor2/mediafiles/'+media.body;
 								navigateToURL(urlRequest, '_blank');
 							}
 						}
@@ -382,7 +382,7 @@
 			}
 			
 			private function printBtnHandler():void {
-				navigateToURL( new URLRequest("http://174.122.24.74/sinase.moodle/interactive/pdf/?id="+presentationID));
+				navigateToURL( new URLRequest("http://164.41.2.52/sinase/interactive/pdf/?id="+presentationID));
 			}
 			
 		]]>
